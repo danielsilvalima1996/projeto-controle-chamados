@@ -19,7 +19,7 @@ export class AppComponent {
     },
     { label: 'Chamados', shortLabel: 'Chamados', link: 'chamados/chamados-list', icon: 'po-icon po-icon-list' },
     {
-      label: 'Configurações', shortLabel: 'Configurações', icon: 'po-icon po-icon-settings', subItems: [
+      label: 'Configurações', shortLabel: 'Config', icon: 'po-icon po-icon-settings', subItems: [
         { label: 'Usuários', shortLabel: 'Usuários', link: 'settings/user-list', icon: 'po-icon po-icon-users' },
         { label: 'Regras', shortLabel: 'Regras', link: 'settings/role-list', icon: 'po-icon po-icon-minus' },
       ]
