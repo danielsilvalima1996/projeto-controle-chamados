@@ -10,13 +10,10 @@ import { PoMenuItem } from '@portinari/portinari-ui';
 export class AppComponent {
 
   readonly menus: Array<PoMenuItem> = [
-    { label: 'Cadastros', shortLabel: 'Cad', link: '/cadastros', icon: 'po-icon po-icon-document-filled' },
-    // { label: '', shortLabel: '', link: '', icon: '' },
+    { label: 'Cadastros', shortLabel: 'Cadastros', link: '/cadastros', icon: 'po-icon po-icon-document-filled' },
+    { label: 'Chamados', shortLabel: 'Chamados', link: '/chamados', icon: 'po-icon po-icon-list' },
+    { label: 'Settings', shortLabel: 'Settings', link: '/settings', icon: 'po-icon po-icon-settings' },
     // { label: '', shortLabel: '', link: '', icon: '' },
   ];
-
-  private onClick() {
-    alert('Clicked in menu item')
-  }
 
 }
