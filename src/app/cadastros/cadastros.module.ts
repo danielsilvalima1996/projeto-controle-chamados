@@ -8,13 +8,21 @@ import { CompanyEditComponent } from './company/company-edit/company-edit.compon
 import { AnalistaEditComponent } from './analist/analista-edit/analista-edit.component';
 import { AnalistaAddComponent } from './analist/analista-add/analista-add.component';
 import { AnalistaListComponent } from './analist/analista-list/analista-list.component';
-
+import { PoPageModule, PoButtonModule, PoTableModule, PoFieldModule, PoLoadingModule, PoDividerModule, PoModalModule, PoDynamicModule } from '@portinari/portinari-ui';
 
 @NgModule({
   declarations: [CompanyListComponent, CompanyAddComponent, CompanyEditComponent, AnalistaEditComponent, AnalistaAddComponent, AnalistaListComponent],
   imports: [
     CommonModule,
-    CadastrosRoutingModule
+    CadastrosRoutingModule,
+    PoPageModule,
+    PoButtonModule,
+    PoTableModule,
+    PoFieldModule,
+    PoLoadingModule,
+    PoDividerModule,
+    PoModalModule,
+    PoDynamicModule 
   ]
 })
 export class CadastrosModule { }
