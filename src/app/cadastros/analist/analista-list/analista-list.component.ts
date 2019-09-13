@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { PoTableColumn } from '@portinari/portinari-ui';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem } from '@portinari/portinari-ui';
 
 @Component({
   selector: 'app-analista-list',
@@ -9,25 +9,36 @@ import { PoTableColumn } from '@portinari/portinari-ui';
 })
 export class AnalistaListComponent implements OnInit {
 
-  page: {
+  page = {
+    actions: <PoPageAction[]>[
+      {label: 'New', icon:'po-icon po-icon-user-add', action:() => ('')}
+    ],
+
     title: 'Cadastro de Analistas',
+    breadcrumb: <PoBreadcrumb>{
+      items: <PoBreadcrumbItem[]>[
+        { label: 'Home' },
+        { label: 'Cadastros' },
+        { label: 'Analistas' }
+      ]
+    }
   }
 
   table = {
     columns: <PoTableColumn[]>[
-      { property: 'id', label: 'ID Analista', width: '25%' },
-      { property: 'nome', label: 'Nome', width: '25%' },
-      { property: 'email', label: 'E-mail', width: '25%' },
-      { property: 'outros', label: 'Outros', width: '25%' },
+      { property: 'id', label: 'ID Analista', width: '20%' },
+      { property: 'nome', label: 'Nome', width: '20%' },
+      { property: 'email', label: 'E-mail', width: '20%' },
+      { property: 'created', label: 'Criado em ', width: '20%' },
+      { property: 'modified', label: 'Modificado em ', width: '20%' },
     ],
     items: [],
     height: 0,
     loading: false
   }
 
-  analistaform = this.fb.group({
-    name: [''],
-    id: [''],
+  analistaform: FormGroup = this.fb.group({
+    filter: ['',[Validators.required]],
   })
 
   constructor(

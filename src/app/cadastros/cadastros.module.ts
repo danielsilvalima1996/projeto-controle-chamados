@@ -9,6 +9,7 @@ import { AnalistaEditComponent } from './analist/analista-edit/analista-edit.com
 import { AnalistaAddComponent } from './analist/analista-add/analista-add.component';
 import { AnalistaListComponent } from './analist/analista-list/analista-list.component';
 import { PoPageModule, PoButtonModule, PoTableModule, PoFieldModule, PoLoadingModule, PoDividerModule, PoModalModule, PoDynamicModule } from '@portinari/portinari-ui';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [CompanyListComponent, CompanyAddComponent, CompanyEditComponent, AnalistaEditComponent, AnalistaAddComponent, AnalistaListComponent],
@@ -22,7 +23,10 @@ import { PoPageModule, PoButtonModule, PoTableModule, PoFieldModule, PoLoadingMo
     PoLoadingModule,
     PoDividerModule,
     PoModalModule,
-    PoDynamicModule 
+    PoDynamicModule,
+    ReactiveFormsModule,
+    FormsModule,
+    
   ]
 })
 export class CadastrosModule { }

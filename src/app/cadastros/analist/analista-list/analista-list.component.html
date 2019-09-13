@@ -1,7 +1,15 @@
-<po-page-default [p-title]="page.title">
+<po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
+    <form [formGroup]="analistaForm">
+        <div class="po-row">
+            <po-input class="md-2" p-label="Filtro" formControlName="filter"></po-input>
 
-    <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" p-sort="true" p-striped="true" ></po-table>
+            <po-button class="mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar">
+            </po-button>
 
-    <!-- <form [formGroup]="analistaForm">  
-    </form> -->
+            <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" p-sort="true"
+                p-striped="true"></po-table>
+
+                
+        </div>
+    </form>
 </po-page-default>
