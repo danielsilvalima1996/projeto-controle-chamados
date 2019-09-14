@@ -93,7 +93,7 @@ export class ChamadosListComponent implements OnInit {
         { label: 'Descrição', property: 'descricao', width: '250px' },
         { label: 'Solução', property: 'solucao', width: '200px' }
       ];
-      this.filtrar();
+      this.getChamadosInternos();
 
     } else {
       this.page.title = 'Chamados Externos';
@@ -119,7 +119,7 @@ export class ChamadosListComponent implements OnInit {
         { label: 'Solução', property: 'solucao', width: '200px' },
         { label: 'Anexo', property: 'anexo', width: '100px' }
       ];
-      this.filtrar();
+      this.getChamadosExternos();
     }
     this.table.columns = columns;
   }
@@ -138,11 +138,6 @@ export class ChamadosListComponent implements OnInit {
       .subscribe((data) => {
         this.table.items = data;
       })
-  }
-
-  filtrar() {
-    console.log('ok, fazer a funcao');
-    
   }
 
 }
