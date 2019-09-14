@@ -69,15 +69,7 @@ export class AnalistaListComponent implements OnInit {
 
   }
 
-  private vizualizarAnalista(analista: any) {
-    this.router.navigate(['view', analista.id], { relativeTo: this.route });
-  }
-
-  private editarAnalista(analista: any) {
-    this.router.navigate(['edit', analista.id], { relativeTo: this.route });
-  }
-
-  searchData(idAnalista: any) {
+  searchData() {
     this.getAnalista()
   }
 
