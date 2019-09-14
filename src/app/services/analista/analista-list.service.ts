@@ -17,46 +17,52 @@ export class AnalistaListService {
     return of(
       [
         {
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
+          "idAnalista": '1',
+          "nomeAnalista": "Gustavo",
+          "emailAnalista": "gustavo@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
+          "status":"Ativo"
         },
         {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
+          "idAnalista": '2',
+          "nomeAnalista": "Vitor",
+          "emailAnalista": "vitor@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
+          "status":"Ativo"
         },
         {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
+          "idAnalista": '3',
+          "nomeAnalista": "Saulo",
+          "emailAnalista": "saulo@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
+          "status":"Ativo"
         },
         {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
+          "idAnalista": '4',
+          "nomeAnalista": "Carlos",
+          "emailAnalista": "carlos@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
+          "status":"Ativo"
         },
         {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
+          "idAnalista": '5',
+          "nomeAnalista": "Aline",
+          "emailAnalista": "aline@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
+          "status":"Inativo"
         },
         {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
+          "idAnalista": '6',
+          "nomeAnalista": "Winston",
+          "emailAnalista": "winston@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
+          "status":"Ativo"
         }
 
       ]

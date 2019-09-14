@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem } from '@portinari/portinari-ui';
+import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction } from '@portinari/portinari-ui';
+import { AnalistaListService } from 'src/app/services/analista/analista-list.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-analista-list',
@@ -11,7 +13,7 @@ export class AnalistaListComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      {label: 'New', icon:'po-icon po-icon-user-add', action:() => ('')}
+      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista-list/add' }
     ],
 
     title: 'Cadastro de Analistas',
@@ -26,11 +28,16 @@ export class AnalistaListComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      { property: 'id', label: 'ID Analista', width: '20%' },
-      { property: 'nome', label: 'Nome', width: '20%' },
-      { property: 'email', label: 'E-mail', width: '20%' },
-      { property: 'created', label: 'Criado em ', width: '20%' },
-      { property: 'modified', label: 'Modificado em ', width: '20%' },
+      { property: 'idAnalista', label: 'ID', width: '10%' },
+      { property: 'nomeAnalista', label: 'Nome', width: '20%' },
+      { property: 'emailAnalista', label: 'E-mail', width: '20%' },
+      { property: 'created', label: 'Criado em ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modified', label: 'Modificado em ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'status', label: 'Status', width: '10%' }
+    ],
+    actions: <PoTableAction[]>[
+      { label: 'Vizualizar', url:'analista-list/view:id'  },
+      { label: 'Editar', url:'analista-list/edit:id' },
     ],
     items: [],
     height: 0,
@@ -38,16 +45,42 @@ export class AnalistaListComponent implements OnInit {
   }
 
   analistaform: FormGroup = this.fb.group({
-    filter: ['',[Validators.required]],
+    filter: ['', [Validators.required]],
   })
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private analistaService: AnalistaListService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
 
 
   ngOnInit() {
+    this.getAnalista()
   }
+
+  private getAnalista() {
+    this.analistaService.getAnalista()
+      .subscribe((data) => {
+        this.table.items = data
+      })
+
+  }
+
+  private vizualizarAnalista(analista: any) {
+    this.router.navigate(['view', analista.id], { relativeTo: this.route });
+  }
+
+  private editarAnalista(analista: any) {
+    this.router.navigate(['edit', analista.id], { relativeTo: this.route });
+  }
+
+  searchData(idAnalista: any) {
+    this.getAnalista()
+  }
+
+
 
 }
