@@ -36,8 +36,8 @@ export class AnalistaListComponent implements OnInit {
       { property: 'status', label: 'Status', width: '10%' }
     ],
     actions: <PoTableAction[]>[
-      { label: 'Vizualizar', url:'analista-list/view:id'  },
-      { label: 'Editar', url:'analista-list/edit:id' },
+      { label: 'Vizualizar', url: 'analista-list/view:id' },
+      { label: 'Editar', url: 'analista-list/edit:id' },
     ],
     items: [],
     height: 0,
@@ -69,7 +69,7 @@ export class AnalistaListComponent implements OnInit {
 
   }
 
-  searchData() {
+  searchdata() {
     this.getAnalista()
   }
 

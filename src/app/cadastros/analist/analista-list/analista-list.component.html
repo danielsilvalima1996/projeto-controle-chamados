@@ -1,21 +1,10 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
-<<<<<<< HEAD
-    <form [formGroup]="analistaform" class="po-row">
-        <po-input class="md-2" p-label="Filtro" formControlName="filter"></po-input>
-
-        <po-button class="mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar">
-        </po-button>
-
-        <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" p-sort="true"
-            p-striped="true"></po-table>
-
-=======
-    <form [formGroup]="analistaForm">
+    <form [formGroup]="analistaform">
         <div class="po-row">
             <po-input class="po-md-2" p-label="Filtro" formControlName="filter"></po-input>
-            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (p-click)="searchdata()" > </po-button>
+            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (click)="searchdata()">
+            </po-button>
         </div>
->>>>>>> 566413bbee1603621229dec692c2cc69215c6008
     </form>
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" p-sort="true"
         p-striped="true" [p-actions]="table.actions"></po-table>
