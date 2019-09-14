@@ -13,8 +13,8 @@ export class AnalistaEditComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Editar Analista',
     actions: [
-      { label:'Voltar', icon:'po-icon po-icon-arrow-left', action: () => {(this.location.back())}},
-      { label: 'Salvar', action: () => {}}
+      { label: 'Salvar', action: () => {}},
+      { label:'Voltar', icon:'po-icon po-icon-arrow-left', action: () => {(this.location.back())}}
     ],
     breadcrumb:{
       items: [

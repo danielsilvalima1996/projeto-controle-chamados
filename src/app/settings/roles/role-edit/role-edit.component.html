@@ -1,1 +1,10 @@
-<p>role-edit works!</p>
+<po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
+    <form [formGroup]="roleEditForm">
+        <div class="po-row">
+            <po-input class="po-md-2" p-label="ID" p-readonly="true" formControlName="id"></po-input>
+            <po-input class="po-md-2" p-label="Nome da Regra" formControlName="nomeRegra"></po-input>
+        </div>
+    </form>
+
+
+</po-page-default>

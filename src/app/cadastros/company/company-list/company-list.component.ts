@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoSelectOption, PoTableAction, PoTableColumn, PoPageDefault } from '@portinari/portinari-ui';
 import { CompanyListService } from 'src/app/services/company/company-list.service';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-company-list',
@@ -64,8 +63,6 @@ export class CompanyListComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private companyService : CompanyListService,
-    private router: Router,
-    private route: ActivatedRoute
   ) { }
 
 

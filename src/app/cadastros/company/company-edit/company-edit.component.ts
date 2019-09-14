@@ -13,8 +13,8 @@ export class CompanyEditComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Editar Empresa',
     actions: [
+      { label: 'Salvar', action: () => {}},
       { label:'Voltar', icon:'po-icon po-icon-arrow-left', action: () => {(this.location.back())}},
-      { label: 'Salvar', action: () => {}}
     ],
     breadcrumb:{
       items: [
@@ -35,8 +35,6 @@ export class CompanyEditComponent implements OnInit {
     endereco:[''],
     admin:[''],
     telefone:[''],
-    created:[''],
-    modified:[''],
     status:['']
 
   })

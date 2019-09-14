@@ -2,7 +2,7 @@
 
     <form [formGroup]="editEmpresaForm">
         <div class="po-row">
-            <po-input class="class-md-2" p-label="ID" p-readonly="true" formControlName="idEmpresa"></po-input>
+            <po-input class="po-md-2" p-label="ID" p-readonly="true" formControlName="idEmpresa"></po-input>
             <po-input formControlName="cnpj" p-readonly="true" p-label="CNPJ" class="po-md-4"></po-input>
             <po-input formControlName="razaoSocial" p-required="true" p-label="Razão Social" class="po-md-4"></po-input>
             <po-input formControlName="nomeFantasia" p-required="true" p-label="Nome Fantasia" class="po-md-4">
@@ -11,9 +11,6 @@
             </po-input>
             <po-input formControlName="admin" p-required="true" p-label="Contato" class="po-md-4"></po-input>
             <po-input formControlName="telefone" p-required="true" p-label="Telefone" class="po-md-4">
-            </po-input>
-            <po-input formControlName="created" p-required="true" p-label="Criado" class="po-md-4"></po-input>
-            <po-input formControlName="modified" p-required="true" p-label="Modificado" class="po-md-4">
             </po-input>
         </div>
     </form>

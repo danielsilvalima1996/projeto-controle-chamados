@@ -22,7 +22,7 @@ export class AnalistaListService {
           "emailAnalista": "gustavo@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
-          "status":"Ativo"
+          "status": "Ativo"
         },
         {
           "idAnalista": '2',
@@ -30,7 +30,7 @@ export class AnalistaListService {
           "emailAnalista": "vitor@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
-          "status":"Ativo"
+          "status": "Ativo"
         },
         {
           "idAnalista": '3',
@@ -38,7 +38,7 @@ export class AnalistaListService {
           "emailAnalista": "saulo@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
-          "status":"Ativo"
+          "status": "Ativo"
         },
         {
           "idAnalista": '4',
@@ -46,7 +46,7 @@ export class AnalistaListService {
           "emailAnalista": "carlos@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
-          "status":"Ativo"
+          "status": "Ativo"
         },
         {
           "idAnalista": '5',
@@ -54,7 +54,7 @@ export class AnalistaListService {
           "emailAnalista": "aline@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
-          "status":"Inativo"
+          "status": "Inativo"
         },
         {
           "idAnalista": '6',
@@ -62,7 +62,7 @@ export class AnalistaListService {
           "emailAnalista": "winston@lobios.com.br",
           "created": "2019-09-13",
           "modified": "2019-09-13",
-          "status":"Ativo"
+          "status": "Ativo"
         }
 
       ]

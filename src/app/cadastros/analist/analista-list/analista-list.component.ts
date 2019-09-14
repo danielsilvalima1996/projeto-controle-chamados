@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction, PoSelectOption } from '@portinari/portinari-ui';
 import { AnalistaListService } from 'src/app/services/analista/analista-list.service';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-analista-list',
@@ -61,8 +60,6 @@ export class AnalistaListComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private analistaService: AnalistaListService,
-    private router: Router,
-    private route: ActivatedRoute
   ) { }
 
 
