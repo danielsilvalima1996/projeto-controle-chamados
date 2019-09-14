@@ -1,10 +1,13 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
-    <po-table
-        [p-columns]="table.columns"
-        [p-items]="table.items"
-        [p-loading]="table.loading"
-        [p-height]="table.height"
-        p-sort="true"
-        p-striped="true">
+
+    <div class="po-row" [formGroup]="chamadosForm">
+        <po-select class="po-md-2" p-label="Pesquisa" [p-options]="selects.pesquisa" formControlName="pesquisa">
+        </po-select>
+        <po-input class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
+
+        <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="filtrar()"></po-button>
+    </div>
+    <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
+        p-sort="true" p-striped="true">
     </po-table>
 </po-page-default>

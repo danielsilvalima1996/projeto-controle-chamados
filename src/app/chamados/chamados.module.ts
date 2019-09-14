@@ -5,7 +5,8 @@ import { ChamadosRoutingModule } from './chamados-routing.module';
 import { ChamadosListComponent } from './chamados-list/chamados-list.component';
 import { ChamadosAddComponent } from './chamados-add/chamados-add.component';
 import { ChamadosEditComponent } from './chamados-edit/chamados-edit.component';
-import { PoPageModule, PoTableModule } from '@portinari/portinari-ui';
+import { PoPageModule, PoTableModule, PoFieldModule, PoButtonModule } from '@portinari/portinari-ui';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +15,11 @@ import { PoPageModule, PoTableModule } from '@portinari/portinari-ui';
     CommonModule,
     ChamadosRoutingModule,
     PoPageModule,
-    PoTableModule
+    PoTableModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PoFieldModule,
+    PoButtonModule
   ]
 })
 export class ChamadosModule { }

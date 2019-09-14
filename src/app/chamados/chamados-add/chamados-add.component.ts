@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PoPageDefault } from '@portinari/portinari-ui';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-chamados-add',
@@ -7,7 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChamadosAddComponent implements OnInit {
 
-  constructor() { }
+  page: PoPageDefault = {
+    title: 'Novo de Chamado',
+    actions: [
+      {
+        label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
+          this.location.back();
+        }
+      }
+    ],
+    breadcrumb: {
+      items: [
+        { label: 'Home' },
+        { label: 'Novo Chamado' }
+      ]
+    }
+  }
+
+  constructor(
+    private location: Location
+  ) { }
 
   ngOnInit() {
   }
