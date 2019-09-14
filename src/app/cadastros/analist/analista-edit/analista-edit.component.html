@@ -1,1 +1,17 @@
-<p>analista-edit works!</p>
+<po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
+
+    <form [formGroup]="editAnalistaForm">
+        <div class="po-row">
+            <po-input class="class-md-2" p-label="ID" p-readonly="true" formControlName="idAnalista"></po-input>
+            <po-input class="class-md-2" p-label="Nome Analista" p-readonly="true" formControlName="nomeAnalista">
+            </po-input>
+        </div>
+
+        <div class="po-row">
+        <po-input class="class-md-2" p-label="Email Analista" p-readonly="true" formControlName="emailAnalista">
+        </po-input>
+        <po-password class="class-md-2" p-label="Senha" p-readonly="true" formControlName="senha"></po-password>
+        <po-input class="class-md-2" p-label="Status" p-readonly="true" formControlName="status"></po-input>
+    </div>
+    </form>
+</po-page-default>

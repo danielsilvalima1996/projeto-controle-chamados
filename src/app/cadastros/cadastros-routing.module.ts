@@ -21,8 +21,8 @@ const routes: Routes = [
   {
     path: 'empresa-list', children: [
       { path: '', component: CompanyListComponent },
-      { path: 'edit/:id', component: CompanyEditComponent },
-      { path: 'view/:id', component: CompanyEditComponent },
+      { path: 'edit:id', component: CompanyEditComponent },
+      { path: 'view:id', component: CompanyEditComponent },
       { path: 'add', component: CompanyAddComponent }
 
     ]
