@@ -1,1 +1,10 @@
-<p>chamados-list works!</p>
+<po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
+    <po-table
+        [p-columns]="table.columns"
+        [p-items]="table.items"
+        [p-loading]="table.loading"
+        [p-height]="table.height"
+        p-sort="true"
+        p-striped="true">
+    </po-table>
+</po-page-default>
