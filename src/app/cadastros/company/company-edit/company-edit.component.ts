@@ -27,6 +27,10 @@ export class CompanyEditComponent implements OnInit {
 
   }
 
+  constValue: {
+  isDisabled: boolean;
+}
+
   editEmpresaForm: FormGroup = this.fb.group({
     idEmpresa:[''],
     cnpj:[''],
