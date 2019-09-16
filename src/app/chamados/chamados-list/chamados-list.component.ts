@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageDefault, PoTableColumn, PoSelectOption } from '@portinari/portinari-ui';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ChamadosInternosService } from 'src/app/services/chamados/chamados-internos/chamados-internos.service';
 import { ChamadosExternosService } from 'src/app/services/chamados/chamados-externos/chamados-externos.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
@@ -16,7 +16,17 @@ export class ChamadosListComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Lista de Chamados',
     actions: [
-      { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'chamados/add' }
+      { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'chamados/add' },
+      {
+        label: 'Visualizar', action: () => {
+          this.router.navigate(['chamados', this.constValue.tipoChamado, 'visualizar', this.constValue.selecionado]);
+        }
+      },
+      {
+        label: 'Editar', action: () => {
+          this.router.navigate(['chamados', this.constValue.tipoChamado, 'editar', this.constValue.selecionado]);
+        }
+      }
     ],
     breadcrumb: {
       items: [
@@ -41,6 +51,11 @@ export class ChamadosListComponent implements OnInit {
       { label: 'Assunto', value: 'assunto' },
       { label: 'Descricao', value: 'descricao' }
     ]
+  }
+
+  constValue = {
+    selecionado: '',
+    tipoChamado: ''
   }
 
   chamadosForm: FormGroup = this.fb.group({
@@ -69,7 +84,8 @@ export class ChamadosListComponent implements OnInit {
   private changeTitle(router: string) {
     let columns: PoTableColumn[];
     if (router == '/chamados/interno') {
-      columns = []
+      columns = [];
+      this.constValue.tipoChamado = 'interno';
       this.page.title = 'Chamados Internos';
 
       columns = <PoTableColumn[]>[
@@ -97,6 +113,7 @@ export class ChamadosListComponent implements OnInit {
 
     } else {
       this.page.title = 'Chamados Externos';
+      this.constValue.tipoChamado = 'externo';
       columns = <PoTableColumn[]>[
         {
           label: '-', property: 'idStatus', type: 'subtitle', width: '100px', subtitles: [
@@ -138,6 +155,11 @@ export class ChamadosListComponent implements OnInit {
       .subscribe((data) => {
         this.table.items = data;
       })
+  }
+
+  getSelected(event) {
+    this.constValue.selecionado = event.id;
+    
   }
 
 }

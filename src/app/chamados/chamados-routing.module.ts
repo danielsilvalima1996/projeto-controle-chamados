@@ -8,8 +8,7 @@ import { ChamadosAddComponent } from './chamados-add/chamados-add.component';
 const routes: Routes = [
   { path: 'interno', component: ChamadosListComponent },
   { path: 'externo', component: ChamadosListComponent },
-  { path: 'edit/:id', component: ChamadosEditComponent },
-  { path: 'view/:id', component: ChamadosEditComponent },
+  { path: ':tipoChamado/:action/:id', component: ChamadosEditComponent },
   { path: 'add', component: ChamadosAddComponent }
 ];
 
