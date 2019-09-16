@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction } from '@portinari/portinari-ui';
+import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction, PoSelectOption } from '@portinari/portinari-ui';
 import { AnalistaListService } from 'src/app/services/analista/analista-list.service';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-analista-list',
@@ -36,7 +35,7 @@ export class AnalistaListComponent implements OnInit {
       { property: 'status', label: 'Status', width: '10%' }
     ],
     actions: <PoTableAction[]>[
-      { label: 'Vizualizar', url: 'analista-list/view:id' },
+      { label: 'Visualizar', url: 'analista-list/view:id' },
       { label: 'Editar', url: 'analista-list/edit:id' },
     ],
     items: [],
@@ -45,14 +44,22 @@ export class AnalistaListComponent implements OnInit {
   }
 
   analistaform: FormGroup = this.fb.group({
-    filter: ['', [Validators.required]],
+    filtro: ['', [Validators.required]],
+    pesquisa:[ '']
   })
+
+  selects = {
+    pesquisa: <PoSelectOption[]>[
+      { label: 'ID', value: 'id' },
+      { label: 'ANALISTA', value: 'analista' },
+      { label: 'E-MAIL', value: 'email' },
+      { label: 'STATUS', value: 'status' }
+    ]
+  }
 
   constructor(
     private fb: FormBuilder,
     private analistaService: AnalistaListService,
-    private router: Router,
-    private route: ActivatedRoute
   ) { }
 
 
@@ -70,7 +77,6 @@ export class AnalistaListComponent implements OnInit {
   }
 
   searchdata() {
-    this.getAnalista()
   }
 
 

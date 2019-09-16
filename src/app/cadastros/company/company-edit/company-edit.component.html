@@ -1,1 +1,17 @@
-<p>company-edit works!</p>
+<po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
+
+    <form [formGroup]="editEmpresaForm">
+        <div class="po-row">
+            <po-input class="po-md-2" p-label="ID" p-readonly="true" formControlName="idEmpresa"></po-input>
+            <po-input formControlName="cnpj" p-readonly="true" p-label="CNPJ" class="po-md-4"></po-input>
+            <po-input formControlName="razaoSocial" p-required="true" p-label="Razão Social" [p-disabled]="constValue.isDisabled" class="po-md-4"></po-input>
+            <po-input formControlName="nomeFantasia" p-required="true" p-label="Nome Fantasia" [p-disabled]="constValue.isDisabled" class="po-md-4">
+            </po-input>
+            <po-input formControlName="endereco" p-required="true" p-label="Endereço" [p-disabled]="constValue.isDisabled" class="po-md-4">
+            </po-input>
+            <po-input formControlName="admin" p-required="true" p-label="Contato" [p-disabled]="constValue.isDisabled" class="po-md-4"></po-input>
+            <po-input formControlName="telefone" p-required="true" p-label="Telefone" [p-disabled]="constValue.isDisabled" class="po-md-4">
+            </po-input>
+        </div>
+    </form>
+</po-page-default>

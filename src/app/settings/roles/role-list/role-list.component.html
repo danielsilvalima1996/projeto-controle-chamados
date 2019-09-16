@@ -1,1 +1,14 @@
-<p>role-list works!</p>
+<po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
+
+    <form [formGroup]="roleForm">
+        <div class="po-row">
+            <po-select class="po-md-2" p-label="Pesquisa por:" [p-options]="selects.pesquisa"
+                fornControlName="pesquisa"></po-select>
+            <po-input class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
+            <po-button class="po-md-2 po-mt-4" p-label="Buscar" (onclick)="''"></po-button>
+        </div>
+    </form>
+    <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" p-sort="true"
+    p-striped="true" [p-actions]="table.actions"></po-table>
+
+</po-page-default>
