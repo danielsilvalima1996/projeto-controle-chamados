@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoSelectOption, PoTableAction, PoTableColumn, PoPageDefault } from '@portinari/portinari-ui';
-import { CompanyListService } from 'src/app/services/company/company-list.service';
+import { CompanyListService } from 'src/app/services/cadastros/company/company-list.service';
 
 @Component({
   selector: 'app-company-list',

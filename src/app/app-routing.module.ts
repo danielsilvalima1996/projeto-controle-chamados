@@ -6,8 +6,7 @@ const routes: Routes = [
   { path: 'cadastros', loadChildren: './cadastros/cadastros.module#CadastrosModule' },
   { path: 'chamados', loadChildren: './chamados/chamados.module#ChamadosModule' },
   { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginModule' },
-  { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' }
+  { path: 'login', loadChildren: './login/login.module#LoginModule' }
 ];
 
 @NgModule({

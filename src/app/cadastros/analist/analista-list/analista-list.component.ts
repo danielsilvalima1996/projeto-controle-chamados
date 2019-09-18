@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction, PoSelectOption } from '@portinari/portinari-ui';
-import { AnalistaListService } from 'src/app/services/analista/analista-list.service';
+import { AnalistaListService } from 'src/app/services/cadastros/analista/analista-list.service';
 
 @Component({
   selector: 'app-analista-list',

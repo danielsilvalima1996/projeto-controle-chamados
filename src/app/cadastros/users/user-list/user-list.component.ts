@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageDefault, PoSelectOption, PoTableColumn, PoTableAction, PoPageAction, PoBreadcrumb, PoBreadcrumbItem } from '@portinari/portinari-ui';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { UserListService } from 'src/app/services/users/user-list.service';
+import { UserListService } from 'src/app/services/cadastros/users/user-list.service';
 
 @Component({
   selector: 'app-user-list',

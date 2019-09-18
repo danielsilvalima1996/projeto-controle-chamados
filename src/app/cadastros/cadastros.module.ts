@@ -10,9 +10,28 @@ import { AnalistaAddComponent } from './analist/analista-add/analista-add.compon
 import { AnalistaListComponent } from './analist/analista-list/analista-list.component';
 import { PoPageModule, PoButtonModule, PoTableModule, PoFieldModule, PoLoadingModule, PoDividerModule, PoModalModule, PoDynamicModule } from '@portinari/portinari-ui';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { UserAddComponent } from './users/user-add/user-add.component';
+import { RoleAddComponent } from './roles/role-add/role-add.component';
+import { RoleEditComponent } from './roles/role-edit/role-edit.component';
+import { RoleListComponent } from './roles/role-list/role-list.component';
+import { UserListComponent } from './users/user-list/user-list.component';
 
 @NgModule({
-  declarations: [CompanyListComponent, CompanyAddComponent, CompanyEditComponent, AnalistaEditComponent, AnalistaAddComponent, AnalistaListComponent],
+  declarations: [
+    CompanyListComponent,
+    CompanyAddComponent,
+    CompanyEditComponent,
+    AnalistaEditComponent,
+    AnalistaAddComponent,
+    AnalistaListComponent,
+    UserEditComponent,
+    UserAddComponent,
+    RoleAddComponent,
+    RoleEditComponent,
+    RoleListComponent,
+    UserListComponent
+  ],
   imports: [
     CommonModule,
     CadastrosRoutingModule,
@@ -26,8 +45,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     PoDynamicModule,
     ReactiveFormsModule,
     FormsModule,
-    
-    
+
+
   ]
 })
 export class CadastrosModule { }
