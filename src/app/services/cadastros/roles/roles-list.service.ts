@@ -15,7 +15,6 @@ export class RolesListService {
       [
         {
           "id": "1",
-          "idEmpresa": "1",
           "nomeRegra": "Analista",
           "ativo": "Ativa",
           "created": "2019-09-14",
