@@ -1,5 +1,5 @@
 # Stage 1
-FROM nginx:latest
+FROM nginx:alpine
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
