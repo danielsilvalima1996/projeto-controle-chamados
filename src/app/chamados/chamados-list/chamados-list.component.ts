@@ -81,6 +81,10 @@ export class ChamadosListComponent implements OnInit {
     return this.chamadosForm.controls;
   }
 
+  filtrar() {
+  
+  }
+
   private changeTitle(router: string) {
     let columns: PoTableColumn[];
     if (router == '/chamados/interno') {
