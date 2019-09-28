@@ -77,6 +77,9 @@ export class UserListComponent implements OnInit {
       .subscribe((data) => {
         this.table.items = data
       })
+  }
+
+  searchData() {
 
   }
 
