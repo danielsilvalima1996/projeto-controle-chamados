@@ -25,6 +25,7 @@ export class AppComponent {
         { label: 'Interno', shortLabel: 'Interno', link: 'chamados/interno', icon: 'po-icon po-icon-minus' }
       ]
     },
+    { label: 'Testing', shortLabel: 'Testing', icon: 'po-icon po-icon-list', link: 'testing' }
     // { label: '', shortLabel: '', link: '', icon: '' },
   ];
 

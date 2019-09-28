@@ -9,6 +9,7 @@ import { CadastrosModule } from './cadastros/cadastros.module';
 import { ChamadosModule } from './chamados/chamados.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { LoginModule } from './login/login.module';
+import { TestingModule } from './testing/testing.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { LoginModule } from './login/login.module';
     ChamadosModule,
     DashboardModule,
     LoginModule,
+    TestingModule,
     PoModule,
     RouterModule.forRoot([])
   ],
