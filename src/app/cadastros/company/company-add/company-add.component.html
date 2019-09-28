@@ -3,22 +3,15 @@
 
     <form [formGroup]="companyaddForm">
         <div class="po-row">
-            <po-input formControlName="cnpj" p-required="true" p-label="CNPJ" class="po-md-4"></po-input>
+            <po-number formControlName="cnpj" p-required="true" p-label="CNPJ" class="po-md-4"></po-number>
             <po-input formControlName="razaoSocial" p-required="true" p-label="Razão Social" class="po-md-4"></po-input>
             <po-input formControlName="nomeFantasia" p-required="true" p-label="Nome Fantasia" class="po-md-4">
             </po-input>
-            <po-input formControlName="endereco" p-required="true" p-label="Endereço" class="po-md-4">
+            <po-input formControlName="endereco" p-required="true" p-label="Endereço" class="po-md-3">
             </po-input>
-            <po-input formControlName="admin" p-required="true" p-label="Contato" class="po-md-4"></po-input>
-            <po-input formControlName="telefone" p-required="true" p-label="Telefone" class="po-md-4">
+            <po-input formControlName="admin" p-required="true" p-label="Contato Empresa" class="po-md-3"></po-input>
+            <po-input formControlName="telefone" p-required="true" p-label="Telefone" class="po-md-3">
             </po-input>
-            <po-input formControlName="created" p-required="true" p-label="Criado" class="po-md-4"></po-input>
-            <po-input formControlName="modified" p-required="true" p-label="Modificado" class="po-md-4">
-            </po-input>
-            <!-- <po-password formControlName="senha" p-required="true" p-label="Senha" class="po-md-4"></po-password> -->
-        </div>
-
-        <div class="po-row">
             <po-select formControlName="status" p-required="true" p-label="Status" [p-options]="page.statusOptions"
                 class="po-md-3"></po-select>
         </div>

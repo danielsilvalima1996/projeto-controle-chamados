@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageDefault } from '@portinari/portinari-ui';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-analista-edit',
@@ -10,11 +10,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class AnalistaEditComponent implements OnInit {
 
-  page: PoPageDefault = {
+  page = {
     title: 'Editar Analista',
     actions: [
       { label: 'Salvar', action: () => {}},
-      { label:'Voltar', icon:'po-icon po-icon-arrow-left', action: () => {(this.location.back())}}
+      { label:'Voltar', icon:'po-icon po-icon-arrow-left', action: () => {(this.location.back())}},
     ],
     breadcrumb:{
       items: [
@@ -23,7 +23,11 @@ export class AnalistaEditComponent implements OnInit {
         { label: 'Analistas' },
         { label: 'Editar Analista'}
       ]
-    }
+    },
+    statusOptions: [
+      { label: 'ATIVO', value: true },
+      { label: 'INATIVO', value: false }
+    ]
 
   }
 
@@ -31,8 +35,8 @@ export class AnalistaEditComponent implements OnInit {
     idAnalista:[''],
     nomeAnalista: [''],
     emailAnalista:[''],
-    senha: ['', ],
-    status: ['', ]
+    senha: ['', [Validators.minLength(7)]],
+    status: ['', [Validators.required]],
 
   })
 

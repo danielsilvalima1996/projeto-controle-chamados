@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PoPageDefault, PoTableColumn, PoSelectOption, PoTableAction } from '@portinari/portinari-ui';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { RolesListService } from 'src/app/services/cadastros/roles/roles-list.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-role-list',
@@ -22,9 +23,14 @@ export class RoleListComponent implements OnInit {
       ]
     },
     actions: [
-      { label: 'Nova', url: 'role-list/add' }
-    ]
-
+      { label: 'Nova', url: 'role-list/add' },
+      { label: 'Editar', url: 'role-list/edit:id' },
+      // {
+      //   label: 'Editar', action: () => {
+      //     this.router.navigate(['edit', this.constValue.selecionado],{relativeTo:this.route});
+      //   }
+      // }
+      ],
   }
 
   table = {
@@ -34,10 +40,6 @@ export class RoleListComponent implements OnInit {
       { property: 'ativo', label: 'Status', width: '20%' },
       { property: 'created', label: 'Criado', width: '20%' },
       { property: 'modified', label: 'Modificado', width: '20%' }
-    ],
-    actions: <PoTableAction[]>[
-      { label: 'Visualizar', url: 'role-list/view:id' },
-      { label: 'Editar', url: 'role-list/edit:id' },
     ],
     items: [],
     height: 0,
@@ -57,9 +59,15 @@ export class RoleListComponent implements OnInit {
     ]
   }
 
+  constValue = {
+    selecionado:''
+  }
+
   constructor(
     private fb: FormBuilder,
-    private roleService: RolesListService
+    private roleService: RolesListService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -72,5 +80,11 @@ export class RoleListComponent implements OnInit {
       this.table.items = data
     })
   
+  }
+
+  getSelected(event) {
+    this.constValue.selecionado = event.id;
+    console.log(event.id)
+    
   }
 }

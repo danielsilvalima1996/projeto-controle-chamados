@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction, PoSelectOption } from '@portinari/portinari-ui';
+import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { AnalistaListService } from 'src/app/services/cadastros/analista/analista-list.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-analista-list',
@@ -12,7 +13,9 @@ export class AnalistaListComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista-list/add' }
+      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista-list/add' },
+      { label: 'Editar', url: 'analista-list/edit:id' },
+      // { label: 'Editar', action: () => { this.router.navigate(['analista', this.constValue.itemSelecionado, 'analista-list/edit:id']) } },
     ],
 
     title: 'Cadastro de Analistas',
@@ -34,10 +37,6 @@ export class AnalistaListComponent implements OnInit {
       { property: 'modified', label: 'Modificado em ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'status', label: 'Status', width: '10%' }
     ],
-    actions: <PoTableAction[]>[
-      { label: 'Visualizar', url: 'analista-list/view:id' },
-      { label: 'Editar', url: 'analista-list/edit:id' },
-    ],
     items: [],
     height: 0,
     loading: false
@@ -45,7 +44,7 @@ export class AnalistaListComponent implements OnInit {
 
   analistaform: FormGroup = this.fb.group({
     filtro: ['', [Validators.required]],
-    pesquisa:[ '']
+    pesquisa: ['']
   })
 
   selects = {
@@ -57,9 +56,15 @@ export class AnalistaListComponent implements OnInit {
     ]
   }
 
+  constValue = {
+    itemSelecionado: ''
+  }
+
   constructor(
     private fb: FormBuilder,
     private analistaService: AnalistaListService,
+    private router: Router,
+    private notificationService: PoNotificationService
   ) { }
 
 
@@ -68,7 +73,11 @@ export class AnalistaListComponent implements OnInit {
     this.getAnalista()
   }
 
-  private getAnalista() {
+  get controls() {
+    return this.analistaform.controls;
+  }
+
+  private getAnalista(parameters?:any) {
     this.analistaService.getAnalista()
       .subscribe((data) => {
         this.table.items = data
@@ -77,8 +86,22 @@ export class AnalistaListComponent implements OnInit {
   }
 
   searchdata() {
+    let busca: string = `${this.controls.pesquisa.value}=${this.controls.filtro.value}`;
+    this.getAnalista(busca);
   }
 
+  getSelected(event) {
+    this.constValue.itemSelecionado = event.idAnalista;
+    console.log(event.idAnalista)
 
+  }
+
+  isAnalistaSelected() {
+    if (!this.constValue.itemSelecionado) {
+      this.notificationService.warning('Selecione um Analista !');
+      return false;
+    }
+    return true;
+  }
 
 }

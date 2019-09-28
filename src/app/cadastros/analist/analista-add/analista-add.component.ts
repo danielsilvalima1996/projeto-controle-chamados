@@ -12,7 +12,7 @@ export class AnalistaAddComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Salvar', action: () => { } },
+      { label: 'Salvar', disabled:true, action: () => { } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -26,15 +26,15 @@ export class AnalistaAddComponent implements OnInit {
       ]
     },
     statusOptions: [
-      { label: 'Ativo', value: true },
-      { label: 'Inativo', value: false }
+      { label: 'ATIVO', value: true },
+      { label: 'INATIVO', value: false }
     ]
   }
 
   analistaddForm: FormGroup = this.fb.group({
-    nomeAnalista: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(3)]],
+    nomeAnalista: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(10)]],
     emailAnalista: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
-    senha: ['', [Validators.required]],
+    senha: ['', [Validators.required,Validators.minLength(7)]],
     status: ['', [Validators.required]],
   });
 
@@ -44,6 +44,10 @@ export class AnalistaAddComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.analistaddForm.valueChanges.subscribe((_) => {
+      this.page.actions[0].disabled = this.analistaddForm.invalid;
+    })
   }
+  
 
 }

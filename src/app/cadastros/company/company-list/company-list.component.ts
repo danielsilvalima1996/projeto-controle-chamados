@@ -13,7 +13,8 @@ export class CompanyListComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Cadastro de Empresas',
     actions: [
-      { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa-list/add' }
+      { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa-list/add' },
+      { label: 'Editar', url: 'empresa-list/edit:id' },
     ],
     breadcrumb: {
       items: [
@@ -28,17 +29,13 @@ export class CompanyListComponent implements OnInit {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '5%' },
       { property:'cnpj', label: 'CNPJ', width:'10%'},
-      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '15%' },
       { property: 'razaoSocial', label: 'Razão Social', width: '15%' },
+      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '15%' },
       { property: 'endereco', label: 'Endereço', width: '15%' },
       { property: 'admin', label:'Contato', width:'10%'},
       { property: 'telefone', label: 'Telefone', width: '10%' },
       { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' }
-    ],
-    actions: <PoTableAction[]>[
-      { label: 'Visualizar', url: 'empresa-list/view:id' },
-      { label: 'Editar', url: 'empresa-list/edit:id' },
     ],
     items: [],
     height: 0,
@@ -58,6 +55,10 @@ export class CompanyListComponent implements OnInit {
       { label: 'CONTATO', value: 'contato' }
       
     ]
+  }
+
+  constValue = {
+    selecionado:''
   }
 
   constructor(
@@ -80,6 +81,12 @@ export class CompanyListComponent implements OnInit {
   }
 
   searchdata() {
+  }
+
+  getSelected(event) {
+    this.constValue.selecionado = event.id;
+    console.log(event.id)
+    
   }
 
 

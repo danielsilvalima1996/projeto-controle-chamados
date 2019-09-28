@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageDefault } from '@portinari/portinari-ui';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 
 @Component({
@@ -26,24 +26,22 @@ export class CompanyAddComponent implements OnInit {
       ]
     },
     statusOptions: [
-      { label: 'Ativo', value: true },
-      { label: 'Inativo', value: false }
+      { label: 'ATIVO', value: true },
+      { label: 'INATIVO', value: false }
     ]
   }
 
-  
-
 
   companyaddForm: FormGroup = this.fb.group({
-    cnpj:[''],
-    nomeFantasia:[''],
-    razaoSocial:[''],
-    endereco:[''],
-    admin:[''],
-    telefone:[''],
-    created:[''],
-    modified:[''],
-    status:['']
+    cnpj:['',[Validators.required]],
+    nomeFantasia:['',[Validators.required]],
+    razaoSocial:['',[Validators.required]],
+    endereco:['',[Validators.required]],
+    admin:['',[Validators.required]],
+    telefone:['',[Validators.required]],
+    created:['',[Validators.required]],
+    modified:['',[Validators.required]],
+    status:['',[Validators.required]]
 
   });
 

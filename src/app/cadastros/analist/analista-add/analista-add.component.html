@@ -4,15 +4,15 @@
         <form [formGroup]="analistaddForm">
           <div class="po-row">
             <po-input formControlName="nomeAnalista" p-required="true" p-label="Nome Analista" class="po-md-4"
-              p-error-pattern="Insira apenas letras e sem espaços em branco!"></po-input>
+              p-error-pattern="Insira no mínimo 10 caracteres"></po-input>
             <po-input formControlName="emailAnalista" p-required="true" p-label="E-mail" class="po-md-4"
               p-error-pattern="Insira um e-mail válido!"></po-input>
-            <po-password formControlName="senha" p-required="true" p-label="Senha" class="po-md-4"></po-password>
+            <po-password formControlName="senha" p-required="true" p-label="Senha" class="po-md-4" p-error-pattern="Insira no mínimo 7 caracteres"></po-password>
           </div>
       
           <div class="po-row">
             <po-select formControlName="status" p-required="true" p-label="Status" [p-options]="page.statusOptions" class="po-md-3"></po-select>
           </div>
         </form>
-      
       </po-page-default>
+      

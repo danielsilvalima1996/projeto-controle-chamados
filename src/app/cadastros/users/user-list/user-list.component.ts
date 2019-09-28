@@ -12,7 +12,8 @@ export class UserListComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'user-list/add' }
+      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'user-list/add' },
+      { label: 'Editar', url: 'user-list/edit:id' }
     ],
 
     title: 'Cadastro de Usuários',
@@ -36,10 +37,6 @@ export class UserListComponent implements OnInit {
       { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'status', label: 'Status', width: '10%' }
     ],
-    actions: <PoTableAction[]>[
-      { label: 'Visualizar', url: 'user-list/view:id' },
-      { label: 'Editar', url: 'user-list/edit:id' },
-    ],
     items: [],
     height: 0,
     loading: false
@@ -53,11 +50,15 @@ export class UserListComponent implements OnInit {
   selects = {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
-      { label: 'USUÁRIO', value: 'user' },
-      { label: 'E-MAIL', value: 'email' },
-      { label: 'Regra', value: 'regra' },
+      { label: 'USUÁRIO', value: 'userName' },
+      { label: 'E-MAIL', value: 'userEmail' },
+      { label: 'REGRA', value: 'regra' },
       { label: 'STATUS', value: 'status' }
     ]
+  }
+
+  constValue = {
+    selecionado:''
   }
 
   constructor(
@@ -77,6 +78,12 @@ export class UserListComponent implements OnInit {
         this.table.items = data
       })
 
+  }
+
+  getSelected(event) {
+    this.constValue.selecionado = event.id;
+    console.log(event.id)
+    
   }
 
 }

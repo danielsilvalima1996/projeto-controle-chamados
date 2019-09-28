@@ -18,11 +18,6 @@ export class ChamadosListComponent implements OnInit {
     actions: [
       { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'chamados/add' },
       {
-        label: 'Visualizar', action: () => {
-          this.router.navigate(['chamados', this.constValue.tipoChamado, 'visualizar', this.constValue.selecionado]);
-        }
-      },
-      {
         label: 'Editar', action: () => {
           this.router.navigate(['chamados', this.constValue.tipoChamado, 'editar', this.constValue.selecionado]);
         }
@@ -45,11 +40,11 @@ export class ChamadosListComponent implements OnInit {
 
   selects = {
     pesquisa: <PoSelectOption[]>[
-      { label: 'Id', value: 'id' },
-      { label: 'Analista', value: 'analista' },
-      { label: 'Status', value: 'status' },
-      { label: 'Assunto', value: 'assunto' },
-      { label: 'Descricao', value: 'descricao' }
+      { label: 'ID', value: 'id' },
+      { label: 'ANALISTA', value: 'analista' },
+      { label: 'STATUS', value: 'status' },
+      { label: 'ASSUNTO', value: 'assunto' },
+      { label: 'DESCRIÇÃO', value: 'descricao' }
     ]
   }
 
@@ -92,6 +87,7 @@ export class ChamadosListComponent implements OnInit {
         {
           label: '-', property: 'idStatus', type: 'subtitle', width: '100px', subtitles: [
             { value: 1, label: 'ANALISANDO', color: 'color-08', content: '!' },
+            { value: 3, label: 'EM ABERTO', color: 'color-06', content: '!' },
             { value: 2, label: 'FECHADO', color: 'color-10', content: 'OK' }
           ]
         },
@@ -118,6 +114,7 @@ export class ChamadosListComponent implements OnInit {
         {
           label: '-', property: 'idStatus', type: 'subtitle', width: '100px', subtitles: [
             { value: 1, label: 'ANALISANDO', color: 'color-08', content: '!' },
+            { value: 3, label: 'EM ABERTO', color: 'color-06', content: '!' },
             { value: 2, label: 'FECHADO', color: 'color-10', content: 'OK' }
           ]
         },
@@ -159,6 +156,7 @@ export class ChamadosListComponent implements OnInit {
 
   getSelected(event) {
     this.constValue.selecionado = event.id;
+    console.log(event.id)
     
   }
 

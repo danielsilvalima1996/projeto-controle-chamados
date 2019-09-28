@@ -3,15 +3,14 @@
     <form [formGroup]="editEmpresaForm">
         <div class="po-row">
             <po-input class="po-md-2" p-label="ID" p-readonly="true" formControlName="idEmpresa"></po-input>
-            <po-input formControlName="cnpj" p-readonly="true" p-label="CNPJ" class="po-md-4"></po-input>
-            <po-input formControlName="razaoSocial" p-required="true" p-label="Razão Social" [p-disabled]="constValue.isDisabled" class="po-md-4"></po-input>
-            <po-input formControlName="nomeFantasia" p-required="true" p-label="Nome Fantasia" [p-disabled]="constValue.isDisabled" class="po-md-4">
+            <po-input class="po-md-3" formControlName="cnpj" p-readonly="true" p-label="CNPJ"></po-input>
+            <po-input class="po-md-3" formControlName="razaoSocial" p-readonly="true" p-required="true" p-label="Razão Social"></po-input>
+            <po-input class="po-md-3" formControlName="nomeFantasia" p-readonly="true" p-required="true" p-label="Nome Fantasia">
             </po-input>
-            <po-input formControlName="endereco" p-required="true" p-label="Endereço" [p-disabled]="constValue.isDisabled" class="po-md-4">
+            <po-input class="po-md-4" formControlName="endereco" p-required="true" p-label="Endereço">
             </po-input>
-            <po-input formControlName="admin" p-required="true" p-label="Contato" [p-disabled]="constValue.isDisabled" class="po-md-4"></po-input>
-            <po-input formControlName="telefone" p-required="true" p-label="Telefone" [p-disabled]="constValue.isDisabled" class="po-md-4">
-            </po-input>
+            <po-input class="po-md-3" formControlName="admin" p-required="true" p-label="Contato"></po-input>
+            <po-number class="po-md-3" formControlName="telefone" p-required="true" p-label="Telefone"></po-number>
         </div>
     </form>
 </po-page-default>
