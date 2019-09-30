@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RolesListService } from 'src/app/services/cadastros/roles/roles-list.service';
+import { CompanyListService } from 'src/app/services/cadastros/company/company-list.service';
 
 @Component({
   selector: 'app-testing',
@@ -9,10 +10,12 @@ import { RolesListService } from 'src/app/services/cadastros/roles/roles-list.se
 export class TestingComponent implements OnInit {
 
   constructor(
-    private rolesListService: RolesListService
+    private rolesListService: RolesListService,
+    private companyListService: CompanyListService
   ) { }
 
   ngOnInit() {
+    this.getCompany();
     this.getRole();
 
   }
@@ -21,6 +24,12 @@ export class TestingComponent implements OnInit {
     this.rolesListService.getRoles().subscribe((data) => {
       let dados = data;
       console.log(dados);
+    })
+  }
+
+  getCompany() {
+    this.companyListService.getCompany().subscribe((data) => {
+      console.log(data);
       
     })
   }
