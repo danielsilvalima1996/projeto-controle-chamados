@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { TestingRoutingModule } from './testing-routing.module';
 import { TestingComponent } from './testing/testing.component';
-import { PoPageModule } from '@portinari/portinari-ui';
+import { PoPageModule, PoFieldModule, PoButtonModule } from '@portinari/portinari-ui';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,11 @@ import { PoPageModule } from '@portinari/portinari-ui';
   imports: [
     CommonModule,
     TestingRoutingModule,
-    PoPageModule
+    PoPageModule,
+    ReactiveFormsModule,
+    FormsModule,
+    PoFieldModule,
+    PoButtonModule
   ]
 })
 export class TestingModule { }

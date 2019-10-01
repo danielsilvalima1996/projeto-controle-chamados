@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RolesListService } from 'src/app/services/cadastros/roles/roles-list.service';
 import { CompanyListService } from 'src/app/services/cadastros/company/company-list.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-testing',
@@ -9,15 +10,30 @@ import { CompanyListService } from 'src/app/services/cadastros/company/company-l
 })
 export class TestingComponent implements OnInit {
 
+  testingForm: FormGroup = this.fb.group({
+    data: ['', []],
+    juros: ['', []],
+    total: ['', []]
+  })
+
   constructor(
     private rolesListService: RolesListService,
-    private companyListService: CompanyListService
+    private companyListService: CompanyListService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.getCompany();
-    this.getRole();
 
+    this.controls.data.valueChanges.subscribe((data) => {
+      console.log(data);
+      
+
+    })
+
+  }
+
+  get controls() {
+    return this.testingForm.controls;
   }
 
   getRole(){
