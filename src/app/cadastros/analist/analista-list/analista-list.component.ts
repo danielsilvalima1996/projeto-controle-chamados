@@ -14,8 +14,8 @@ export class AnalistaListComponent implements OnInit {
   page = {
     actions: <PoPageAction[]>[
       { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista-list/add' },
-      { label: 'Editar', url: 'analista-list/edit:id' },
-      // { label: 'Editar', action: () => { this.router.navigate(['analista', this.constValue.itemSelecionado, 'analista-list/edit:id']) } },
+      // { label: 'Editar', url: 'analista-list/edit:id' },
+      { label: 'Editar', action: () => { this.router.navigate(['edit:id', this.constValue.itemSelecionado]) } },
     ],
 
     title: 'Cadastro de Analistas',
@@ -30,12 +30,13 @@ export class AnalistaListComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      { property: 'idAnalista', label: 'ID', width: '10%' },
-      { property: 'nomeAnalista', label: 'Nome', width: '20%' },
-      { property: 'emailAnalista', label: 'E-mail', width: '20%' },
-      { property: 'created', label: 'Criado em ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modified', label: 'Modificado em ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'status', label: 'Status', width: '10%' }
+      { property: 'id', label: 'ID', width: '10%' },
+      { property: 'nome', label: 'Nome', width: '20%' },
+      { property: 'email', label: 'E-mail', width: '20%' },
+      { property: 'matricula', label:'Matricula', width:'10%'},
+      { property: 'created', label: 'Criado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modified', label: 'Modificado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'active', label: 'Status', width: '10%' }
     ],
     items: [],
     height: 0,
@@ -79,8 +80,9 @@ export class AnalistaListComponent implements OnInit {
 
   private getAnalista(parameters?:any) {
     this.analistaService.getAnalista()
-      .subscribe((data) => {
+      .subscribe((data:any) => {
         this.table.items = data
+        console.log(data)
       })
 
   }
@@ -91,8 +93,8 @@ export class AnalistaListComponent implements OnInit {
   }
 
   getSelected(event) {
-    this.constValue.itemSelecionado = event.idAnalista;
-    console.log(event.idAnalista)
+    this.constValue.itemSelecionado = event.id;
+    console.log(event.id)
 
   }
 

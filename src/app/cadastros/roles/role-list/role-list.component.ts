@@ -36,10 +36,10 @@ export class RoleListComponent implements OnInit {
   table = {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '10%' },
-      { property: 'nomeRegra', label: 'Nome da Regra', width: '20%' },
-      { property: 'ativo', label: 'Status', width: '20%' },
-      { property: 'created', label: 'Criado', width: '20%' },
-      { property: 'modified', label: 'Modificado', width: '20%' }
+      { property: 'name', label: 'Nome da Regra', width: '20%' },
+      { property: 'active', label: 'Status', width: '20%' },
+      { property: 'created', label: 'Criado', width: '20%', type:'date', format:'dd/MM/yyyy' },
+      { property: 'modified', label: 'Modificado', width: '20%', type:'date', format:'dd/MM/yyyy' }
     ],
     items: [],
     height: 0,

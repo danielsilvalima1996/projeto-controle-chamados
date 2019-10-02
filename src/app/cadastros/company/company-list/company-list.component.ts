@@ -29,9 +29,10 @@ export class CompanyListComponent implements OnInit {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '5%' },
       { property:'cnpj', label: 'CNPJ', width:'10%'},
-      { property: 'razaoSocial', label: 'Razão Social', width: '15%' },
-      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '15%' },
+      { property: 'razaoSocial', label: 'Razão Social', width: '12.5%' },
+      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '12.5%' },
       { property: 'endereco', label: 'Endereço', width: '15%' },
+      { property: 'codigoTotvs', label:'Codigo Totvs', width:'5%'},
       { property: 'admin', label:'Contato', width:'10%'},
       { property: 'telefone', label: 'Telefone', width: '10%' },
       { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
