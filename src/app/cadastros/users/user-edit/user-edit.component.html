@@ -9,6 +9,7 @@
             <po-input class="po-md-3" p-label="Email Usuário" p-readonly="true" formControlName="userEmail">
             </po-input>
             <po-password class="po-md-2" p-label="Senha" p-error-pattern="Insira no mínimo 7 caracteres" formControlName="senha"></po-password>
+            <po-select class="po-md-2" p-label="Regra" [p-options]="page.regrasOptions" fomControlName="regras"></po-select>
             <po-select class="po-md-2" p-label="Status" [p-options]="page.statusOptions" formControlName="status"></po-select>
         </div>
     </form>

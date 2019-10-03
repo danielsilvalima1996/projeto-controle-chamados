@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PoPageDefault } from '@portinari/portinari-ui';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-analista-edit',
@@ -31,6 +32,10 @@ export class AnalistaEditComponent implements OnInit {
 
   }
 
+  constValue = {
+    analistaId: ''
+  }
+
   editAnalistaForm: FormGroup = this.fb.group({
     idAnalista:[''],
     nomeAnalista: [''],
@@ -42,10 +47,16 @@ export class AnalistaEditComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.route.paramMap
+      .subscribe((params: ParamMap) => {
+        this.constValue.analistaId = params.get('analistaId');
+
+      })
   }
 
 }

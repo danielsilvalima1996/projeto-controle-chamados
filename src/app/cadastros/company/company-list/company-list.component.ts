@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoSelectOption, PoTableAction, PoTableColumn, PoPageDefault } from '@portinari/portinari-ui';
 import { CompanyListService } from 'src/app/services/cadastros/company/company-list.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-company-list',
@@ -14,7 +15,8 @@ export class CompanyListComponent implements OnInit {
     title: 'Cadastro de Empresas',
     actions: [
       { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa-list/add' },
-      { label: 'Editar', url: 'empresa-list/edit:id' },
+      // { label: 'Editar', url: 'empresa-list/edit:id' },
+      { label: 'Editar', action: () => {this.router.navigate()}}
     ],
     breadcrumb: {
       items: [
@@ -65,6 +67,8 @@ export class CompanyListComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private companyService : CompanyListService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
 

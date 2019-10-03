@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: 'analista-list', children: [
       { path: '', component: AnalistaListComponent },
-      { path: 'edit:id', component: AnalistaEditComponent },
+      { path: ':action/:analistaId', component: AnalistaEditComponent },
       { path: 'add', component: AnalistaAddComponent }
 
     ]
@@ -26,7 +26,7 @@ const routes: Routes = [
   {
     path: 'empresa-list', children: [
       { path: '', component: CompanyListComponent },
-      { path: 'edit:id', component: CompanyEditComponent },
+      { path: ':action/:companyId', component: CompanyEditComponent },
       { path: 'add', component: CompanyAddComponent }
 
     ]
@@ -34,14 +34,14 @@ const routes: Routes = [
   {
     path: 'user-list', children: [
       { path: '', component: UserListComponent },
-      { path: 'edit:id', component: UserEditComponent },
+      { path: ':action/:userid', component: UserEditComponent },
       { path: 'add', component: UserAddComponent }
     ]
   },
   {
     path: 'role-list', children: [
       { path: '', component: RoleListComponent },
-      { path: 'edit:id', component: RoleEditComponent },
+      { path: ':action/:roleId', component: RoleEditComponent },
       { path: 'add', component: RoleAddComponent }
     ]
   }

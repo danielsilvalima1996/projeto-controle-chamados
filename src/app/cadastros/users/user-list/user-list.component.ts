@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PoPageDefault, PoSelectOption, PoTableColumn, PoTableAction, PoPageAction, PoBreadcrumb, PoBreadcrumbItem } from '@portinari/portinari-ui';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserListService } from 'src/app/services/cadastros/users/user-list.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -13,7 +14,7 @@ export class UserListComponent implements OnInit {
   page = {
     actions: <PoPageAction[]>[
       { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'user-list/add' },
-      { label: 'Editar', url: 'user-list/edit:id' }
+      { label: 'Editar', action: () => {this.router.navigate(['edit', this.constValue.selecionado], {relativeTo:this.route})}}
     ],
 
     title: 'Cadastro de Usuários',
@@ -63,7 +64,9 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserListService
+    private userService: UserListService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
 

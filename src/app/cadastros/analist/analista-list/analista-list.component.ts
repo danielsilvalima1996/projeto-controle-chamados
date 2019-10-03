@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { AnalistaListService } from 'src/app/services/cadastros/analista/analista-list.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-analista-list',
@@ -15,7 +15,7 @@ export class AnalistaListComponent implements OnInit {
     actions: <PoPageAction[]>[
       { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista-list/add' },
       // { label: 'Editar', url: 'analista-list/edit:id' },
-      { label: 'Editar', action: () => { this.router.navigate(['edit:id', this.constValue.itemSelecionado]) } },
+      { label: 'Editar', action: () => { this.router.navigate(['edit', this.constValue.itemSelecionado],{relativeTo:this.route}) } },
     ],
 
     title: 'Cadastro de Analistas',
@@ -65,7 +65,8 @@ export class AnalistaListComponent implements OnInit {
     private fb: FormBuilder,
     private analistaService: AnalistaListService,
     private router: Router,
-    private notificationService: PoNotificationService
+    private notificationService: PoNotificationService,
+    private route: ActivatedRoute
   ) { }
 
 
