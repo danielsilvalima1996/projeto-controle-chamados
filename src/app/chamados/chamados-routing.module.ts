@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'interno', component: ChamadosListComponent },
   { path: 'externo', component: ChamadosListComponent },
   { path: ':tipoChamado/:action/:id', component: ChamadosEditComponent },
-  { path: 'add', component: ChamadosAddComponent }
+  { path: 'interno/add', component: ChamadosAddComponent },
+  { path: 'externo/add', component: ChamadosAddComponent }
 ];
 
 @NgModule({

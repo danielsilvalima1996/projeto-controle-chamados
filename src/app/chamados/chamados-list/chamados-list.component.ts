@@ -16,7 +16,7 @@ export class ChamadosListComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Lista de Chamados',
     actions: [
-      { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'chamados/add' },
+      { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'chamados/interno/add' },
       {
         label: 'Editar', action: () => {
           this.router.navigate(['chamados', this.constValue.tipoChamado, 'editar', this.constValue.selecionado]);

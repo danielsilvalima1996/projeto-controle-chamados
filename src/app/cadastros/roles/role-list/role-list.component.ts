@@ -3,6 +3,7 @@ import { PoPageDefault, PoTableColumn, PoSelectOption, PoTableAction } from '@po
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { RolesListService } from 'src/app/services/cadastros/roles/roles-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 
 @Component({
   selector: 'app-role-list',
@@ -18,7 +19,7 @@ export class RoleListComponent implements OnInit {
     {
       items: [
         { label: 'Home' },
-        { label: 'Configurações' },
+        { label: 'Cadastros' },
         { label: 'Regras' }
       ]
     },
@@ -37,7 +38,7 @@ export class RoleListComponent implements OnInit {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '10%' },
       { property: 'name', label: 'Nome da Regra', width: '20%' },
-      { property: 'active', label: 'Status', width: '20%' },
+      { property: 'active', label: 'Ativo', width: '20%', type:'boolean' },
       { property: 'created', label: 'Criado', width: '20%', type:'date', format:'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado', width: '20%', type:'date', format:'dd/MM/yyyy' }
     ],
@@ -55,7 +56,7 @@ export class RoleListComponent implements OnInit {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value:'id'},
       { label: 'ID EMPRESA', value:'idEmpresa'},
-      { label: 'STATUS', value: 'ativo'}
+      { label: 'ATIVO', value: 'ativo'}
     ]
   }
 
@@ -65,7 +66,7 @@ export class RoleListComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private roleService: RolesListService,
+    private roleService: RolesService,
     private router: Router,
     private route: ActivatedRoute
   ) { }

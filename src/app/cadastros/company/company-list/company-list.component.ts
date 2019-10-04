@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoSelectOption, PoTableAction, PoTableColumn, PoPageDefault } from '@portinari/portinari-ui';
-import { CompanyListService } from 'src/app/services/cadastros/company/company-list.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CompanyService } from 'src/app/services/cadastros/company/company.service';
 
 @Component({
   selector: 'app-company-list',
@@ -15,8 +15,7 @@ export class CompanyListComponent implements OnInit {
     title: 'Cadastro de Empresas',
     actions: [
       { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa-list/add' },
-      // { label: 'Editar', url: 'empresa-list/edit:id' },
-      { label: 'Editar', action: () => {this.router.navigate()}}
+      { label: 'Editar', action: () => {this.router.navigate(['edit', this.constValue.itemSelecionado],{relativeTo:this.route})}}
     ],
     breadcrumb: {
       items: [
@@ -61,12 +60,12 @@ export class CompanyListComponent implements OnInit {
   }
 
   constValue = {
-    selecionado:''
+    itemSelecionado:''
   }
 
   constructor(
     private fb: FormBuilder,
-    private companyService : CompanyListService,
+    private companyService : CompanyService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -89,7 +88,7 @@ export class CompanyListComponent implements OnInit {
   }
 
   getSelected(event) {
-    this.constValue.selecionado = event.id;
+    this.constValue.itemSelecionado = event.id;
     console.log(event.id)
     
   }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageDefault, PoSelectOption, PoTableColumn, PoTableAction, PoPageAction, PoBreadcrumb, PoBreadcrumbItem } from '@portinari/portinari-ui';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { UserListService } from 'src/app/services/cadastros/users/user-list.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/cadastros/users/user.service';
 
 @Component({
   selector: 'app-user-list',
@@ -21,7 +21,7 @@ export class UserListComponent implements OnInit {
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
         { label: 'Home' },
-        { label: 'Configurações' },
+        { label: 'Cadastros' },
         { label: 'Usuários' }
       ]
     }
@@ -29,14 +29,13 @@ export class UserListComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      { property: 'idUser', label: 'ID', width: '10%' },
-      { property: 'nomeUser', label: 'Nome', width: '15%' },
-      { property: 'emailUser', label: 'E-mail', width: '25%' },
+      { property: 'id', label: 'ID', width: '10%' },
+      { property: 'username', label: 'Nome', width: '15%' },
+      { property: 'email', label: 'E-mail', width: '25%' },
       { property: 'idEmpresa', label: 'ID Empresa', width: '10%' },
-      { property: 'regra', label: 'Regra', width: '10%' },
       { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'status', label: 'Status', width: '10%' }
+      { property: 'ativo', label: 'Ativo', width: '10%', type:'boolean' }
     ],
     items: [],
     height: 0,
@@ -64,7 +63,7 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserListService,
+    private userService: UserService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -77,7 +76,8 @@ export class UserListComponent implements OnInit {
 
   private getUser() {
     this.userService.getUser()
-      .subscribe((data) => {
+      .subscribe((data:any) => {
+        console.log(data)
         this.table.items = data
       })
   }

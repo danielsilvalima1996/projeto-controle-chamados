@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
-import { AnalistaListService } from 'src/app/services/cadastros/analista/analista-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
 
 @Component({
   selector: 'app-analista-list',
@@ -14,7 +14,6 @@ export class AnalistaListComponent implements OnInit {
   page = {
     actions: <PoPageAction[]>[
       { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista-list/add' },
-      // { label: 'Editar', url: 'analista-list/edit:id' },
       { label: 'Editar', action: () => { this.router.navigate(['edit', this.constValue.itemSelecionado],{relativeTo:this.route}) } },
     ],
 
@@ -36,7 +35,7 @@ export class AnalistaListComponent implements OnInit {
       { property: 'matricula', label:'Matricula', width:'10%'},
       { property: 'created', label: 'Criado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'active', label: 'Status', width: '10%' }
+      { property: 'active', label: 'Ativo', width: '10%', type:'boolean' }
     ],
     items: [],
     height: 0,
@@ -63,7 +62,7 @@ export class AnalistaListComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private analistaService: AnalistaListService,
+    private analistaService: AnalistaService,
     private router: Router,
     private notificationService: PoNotificationService,
     private route: ActivatedRoute
