@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RolesListService {
-
+export class RolesService {
   private relativeLink = 'role'
 
   constructor(
@@ -29,7 +27,3 @@ export class RolesListService {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}`);
   }
 }
-
-
-
-
