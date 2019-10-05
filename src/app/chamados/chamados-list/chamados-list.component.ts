@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ChamadosRoutingModule } from '../chamados-routing.module';
-import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
+import { ChamadosService, Chamados } from 'src/app/services/chamados/chamados/chamados.service';
 
 @Component({
   selector: 'app-chamados-list',
@@ -69,6 +69,9 @@ export class ChamadosListComponent implements OnInit {
     let router = this.router.url.toString();
     this.changeTitle(router);
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
+    this.findAll();
+
+    alert('adicionar no endpoint o campo usuario, no spring, na interface e em tudo');
   }
 
   get controls() {
@@ -140,14 +143,17 @@ export class ChamadosListComponent implements OnInit {
     this.table.columns = columns;
   }
 
-  // private getChamados(parameters?: any) {
-  //   this.chamadosService
-  //   .
-  // }
-
   getSelected(event) {
     this.constValue.selecionado = event.id;
     console.log(event.id);
+  }
+
+  findAll() {
+    this.chamadosService
+    .findAll()
+    .subscribe((data) => {
+      this.table.items = data;
+    })
   }
 
 }

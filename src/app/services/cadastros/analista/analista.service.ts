@@ -3,9 +3,19 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
+export interface Analista {
+  id: number,
+  email: string,
+  nome: string,
+  matricula: number,
+  ativo: boolean,
+  criado: Date,
+  modificado: Date
+}
 @Injectable({
   providedIn: 'root'
 })
+
 export class AnalistaService {
 
   private relativeLink = 'analista'
