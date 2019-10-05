@@ -57,7 +57,8 @@ export class AnalistaListComponent implements OnInit {
   }
 
   constValue = {
-    itemSelecionado: ''
+    itemSelecionado: '',
+    analistaId:''
   }
 
   constructor(
@@ -71,7 +72,7 @@ export class AnalistaListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getAnalista()
+    this.getAnalista(this.constValue.analistaId)
   }
 
   get controls() {
@@ -79,7 +80,7 @@ export class AnalistaListComponent implements OnInit {
   }
 
   private getAnalista(parameters?:any) {
-    this.analistaService.getAnalista()
+    this.analistaService.getAnalista(this.constValue.analistaId)
       .subscribe((data:any) => {
         this.table.items = data
         console.log(data)

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RolesListService } from 'src/app/services/cadastros/roles/roles-list.service';
-import { CompanyListService } from 'src/app/services/cadastros/company/company-list.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CompanyService } from 'src/app/services/cadastros/company/company.service';
+import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 
 @Component({
   selector: 'app-testing',
@@ -17,8 +17,8 @@ export class TestingComponent implements OnInit {
   })
 
   constructor(
-    private rolesListService: RolesListService,
-    private companyListService: CompanyListService,
+    private rolesListService: RolesService,
+    private companyListService: CompanyService,
     private fb: FormBuilder
   ) { }
 
