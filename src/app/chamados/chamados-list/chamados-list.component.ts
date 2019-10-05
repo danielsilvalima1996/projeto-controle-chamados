@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageDefault, PoTableColumn, PoSelectOption } from '@portinari/portinari-ui';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ChamadosInternosService } from 'src/app/services/chamados/chamados-internos/chamados-internos.service';
-import { ChamadosExternosService } from 'src/app/services/chamados/chamados-externos/chamados-externos.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ChamadosRoutingModule } from '../chamados-routing.module';
+import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
 
 @Component({
   selector: 'app-chamados-list',
@@ -60,8 +60,7 @@ export class ChamadosListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private chamadosInternosService: ChamadosInternosService,
-    private chamadosExternosService: ChamadosExternosService,
+    private chamadosService: ChamadosService,
     private utilService: UtilService,
     private fb: FormBuilder
   ) { }
@@ -77,7 +76,7 @@ export class ChamadosListComponent implements OnInit {
   }
 
   filtrar() {
-  
+
   }
 
   private changeTitle(router: string) {
@@ -86,7 +85,6 @@ export class ChamadosListComponent implements OnInit {
       columns = [];
       this.constValue.tipoChamado = 'interno';
       this.page.title = 'Chamados Internos';
-
       columns = <PoTableColumn[]>[
         {
           label: '-', property: 'idStatus', type: 'subtitle', width: '100px', subtitles: [
@@ -109,7 +107,7 @@ export class ChamadosListComponent implements OnInit {
         { label: 'Descrição', property: 'descricao', width: '250px' },
         { label: 'Solução', property: 'solucao', width: '200px' }
       ];
-      this.getChamadosInternos();
+      // this.getChamadosInternos();
 
     } else {
       this.page.title = 'Chamados Externos';
@@ -117,9 +115,9 @@ export class ChamadosListComponent implements OnInit {
       columns = <PoTableColumn[]>[
         {
           label: '-', property: 'idStatus', type: 'subtitle', width: '100px', subtitles: [
-            { value: 1, label: 'ANALISANDO', color: 'color-08', content: '!' },
-            { value: 3, label: 'EM ABERTO', color: 'color-06', content: '!' },
-            { value: 2, label: 'FECHADO', color: 'color-10', content: 'OK' }
+            { value: 1, label: 'EM ABERTO', color: 'color-06', content: '!' },
+            { value: 2, label: 'ANALISANDO', color: 'color-08', content: '!' },
+            { value: 3, label: 'FECHADO', color: 'color-10', content: 'OK' }
           ]
         },
         { label: 'Id Chamado', property: 'id', width: '100px' },
@@ -137,31 +135,19 @@ export class ChamadosListComponent implements OnInit {
         { label: 'Solução', property: 'solucao', width: '200px' },
         { label: 'Anexo', property: 'anexo', width: '100px' }
       ];
-      this.getChamadosExternos();
+      // this.getChamadosExternos();
     }
     this.table.columns = columns;
   }
 
-  private getChamadosExternos(parameters?: any) {
-    this.chamadosExternosService
-      .getChamadosExternos(parameters)
-      .subscribe((data) => {
-        this.table.items = data;
-      })
-  }
-
-  private getChamadosInternos(parameters?: any) {
-    this.chamadosInternosService
-      .getChamadosInternos(parameters)
-      .subscribe((data) => {
-        this.table.items = data;
-      })
-  }
+  // private getChamados(parameters?: any) {
+  //   this.chamadosService
+  //   .
+  // }
 
   getSelected(event) {
     this.constValue.selecionado = event.id;
-    console.log(event.id)
-    
+    console.log(event.id);
   }
 
 }
