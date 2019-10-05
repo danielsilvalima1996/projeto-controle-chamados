@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageDefault, PoTableColumn, PoSelectOption, PoTableAction } from '@portinari/portinari-ui';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { RolesListService } from 'src/app/services/cadastros/roles/roles-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 
