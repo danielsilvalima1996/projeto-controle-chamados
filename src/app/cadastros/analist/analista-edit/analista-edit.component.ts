@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
+import { UtilService } from 'src/app/services/utils/util-service/util.service';
 
 @Component({
   selector: 'app-analista-edit',
@@ -15,15 +16,15 @@ export class AnalistaEditComponent implements OnInit {
   page = {
     title: 'Editar Analista',
     actions: [
-      { label: 'Salvar', action: () => {}},
-      { label:'Voltar', icon:'po-icon po-icon-arrow-left', action: () => {(this.location.back())}},
+      { label: 'Salvar', action: () => { } },
+      { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
-    breadcrumb:{
+    breadcrumb: {
       items: [
-        { label:'Home'},
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'Analistas' },
-        { label: 'Editar Analista'}
+        { label: 'Editar Analista' }
       ]
     },
     statusOptions: [
@@ -34,16 +35,19 @@ export class AnalistaEditComponent implements OnInit {
   }
 
   constValue = {
-    analistaId: ''
+    analistaId: '',
+    action: ''
   }
 
   editAnalistaForm: FormGroup = this.fb.group({
-    id:[''],
+    id: [''],
     nome: [''],
-    email:[''],
-    matricula:[''],
+    email: [''],
+    matricula: [''],
     senha: ['', [Validators.minLength(7)]],
     active: ['', [Validators.required]],
+    created: [''],
+    modified: ['']
 
   })
 
@@ -51,26 +55,44 @@ export class AnalistaEditComponent implements OnInit {
     private location: Location,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private analistaService: AnalistaService
+    private analistaService: AnalistaService,
+    private utilService: UtilService
   ) { }
 
   ngOnInit() {
     this.route.paramMap
       .subscribe((params: ParamMap) => {
+        this.constValue.action = params.get('action');
         this.constValue.analistaId = params.get('id');
-        console.log(params);
-        
+        // console.log(this.constValue.analistaId);
 
-        this.analistaService.getAnalista(this.constValue.analistaId)
-        .subscribe((data)=>{
-          let value = data;
-          this.editAnalistaForm.setValue(Object.assign({}, value));
-
+        this.analistaService.editarAnalista()
+        .subscribe((data: any) => {
+          let arr: Array<any> = data;
+          arr.map((item: any) => {
+            console.log(item);
+            
+            let obj = {
+            id:this.constValue.analistaId,
+            nome:item.nome,
+            email:item.email,
+            matricula:item.matricula,
+            senha:'',
+            created:'',
+            modified:'',
+            active:item.active
+            }
+            console.log(obj);
+            this.editAnalistaForm.setValue(obj)
+           
+            
+          })
+  
         })
-
-
-        
       })
+
+    // this.editarAnalista(obj)
   }
+
 
 }

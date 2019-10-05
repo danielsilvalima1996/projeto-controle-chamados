@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: 'analista-list', children: [
       { path: '', component: AnalistaListComponent },
-      { path: ':action/:analistaId', component: AnalistaEditComponent },
+      { path: ':action/:id', component: AnalistaEditComponent },
       { path: 'add', component: AnalistaAddComponent }
 
     ]

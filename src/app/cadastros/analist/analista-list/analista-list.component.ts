@@ -72,15 +72,16 @@ export class AnalistaListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getAnalista(this.constValue.analistaId)
+    this.getAnalista()
+
   }
 
   get controls() {
     return this.analistaform.controls;
   }
 
-  private getAnalista(parameters?:any) {
-    this.analistaService.getAnalista(this.constValue.analistaId)
+   getAnalista() {
+    this.analistaService.getAnalista()
       .subscribe((data:any) => {
         this.table.items = data
         console.log(data)
@@ -88,10 +89,10 @@ export class AnalistaListComponent implements OnInit {
 
   }
 
-  searchdata() {
-    let busca: string = `${this.controls.pesquisa.value}=${this.controls.filtro.value}`;
-    this.getAnalista(busca);
-  }
+  // searchdata() {
+  //   let busca: string = `${this.controls.pesquisa.value}=${this.controls.filtro.value}`;
+  //   this.getAnalista(busca);
+  // }
 
   getSelected(event) {
     this.constValue.itemSelecionado = event.id;

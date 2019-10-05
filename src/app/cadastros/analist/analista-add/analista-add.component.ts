@@ -12,7 +12,7 @@ export class AnalistaAddComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Salvar', disabled:true, action: () => { } },
+      { label: 'Salvar', action: () => { } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -35,6 +35,7 @@ export class AnalistaAddComponent implements OnInit {
     nomeAnalista: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(10)]],
     emailAnalista: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
     senha: ['', [Validators.required,Validators.minLength(7)]],
+    matricula:['',[]],
     status: ['', [Validators.required]],
   });
 

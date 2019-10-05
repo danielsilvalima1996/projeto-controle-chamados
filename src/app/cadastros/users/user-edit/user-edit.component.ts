@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { UserService } from 'src/app/services/cadastros/users/user.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -41,20 +42,23 @@ export class UserEditComponent implements OnInit {
   }
 
   editUserForm: FormGroup = this.fb.group({
-    userId: [''],
-    companyId: [''],
-    userName: [''],
-    userEmail: [''],
+    id: [''],
+    idEmpresa: [''],
+    username: [''],
+    email: [''],
     senha: ['', [Validators.minLength(7)]],
     regras: [''],
-    status: ['', [Validators.required]],
+    ativo: ['', [Validators.required]],
+    created:[''],
+    modified:['']
 
   })
 
   constructor(
     private location: Location,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService:UserService
   ) { }
 
 
@@ -62,6 +66,30 @@ export class UserEditComponent implements OnInit {
     this.route.paramMap
       .subscribe((params: ParamMap) => {
         this.constValue.userId = params.get('userId');
+
+        this.userService.editUser()
+        .subscribe((data: any) => {
+          let arr: Array<any> = data;
+          arr.map((item: any) => {
+            console.log(item);
+            
+            let obj = {
+            id:this.constValue.userId,
+            username:item.username,
+            email:item.email,
+            idEmpresa:item.idEmpresa,
+            senha:'',
+            created:'',
+            modified:'',
+            ativo:item.active
+            }
+            console.log(obj);
+            this.editUserForm.setValue(obj)
+           
+            
+          })
+  
+        })
 
       })
   }
