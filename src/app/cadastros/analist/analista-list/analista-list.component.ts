@@ -84,7 +84,7 @@ export class AnalistaListComponent implements OnInit {
     this.analistaService.getAnalista()
       .subscribe((data:any) => {
         this.table.items = data
-        console.log(data)
+        // console.log(data)
       })
 
   }
@@ -96,7 +96,7 @@ export class AnalistaListComponent implements OnInit {
 
   getSelected(event) {
     this.constValue.itemSelecionado = event.id;
-    console.log(event.id)
+    // console.log(event.id)
 
   }
 

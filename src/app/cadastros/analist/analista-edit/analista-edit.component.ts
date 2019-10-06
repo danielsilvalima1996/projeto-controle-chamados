@@ -16,7 +16,7 @@ export class AnalistaEditComponent implements OnInit {
   page = {
     title: 'Editar Analista',
     actions: [
-      { label: 'Salvar', action: () => { } },
+      { label: 'Salvar', disabled:true, action: () => { } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -60,17 +60,18 @@ export class AnalistaEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.page.actions[0].disabled = this.editAnalistaForm.invalid;
     this.route.paramMap
       .subscribe((params: ParamMap) => {
         this.constValue.action = params.get('action');
         this.constValue.analistaId = params.get('id');
-        // console.log(this.constValue.analistaId);
+        // console.log(this.constValue.action);
 
         this.analistaService.editarAnalista()
         .subscribe((data: any) => {
           let arr: Array<any> = data;
           arr.map((item: any) => {
-            console.log(item);
+            // console.log(item);
             
             let obj = {
             id:this.constValue.analistaId,
@@ -82,7 +83,7 @@ export class AnalistaEditComponent implements OnInit {
             modified:'',
             active:item.active
             }
-            console.log(obj);
+            // console.log(obj);
             this.editAnalistaForm.setValue(obj)
            
             
