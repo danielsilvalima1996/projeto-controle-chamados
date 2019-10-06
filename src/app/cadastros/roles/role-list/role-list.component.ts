@@ -75,7 +75,7 @@ export class RoleListComponent implements OnInit {
   }
 
   private getRoles(){
-    this.roleService.getRoles(this.constValue.selecionado)
+    this.roleService.getRoles()
     .subscribe((data:any) => {
       this.table.items = data
     })

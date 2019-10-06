@@ -64,7 +64,7 @@ export class RoleEditComponent implements OnInit {
       this.constValue.action = params.get('action');
       this.constValue.roleId = params.get('id');
 
-      this.roleService.getRoles(this.constValue.roleId)
+      this.roleService.getRoles()
       .subscribe((data)=>{
         // let value = data
         this.roleEditForm.setValue(Object.assign({}, this.constValue.action,this.constValue.roleId))

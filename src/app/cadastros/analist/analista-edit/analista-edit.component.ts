@@ -91,8 +91,6 @@ export class AnalistaEditComponent implements OnInit {
   
         })
       })
-
-    // this.editarAnalista(obj)
   }
 
 
