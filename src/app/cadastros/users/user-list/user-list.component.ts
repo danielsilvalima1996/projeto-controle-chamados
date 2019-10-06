@@ -87,8 +87,8 @@ export class UserListComponent implements OnInit {
   }
 
   getSelected(event) {
-    this.constValue.selecionado = event.idUser;
-    console.log(event.idUser)
+    this.constValue.selecionado = event.id;
+    console.log(event.id)
     
   }
 

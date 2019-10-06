@@ -2,15 +2,15 @@
 
     <form [formGroup]="editUserForm">
         <div class="po-row">
-            <po-input class="po-md-2" p-label="ID Usuário" p-readonly="true" formControlName="userId"></po-input>
-            <po-input class="po-md-2" p-label="ID Empresa" p-readonly="true" formControlName="companyId"></po-input>
-            <po-input class="po-md-3" p-label="Nome Usuário" p-readonly="true" formControlName="userName">
+            <po-input class="po-md-2" p-label="ID Usuário" p-readonly="true" formControlName="id"></po-input>
+            <po-input class="po-md-2" p-label="ID Empresa" p-readonly="true" formControlName="idEmpresa"></po-input>
+            <po-input class="po-md-3" p-label="Nome Usuário" p-readonly="true" formControlName="username">
             </po-input>
-            <po-input class="po-md-3" p-label="Email Usuário" p-readonly="true" formControlName="userEmail">
+            <po-input class="po-md-3" p-label="Email Usuário" p-readonly="true" formControlName="email">
             </po-input>
             <po-password class="po-md-2" p-label="Senha" p-error-pattern="Insira no mínimo 7 caracteres" formControlName="senha"></po-password>
-            <po-select class="po-md-2" p-label="Regra" [p-options]="page.regrasOptions" fomControlName="regras"></po-select>
-            <po-select class="po-md-2" p-label="Status" [p-options]="page.statusOptions" formControlName="status"></po-select>
+            <po-select class="po-md-3" p-label="Regra" [p-options]="page.regrasOptions" fomControlName="regra"></po-select>
+            <po-select class="po-md-3" p-label="Status" [p-options]="page.statusOptions" formControlName="ativo"></po-select>
         </div>
     </form>
 </po-page-default>

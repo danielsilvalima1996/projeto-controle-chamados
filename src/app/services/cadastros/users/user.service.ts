@@ -17,24 +17,24 @@ export class UserService {
     return of(
       [
         {
-          "idUser": '1',
-          "nomeUser": "Gustavo",
-          "emailUser": "gustavo@lobios.com.br",
+          "id": '1',
+          "username": "Gustavo",
+          "email": "gustavo@lobios.com.br",
           "idEmpresa": "1",
           "regra": "Admin",
           "created": "2019-09-16",
           "modified": "2019-09-16",
-          "status": "Ativo"
+          "ativo": "Ativo"
         },
         {
-          "idUser": '2',
-          "nomeUser": "Vitor",
-          "emailUser": "vitor@lobios.com.br",
+          "id": '2',
+          "username": "Vitor",
+          "email": "vitor@lobios.com.br",
           "idEmpresa": "1",
           "regra": "Analista",
           "created": "2019-09-16",
           "modified": "2019-09-16",
-          "status": "Ativo"
+          "ativo": "Ativo"
         }
 
       ]
@@ -46,24 +46,25 @@ export class UserService {
     return of(
       [
         {
-          "idUser": '1',
-          "nomeUser": "Gustavo",
-          "emailUser": "gustavo@lobios.com.br",
+          "id": '1',
+          "username": "Gustavo",
+          "email": "gustavo@lobios.com.br",
           "idEmpresa": "1",
-          "regra": "Admin",
+          "regra": "ADMINISTRADOR",
+          "senha":'',
           "created": "2019-09-16",
           "modified": "2019-09-16",
-          "status": "Ativo"
+          "ativo": "Ativo"
         },
         {
-          "idUser": '2',
-          "nomeUser": "Vitor",
-          "emailUser": "vitor@lobios.com.br",
+          "id": '2',
+          "username": "Vitor",
+          "email": "vitor@lobios.com.br",
           "idEmpresa": "1",
-          "regra": "Analista",
+          "regra": "ANALISTA",
           "created": "2019-09-16",
           "modified": "2019-09-16",
-          "status": "Ativo"
+          "ativo": "Ativo"
         }
 
       ]

@@ -47,7 +47,7 @@ export class UserEditComponent implements OnInit {
     username: [''],
     email: [''],
     senha: ['', [Validators.minLength(7)]],
-    regras: [''],
+    regra: [''],
     ativo: ['', [Validators.required]],
     created:[''],
     modified:['']
@@ -78,10 +78,11 @@ export class UserEditComponent implements OnInit {
             username:item.username,
             email:item.email,
             idEmpresa:item.idEmpresa,
+            regra:item.regra,
             senha:'',
             created:'',
             modified:'',
-            ativo:item.active
+            ativo:item.ativo
             }
             console.log(obj);
             this.editUserForm.setValue(obj)

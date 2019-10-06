@@ -34,7 +34,7 @@ const routes: Routes = [
   {
     path: 'user-list', children: [
       { path: '', component: UserListComponent },
-      { path: ':action/:userid', component: UserEditComponent },
+      { path: ':action/:id', component: UserEditComponent },
       { path: 'add', component: UserAddComponent }
     ]
   },
