@@ -36,12 +36,12 @@ export class TestingComponent implements OnInit {
     return this.testingForm.controls;
   }
 
-  getRole(){
-    this.rolesListService.getRoles().subscribe((data) => {
-      let dados = data;
-      console.log(dados);
-    })
-  }
+  // getRole(){
+  //   this.rolesListService.getRoles().subscribe((data) => {
+  //     let dados = data;
+  //     console.log(dados);
+  //   })
+  // }
 
   getCompany() {
     this.companyListService.getCompany().subscribe((data) => {

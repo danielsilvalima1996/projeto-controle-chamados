@@ -18,8 +18,15 @@ export class RolesService {
       [
         {
           "id": "1",
-          "nomeRegra": "Analista",
-          "ativo": "Ativa",
+          "name": "Admnistrador",
+          "active": true,
+          "created": "2019-09-14",
+          "modified": "2019-09-14"
+        },
+        {
+          "id": "2",
+          "name": "Analista",
+          "active":true,
           "created": "2019-09-14",
           "modified": "2019-09-14"
         },

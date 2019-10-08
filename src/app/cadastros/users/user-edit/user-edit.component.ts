@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { UserService } from 'src/app/services/cadastros/users/user.service';
+import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -13,7 +15,7 @@ export class UserEditComponent implements OnInit {
   page = {
     title: 'Editar Usuário',
     actions: [
-      { label: 'Salvar', action: () => { } },
+      { label: 'Salvar', disabled:true, action: () => { } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -28,11 +30,7 @@ export class UserEditComponent implements OnInit {
       { label: 'ATIVO', value: true },
       { label: 'INATIVO', value: false }
     ],
-    regrasOptions: [
-      { label: 'ANALISTA', value: '1' },
-      { label: 'ADMINISTRADOR', value: '2' },
-      { label: 'AUXILIAR', value: '3' }
-    ]
+    regrasOptions: []
 
   }
 
@@ -41,27 +39,67 @@ export class UserEditComponent implements OnInit {
   }
 
   editUserForm: FormGroup = this.fb.group({
-    userId: [''],
-    companyId: [''],
-    userName: [''],
-    userEmail: [''],
+    id: [''],
+    idEmpresa: [''],
+    username: [''],
+    email: [''],
     senha: ['', [Validators.minLength(7)]],
-    regras: [''],
-    status: ['', [Validators.required]],
+    regra: [''],
+    ativo: ['', [Validators.required]],
+    created:[''],
+    modified:['']
 
   })
 
   constructor(
     private location: Location,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService:UserService,
+    private roleService:RolesService
   ) { }
 
 
   ngOnInit() {
+    this.page.actions[0].disabled = this.editUserForm.invalid;
+    this.roleService.getRoles().subscribe((data: any) => {
+      this.page.regrasOptions = data.map((item)=>{
+        return { label:item.name, value:item.id}
+      })
+    })
+    
     this.route.paramMap
       .subscribe((params: ParamMap) => {
         this.constValue.userId = params.get('userId');
+
+        this.userService.editUser()
+        .subscribe((data: any) => {
+          let arr: Array<any> = data;
+          arr.map((item: any) => {
+            // console.log(item);
+            Object.keys(item).map((data)=>{
+              item[data] = item[data];
+              console.log(item[data])
+            })
+
+            let obj = {
+            id:this.constValue.userId,
+            username:item.username,
+            email:item.email,
+            idEmpresa:item.idEmpresa,
+            regra:item.regra,
+            senha:'',
+            created:'',
+            modified:'',
+            ativo:item.ativo
+            }
+            console.log(obj);
+            this.editUserForm.setValue(obj)
+           
+            
+          })
+  
+        })
 
       })
   }

@@ -24,12 +24,12 @@ export class RoleListComponent implements OnInit {
     },
     actions: [
       { label: 'Nova', url: 'role-list/add' },
-      { label: 'Editar', url: 'role-list/edit:id' },
-      // {
-      //   label: 'Editar', action: () => {
-      //     this.router.navigate(['edit', this.constValue.selecionado],{relativeTo:this.route});
-      //   }
-      // }
+      // { label: 'Editar', url: 'role-list/edit:id' },
+      {
+        label: 'Editar', action: () => {
+          this.router.navigate(['edit', this.constValue.selecionado],{relativeTo:this.route});
+        }
+      }
       ],
   }
 

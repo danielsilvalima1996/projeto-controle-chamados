@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault } from '@portinari/portinari-ui';
+import { PoPageDefault, PoSelectOption } from '@portinari/portinari-ui';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 
 @Component({
   selector: 'app-role-edit',
@@ -29,19 +31,46 @@ export class RoleEditComponent implements OnInit {
 
   }
 
+    selects = {
+    statusOptions:[
+        { label: 'ATIVO', value: true },
+        { label: 'INATIVO', value: false }
+      ]
+  }
+
   roleEditForm: FormGroup = this.fb.group({
     id:[''],
-    nomeRegra:['']
+    nome:[''],
+    active:['']
 
   })
+
+  constValue = {
+    action:'',
+    roleId:''
+  }
 
 
   constructor(
     private location: Location,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private roleService: RolesService
   ) { }
 
   ngOnInit() {
+    this.route.paramMap
+    .subscribe((params:ParamMap)=>{
+      this.constValue.action = params.get('action');
+      this.constValue.roleId = params.get('id');
+
+      this.roleService.getRoles()
+      .subscribe((data)=>{
+        // let value = data
+        this.roleEditForm.setValue(Object.assign({}, this.constValue.action,this.constValue.roleId))
+      })
+
+    })
   }
 
 }
