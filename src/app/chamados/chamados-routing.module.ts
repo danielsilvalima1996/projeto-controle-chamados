@@ -6,11 +6,19 @@ import { ChamadosAddComponent } from './chamados-add/chamados-add.component';
 
 
 const routes: Routes = [
-  { path: 'interno', component: ChamadosListComponent },
-  { path: 'externo', component: ChamadosListComponent },
-  { path: ':tipoChamado/:action/:id', component: ChamadosEditComponent },
-  { path: 'interno/add', component: ChamadosAddComponent },
-  { path: 'externo/add', component: ChamadosAddComponent }
+  {
+    path: 'interno', children: [
+      { path: '', component: ChamadosListComponent },
+      { path: ':action/:id', component: ChamadosEditComponent },
+    ]
+  },
+  {
+    path: 'externo', children: [
+      { path: '', component: ChamadosListComponent },
+      { path: 'add', component: ChamadosAddComponent }
+//      { path: ':action/:id', component: ChamadosEditComponent }
+    ]
+  }
 ];
 
 @NgModule({
