@@ -16,10 +16,10 @@ export class ChamadosListComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Lista de Chamados',
     actions: [
-      { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'chamados/interno/add' },
+      { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'chamados/externo/add' },
       {
         label: 'Editar', action: () => {
-          this.router.navigate(['chamados', this.constValue.tipoChamado, 'editar', this.constValue.selecionado]);
+          this.router.navigate(['edit', this.constValue.selecionado], {relativeTo: this.route});
         }
       }
     ],
@@ -32,7 +32,22 @@ export class ChamadosListComponent implements OnInit {
   }
 
   table = {
-    columns: <PoTableColumn[]>[],
+    columns: <PoTableColumn[]>[
+      { label: 'idChamado', property: 'idChamado', width: '100px' },
+      { label: 'idEmpresa', property: 'idEmpresa.id', width: '100px' },
+      { label: 'idAnalista', property: 'idAnalista.id', width: '100px' },
+      { label: 'dataAbertura', property: 'dataAbertura', width: '100px' },
+      { label: 'horaAbertura', property: 'horaAbertura', width: '100px' },
+      { label: 'dataFechamento', property: 'dataFechamento', width: '100px' },
+      { label: 'horaFechamento', property: 'horaFechamento', width: '100px' },
+      { label: 'tempoChamado', property: 'tempoChamado', width: '100px' },
+      { label: 'codigoStatusChamado', property: 'codigoStatusChamado', width: '100px' },
+      { label: 'tipoChamado', property: 'tipoChamado.descricao', width: '100px' },
+      { label: 'subtipoChamado', property: 'subtipoChamado.descricao', width: '100px' },
+      { label: 'idUsuario', property: 'idUsuario.id', width: '100px' },
+      { label: 'descricaoChamado', property: 'descricaoChamado', width: '100px' },
+      { label: 'solucaoChamado', property: 'solucaoChamado', width: '100px' }
+    ],
     items: [],
     loading: <boolean>false,
     height: 0
@@ -62,16 +77,13 @@ export class ChamadosListComponent implements OnInit {
     private router: Router,
     private chamadosService: ChamadosService,
     private utilService: UtilService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    let router = this.router.url.toString();
-    this.changeTitle(router);
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
     this.findAll();
-
-    alert('adicionar no endpoint o campo usuario, no spring, na interface e em tudo');
   }
 
   get controls() {
@@ -82,78 +94,22 @@ export class ChamadosListComponent implements OnInit {
 
   }
 
-  private changeTitle(router: string) {
-    let columns: PoTableColumn[];
-    if (router == '/chamados/interno') {
-      columns = [];
-      this.constValue.tipoChamado = 'interno';
-      this.page.title = 'Chamados Internos';
-      columns = <PoTableColumn[]>[
-        {
-          label: '-', property: 'idStatus', type: 'subtitle', width: '100px', subtitles: [
-            { value: 1, label: 'ANALISANDO', color: 'color-08', content: '!' },
-            { value: 3, label: 'EM ABERTO', color: 'color-06', content: '!' },
-            { value: 2, label: 'FECHADO', color: 'color-10', content: 'OK' }
-          ]
-        },
-        { label: 'Id Chamado', property: 'id', width: '100px' },
-        { label: 'Id Empresa', property: 'idEmpresa', width: '100px' },
-        { label: 'Id Analista', property: 'idAnalista', width: '100px' },
-        { label: 'Data Abertura', property: 'dataAbertura', width: '125px', type: 'date', format: 'dd/MM/yyyy' },
-        { label: 'Hora Abertura', property: 'horaAbertura', width: '125px' },
-        { label: 'Data Fechamento', property: 'dataFechamento', width: '125px', type: 'date', format: 'dd/MM/yyyy' },
-        { label: 'Hora Fechamento', property: 'horaFechamento', width: '125px' },
-        { label: 'Tempo', property: 'tempo', width: '100px' },
-        { label: 'Status', property: 'status', width: '100px' },
-        { label: 'Tipo', property: 'tipo', width: '100px' },
-        { label: 'Assunto', property: 'assunto', width: '150px' },
-        { label: 'Descrição', property: 'descricao', width: '250px' },
-        { label: 'Solução', property: 'solucao', width: '200px' }
-      ];
-      // this.getChamadosInternos();
-
-    } else {
-      this.page.title = 'Chamados Externos';
-      this.constValue.tipoChamado = 'externo';
-      columns = <PoTableColumn[]>[
-        {
-          label: '-', property: 'idStatus', type: 'subtitle', width: '100px', subtitles: [
-            { value: 1, label: 'EM ABERTO', color: 'color-06', content: '!' },
-            { value: 2, label: 'ANALISANDO', color: 'color-08', content: '!' },
-            { value: 3, label: 'FECHADO', color: 'color-10', content: 'OK' }
-          ]
-        },
-        { label: 'Id Chamado', property: 'id', width: '100px' },
-        { label: 'Id Empresa', property: 'idEmpresa', width: '100px' },
-        { label: 'Id User', property: 'idUser', width: '100px' },
-        { label: 'Data Abertura', property: 'dataAbertura', width: '125px', type: 'date', format: 'dd/MM/yyyy' },
-        { label: 'Hora Abertura', property: 'horaAbertura', width: '125px' },
-        { label: 'Data Fechamento', property: 'dataFechamento', width: '125px', type: 'date', format: 'dd/MM/yyyy' },
-        { label: 'Hora Fechamento', property: 'horaFechamento', width: '125px' },
-        { label: 'Tempo', property: 'tempo', width: '100px' },
-        { label: 'Status', property: 'status', width: '100px' },
-        { label: 'Tipo', property: 'tipo', width: '100px' },
-        { label: 'Assunto', property: 'assunto', width: '150px' },
-        { label: 'Descrição', property: 'descricao', width: '250px' },
-        { label: 'Solução', property: 'solucao', width: '200px' },
-        { label: 'Anexo', property: 'anexo', width: '100px' }
-      ];
-      // this.getChamadosExternos();
-    }
-    this.table.columns = columns;
-  }
-
-  getSelected(event) {
+  selectedTable(event) {
     this.constValue.selecionado = event.id;
     console.log(event.id);
   }
 
+  unSelectedTable(event) {
+    this.constValue.selecionado = '';
+  }
+
+
   findAll() {
     this.chamadosService
-    .findAll()
-    .subscribe((data) => {
-      this.table.items = data;
-    })
+      .findAll()
+      .subscribe((data) => {
+        this.table.items = data;
+      })
   }
 
 }
