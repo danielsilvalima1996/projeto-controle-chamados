@@ -7,31 +7,31 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class RolesService {
-  private relativeLink = 'role'
+  private relativeLink = '/role'
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getRoles() {
+  getRoles(parameters?:any) {
     return of(
       [
         {
           "id": "1",
-          "name": "Admnistrador",
+          "nome": "Admnistrador",
           "active": true,
-          "created": "2019-09-14",
-          "modified": "2019-09-14"
+          // "created": "2019-09-14",
+          // "modified": "2019-09-14"
         },
         {
           "id": "2",
-          "name": "Analista",
+          "nome": "Analista",
           "active":true,
-          "created": "2019-09-14",
-          "modified": "2019-09-14"
+          // "created": "2019-09-14",
+          // "modified": "2019-09-14"
         },
       ]
     )
-    // return this.http.get(`${environment.url.apirest}/${this.relativeLink}`);
+    // return this.http.get(`${environment.url.apirest}${this.relativeLink}?${parameters}`);
   }
 }

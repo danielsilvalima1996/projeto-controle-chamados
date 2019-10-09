@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
+import { UtilService } from 'src/app/services/utils/util-service/util.service';
 
 @Component({
   selector: 'app-role-edit',
@@ -47,7 +48,7 @@ export class RoleEditComponent implements OnInit {
 
   constValue = {
     action:'',
-    roleId:''
+    id:''
   }
 
 
@@ -55,22 +56,29 @@ export class RoleEditComponent implements OnInit {
     private location: Location,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private roleService: RolesService
+    private roleService: RolesService,
+    private utilService: UtilService
   ) { }
 
   ngOnInit() {
     this.route.paramMap
     .subscribe((params:ParamMap)=>{
       this.constValue.action = params.get('action');
-      this.constValue.roleId = params.get('id');
+      this.constValue.id = params.get('id');
+
+      let obj = {
+        action: this.constValue.action,
+        id: this.constValue.id
+      }
+
 
       this.roleService.getRoles()
       .subscribe((data)=>{
-        // let value = data
-        this.roleEditForm.setValue(Object.assign({}, this.constValue.action,this.constValue.roleId))
+        this.roleEditForm.setValue(Object.assign({}, obj))
       })
 
     })
   }
+
 
 }

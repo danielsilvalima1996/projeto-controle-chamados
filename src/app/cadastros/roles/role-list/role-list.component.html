@@ -2,14 +2,15 @@
 
     <form [formGroup]="roleForm">
         <div class="po-row">
-            <po-select class="po-md-2" p-label="Pesquisa por:" [p-options]="selects.pesquisa"
-                fornControlName="pesquisa"></po-select>
-            <po-input class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
-            <po-button class="po-md-2 po-mt-4" p-label="Buscar" (onclick)="''"></po-button>
+            <po-input class="po-md-2" p-label="ID" formControlName="id">
+                </po-input>
+                <po-input class="po-md-2" p-label="Nome" formControlName="name"></po-input>
+                <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="getRoles(this.roleForm.value)"></po-button>
         </div>
     </form>
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
-    p-sort="true" p-striped="true" (p-selected)="getSelected($event)" p-checkbox="true" p-single-select="true"></po-table>
-    
+        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-checkbox="true" p-single-select="true">
+    </po-table>
+
 
 </po-page-default>

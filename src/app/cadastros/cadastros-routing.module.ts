@@ -41,7 +41,7 @@ const routes: Routes = [
   {
     path: 'role-list', children: [
       { path: '', component: RoleListComponent },
-      { path: ':action/:roleId', component: RoleEditComponent },
+      { path: ':action/:id', component: RoleEditComponent },
       { path: 'add', component: RoleAddComponent }
     ]
   }

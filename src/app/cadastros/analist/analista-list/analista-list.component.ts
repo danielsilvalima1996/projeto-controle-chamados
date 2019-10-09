@@ -97,15 +97,17 @@ export class AnalistaListComponent implements OnInit {
   getSelected(event) {
     this.constValue.itemSelecionado = event.id;
     // console.log(event.id)
+  }
 
+ getUnSelected() {
+    this.constValue.itemSelecionado = '';
   }
 
   isAnalistaSelected() {
     if (!this.constValue.itemSelecionado) {
       this.notificationService.warning('Selecione um Analista !');
-      return false;
+      return;
     }
-    return true;
   }
 
 }

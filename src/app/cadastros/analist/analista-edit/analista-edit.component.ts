@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault } from '@portinari/portinari-ui';
+import { PoPageDefault, PoNotificationService } from '@portinari/portinari-ui';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 
@@ -36,7 +36,8 @@ export class AnalistaEditComponent implements OnInit {
 
   constValue = {
     analistaId: '',
-    action: ''
+    action: '',
+    // relativeLink:'analista-list'
   }
 
   editAnalistaForm: FormGroup = this.fb.group({
@@ -44,7 +45,7 @@ export class AnalistaEditComponent implements OnInit {
     nome: [''],
     email: [''],
     matricula: [''],
-    senha: ['', [Validators.minLength(7)]],
+    senha: ['', [Validators.required,Validators.minLength(7)]],
     active: ['', [Validators.required]],
     created: [''],
     modified: ['']
@@ -56,7 +57,9 @@ export class AnalistaEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private analistaService: AnalistaService,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private notification:PoNotificationService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -71,10 +74,10 @@ export class AnalistaEditComponent implements OnInit {
         .subscribe((data: any) => {
           let arr: Array<any> = data;
           arr.map((item: any) => {
-            // console.log(item);
+            console.log(item);
             
             let obj = {
-            id:this.constValue.analistaId,
+            id:item.id,
             nome:item.nome,
             email:item.email,
             matricula:item.matricula,
@@ -92,6 +95,32 @@ export class AnalistaEditComponent implements OnInit {
         })
       })
   }
+
+  //  updateAnalista() {
+  //   let value = this.editAnalistaForm.value;
+  //   console.log(value);
+    
+
+  //   if (value.name === '') {
+  //     this.notification.error('Favor Inserir o nome');
+  //     return;
+  //     console.log(value.name);
+  //   }
+
+  //   if (value.name.length < 3) {
+  //     this.notification.warning('Nome precisa ter mais de 3 letras');
+  //     return;
+  //   } else {
+  //     this.analistaService.atualizarAnalista()
+  //       .subscribe((data) => {
+  //         this.notification.success('User successfully updated');
+  //         this.router.navigate([this.constValue.relativeLink]);
+  //       },
+  //         (error) => {
+  //           this.notification.error(error.error.meta.description);
+  //         });
+  //   }
+  // }
 
 
 }
