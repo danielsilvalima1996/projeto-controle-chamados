@@ -15,7 +15,7 @@ export class CompanyAddComponent implements OnInit {
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
-    title: 'Cadastro de Empresas',
+    title: 'Adicionar Empresas',
     breadcrumb: {
       items: [
         { label: 'Home' },

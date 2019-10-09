@@ -2,7 +2,7 @@
     <form [formGroup]="roleEditForm">
         <div class="po-row">
             <po-input class="po-md-2" p-label="ID" p-readonly="true" formControlName="id"></po-input>
-            <po-input class="po-md-2" p-label="Nome da Regra" formControlName="nome"></po-input>
+            <po-input class="po-md-2" p-label="Nome da Regra" formControlName="name"></po-input>
             <po-select class="po-md-2" p-label="Status" [p-options]="selects.statusOptions" formControlName="active"></po-select>
         </div>
     </form>
