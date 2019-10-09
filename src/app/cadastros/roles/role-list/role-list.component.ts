@@ -52,7 +52,7 @@ export class RoleListComponent implements OnInit {
   })
 
   constValue = {
-    selecionado: ''
+    selecionado: '',
   }
 
   constructor(
@@ -68,7 +68,6 @@ export class RoleListComponent implements OnInit {
   }
 
   getRoles(form?) {
-    console.log(form);
     this.roleService.getRoles(this.utilService.getParameters(form))
       .subscribe((data: any) => {
         this.table.items = data
@@ -78,7 +77,6 @@ export class RoleListComponent implements OnInit {
 
   getSelected(event) {
     this.constValue.selecionado = event.id;
-    console.log(event.id)
   }
 
   getUnSelected() {

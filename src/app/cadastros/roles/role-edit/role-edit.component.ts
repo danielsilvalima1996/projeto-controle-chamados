@@ -70,8 +70,6 @@ export class RoleEditComponent implements OnInit {
     .subscribe((params:ParamMap)=>{
       this.constValue.action = params.get('action');
       this.constValue.id = params.get('id');
-      this.constValue.name = params.get('name')
-
 
       let obj = {
         id: this.constValue.id,
@@ -79,13 +77,16 @@ export class RoleEditComponent implements OnInit {
         active:''
       }
 
-
       this.roleService.getRoles()
       .subscribe((data)=>{
         this.roleEditForm.setValue(Object.assign({}, obj))
       })
 
     })
+  }
+
+  get controls() {
+    return this.roleEditForm.controls;
   }
 
 
