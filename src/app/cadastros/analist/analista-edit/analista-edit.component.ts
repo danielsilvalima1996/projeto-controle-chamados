@@ -16,7 +16,7 @@ export class AnalistaEditComponent implements OnInit {
   page = {
     title: 'Editar Analista',
     actions: [
-      { label: 'Salvar', disabled:true, action: () => { } },
+      { label: 'Salvar', disabled: true, action: () => { } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -45,7 +45,7 @@ export class AnalistaEditComponent implements OnInit {
     nome: [''],
     email: [''],
     matricula: [''],
-    senha: ['', [Validators.required,Validators.minLength(7)]],
+    senha: ['', [Validators.required, Validators.minLength(7)]],
     active: ['', [Validators.required]],
     created: [''],
     modified: ['']
@@ -58,7 +58,7 @@ export class AnalistaEditComponent implements OnInit {
     private route: ActivatedRoute,
     private analistaService: AnalistaService,
     private utilService: UtilService,
-    private notification:PoNotificationService,
+    private notification: PoNotificationService,
     private router: Router
   ) { }
 
@@ -68,38 +68,37 @@ export class AnalistaEditComponent implements OnInit {
       .subscribe((params: ParamMap) => {
         this.constValue.action = params.get('action');
         this.constValue.analistaId = params.get('id');
-        // console.log(this.constValue.action);
 
         this.analistaService.editarAnalista()
-        .subscribe((data: any) => {
-          let arr: Array<any> = data;
-          arr.map((item: any) => {
-            console.log(item);
-            
-            let obj = {
-            id:item.id,
-            nome:item.nome,
-            email:item.email,
-            matricula:item.matricula,
-            senha:'',
-            created:'',
-            modified:'',
-            active:item.active
-            }
-            // console.log(obj);
-            this.editAnalistaForm.setValue(obj)
-           
-            
+          .subscribe((data: any) => {
+            let arr: Array<any> = data;
+            arr.map((item: any) => {
+              console.log(item);
+
+              let obj = {
+                id: this.constValue.analistaId,
+                nome: item.nome,
+                email: item.email,
+                matricula: item.matricula,
+                senha: '',
+                created: '',
+                modified: '',
+                active: item.active
+              }
+              // console.log(obj);
+              this.editAnalistaForm.setValue(obj)
+
+
+            })
+
           })
-  
-        })
       })
   }
 
   //  updateAnalista() {
   //   let value = this.editAnalistaForm.value;
   //   console.log(value);
-    
+
 
   //   if (value.name === '') {
   //     this.notification.error('Favor Inserir o nome');

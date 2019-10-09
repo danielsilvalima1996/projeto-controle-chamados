@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export interface Empresa {
   id: number,
@@ -20,5 +22,15 @@ export interface Empresa {
 
 export class EmpresaService {
 
-  constructor() { }
+  private relativeLink = 'empresa';
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  getEmpresa() {
+    return this.http.get(`${environment.url.apirest}/${this.relativeLink}`);
+  }
+
+  
 }
