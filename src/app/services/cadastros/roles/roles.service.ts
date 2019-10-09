@@ -7,7 +7,8 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class RolesService {
-  private relativeLink = '/role'
+  private relativeLink = '/role';
+  private url = `${environment.url.apirest}/${this.relativeLink}`;
 
   constructor(
     private http: HttpClient
@@ -18,20 +19,24 @@ export class RolesService {
       [
         {
           "id": "1",
-          "nome": "Admnistrador",
+          "name": "Admnistrador",
           "active": true,
-          // "created": "2019-09-14",
-          // "modified": "2019-09-14"
+          "created": "2019-09-14",
+          "modified": "2019-09-14"
         },
         {
           "id": "2",
-          "nome": "Analista",
+          "name": "Analista",
           "active":true,
-          // "created": "2019-09-14",
-          // "modified": "2019-09-14"
+          "created": "2019-09-14",
+          "modified": "2019-09-14"
         },
       ]
     )
     // return this.http.get(`${environment.url.apirest}${this.relativeLink}?${parameters}`);
+  }
+
+  addRoles(obj: any){
+    return this.http.post(`${this.url}`, obj);
   }
 }

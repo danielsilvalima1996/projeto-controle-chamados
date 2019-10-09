@@ -16,7 +16,7 @@ export class UserAddComponent implements OnInit {
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
-    title: 'Cadastro de Usuários',
+    title: 'Adicionar Usuários',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
         { label: 'Home' },

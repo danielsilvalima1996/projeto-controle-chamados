@@ -35,7 +35,7 @@ export class UserEditComponent implements OnInit {
   }
 
   constValue = {
-    userId: ''
+    id: ''
   }
 
   editUserForm: FormGroup = this.fb.group({
@@ -43,8 +43,8 @@ export class UserEditComponent implements OnInit {
     idEmpresa: [''],
     username: [''],
     email: [''],
-    senha: ['', [Validators.minLength(7)]],
-    regra: [''],
+    senha: ['', [Validators.required,Validators.minLength(7)]],
+    regra: ['',[Validators.required]],
     ativo: ['', [Validators.required]],
     created:[''],
     modified:['']
@@ -70,7 +70,7 @@ export class UserEditComponent implements OnInit {
     
     this.route.paramMap
       .subscribe((params: ParamMap) => {
-        this.constValue.userId = params.get('userId');
+        this.constValue.id = params.get('id');
 
         this.userService.editUser()
         .subscribe((data: any) => {
@@ -83,7 +83,7 @@ export class UserEditComponent implements OnInit {
             })
 
             let obj = {
-            id:this.constValue.userId,
+            id:this.constValue.id,
             username:item.username,
             email:item.email,
             idEmpresa:item.idEmpresa,

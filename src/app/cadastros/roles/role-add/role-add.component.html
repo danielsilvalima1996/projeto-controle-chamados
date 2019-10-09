@@ -3,7 +3,7 @@
 
     <form [formGroup]="roleaddForm">
         <div class="po-row">
-            <po-input formControlName="nomeRegra" p-required="true" p-label="Nome Analista" class="po-md-4"
+            <po-input formControlName="nomeRegra" p-required="true" p-label="Nome Regra" class="po-md-4"
                 p-error-pattern="Insira apenas letras e sem espaços em branco!"></po-input>
             <po-select formControlName="status" p-required="true" p-label="Status" [p-options]="page.statusOptions"
                 class="po-md-3"></po-select>

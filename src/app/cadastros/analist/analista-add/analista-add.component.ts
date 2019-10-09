@@ -12,7 +12,7 @@ export class AnalistaAddComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Salvar', action: () => { } },
+      { label: 'Salvar', disabled:true, action: () => { } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 

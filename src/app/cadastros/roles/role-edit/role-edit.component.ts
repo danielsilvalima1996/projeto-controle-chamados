@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageDefault, PoSelectOption } from '@portinari/portinari-ui';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
@@ -17,7 +17,7 @@ export class RoleEditComponent implements OnInit {
 
     title: 'Editar Regras',
     actions: [
-      { label: 'Salvar', action: () => {}},
+      { label: 'Salvar', disabled:true, action: () => {}},
       { label:'Voltar', icon:'po-icon po-icon-arrow-left', action: () => {(this.location.back())}},
     ],
     breadcrumb:
@@ -41,14 +41,15 @@ export class RoleEditComponent implements OnInit {
 
   roleEditForm: FormGroup = this.fb.group({
     id:[''],
-    nome:[''],
-    active:['']
+    name:['',[Validators.required]],
+    active:['',[Validators.required]]
 
   })
 
   constValue = {
     action:'',
-    id:''
+    id:'',
+    name:''
   }
 
 
@@ -61,16 +62,20 @@ export class RoleEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.roleEditForm.valueChanges.subscribe((_) => {
+      this.page.actions[0].disabled = this.roleEditForm.invalid;
+    })
+
     this.route.paramMap
     .subscribe((params:ParamMap)=>{
       this.constValue.action = params.get('action');
       this.constValue.id = params.get('id');
 
       let obj = {
-        action: this.constValue.action,
-        id: this.constValue.id
+        id: this.constValue.id,
+        name:this.constValue.name,
+        active:''
       }
-
 
       this.roleService.getRoles()
       .subscribe((data)=>{
@@ -78,6 +83,10 @@ export class RoleEditComponent implements OnInit {
       })
 
     })
+  }
+
+  get controls() {
+    return this.roleEditForm.controls;
   }
 
 

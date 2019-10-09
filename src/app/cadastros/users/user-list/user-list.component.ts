@@ -77,7 +77,6 @@ export class UserListComponent implements OnInit {
   private getUser() {
     this.userService.getUser()
       .subscribe((data:any) => {
-        console.log(data)
         this.table.items = data
       })
   }
@@ -88,7 +87,6 @@ export class UserListComponent implements OnInit {
 
   getSelected(event) {
     this.constValue.selecionado = event.id;
-    console.log(event.id)
     
   }
 

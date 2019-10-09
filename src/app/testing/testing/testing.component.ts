@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CompanyService } from 'src/app/services/cadastros/company/company.service';
 import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 
 @Component({
@@ -18,7 +17,6 @@ export class TestingComponent implements OnInit {
 
   constructor(
     private rolesListService: RolesService,
-    private companyListService: CompanyService,
     private fb: FormBuilder
   ) { }
 
@@ -34,20 +32,6 @@ export class TestingComponent implements OnInit {
 
   get controls() {
     return this.testingForm.controls;
-  }
-
-  // getRole(){
-  //   this.rolesListService.getRoles().subscribe((data) => {
-  //     let dados = data;
-  //     console.log(dados);
-  //   })
-  // }
-
-  getCompany() {
-    this.companyListService.getCompany().subscribe((data) => {
-      console.log(data);
-      
-    })
   }
 
 }
