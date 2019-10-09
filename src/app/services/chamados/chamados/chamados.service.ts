@@ -39,7 +39,7 @@ export class ChamadosService {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}`) as Observable<Chamados[]>;
   }
 
-  findById(id: number): Observable<Chamados[]> {
+  findById(id: Number): Observable<Chamados[]> {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}/${id}`) as Observable<Chamados[]>;
   }
 

@@ -1,8 +1,23 @@
-<po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
+<po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
     <form [formGroup]="chamadosForm" class="po-row">
-        <po-input class="po-md-2" p-label="Id" formControlName="id" [p-readonly]="constValue.readonly"></po-input>
-        <!-- <po-input class="po-md-2" p-label="" formControlName="" [p-readonly]=""></po-input>
-        <po-input class="po-md-2" p-label="" formControlName="" [p-readonly]=""></po-input>
-        <po-input class="po-md-2" p-label="" formControlName="" [p-readonly]=""></po-input> -->
+        <po-input class="po-md-2" p-label="ID Chamado" formControlName="idChamado" p-readonly="true"></po-input>
+        <po-input class="po-md-2" p-label="ID Empresa" formControlName="idEmpresa" p-readonly="true"></po-input>
+        <po-input class="po-md-2" p-label="ID Analista" formControlName="idAnalista" p-readonly="true"></po-input>
+        <po-input class="po-md-2" p-label="ID Usuário" formControlName="idUsuario"></po-input>
+        <po-datepicker class="po-md-2" p-format="dd/MM/yyyy" p-label="Data Abertura" formControlName="dataAbertura"
+            [p-readonly]="constValue.readonly"></po-datepicker>
+        <po-input class="po-md-2" p-mask="23:59" p-label="Hora Abertura" formControlName="horaAbertura"></po-input>
+        <po-datepicker class="po-md-2" p-format="dd/MM/yyyy" p-label="Data Fechamento" formControlName="dataFechamento"
+            [p-readonly]="constValue.readonly"></po-datepicker>
+        <po-input class="po-md-2" p-mask="23:59" p-label="Hora Fechamento" formControlName="horaFechamento"></po-input>
+        <po-input class="po-md-2" p-mask="99:59:59" p-label="Tempo" formControlName="tempoChamado"></po-input>
+        <po-input class="po-md-2" p-label="Status" formControlName="codigoStatusChamado"></po-input>
+        <po-input class="po-md-2" p-label="Tipo Chamado" formControlName="tipoChamado"></po-input>
+        <po-input class="po-md-2" p-label="Subtipo Chamado" formControlName="subtipoChamado"></po-input>
+        <po-textarea class="po-md-6" p-label="Descricão Chamado" p-rows="4" formControlName="descricaoChamado">
+        </po-textarea>
+        <po-textarea class="po-md-6" p-label="Solucão Chamado" p-rows="4" formControlName="solucaoChamado">
+        </po-textarea>
     </form>
+
 </po-page-default>

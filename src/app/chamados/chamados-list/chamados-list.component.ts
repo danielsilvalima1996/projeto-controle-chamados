@@ -19,7 +19,7 @@ export class ChamadosListComponent implements OnInit {
       { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'chamados/externo/add' },
       {
         label: 'Editar', action: () => {
-          this.router.navigate(['edit', this.constValue.selecionado], {relativeTo: this.route});
+          this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
         }
       }
     ],
@@ -65,7 +65,9 @@ export class ChamadosListComponent implements OnInit {
 
   constValue = {
     selecionado: '',
-    tipoChamado: ''
+    tipoChamado: '',
+    input: <boolean>true,
+    number: <boolean>false
   }
 
   chamadosForm: FormGroup = this.fb.group({
@@ -84,14 +86,40 @@ export class ChamadosListComponent implements OnInit {
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
     this.findAll();
+    this.getChamados();
   }
 
   get controls() {
     return this.chamadosForm.controls;
   }
 
-  filtrar() {
+  getChamados() {
+    switch (this.controls.pesquisa.value) {
+      case 'id':
+        this.constValue.input = false;
+        this.chamadosService
+        .findById(this.controls.filtro.value)
+        .subscribe((data) => {
+          console.log(data);
+          
+          this.table.items = data;
+        })
+        break;
+      case 'analista':
 
+        break;
+      case 'status':
+
+        break;
+      case 'assunto':
+
+        break;
+      case 'descricao':
+
+        break;
+      default:
+        break;
+    }
   }
 
   selectedTable(event) {

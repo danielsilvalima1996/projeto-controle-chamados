@@ -3,11 +3,20 @@
     <div class="po-row" [formGroup]="chamadosForm">
         <po-select class="po-md-2" p-label="Pesquisa" [p-options]="selects.pesquisa" formControlName="pesquisa">
         </po-select>
-        <po-input class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
+        <po-input *ngIf="constValue.input" class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
+        <po-number *ngIf="constValue.number" class="po-md-2" p-label="Filtro" formControlName="filtro"></po-number>
 
-        <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="filtrar()"></po-button>
+        <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="getChamados()"></po-button>
     </div>
-    <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
-        p-sort="true" p-striped="true" (p-selected)="selectedTable($event)" (p-unselected)="unSelectedTable($event)" p-checkbox="true" p-single-select="true">
+    <po-table 
+        [p-columns]="table.columns"
+        [p-items]="table.items"
+        [p-loading]="table.loading"
+        [p-height]="table.height"
+        p-sort="true"
+        p-striped="true"
+        (p-selected)="selectedTable($event)"
+        (p-unselected)="unSelectedTable($event)"
+        p-checkbox="true" p-single-select="true">
     </po-table>
 </po-page-default>
