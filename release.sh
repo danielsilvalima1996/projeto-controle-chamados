@@ -7,7 +7,7 @@ REGISTRY=192.168.0.30:5000
 IMAGE=projeto-controle-chamados
 
 # ensure we're up to date
-# git pull
+git pull
 # bump version
 docker run --rm -v /"$PWD"/src/assets:/app treeder/bump patch
 version=`cat src/assets/VERSION`
