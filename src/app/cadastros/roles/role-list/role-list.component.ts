@@ -46,13 +46,27 @@ export class RoleListComponent implements OnInit {
     loading: false
   }
 
+  selects = {
+    pesquisa: <PoSelectOption[]>[
+      { label: 'Id', value: 'id' },
+      { label: 'Nome', value: 'name' },
+      { label: 'Ativo', value: 'active' }
+    ],
+    filtro: <PoSelectOption[]>[
+      { label: 'SIM', value: 'true' },
+      { label: 'NÃO', value: 'false' }
+    ]
+  }
+
   roleForm: FormGroup = this.fb.group({
-    id: [''],
-    name: ['']
+    pesquisa: ['', []],
+    filtro: ['', []]
   })
 
   constValue = {
     selecionado: '',
+    input: <Boolean>true,
+    select: <Boolean>false
   }
 
   constructor(
@@ -64,13 +78,31 @@ export class RoleListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getRoles(this.roleForm.value)
+    this.controls.pesquisa
+      .valueChanges.subscribe((data) => {
+        this.tipoForm(data);
+      })
+    this.getRoles(this.roleForm.value);
+  }
+
+  get controls() {
+    return this.roleForm.controls;
+  }
+
+  tipoForm(tipo) {
+    if (tipo == 'active') {
+      this.constValue.input = false;
+      this.constValue.select = true;
+    } else {
+      this.constValue.input = true;
+      this.constValue.select = false;
+    }
   }
 
   getRoles(form?) {
     this.roleService.getRoles(this.utilService.getParameters(form))
       .subscribe((data: any) => {
-        this.table.items = data
+        this.table.items = data;
       })
 
   }
@@ -82,9 +114,4 @@ export class RoleListComponent implements OnInit {
   getUnSelected() {
     this.constValue.selecionado = '';
   }
-
-
-
-
-
 }
