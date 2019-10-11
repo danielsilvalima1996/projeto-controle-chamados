@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: ':tipoChamado', children: [
       { path: '', component: ChamadosListComponent },
-      { path: ':action/:id', component: ChamadosEditComponent },
+      { path: ':acao/:id', component: ChamadosEditComponent },
     ]
   },
   // {
