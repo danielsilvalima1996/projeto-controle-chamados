@@ -89,10 +89,10 @@ export class AnalistaListComponent implements OnInit {
 
   }
 
-  // searchdata() {
-  //   let busca: string = `${this.controls.pesquisa.value}=${this.controls.filtro.value}`;
-  //   this.getAnalista(busca);
-  // }
+  searchData() {
+    let busca: string = `${this.controls.pesquisa.value}=${this.controls.filtro.value}`;
+    this.getAnalista();
+  }
 
   getSelected(event) {
     this.constValue.itemSelecionado = event.id;
