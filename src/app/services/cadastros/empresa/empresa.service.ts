@@ -1,20 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-
-export interface Empresa {
-  id: number,
-  ativo: boolean,
-  cnpj: string,
-  razaoSocial: string,
-  nomeFantasia: string,
-  endereco: string,
-  codigoTotvs: string,
-  admin: string,
-  telefone: string,
-  criado: Date,
-  modificado: Date
-}
+import { Observable } from 'rxjs';
+import { Pageable } from 'src/app/interfaces/pageable.model';
+import { Empresa } from 'src/app/interfaces/empresa.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +17,8 @@ export class EmpresaService {
     private http: HttpClient
   ) { }
 
-  getEmpresa() {
-    return this.http.get(`${environment.url.apirest}/${this.relativeLink}`);
+  getEmpresa(): Observable<Pageable<Empresa>> {
+    return this.http.get(`${environment.url.apirest}/${this.relativeLink}`) as Observable<Pageable<Empresa>>;
   }
 
   

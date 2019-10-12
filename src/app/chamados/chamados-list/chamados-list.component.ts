@@ -3,8 +3,7 @@ import { PoPageDefault, PoTableColumn, PoSelectOption } from '@portinari/portina
 import { Router, ActivatedRoute } from '@angular/router';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ChamadosRoutingModule } from '../chamados-routing.module';
-import { ChamadosService, Chamados } from 'src/app/services/chamados/chamados/chamados.service';
+import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
 
 @Component({
   selector: 'app-chamados-list',
@@ -85,7 +84,7 @@ export class ChamadosListComponent implements OnInit {
 
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
-    this.findAll();
+    this.findChamados();
     this.getChamados();
   }
 
@@ -132,11 +131,11 @@ export class ChamadosListComponent implements OnInit {
   }
 
 
-  findAll() {
+  findChamados(parameters?: any) {
     this.chamadosService
-      .findAll()
+      .findChamados(this.utilService.getParameters(parameters))
       .subscribe((data) => {
-        this.table.items = data;
+        this.table.items = data.content;
       })
   }
 

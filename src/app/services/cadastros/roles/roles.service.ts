@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
+import { Pageable } from 'src/app/interfaces/pageable.model';
+import { Role } from 'src/app/interfaces/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class RolesService {
     private http: HttpClient
   ) { }
 
-  getRoles(parameters?: any) {
+  getRoles(parameters?: any): Observable<Pageable<Role>> {
     // return of(
     //   [
     //     {
@@ -33,7 +35,7 @@ export class RolesService {
     //     },
     //   ]
     // )
-    return this.http.get(`${environment.url.apirest}${this.relativeLink}?${parameters}`);
+    return this.http.get(`${environment.url.apirest}${this.relativeLink}?${parameters}`) as Observable<Pageable<Role>>;
   }
 
   addRoles(obj: any) {

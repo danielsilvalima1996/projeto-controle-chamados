@@ -2,26 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { TipoChamado } from '../tipo-chamado/tipo-chamado.service';
-import { SubtipoChamado } from '../subtipo-chamado/subtipo-chamado.service';
-import { Empresa } from '../../cadastros/empresa/empresa.service';
-import { Analista } from '../../cadastros/analista/analista.service';
-
-export interface Chamados {
-  idChamado: number,
-  idEmpresa: Empresa,
-  idAnalista: Analista,
-  dataAbertura: Date,
-  horaAbertura: string,
-  dataFechamento: Date,
-  horaFechamento: string,
-  tempoChamado: string,
-  codigoStatusChamado: number,
-  tipoChamado: TipoChamado,
-  subtipoChamado: SubtipoChamado,
-  descricaoChamado: string,
-  solucaoChamado: string,
-}
+import { Pageable } from 'src/app/interfaces/pageable.model';
+import { Chamados } from 'src/app/interfaces/chamados.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +17,8 @@ export class ChamadosService {
     private http: HttpClient
   ) { }
 
-  findAll(): Observable<Chamados[]> {
-    return this.http.get(`${environment.url.apirest}/${this.relativeLink}`) as Observable<Chamados[]>;
+  findChamados(parameters?: any): Observable<Pageable<Chamados>> {
+    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Pageable<Chamados>>;
   }
 
   findById(id: Number): Observable<Chamados[]> {

@@ -101,8 +101,8 @@ export class RoleListComponent implements OnInit {
 
   getRoles(form?) {
     this.roleService.getRoles(this.utilService.getParameters(form))
-      .subscribe((data: any) => {
-        this.table.items = data;
+      .subscribe((data) => {
+        this.table.items = data.content;
       })
 
   }
