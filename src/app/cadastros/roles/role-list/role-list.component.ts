@@ -14,7 +14,7 @@ export class RoleListComponent implements OnInit {
 
   page: PoPageDefault = {
 
-    title: 'Regras',
+    title: ' Cadastro de Regras',
     breadcrumb:
     {
       items: [
