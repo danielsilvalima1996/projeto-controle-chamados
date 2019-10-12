@@ -17,8 +17,8 @@ export class RoleEditComponent implements OnInit {
 
     title: 'Editar Regras',
     actions: [
-      { label: 'Salvar', disabled:true, action: () => {}},
-      { label:'Voltar', icon:'po-icon po-icon-arrow-left', action: () => {(this.location.back())}},
+      { label: 'Salvar', disabled: true, action: () => { } },
+      { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb:
     {
@@ -32,24 +32,26 @@ export class RoleEditComponent implements OnInit {
 
   }
 
-    selects = {
-    statusOptions:[
-        { label: 'ATIVO', value: true },
-        { label: 'INATIVO', value: false }
-      ]
+  selects = {
+    statusOptions: [
+      { label: 'ATIVO', value: true },
+      { label: 'INATIVO', value: false }
+    ]
   }
 
   roleEditForm: FormGroup = this.fb.group({
-    id:[''],
-    name:['',[Validators.required]],
-    active:['',[Validators.required]]
-
+    id: [''],
+    name: ['', [Validators.required]],
+    active: ['', [Validators.required]],
+    created: ['', []],
+    modified: ['', []],
+    page: ['', []]
   })
 
   constValue = {
-    action:'',
-    id:'',
-    name:''
+    action: '',
+    id: '',
+    name: ''
   }
 
 
@@ -67,27 +69,38 @@ export class RoleEditComponent implements OnInit {
     })
 
     this.route.paramMap
-    .subscribe((params:ParamMap)=>{
-      this.constValue.action = params.get('action');
-      this.constValue.id = params.get('id');
+      .subscribe((params: ParamMap) => {
+        this.constValue.action = params.get('action');
+        this.constValue.id = params.get('id');
 
-      let obj = {
-        id: this.constValue.id,
-        name:this.constValue.name,
-        active:''
-      }
+        // let obj = {
+        //   id: this.constValue.id,
+        //   name: this.constValue.name,
+        //   active: ''
+        // }
 
-      this.roleService.getRoles()
-      .subscribe((data)=>{
-        this.roleEditForm.setValue(Object.assign({}, obj))
+        // this.roleService.getRoles()
+        //   .subscribe((data) => {
+        //     this.roleEditForm.setValue(Object.assign({}, data.content))
+        //   })
+
       })
-
-    })
+      this.findById(this.constValue.id);
   }
 
   get controls() {
     return this.roleEditForm.controls;
   }
 
+  private findById(id) {
+    this.roleService
+      .findById(id)
+      .subscribe((data) => {
+        let obj: Object = data;
+        console.log(obj);
+        
+        this.roleEditForm.setValue({}, obj);
+      })
+  }
 
 }

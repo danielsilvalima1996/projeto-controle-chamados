@@ -10,7 +10,7 @@ import { Role } from 'src/app/interfaces/role.model';
 })
 export class RolesService {
   private relativeLink = '/role';
-  private url = `${environment.url.apirest}/${this.relativeLink}`;
+  private url = `${environment.url.apirest}${this.relativeLink}`;
 
   constructor(
     private http: HttpClient
@@ -35,7 +35,11 @@ export class RolesService {
     //     },
     //   ]
     // )
-    return this.http.get(`${environment.url.apirest}${this.relativeLink}?${parameters}`) as Observable<Pageable<Role>>;
+    return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<Role>>;
+  }
+
+  findById(id: number): Observable<Role> {
+    return this.http.get(`${this.url}/${id}`) as Observable<Role>;
   }
 
   addRoles(obj: any) {
