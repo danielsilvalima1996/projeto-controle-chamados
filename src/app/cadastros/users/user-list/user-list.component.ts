@@ -51,14 +51,18 @@ export class UserListComponent implements OnInit {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
       { label: 'USUÁRIO', value: 'userName' },
-      { label: 'E-MAIL', value: 'userEmail' },
-      { label: 'REGRA', value: 'regra' },
-      { label: 'STATUS', value: 'status' }
+      { label: 'ATIVO', value: 'active' }
+    ],
+    filtro: <PoSelectOption[]>[
+      { label: 'SIM', value: 'true' },
+      { label: 'NÃO', value: 'false' }
     ]
   }
 
   constValue = {
-    selecionado:''
+    selecionado:'',
+    input: <Boolean>true,
+    select:<Boolean>false,
   }
 
   constructor(
@@ -71,7 +75,25 @@ export class UserListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getUser()
+    this.controls.pesquisa
+      .valueChanges.subscribe((data) => {
+        this.tipoForm(data);
+      })
+    this.getUser();
+  }
+
+  get controls() {
+    return this.userform.controls;
+  }
+
+  tipoForm(tipo) {
+    if (tipo == 'active') {
+      this.constValue.input = false;
+      this.constValue.select = true;
+    } else {
+      this.constValue.input = true;
+      this.constValue.select = false;
+    }
   }
 
   private getUser() {

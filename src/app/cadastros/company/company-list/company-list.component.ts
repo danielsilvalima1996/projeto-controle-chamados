@@ -53,14 +53,18 @@ export class CompanyListComponent implements OnInit {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
       { label: 'NOME FANTASIA', value: 'nomeFantasia' },
-      { label: 'RAZÃO SOCIAL', value: 'razaoSocial' },
-      { label: 'CONTATO', value: 'contato' }
-
+      { label: 'ATIVO', value: 'active' }
+    ],
+    filtro: <PoSelectOption[]>[
+      { label: 'SIM', value: 'true' },
+      { label: 'NÃO', value: 'false' }
     ]
   }
 
   constValue = {
-    itemSelecionado: ''
+    itemSelecionado: '',
+    input: <Boolean>true,
+    select: <Boolean>false
   }
 
   constructor(
@@ -73,6 +77,10 @@ export class CompanyListComponent implements OnInit {
 
 
   ngOnInit() {
+    this.controls.pesquisa.valueChanges
+    .subscribe((data)=>{
+      this.tipoForm(data);
+    })
     this.getCompany()
   }
 
@@ -85,6 +93,20 @@ export class CompanyListComponent implements OnInit {
   }
 
   searchdata() {
+  }
+
+  get controls() {
+    return this.companyform.controls
+  }
+
+  tipoForm(tipo) {
+    if (tipo == 'active') {
+      this.constValue.input = false;
+      this.constValue.select = true;
+    } else {
+      this.constValue.input = true;
+      this.constValue.select = false;
+    }
   }
 
   getSelected(event) {

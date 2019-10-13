@@ -51,14 +51,19 @@ export class AnalistaListComponent implements OnInit {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
       { label: 'ANALISTA', value: 'analista' },
-      { label: 'E-MAIL', value: 'email' },
-      { label: 'STATUS', value: 'status' }
+      { label: 'STATUS', value: 'active' }
+    ],
+    filtro: <PoSelectOption[]>[
+      { label: 'SIM', value:'true'},
+      { label: 'NÃO', value: 'false'}
     ]
   }
 
   constValue = {
     itemSelecionado: '',
-    analistaId:''
+    analistaId:'',
+    input: <Boolean>true,
+    select: <Boolean>false
   }
 
   constructor(
@@ -72,6 +77,10 @@ export class AnalistaListComponent implements OnInit {
 
 
   ngOnInit() {
+    this.controls.pesquisa
+    .valueChanges.subscribe((data) => {
+      this.tipoForm(data);
+    })
     this.getAnalista()
 
   }
@@ -80,8 +89,18 @@ export class AnalistaListComponent implements OnInit {
     return this.analistaform.controls;
   }
 
+  tipoForm(tipo) {
+    if (tipo == 'active') {
+      this.constValue.input = false;
+      this.constValue.select = true;
+    } else {
+      this.constValue.input = true;
+      this.constValue.select = false;
+    }
+  }
+
    getAnalista() {
-    this.analistaService.getAnalista()
+    this.analistaService.getAnalistaChumbado()
       .subscribe((data:any) => {
         this.table.items = data
         // console.log(data)

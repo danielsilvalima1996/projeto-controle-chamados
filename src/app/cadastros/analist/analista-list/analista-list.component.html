@@ -1,14 +1,21 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
     <form [formGroup]="analistaform">
         <div class="po-row">
-            <po-select class="po-md-2" p-label="Pesquisar por:" [p-options]="selects.pesquisa" formControlName="pesquisa"></po-select>
-            <po-input class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
+            <po-combo class="po-md-2" p-filter-mode="contains" p-label="Pesquisar por:" [p-options]="selects.pesquisa"
+                formControlName="pesquisa">
+            </po-combo>
+            <po-input *ngIf="constValue.input" class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
+            <po-combo *ngIf="constValue.select" class="po-md-2" p-filter-mode="contains" p-label="Filtro"
+                [p-options]="selects.filtro" formControlName="filtro">
+            </po-combo>
+
             <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (click)="searchData()">
             </po-button>
         </div>
     </form>
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
-        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-checkbox="true" p-single-select="true">
+        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()"
+        p-checkbox="true" p-single-select="true">
     </po-table>
 
 </po-page-default>

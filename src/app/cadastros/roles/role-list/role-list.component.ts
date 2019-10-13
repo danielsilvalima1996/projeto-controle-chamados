@@ -48,9 +48,9 @@ export class RoleListComponent implements OnInit {
 
   selects = {
     pesquisa: <PoSelectOption[]>[
-      { label: 'Id', value: 'id' },
-      { label: 'Nome', value: 'name' },
-      { label: 'Ativo', value: 'active' }
+      { label: 'ID', value: 'id' },
+      { label: 'NOME', value: 'name' },
+      { label: 'ATIVO', value: 'active' }
     ],
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },

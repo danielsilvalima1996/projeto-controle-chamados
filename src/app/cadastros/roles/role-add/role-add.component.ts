@@ -22,7 +22,7 @@ export class RoleAddComponent implements OnInit {
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
         { label: 'Home' },
-        { label: 'Configurações' },
+        { label: 'Cadastros' },
         { label: 'Regras' },
         { label: 'Adicionar Regra' },
       ]

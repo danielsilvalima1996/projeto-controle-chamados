@@ -24,7 +24,7 @@ export class RoleEditComponent implements OnInit {
     {
       items: [
         { label: 'Home' },
-        { label: 'Configurações' },
+        { label: 'Cadastros' },
         { label: 'Regras' },
         { label: 'Editar Regras' }
       ]
