@@ -9,7 +9,7 @@
                 [p-options]="selects.filtro" formControlName="filtro">
             </po-combo>
 
-            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (click)="searchData()">
+            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (click)="getAnalista(this.analistaform.value)">
             </po-button>
         </div>
     </form>

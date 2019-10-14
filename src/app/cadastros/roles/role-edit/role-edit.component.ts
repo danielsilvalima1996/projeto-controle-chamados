@@ -50,8 +50,7 @@ export class RoleEditComponent implements OnInit {
 
   constValue = {
     action: '',
-    id: '',
-    name: ''
+    id: ''
   }
 
 
@@ -73,17 +72,6 @@ export class RoleEditComponent implements OnInit {
         this.constValue.action = params.get('action');
         this.constValue.id = params.get('id');
 
-        // let obj = {
-        //   id: this.constValue.id,
-        //   name: this.constValue.name,
-        //   active: ''
-        // }
-
-        // this.roleService.getRoles()
-        //   .subscribe((data) => {
-        //     this.roleEditForm.setValue(Object.assign({}, data.content))
-        //   })
-
       })
       this.findById(this.constValue.id);
   }
@@ -97,7 +85,6 @@ export class RoleEditComponent implements OnInit {
       .findById(id)
       .subscribe((data) => {
         let obj: Object = data;
-        console.log(obj);
         
         this.roleEditForm.setValue({}, obj);
       })

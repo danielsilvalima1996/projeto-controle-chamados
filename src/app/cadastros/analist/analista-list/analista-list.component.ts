@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAction, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
+import { UtilService } from 'src/app/services/utils/util-service/util.service';
 
 @Component({
   selector: 'app-analista-list',
@@ -33,9 +34,9 @@ export class AnalistaListComponent implements OnInit {
       { property: 'nome', label: 'Nome', width: '20%' },
       { property: 'email', label: 'E-mail', width: '20%' },
       { property: 'matricula', label:'Matricula', width:'10%'},
-      { property: 'created', label: 'Criado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modified', label: 'Modificado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'active', label: 'Ativo', width: '10%', type:'boolean' }
+      { property: 'criado', label: 'Criado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modificado', label: 'Modificado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'ativo', label: 'Ativo', width: '10%', type:'boolean' }
     ],
     items: [],
     height: 0,
@@ -43,8 +44,8 @@ export class AnalistaListComponent implements OnInit {
   }
 
   analistaform: FormGroup = this.fb.group({
-    filtro: ['', [Validators.required]],
-    pesquisa: ['']
+    filtro: ['', []],
+    pesquisa: ['',[]]
   })
 
   selects = {
@@ -71,7 +72,8 @@ export class AnalistaListComponent implements OnInit {
     private analistaService: AnalistaService,
     private router: Router,
     private notificationService: PoNotificationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private utilService: UtilService
   ) { }
 
 
@@ -81,7 +83,7 @@ export class AnalistaListComponent implements OnInit {
     .valueChanges.subscribe((data) => {
       this.tipoForm(data);
     })
-    this.getAnalista()
+    this.getAnalista(this.analistaform.value)
 
   }
 
@@ -99,18 +101,13 @@ export class AnalistaListComponent implements OnInit {
     }
   }
 
-   getAnalista() {
-    this.analistaService.getAnalistaChumbado()
+   getAnalista(form?) {
+    this.analistaService.getAnalista(this.utilService.getParameters(form))
       .subscribe((data:any) => {
-        this.table.items = data
-        // console.log(data)
+        this.table.items = data.content;
+        console.log(data.content)
       })
 
-  }
-
-  searchData() {
-    let busca: string = `${this.controls.pesquisa.value}=${this.controls.filtro.value}`;
-    this.getAnalista();
   }
 
   getSelected(event) {

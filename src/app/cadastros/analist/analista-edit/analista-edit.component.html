@@ -5,12 +5,12 @@
             <po-input class="po-md-2" p-label="ID" p-readonly="true" formControlName="id"></po-input>
             <po-input class="po-md-3" p-label="Nome Analista" p-readonly="true" formControlName="nome">
             </po-input>
-            <po-input class="po-md-1" p-label="Matricula" p-readonly="true" formControlName="matricula">
+            <po-input class="po-md-2" p-label="Matricula" p-readonly="true" formControlName="matricula">
             </po-input>
             <po-input class="po-md-3" p-label="Email Analista" p-readonly="true" formControlName="email">
             </po-input>
             <po-password class="po-md-2" p-label="Senha" p-error-pattern="Insira no mínimo 7 caracteres" formControlName="senha"></po-password>
-            <po-combo class="po-md-2" p-placeholder="Status" p-label="Status" [p-options]="page.statusOptions" formControlName="active"></po-combo>
+            <po-combo class="po-md-2" p-placeholder="Status" p-label="Status" [p-options]="page.statusOptions" formControlName="ativo"></po-combo>
         </div> 
     </form>
 </po-page-default>

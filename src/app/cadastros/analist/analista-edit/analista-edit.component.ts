@@ -46,9 +46,9 @@ export class AnalistaEditComponent implements OnInit {
     email: [''],
     matricula: [''],
     senha: ['', [Validators.required, Validators.minLength(7)]],
-    active: ['', [Validators.required]],
-    created: [''],
-    modified: ['']
+    ativo: ['', [Validators.required]],
+    criado: [''],
+    modificado: ['']
 
   })
 
@@ -69,57 +69,43 @@ export class AnalistaEditComponent implements OnInit {
         this.constValue.action = params.get('action');
         this.constValue.analistaId = params.get('id');
 
-        this.analistaService.editarAnalista()
-          .subscribe((data: any) => {
-            let arr: Array<any> = data;
-            arr.map((item: any) => {
-              console.log(item);
+        // this.analistaService.editarAnalista()
+        //   .subscribe((data: any) => {
+        //     let arr: Array<any> = data;
+        //     arr.map((item: any) => {
+        //       console.log(item);
 
-              let obj = {
-                id: this.constValue.analistaId,
-                nome: item.nome,
-                email: item.email,
-                matricula: item.matricula,
-                senha: '',
-                created: '',
-                modified: '',
-                active: item.active
-              }
-              // console.log(obj);
-              this.editAnalistaForm.setValue(obj)
+        //       let obj = {
+        //         id: this.constValue.analistaId,
+        //         nome: item.nome,
+        //         email: item.email,
+        //         matricula: item.matricula,
+        //         senha: '',
+        //         created: '',
+        //         modified: '',
+        //         active: item.active
+        //       }
+        //       // console.log(obj);
+        //       this.editAnalistaForm.setValue(obj)
 
 
-            })
+        //     })
 
-          })
+        //   })
       })
+
+      this.findById(this.constValue.analistaId)
   }
 
-  //  updateAnalista() {
-  //   let value = this.editAnalistaForm.value;
-  //   console.log(value);
-
-
-  //   if (value.name === '') {
-  //     this.notification.error('Favor Inserir o nome');
-  //     return;
-  //     console.log(value.name);
-  //   }
-
-  //   if (value.name.length < 3) {
-  //     this.notification.warning('Nome precisa ter mais de 3 letras');
-  //     return;
-  //   } else {
-  //     this.analistaService.atualizarAnalista()
-  //       .subscribe((data) => {
-  //         this.notification.success('User successfully updated');
-  //         this.router.navigate([this.constValue.relativeLink]);
-  //       },
-  //         (error) => {
-  //           this.notification.error(error.error.meta.description);
-  //         });
-  //   }
-  // }
+  private findById(id) {
+    this.analistaService
+      .findById(id)
+      .subscribe((data) => {
+        let obj: Object = data;
+        
+        this.editAnalistaForm.setValue({}, obj);
+      })
+  }
 
 
 }

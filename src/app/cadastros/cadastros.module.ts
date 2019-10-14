@@ -16,6 +16,8 @@ import { RoleAddComponent } from './roles/role-add/role-add.component';
 import { RoleEditComponent } from './roles/role-edit/role-edit.component';
 import { RoleListComponent } from './roles/role-list/role-list.component';
 import { UserListComponent } from './users/user-list/user-list.component';
+import { TipoChamadoComponent } from './tipo-chamado/tipo-chamado.component';
+import { SubtipoChamadoComponent } from './subtipo-chamado/subtipo-chamado.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { UserListComponent } from './users/user-list/user-list.component';
     RoleAddComponent,
     RoleEditComponent,
     RoleListComponent,
-    UserListComponent
+    UserListComponent,
+    TipoChamadoComponent,
+    SubtipoChamadoComponent
   ],
   imports: [
     CommonModule,
