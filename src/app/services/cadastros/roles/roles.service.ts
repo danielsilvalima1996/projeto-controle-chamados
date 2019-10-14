@@ -17,25 +17,28 @@ export class RolesService {
   ) { }
 
   getRoles(parameters?: any): Observable<Pageable<Role>> {
-    // return of(
-    //   [
-    //     {
-    //       "id": "1",
-    //       "name": "Admnistrador",
-    //       "active": true,
-    //       "created": "2019-09-14",
-    //       "modified": "2019-09-14"
-    //     },
-    //     {
-    //       "id": "2",
-    //       "name": "Analista",
-    //       "active":true,
-    //       "created": "2019-09-14",
-    //       "modified": "2019-09-14"
-    //     },
-    //   ]
-    // )
-    return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<Role>>;
+     return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<Role>>;
+  }
+
+  getRolesChumbado(){
+       return of(
+      [
+        {
+          "id": "1",
+          "name": "Admnistrador",
+          "active": true,
+          "created": "2019-09-14",
+          "modified": "2019-09-14"
+        },
+        {
+          "id": "2",
+          "name": "Analista",
+          "active":true,
+          "created": "2019-09-14",
+          "modified": "2019-09-14"
+        },
+      ]
+    )
   }
 
   findById(id: number): Observable<Role> {
