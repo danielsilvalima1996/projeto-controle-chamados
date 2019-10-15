@@ -12,13 +12,18 @@ import { Empresa } from 'src/app/interfaces/empresa.model';
 export class EmpresaService {
 
   private relativeLink = 'empresa';
+  private url = `${environment.url.apirest}/${this.relativeLink}`;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getEmpresa(): Observable<Pageable<Empresa>> {
-    return this.http.get(`${environment.url.apirest}/${this.relativeLink}`) as Observable<Pageable<Empresa>>;
+  getEmpresa(parameters: any): Observable<Pageable<Empresa>> {
+    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Pageable<Empresa>>;
+  }
+
+  createEmpresa(obj: any) {
+    return this.http.post(`${this.url}`, obj);
   }
 
   

@@ -1,20 +1,29 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
     <po-divider p-label="Dados Cadastrais"></po-divider>
 
-    <form [formGroup]="companyaddForm">
-        <div class="po-row">
-            <po-number formControlName="cnpj" p-required="true" p-label="CNPJ" class="po-md-4"></po-number>
-            <po-input formControlName="razaoSocial" p-required="true" p-label="Razão Social" class="po-md-4"></po-input>
-            <po-input formControlName="nomeFantasia" p-required="true" p-label="Nome Fantasia" class="po-md-4">
-            </po-input>
-            <po-input formControlName="endereco" p-required="true" p-label="Endereço" class="po-md-3">
-            </po-input>
-            <po-input formControlName="admin" p-required="true" p-label="Contato Empresa" class="po-md-3"></po-input>
-            <po-input formControlName="telefone" p-required="true" p-label="Telefone" class="po-md-3">
-            </po-input>
-            <po-select formControlName="status" p-required="true" p-label="Status" [p-options]="page.statusOptions"
-                class="po-md-3"></po-select>
-        </div>
+    <form [formGroup]="companyAddForm" class="po-row">
+        <po-input class="po-md-4" formControlName="cnpj" p-label="CNPJ"  p-mask="99.999.999/9999-99"></po-input>
+        <po-input class="po-md-4" formControlName="razaoSocial" p-label="Razão Social" ></po-input>
+        <po-input class="po-md-4" formControlName="nomeFantasia" p-label="Nome Fantasia" >
+        </po-input>
+        <po-input class="po-md-3" formControlName="endereco" p-label="Endereço" >
+        </po-input>
+        <po-input class="po-md-2" p-label="Código Totvs" formControlName="codigoTotvs"></po-input>
+        <po-input class="po-md-3" formControlName="admin" p-label="Contato Empresa"></po-input>
+        <po-input class="po-md-3" formControlName="telefone" p-label="Telefone" p-mask="(99) 9999-9999">
+        </po-input>
+        <po-input class="po-md-3" formControlName="celular" p-label="Celular" p-mask="(99) 99999-9999">
+        </po-input>
+        <po-combo class="po-md-3" formControlName="ativo" p-label="Ativo" [p-options]="selects.active"></po-combo>
     </form>
+
+    <!--     cnpj: ['', [Validators.required]],
+    nomeFantasia: ['', [Validators.required]],
+    razaoSocial: ['', [Validators.required]],
+    endereco: ['', [Validators.required]],
+    codigoTotvs: ['', [Validators.required]],
+    admin: ['', [Validators.required]],
+    telefone: ['', [Validators.required]],
+    ativo: ['', [Validators.required]] -->
 
 </po-page-default>

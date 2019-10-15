@@ -28,8 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PoTableModule
   ],
   exports: [
-    PaginationComponent,
-    
+    PaginationComponent
   ]
 })
 export class SharedModule { }

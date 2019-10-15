@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
+import { PoNotificationService, PoPageDefault, PoSelectOption } from '@portinari/portinari-ui';
+import { Empresa } from 'src/app/interfaces/empresa.model';
 
 @Component({
   selector: 'app-company-add',
@@ -9,9 +12,9 @@ import { Location } from '@angular/common';
 })
 export class CompanyAddComponent implements OnInit {
 
-  page = {
+  page: PoPageDefault = {
     actions: [
-      { label: 'Salvar', action: () => { } },
+      { label: 'Salvar', disabled: true, action: () => { this.registrarEmpresa(this.companyAddForm.value) } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -24,32 +27,53 @@ export class CompanyAddComponent implements OnInit {
         { label: 'Adicionar Empresas' },
       ]
     },
-    statusOptions: [
-      { label: 'ATIVO', value: true },
-      { label: 'INATIVO', value: false }
+  }
+
+  selects = {
+    active: <PoSelectOption[]>[
+      { label: 'ATIVO', value: 'true ' },
+      { label: 'INATIVO', value: 'false' }
     ]
   }
 
-
-  companyaddForm: FormGroup = this.fb.group({
-    cnpj:['',[Validators.required]],
-    nomeFantasia:['',[Validators.required]],
-    razaoSocial:['',[Validators.required]],
-    endereco:['',[Validators.required]],
-    admin:['',[Validators.required]],
-    telefone:['',[Validators.required]],
-    created:['',[Validators.required]],
-    modified:['',[Validators.required]],
-    status:['',[Validators.required]]
-
+  companyAddForm: FormGroup = this.fb.group({
+    cnpj: ['', [Validators.required]],
+    nomeFantasia: ['', [Validators.required]],
+    razaoSocial: ['', [Validators.required]],
+    endereco: ['', [Validators.required]],
+    codigoTotvs: ['', [Validators.required]],
+    admin: ['', [Validators.required]],
+    telefone: ['', [Validators.required]],
+    celular: ['', [Validators.required]],
+    ativo: ['', [Validators.required]]
   });
 
   constructor(
     private fb: FormBuilder,
-    private location: Location
+    private location: Location,
+    private empresaService: EmpresaService,
+    private notificationService: PoNotificationService
   ) { }
 
   ngOnInit() {
+    this.companyAddForm.
+      valueChanges.subscribe((data) => {
+        this.page.actions[0].disabled = this.companyAddForm.invalid;
+      })
+  }
+
+  registrarEmpresa(empresa) {
+    if (this.companyAddForm.invalid) {
+      this.notificationService.warning('Formulário Inválido!');
+      return;
+    } else {
+      this.empresaService
+        .createEmpresa(empresa)
+        .subscribe((data) => {
+          this.notificationService.success('Empresa cadastrada com sucesso!');
+          this.location.back();
+        })
+    }
   }
 
 }

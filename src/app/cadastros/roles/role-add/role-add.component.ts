@@ -14,7 +14,7 @@ export class RoleAddComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Salvar', disabled:true, action: () => { this.addRole() } },
+      { label: 'Salvar', disabled: true, action: () => { this.addRole() } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -33,9 +33,10 @@ export class RoleAddComponent implements OnInit {
     ]
   }
 
-  roleaddForm: FormGroup = this.fb.group({
-    nomeRegra: ['', [Validators.required,Validators.minLength(7), Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$')]],
-    status: ['', [Validators.required]],
+  roleAddForm: FormGroup = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(5),
+    Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$')]],
+    active: ['', [Validators.required]],
   });
 
   constructor(
@@ -46,21 +47,28 @@ export class RoleAddComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.roleaddForm.valueChanges.subscribe((_) => {
-      this.page.actions[0].disabled = this.roleaddForm.invalid;
+    this.roleAddForm.valueChanges.subscribe((_) => {
+      this.page.actions[0].disabled = this.roleAddForm.invalid;
     })
   }
 
-   addRole() {
-    this.roleService.addRoles(this.roleaddForm.value)
-      .subscribe((data) => {
-        this.notificationService.success('Regra Salva com Sucesso');
-        this.location.back();
-      },
-        (error: HttpErrorResponse) => {
-          this.notificationService.error(error.error.meta.message);
-        }
-      );
+  addRole() {
+    if (this.roleAddForm.invalid) {
+      this.notificationService.warning('Formulário Inválido!');
+      return;
+    }
+    else {
+      this.roleService
+        .addRoles(this.roleAddForm.value)
+        .subscribe((data) => {
+          this.notificationService.success('Regra Salva com Sucesso');
+          this.location.back();
+        },
+          (error: HttpErrorResponse) => {
+            this.notificationService.error(error.error.meta.message);
+          }
+        );
+    }
   }
 
 }
