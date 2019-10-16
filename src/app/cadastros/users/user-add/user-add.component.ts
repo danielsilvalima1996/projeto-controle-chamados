@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem } from '@portinari/portinari-ui';
+import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService } from '@portinari/portinari-ui';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
+import { UserService } from 'src/app/services/cadastros/users/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-add',
@@ -12,7 +14,7 @@ export class UserAddComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Salvar', disabled:true, action: () => { } },
+      { label: 'Salvar', disabled:true, action: () => { this.addUser()} },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -32,21 +34,42 @@ export class UserAddComponent implements OnInit {
   }
 
   useraddForm: FormGroup = this.fb.group({
-    userName: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(10)]],
-    userEmail: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
-    senha: ['', [Validators.required,Validators.minLength(7)]],
-    status: ['', [Validators.required]],
+    username: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(5)]],
+    email: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
+    password: ['', [Validators.required,Validators.minLength(5)]],
+    active: ['', [Validators.required]],
   });
 
   constructor(
     private fb: FormBuilder,
-    private location: Location
+    private location: Location,
+    private notificationService: PoNotificationService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
     this.useraddForm.valueChanges.subscribe((_) => {
       this.page.actions[0].disabled = this.useraddForm.invalid;
     })
+  }
+
+  addUser() {
+    if (this.useraddForm.invalid) {
+      this.notificationService.warning('Formulário Inválido!');
+      return;
+    }
+    else {
+      this.userService
+        .addUser(this.useraddForm.value)
+        .subscribe((data) => {
+          this.notificationService.success('Usuário Cadastrado com Sucesso');
+          this.location.back();
+        },
+          (error: HttpErrorResponse) => {
+            this.notificationService.error(error.error.meta.message);
+          }
+        );
+    }
   }
 
 }

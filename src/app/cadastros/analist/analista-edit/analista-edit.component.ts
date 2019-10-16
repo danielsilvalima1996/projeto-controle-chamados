@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
+import { Analista } from 'src/app/interfaces/analista.model';
 
 @Component({
   selector: 'app-analista-edit',
@@ -16,7 +17,7 @@ export class AnalistaEditComponent implements OnInit {
   page = {
     title: 'Editar Analista',
     actions: [
-      { label: 'Salvar', disabled: true, action: () => { } },
+      { label: 'Salvar', disabled: true, action: () => { this.saveRole(this.editAnalistaForm.value) } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -36,8 +37,6 @@ export class AnalistaEditComponent implements OnInit {
 
   constValue = {
     analistaId: '',
-    action: '',
-    // relativeLink:'analista-list'
   }
 
   editAnalistaForm: FormGroup = this.fb.group({
@@ -45,7 +44,6 @@ export class AnalistaEditComponent implements OnInit {
     nome: [''],
     email: [''],
     matricula: [''],
-    senha: ['', [Validators.required, Validators.minLength(7)]],
     ativo: ['', [Validators.required]],
     criado: [''],
     modificado: ['']
@@ -57,55 +55,51 @@ export class AnalistaEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private analistaService: AnalistaService,
-    private utilService: UtilService,
     private notification: PoNotificationService,
-    private router: Router
   ) { }
 
   ngOnInit() {
-    this.page.actions[0].disabled = this.editAnalistaForm.invalid;
+    this.editAnalistaForm.valueChanges.subscribe((_) => {
+      this.page.actions[0].disabled = this.editAnalistaForm.invalid;
+    })
     this.route.paramMap
       .subscribe((params: ParamMap) => {
-        this.constValue.action = params.get('action');
         this.constValue.analistaId = params.get('id');
-
-        // this.analistaService.editarAnalista()
-        //   .subscribe((data: any) => {
-        //     let arr: Array<any> = data;
-        //     arr.map((item: any) => {
-        //       console.log(item);
-
-        //       let obj = {
-        //         id: this.constValue.analistaId,
-        //         nome: item.nome,
-        //         email: item.email,
-        //         matricula: item.matricula,
-        //         senha: '',
-        //         created: '',
-        //         modified: '',
-        //         active: item.active
-        //       }
-        //       // console.log(obj);
-        //       this.editAnalistaForm.setValue(obj)
-
-
-        //     })
-
-        //   })
       })
-
       this.findById(this.constValue.analistaId)
   }
+
+  get controls() {
+    return this.editAnalistaForm.controls;
+  }
+
 
   private findById(id) {
     this.analistaService
       .findById(id)
       .subscribe((data) => {
-        let obj: Object = data;
+        console.log(data);
         
-        this.editAnalistaForm.setValue({}, obj);
+        data.criado = new Date(data.criado);
+        data.modificado = new Date(data.modificado);
+        this.editAnalistaForm.setValue(data);
+        data.ativo == true ? this.controls.active.setValue('true') : this.controls.active.setValue('false');
       })
   }
+
+   saveRole(analista: Analista) {
+    this.analistaService
+      .alterAnalista(analista)
+      .subscribe((data) => {
+        this.notification.success('Analista alterado com sucesso!');
+        this.location.back();
+      },
+        (error: any) => {
+          this.notification.error('Erro ao salvar analista!');
+        })
+  }
+
+
 
 
 }

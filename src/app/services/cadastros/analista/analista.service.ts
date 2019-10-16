@@ -92,4 +92,8 @@ export class AnalistaService {
     return this.http.post(`${this.url}`, obj);
   }
 
+  alterAnalista(analista: Analista) {
+    return this.http.put(`${this.url}`, analista);
+  }
+
 }

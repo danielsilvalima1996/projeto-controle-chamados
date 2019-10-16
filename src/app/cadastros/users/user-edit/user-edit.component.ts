@@ -68,40 +68,12 @@ export class UserEditComponent implements OnInit {
       })
     })
     
-    this.route.paramMap
-      .subscribe((params: ParamMap) => {
-        this.constValue.id = params.get('id');
+  //   this.route.paramMap
+  //     .subscribe((params: ParamMap) => {
+  //       this.constValue.id = params.get('id');
 
-        this.userService.editUser()
-        .subscribe((data: any) => {
-          let arr: Array<any> = data;
-          arr.map((item: any) => {
-            // console.log(item);
-            Object.keys(item).map((data)=>{
-              item[data] = item[data];
-              console.log(item[data])
-            })
+       
+  // }}
 
-            let obj = {
-            id:this.constValue.id,
-            username:item.username,
-            email:item.email,
-            idEmpresa:item.idEmpresa,
-            regra:item.regra,
-            senha:'',
-            created:'',
-            modified:'',
-            ativo:item.ativo
-            }
-            console.log(obj);
-            this.editUserForm.setValue(obj)
-           
-            
-          })
-  
-        })
-
-      })
-  }
-
+}
 }

@@ -49,7 +49,6 @@ export class RoleEditComponent implements OnInit {
   })
 
   constValue = {
-    action: '',
     id: ''
   }
 
@@ -59,7 +58,6 @@ export class RoleEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private roleService: RolesService,
-    private utilService: UtilService,
     private notificationService: PoNotificationService
   ) { }
 
