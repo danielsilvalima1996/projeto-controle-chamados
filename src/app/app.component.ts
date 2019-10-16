@@ -13,10 +13,12 @@ export class AppComponent {
     {
       label: 'Cadastros', shortLabel: 'Cadastros', icon: 'po-icon po-icon-document-filled',
       subItems: [
-        { label: 'Analistas', shortLabel: 'Analistas', link: 'cadastros/analista-list', icon: 'po-icon po-icon-document-filled' },
-        { label: 'Empresas', shortLabel: 'Empresas', link: 'cadastros/empresa-list', icon: 'po-icon po-icon-document-filled' },
-        { label: 'Usuários', shortLabel: 'Usuários', link: 'cadastros/user-list', icon: 'po-icon po-icon-users' },
-        { label: 'Regras', shortLabel: 'Regras', link: 'cadastros/role-list', icon: 'po-icon po-icon-minus' },
+        { label: 'Analistas', shortLabel: 'Analistas', link: 'cadastros/analista', icon: 'po-icon po-icon-document-filled' },
+        { label: 'Empresas', shortLabel: 'Empresas', link: 'cadastros/empresa', icon: 'po-icon po-icon-document-filled' },
+        { label: 'Usuários', shortLabel: 'Usuários', link: 'cadastros/user', icon: 'po-icon po-icon-users' },
+        { label: 'Regras', shortLabel: 'Regras', link: 'cadastros/role', icon: 'po-icon po-icon-minus' },
+        { label: 'Tipo Chamado', shortLabel: 'Tipo Chamado', link: 'cadastros/tipo-chamado', icon: 'po-icon po-icon-minus' },
+        { label: 'SubTipo Chamado', shortLabel: 'SubTipo Chamado', link: 'cadastros/subtipo-chamado', icon: 'po-icon po-icon-minus' },
       ]
     },
     {

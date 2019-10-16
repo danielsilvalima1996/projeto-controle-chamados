@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubtipoChamadoComponent } from './subtipo-chamado.component';
+import { TipoChamadoListComponent } from './tipo-chamado-list.component';
 
-describe('SubtipoChamadoComponent', () => {
-  let component: SubtipoChamadoComponent;
-  let fixture: ComponentFixture<SubtipoChamadoComponent>;
+describe('TipoChamadoListComponent', () => {
+  let component: TipoChamadoListComponent;
+  let fixture: ComponentFixture<TipoChamadoListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SubtipoChamadoComponent ]
+      declarations: [ TipoChamadoListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SubtipoChamadoComponent);
+    fixture = TestBed.createComponent(TipoChamadoListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

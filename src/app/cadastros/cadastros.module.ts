@@ -16,8 +16,12 @@ import { RoleAddComponent } from './roles/role-add/role-add.component';
 import { RoleEditComponent } from './roles/role-edit/role-edit.component';
 import { RoleListComponent } from './roles/role-list/role-list.component';
 import { UserListComponent } from './users/user-list/user-list.component';
-import { TipoChamadoComponent } from './tipo-chamado/tipo-chamado.component';
-import { SubtipoChamadoComponent } from './subtipo-chamado/subtipo-chamado.component';
+import { TipoChamadoListComponent } from './tipo-chamado/tipo-chamado-list/tipo-chamado-list.component';
+import { TipoChamadoAddComponent } from './tipo-chamado/tipo-chamado-add/tipo-chamado-add.component';
+import { TipoChamadoEditComponent } from './tipo-chamado/tipo-chamado-edit/tipo-chamado-edit.component';
+import { SubtipoChamadoAddComponent } from './subtipo-chamado/subtipo-chamado-add/subtipo-chamado-add.component';
+import { SubtipoChamadoListComponent } from './subtipo-chamado/subtipo-chamado-list/subtipo-chamado-list.component';
+import { SubtipoChamadoEditComponent } from './subtipo-chamado/subtipo-chamado-edit/subtipo-chamado-edit.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +37,12 @@ import { SubtipoChamadoComponent } from './subtipo-chamado/subtipo-chamado.compo
     RoleEditComponent,
     RoleListComponent,
     UserListComponent,
-    TipoChamadoComponent,
-    SubtipoChamadoComponent
+    TipoChamadoListComponent,
+    TipoChamadoAddComponent,
+    TipoChamadoEditComponent,
+    SubtipoChamadoAddComponent,
+    SubtipoChamadoListComponent,
+    SubtipoChamadoEditComponent
   ],
   imports: [
     CommonModule,

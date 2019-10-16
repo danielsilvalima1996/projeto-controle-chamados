@@ -1,9 +1,9 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
     <form [formGroup]="chamadosForm" class="po-row">
         <po-input class="po-md-2" p-label="ID Chamado" formControlName="idChamado" p-readonly="true"></po-input>
-        <po-input class="po-md-2" p-label="ID Empresa" formControlName="idEmpresa" p-readonly="true"></po-input>
-        <po-input class="po-md-2" p-label="ID Analista" formControlName="idAnalista" p-readonly="true"></po-input>
-        <po-input class="po-md-2" p-label="ID Usuário" formControlName="idUsuario"></po-input>
+        <po-input class="po-md-2" p-label="ID Empresa" formControlName="idEmpresa" [p-readonly]="constValue.readonly"></po-input>
+        <po-input class="po-md-2" p-label="ID Analista" formControlName="idAnalista" [p-readonly]="constValue.readonly"></po-input>
+        <po-input class="po-md-2" p-label="ID Usuário" formControlName="idUsuario" [p-readonly]="constValue.readonly"></po-input>
         <po-datepicker class="po-md-2" p-format="dd/MM/yyyy" p-label="Data Abertura" formControlName="dataAbertura"
             [p-readonly]="constValue.readonly"></po-datepicker>
         <po-input class="po-md-2" p-mask="23:59" p-label="Hora Abertura" formControlName="horaAbertura"></po-input>

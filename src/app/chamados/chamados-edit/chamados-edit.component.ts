@@ -22,8 +22,7 @@ export class ChamadosEditComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Externo' },
-        { label: 'Editar' }
+        { label: 'Chamados' }
       ]
     }
   }
@@ -59,16 +58,18 @@ export class ChamadosEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    alert('rota quebrada, verificar, externos e action');
     this.route.paramMap
       .subscribe((paramMap: ParamMap) => {
         this.constValue.action = paramMap.get('acao');
-        this.constValue.tipoChamado = paramMap.get('tipoChamado');
       })
+    if (this.router.url.toString().indexOf('externo') != -1) {
+      this.constValue.tipoChamado = 'externo';
+    } else {
+      this.constValue.tipoChamado = 'interno'
+    }
     this.disabledButton(this.constValue.action);
+
     this.tipoChamado(this.constValue.tipoChamado, this.constValue.action);
-    console.log(this.constValue);
-    
   }
 
   private disabledButton(action: String) {
@@ -79,38 +80,25 @@ export class ChamadosEditComponent implements OnInit {
   }
 
   private tipoChamado(tipoChamado, action) {
-    console.log(action);
-
+    console.log(tipoChamado + " | " + action);
     let item: PoBreadcrumbItem[] = [];
-    if (tipoChamado == 'externo' && action == 'view') {
-      this.page.title = 'Visualizar Chamado Externo';
-      item = [
-        { label: 'Externo' },
-        { label: 'Visualizar' }
-      ]
-    } else if (tipoChamado == 'externo' && action == 'edit') {
+    if (tipoChamado == 'externo' && action == 'edit') {
       this.page.title = 'Editar Chamado Externo';
       item = [
         { label: 'Externo' },
         { label: 'Editar' }
       ]
-    } else if (tipoChamado == 'externo' && action == 'add') {
-      this.page.title = 'Adicionar Chamado Externo';
+    } else if (tipoChamado == 'externo' && action == 'view') {
+      this.page.title = 'Visualizar Chamado Externo';
       item = [
         { label: 'Externo' },
-        { label: 'Adicionar' }
+        { label: 'Visualizar' }
       ]
     } else if (tipoChamado == 'interno' && action == 'view') {
       this.page.title = 'Visualizar Chamado Interno';
       item = [
         { label: 'Interno' },
         { label: 'Visualizar' }
-      ]
-    } else if (tipoChamado == 'interno' && action == 'add') {
-      this.page.title = 'Adicionar Chamado Interno';
-      item = [
-        { label: 'Interno' },
-        { label: 'Adicionar' }
       ]
     } else {
       this.page.title = 'Editar Chamado Interno';
@@ -120,8 +108,7 @@ export class ChamadosEditComponent implements OnInit {
       ]
     }
     item.map((item) => {
-      this.page.breadcrumb.items.push(item);  
+      this.page.breadcrumb.items.push(item);
     })
-    // this.page.breadcrumb.items.push(item);
   }
 }

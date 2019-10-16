@@ -6,12 +6,14 @@ import { ChamadosListComponent } from './chamados-list/chamados-list.component';
 import { ChamadosEditComponent } from './chamados-edit/chamados-edit.component';
 import { PoPageModule, PoTableModule, PoFieldModule, PoButtonModule } from '@portinari/portinari-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChamadosAddComponent } from './chamados-add/chamados-add.component';
 
 
 @NgModule({
   declarations: [
     ChamadosListComponent,
-    ChamadosEditComponent
+    ChamadosEditComponent,
+    ChamadosAddComponent
   ],
   imports: [
     CommonModule,

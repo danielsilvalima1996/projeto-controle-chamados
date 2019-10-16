@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoTableColumn, PoSelectOption } from '@portinari/portinari-ui';
+import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -15,10 +15,19 @@ export class ChamadosListComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Lista de Chamados',
     actions: [
-      { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'chamados/externo/add' },
+      {
+        label: 'Novo', icon: 'po-icon po-icon-plus-circle', action: () => {
+          this.router.navigate(['add'], { relativeTo: this.route });
+        }
+      },
       {
         label: 'Editar', action: () => {
-          this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
+          this.editarChamado();
+        }
+      },
+      {
+        label: 'Visualizar', action: () => {
+          this.visualizarChamado();
         }
       }
     ],
@@ -79,46 +88,17 @@ export class ChamadosListComponent implements OnInit {
     private chamadosService: ChamadosService,
     private utilService: UtilService,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notificationService: PoNotificationService
   ) { }
 
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
-    this.findChamados();
-    this.getChamados();
+    this.findChamados(this.chamadosForm.value);
   }
 
   get controls() {
     return this.chamadosForm.controls;
-  }
-
-  getChamados() {
-    switch (this.controls.pesquisa.value) {
-      case 'id':
-        this.constValue.input = false;
-        this.chamadosService
-        .findById(this.controls.filtro.value)
-        .subscribe((data) => {
-          console.log(data);
-          
-          this.table.items = data;
-        })
-        break;
-      case 'analista':
-
-        break;
-      case 'status':
-
-        break;
-      case 'assunto':
-
-        break;
-      case 'descricao':
-
-        break;
-      default:
-        break;
-    }
   }
 
   selectedTable(event) {
@@ -132,11 +112,31 @@ export class ChamadosListComponent implements OnInit {
 
 
   findChamados(parameters?: any) {
+    this.table.loading = true;
     this.chamadosService
       .findChamados(this.utilService.getParameters(parameters))
       .subscribe((data) => {
         this.table.items = data.content;
+        this.table.loading = false;
       })
+  }
+
+  private visualizarChamado() {
+    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
+      this.notificationService.warning('Selecione um chamado para visualizar!');
+      return;
+    } else {
+      this.router.navigate(['view', this.constValue.selecionado], { relativeTo: this.route });
+    }
+  }
+
+  private editarChamado() {
+    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
+      this.notificationService.warning('Selecione um chamado para editar!');
+      return;
+    } else {
+      this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
+    }
   }
 
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TipoChamadoComponent } from './tipo-chamado.component';
+import { TipoChamadoEditComponent } from './tipo-chamado-edit.component';
 
-describe('TipoChamadoComponent', () => {
-  let component: TipoChamadoComponent;
-  let fixture: ComponentFixture<TipoChamadoComponent>;
+describe('TipoChamadoEditComponent', () => {
+  let component: TipoChamadoEditComponent;
+  let fixture: ComponentFixture<TipoChamadoEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TipoChamadoComponent ]
+      declarations: [ TipoChamadoEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TipoChamadoComponent);
+    fixture = TestBed.createComponent(TipoChamadoEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
