@@ -21,31 +21,35 @@ export class RolesService {
   }
 
   getRolesChumbado(){
-       return of(
-      [
-        {
-          "id": "1",
-          "name": "Admnistrador",
-          "active": true,
-          "created": "2019-09-14",
-          "modified": "2019-09-14"
-        },
-        {
-          "id": "2",
-          "name": "Analista",
-          "active":true,
-          "created": "2019-09-14",
-          "modified": "2019-09-14"
-        },
-      ]
-    )
+  //      return of(
+  //     [
+  //       {
+  //         "id": "1",
+  //         "name": "Admnistrador",
+  //         "active": true,
+  //         "created": "2019-09-14",
+  //         "modified": "2019-09-14"
+  //       },
+  //       {
+  //         "id": "2",
+  //         "name": "Analista",
+  //         "active":true,
+  //         "created": "2019-09-14",
+  //         "modified": "2019-09-14"
+  //       },
+  //     ]
+  //   )
   }
 
   findById(id: number): Observable<Role> {
     return this.http.get(`${this.url}/${id}`) as Observable<Role>;
   }
 
-  addRoles(obj: any) {
-    return this.http.post(`${this.url}`, obj);
+  createRole(role: any) {
+    return this.http.post(`${this.url}`, role);
+  }
+
+  alterRole(role: Role) {
+    return this.http.put(`${this.url}`, role);
   }
 }

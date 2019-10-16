@@ -59,7 +59,7 @@ export class RoleAddComponent implements OnInit {
     }
     else {
       this.roleService
-        .addRoles(this.roleAddForm.value)
+        .createRole(this.roleAddForm.value)
         .subscribe((data) => {
           this.notificationService.success('Regra Salva com Sucesso');
           this.location.back();

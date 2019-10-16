@@ -86,7 +86,7 @@ export class CompanyListComponent implements OnInit {
   }
 
   private getCompany() {
-    this.empresaService.getEmpresa()
+    this.empresaService.getEmpresa('x')
       .subscribe((data: any) => {
         this.table.items = data
       })
