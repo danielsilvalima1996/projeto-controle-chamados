@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PoSelectOption, PoTableAction, PoTableColumn, PoPageDefault } from '@portinari/portinari-ui';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
+import { UtilService } from 'src/app/services/utils/util-service/util.service';
 
 @Component({
   selector: 'app-company-list',
@@ -36,8 +37,8 @@ export class CompanyListComponent implements OnInit {
       { property: 'codigoTotvs', label: 'Codigo Totvs', width: '5%' },
       { property: 'admin', label: 'Contato', width: '10%' },
       { property: 'telefone', label: 'Telefone', width: '10%' },
-      { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'criado', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modificado', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'ativo', label: 'Ativo', width:'5%'}
     ],
     items: [],
@@ -72,7 +73,8 @@ export class CompanyListComponent implements OnInit {
     private fb: FormBuilder,
     private empresaService: EmpresaService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private utilService: UtilService
   ) { }
 
 
@@ -82,18 +84,15 @@ export class CompanyListComponent implements OnInit {
     valueChanges.subscribe((data)=>{
       this.tipoForm(data);
     })
-    this.getCompany()
+    this.getCompany(this.companyform.value)
   }
 
-  private getCompany() {
-    this.empresaService.getEmpresa('x')
+   getCompany(form?) {
+    this.empresaService.getEmpresa(this.utilService.getParameters(form))
       .subscribe((data: any) => {
-        this.table.items = data
+        this.table.items = data.content
       })
 
-  }
-
-  searchdata() {
   }
 
   get controls() {

@@ -3,6 +3,7 @@ import { PoPageDefault, PoSelectOption, PoTableColumn, PoTableAction, PoPageActi
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
+import { UtilService } from 'src/app/services/utils/util-service/util.service';
 
 @Component({
   selector: 'app-user-list',
@@ -33,9 +34,10 @@ export class UserListComponent implements OnInit {
       { property: 'username', label: 'Nome', width: '15%' },
       { property: 'email', label: 'E-mail', width: '25%' },
       { property: 'idEmpresa', label: 'ID Empresa', width: '10%' },
+      { property: 'role', label:'Regra', width:'10%' },
       { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'ativo', label: 'Ativo', width: '10%', type:'boolean' }
+      { property: 'active', label: 'Ativo', width: '10%', type:'boolean' }
     ],
     items: [],
     height: 0,
@@ -72,7 +74,8 @@ export class UserListComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private utilService: UtilService
   ) { }
 
 
@@ -82,7 +85,7 @@ export class UserListComponent implements OnInit {
       .valueChanges.subscribe((data) => {
         this.tipoForm(data);
       })
-    this.getUser();
+    this.getUser(this.userform.value);
   }
 
   get controls() {
@@ -99,15 +102,11 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  private getUser() {
-    this.userService.getUser()
+  private getUser(form?) {
+    this.userService.getUser(this.utilService.getParameters(form))
       .subscribe((data:any) => {
-        this.table.items = data
+        this.table.items = data.content
       })
-  }
-
-  searchData() {
-
   }
 
   getSelected(event) {

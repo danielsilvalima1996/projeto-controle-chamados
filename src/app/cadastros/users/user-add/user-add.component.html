@@ -3,15 +3,15 @@
   
     <form [formGroup]="useraddForm">
       <div class="po-row">
-        <po-input formControlName="userName" p-required="true" p-label="Nome Usuário" class="po-md-4"
-          p-error-pattern="Insira no mínimo 10 caracteres"></po-input>
-        <po-input formControlName="userEmail" p-required="true" p-label="E-mail" class="po-md-4"
+        <po-input formControlName="username" p-required="true" p-label="Nome Usuário" class="po-md-4"
+          p-error-pattern="Insira no mínimo 5 caracteres"></po-input>
+        <po-input formControlName="email" p-required="true" p-label="E-mail" class="po-md-4"
           p-error-pattern="Insira um e-mail válido!"></po-input>
-        <po-password formControlName="senha" p-required="true" p-label="Senha" class="po-md-4" p-error-pattern="Insira no mínimo 7 caracteres"></po-password>
+        <po-password formControlName="password" p-required="true" p-label="Senha" class="po-md-4" p-error-pattern="Insira no mínimo 5 caracteres"></po-password>
       </div>
   
       <div class="po-row">
-        <po-select formControlName="status" p-required="true" p-label="Status" [p-options]="page.statusOptions" class="po-md-3"></po-select>
+        <po-select formControlName="active" p-required="true" p-label="Status" [p-options]="page.statusOptions" class="po-md-3"></po-select>
       </div>
     </form>
   </po-page-default>
