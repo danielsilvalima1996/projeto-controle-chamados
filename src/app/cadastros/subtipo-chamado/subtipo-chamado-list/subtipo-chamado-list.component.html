@@ -1,1 +1,7 @@
-<p>subtipo-chamado-list works!</p>
+<po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
+    <form [formGroup]="subtipoForm">
+        <po-combo class="po-md-2" p-label="Pesquisa" p-filter-mode="contains" p-placeholder="Pesquisa" formControlName="pesquisa" [p-options]="selects.pesquisa"></po-combo>
+        <po-input class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
+        <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="findSubtipoChamado(this.subtipoForm.value)"></po-button>
+    </form>
+</po-page-default>
