@@ -50,8 +50,11 @@ export class UserListComponent implements OnInit {
   selects = {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
-      { label: 'USUÁRIO', value: 'userName' },
-      { label: 'ATIVO', value: 'active' }
+      { label: 'USUÁRIO', value: 'username' },
+      { label: 'E-MAIL', value:'email'},
+      { label: 'ATIVO', value: 'active' },
+      { label: 'ID EMPRESA', value: 'idEmpresa'},
+      { label: 'ID ROLE', value: 'idRole'}
     ],
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },

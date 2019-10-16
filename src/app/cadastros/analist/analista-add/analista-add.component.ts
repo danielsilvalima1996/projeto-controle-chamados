@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem } from '@portinari/portinari-ui';
+import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService } from '@portinari/portinari-ui';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-analista-add',
@@ -12,7 +14,7 @@ export class AnalistaAddComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Salvar', disabled:true, action: () => { } },
+      { label: 'Salvar', disabled:true, action: () => { this.addAnalista() } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -31,23 +33,36 @@ export class AnalistaAddComponent implements OnInit {
     ]
   }
 
-  analistaddForm: FormGroup = this.fb.group({
-    nomeAnalista: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(10)]],
-    emailAnalista: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
-    senha: ['', [Validators.required,Validators.minLength(7)]],
+  analistAddForm: FormGroup = this.fb.group({
+    nome: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(8)]],
+    email: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
     matricula:['',[]],
-    status: ['', [Validators.required]],
+    ativo: ['', [Validators.required]],
   });
 
   constructor(
     private fb: FormBuilder,
-    private location: Location
+    private location: Location,
+    private analistaService: AnalistaService,
+    private notificationService: PoNotificationService
   ) { }
 
   ngOnInit() {
-    this.analistaddForm.valueChanges.subscribe((_) => {
-      this.page.actions[0].disabled = this.analistaddForm.invalid;
+    this.analistAddForm.valueChanges.subscribe((_) => {
+      this.page.actions[0].disabled = this.analistAddForm.invalid;
     })
+  }
+
+  addAnalista() {
+    this.analistaService.addAnalista(this.analistAddForm.value)
+      .subscribe((data) => {
+        this.notificationService.success('Regra Salva com Sucesso');
+        this.location.back();
+      },
+        (error: HttpErrorResponse) => {
+          this.notificationService.error(error.error.meta.message);
+        }
+      );
   }
   
 

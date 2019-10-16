@@ -88,4 +88,8 @@ export class AnalistaService {
     return this.http.get(`${this.url}/${id}`) as Observable<Analista>;
   }
 
+  addAnalista(obj: any) {
+    return this.http.post(`${this.url}`, obj);
+  }
+
 }

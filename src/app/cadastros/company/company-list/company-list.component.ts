@@ -32,12 +32,13 @@ export class CompanyListComponent implements OnInit {
       { property: 'cnpj', label: 'CNPJ', width: '10%' },
       { property: 'razaoSocial', label: 'Razão Social', width: '12.5%' },
       { property: 'nomeFantasia', label: 'Nome Fantasia', width: '12.5%' },
-      { property: 'endereco', label: 'Endereço', width: '15%' },
+      { property: 'endereco', label: 'Endereço', width: '10%' },
       { property: 'codigoTotvs', label: 'Codigo Totvs', width: '5%' },
       { property: 'admin', label: 'Contato', width: '10%' },
       { property: 'telefone', label: 'Telefone', width: '10%' },
       { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' }
+      { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'ativo', label: 'Ativo', width:'5%'}
     ],
     items: [],
     height: 0,
@@ -45,7 +46,7 @@ export class CompanyListComponent implements OnInit {
   }
 
   companyform: FormGroup = this.fb.group({
-    filtro: ['', [Validators.required]],
+    filtro: ['', []],
     pesquisa: ['']
   })
 
@@ -77,8 +78,8 @@ export class CompanyListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.controls.pesquisa.valueChanges
-    .subscribe((data)=>{
+    this.controls.pesquisa.
+    valueChanges.subscribe((data)=>{
       this.tipoForm(data);
     })
     this.getCompany()

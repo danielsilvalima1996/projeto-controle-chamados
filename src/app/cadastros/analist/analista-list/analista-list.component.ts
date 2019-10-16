@@ -51,7 +51,7 @@ export class AnalistaListComponent implements OnInit {
   selects = {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
-      { label: 'ANALISTA', value: 'analista' },
+      { label: 'ANALISTA', value: 'nome' },
       { label: 'STATUS', value: 'active' }
     ],
     filtro: <PoSelectOption[]>[
@@ -112,7 +112,6 @@ export class AnalistaListComponent implements OnInit {
 
   getSelected(event) {
     this.constValue.itemSelecionado = event.id;
-    // console.log(event.id)
   }
 
  getUnSelected() {
