@@ -14,7 +14,7 @@ export class UserListComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'user-list/add' },
+      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'user/add' },
       { label: 'Editar', action: () => {this.router.navigate(['edit', this.constValue.selecionado], {relativeTo:this.route})}}
     ],
 

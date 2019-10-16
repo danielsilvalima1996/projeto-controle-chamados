@@ -14,7 +14,7 @@ export class AnalistaListComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista-list/add' },
+      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista/add' },
       { label: 'Editar', action: () => { this.router.navigate(['edit', this.constValue.itemSelecionado],{relativeTo:this.route}) } },
     ],
 

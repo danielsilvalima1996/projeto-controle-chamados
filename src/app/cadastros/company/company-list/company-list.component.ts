@@ -15,7 +15,7 @@ export class CompanyListComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Cadastro de Empresas',
     actions: [
-      { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa-list/add' },
+      { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa/add' },
       { label: 'Editar', action: () => { this.router.navigate(['edit', this.constValue.itemSelecionado], { relativeTo: this.route }) } }
     ],
     breadcrumb: {
