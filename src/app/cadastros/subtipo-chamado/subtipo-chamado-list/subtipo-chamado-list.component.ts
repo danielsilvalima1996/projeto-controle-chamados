@@ -91,13 +91,12 @@ export class SubtipoChamadoListComponent implements OnInit {
 
   findSubtipoChamado(parameters: any) {
     this.subtipoChamadoService
-      .findSubtipoChamado(this.utilService
-        .getParameters(parameters))
+      .findSubtipoChamado(this.utilService.getParameters(parameters))
       .subscribe((data:any) => {
-        this.table.items = data
+        this.table.items = data.content
       })
   }
-
+  
   tipoForm(tipo) {
     if (tipo == 'active') {
       this.constValue.input = false;

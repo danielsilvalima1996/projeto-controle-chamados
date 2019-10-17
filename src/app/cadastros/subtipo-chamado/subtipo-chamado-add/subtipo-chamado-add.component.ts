@@ -57,6 +57,10 @@ export class SubtipoChamadoAddComponent implements OnInit {
     })
   }
 
+  // getTipoChamado(){
+  //   this.subTipoChamadoService.
+  // }
+
   createSubtipoChamado() {
     if (this.subTipoChamadoAddForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');

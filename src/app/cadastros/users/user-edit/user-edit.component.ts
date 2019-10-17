@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
+import { PoSelectOption } from '@portinari/portinari-ui';
 
 @Component({
   selector: 'app-user-edit',
@@ -25,13 +26,16 @@ export class UserEditComponent implements OnInit {
         { label: 'Usuários' },
         { label: 'Editar Usuário' }
       ]
-    },
-    statusOptions: [
-      { label: 'ATIVO', value: true },
-      { label: 'INATIVO', value: false }
-    ],
-    regrasOptions: []
+    }
 
+  }
+
+  selects = {
+    statusOptions: <PoSelectOption[]> [
+      { label: 'ATIVA', value: 'true' },
+      { label: 'INATIVA', value: 'false' }
+    ],
+    regrasOptions:<PoSelectOption[]>[]
   }
 
   constValue = {
@@ -63,7 +67,7 @@ export class UserEditComponent implements OnInit {
   ngOnInit() {
     this.page.actions[0].disabled = this.editUserForm.invalid;
     this.roleService.getRoles().subscribe((data: any) => {
-      this.page.regrasOptions = data.map((item)=>{
+      this.selects.regrasOptions = data.map((item)=>{
         return { label:item.name, value:item.id}
       })
     })

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService } from '@portinari/portinari-ui';
+import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService, PoSelectOption } from '@portinari/portinari-ui';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 
@@ -26,7 +26,10 @@ export class TipoChamadoAddComponent implements OnInit {
         { label: 'Tipos Chamado' },
         { label: 'Adicionar Tipo de Chamado' },
       ]
-    },
+    }
+  }
+
+  selects = {
     statusOptions: [
       { label: 'ATIVA', value: true },
       { label: 'INATIVA', value: false }
@@ -52,6 +55,8 @@ export class TipoChamadoAddComponent implements OnInit {
   }
 
   createTipoChamado() {
+    console.log(this.tipoChamadoAddForm.value);
+    
     if (this.tipoChamadoAddForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');
       return;
