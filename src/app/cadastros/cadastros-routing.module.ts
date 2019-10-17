@@ -55,14 +55,14 @@ const routes: Routes = [
     path: 'tipo-chamado', children: [
       { path: '', component: TipoChamadoListComponent },
       { path: 'add', component: TipoChamadoAddComponent },
-      { path: 'edit', component: TipoChamadoEditComponent },
+      { path: 'edit/:id', component: TipoChamadoEditComponent },
     ]
   },
   {
     path: 'subtipo-chamado', children: [
       { path: '', component: SubtipoChamadoListComponent },
       { path: 'add', component: SubtipoChamadoAddComponent },
-      { path: 'edit', component: SubtipoChamadoEditComponent },
+      { path: 'edit/:id', component: SubtipoChamadoEditComponent },
     ]
   }
 

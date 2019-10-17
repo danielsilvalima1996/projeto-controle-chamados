@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService } from '@portinari/portinari-ui';
+import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService, PoSelectOption } from '@portinari/portinari-ui';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from '@angular/common';
@@ -27,15 +27,21 @@ export class SubtipoChamadoAddComponent implements OnInit {
         { label: 'Adicionar SubTipo de Chamado' },
       ]
     },
-    statusOptions: [
-      { label: 'ATIVA', value: true },
-      { label: 'INATIVA', value: false }
-    ]
+  }
+
+  selects =  {
+    statusOptions: <PoSelectOption[]> [
+      { label: 'ATIVA', value: 'true' },
+      { label: 'INATIVA', value: 'false' }
+    ],
+    tipoChamado: <PoSelectOption[]>[]
+
   }
 
   subTipoChamadoAddForm: FormGroup = this.fb.group({
     descricao: ['', [Validators.required, Validators.minLength(5)]],
     active: ['', [Validators.required]],
+    idTipoChamado:['',Validators.required]
   });
 
   constructor(

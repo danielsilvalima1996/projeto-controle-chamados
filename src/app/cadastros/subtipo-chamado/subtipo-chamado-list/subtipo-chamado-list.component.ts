@@ -13,20 +13,18 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class SubtipoChamadoListComponent implements OnInit {
 
   page: PoPageDefault = {
-    title: 'Lista de SubTipo de Chamados',
+    title: 'SubTipo Chamado',
     breadcrumb: {
       items: [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'SubTipo de Chamados' },
+        { label: 'SubTipo Chamado' },
       ]
     },
     actions: [
       { label: 'Novo', url: 'subtipo-chamado/add' },
       {
         label: 'Editar', action: () => {
-
-          //fazer uma funcao
           this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
         }
       }
@@ -61,7 +59,9 @@ export class SubtipoChamadoListComponent implements OnInit {
   }
 
   constValue = {
-    selecionado: ''
+    selecionado: '',
+    input: <Boolean>true,
+    select:<Boolean>false
   }
 
   subtipoForm: FormGroup = this.fb.group({
@@ -78,15 +78,39 @@ export class SubtipoChamadoListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.controls.pesquisa
+    .valueChanges.subscribe((data) => {
+      this.tipoForm(data);
+    })
+    this.findSubtipoChamado(this.subtipoForm.value);
+  }
+
+  get controls() {
+    return this.subtipoForm.controls;
   }
 
   findSubtipoChamado(parameters: any) {
     this.subtipoChamadoService
       .findSubtipoChamado(this.utilService
         .getParameters(parameters))
-      .subscribe((data) => {
-        console.log(data);
+      .subscribe((data:any) => {
+        this.table.items = data
       })
+  }
+
+  tipoForm(tipo) {
+    if (tipo == 'active') {
+      this.constValue.input = false;
+      this.constValue.select = true;
+    } else {
+      this.constValue.input = true;
+      this.constValue.select = false;
+    }
+  }
+
+  getSelected(event) {
+    this.constValue.selecionado = event.id;
+    
   }
 
 }

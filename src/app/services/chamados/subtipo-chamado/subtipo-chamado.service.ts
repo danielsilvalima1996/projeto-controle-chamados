@@ -24,7 +24,11 @@ export class SubtipoChamadoService {
     return this.http.get(`${this.url}/${id}`) as Observable<SubtipoChamado>;
   }
 
-  createSubtipoChamado(SubtipoChamado: any) {
-    return this.http.post(`${this.url}`, SubtipoChamado);
+  createSubtipoChamado(subTipoChamado: any) {
+    return this.http.post(`${this.url}`, subTipoChamado);
+  }
+
+  alterSubTipoChamado(subTipoChamado: SubtipoChamado) {
+    return this.http.put(`${this.url}`, subTipoChamado);
   }
 }

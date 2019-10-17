@@ -6,4 +6,5 @@ export interface SubtipoChamado {
     created: Date,
     modified: Date,
     idTipoChamado: TipoChamado,
+    active: Boolean
 }

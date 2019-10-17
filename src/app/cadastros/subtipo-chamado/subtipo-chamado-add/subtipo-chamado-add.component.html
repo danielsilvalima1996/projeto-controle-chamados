@@ -3,9 +3,12 @@
     
         <form [formGroup]="subTipoChamadoAddForm">
             <div class="po-row">
-                <po-input formControlName="descricao" p-required="true" p-label="Descrição SubTipo Chamado" class="po-md-4"
+                <po-input formControlName="descricao" p-label="Descrição SubTipo Chamado" class="po-md-4"
                     p-error-pattern="Insira no mínimo 5 caracteres!"></po-input>
-                <po-select formControlName="active" p-required="true" p-label="Status" [p-options]="page.statusOptions"
+
+                <po-select formControlName="idTipoChamado" p-label="Tipo Chamado" [p-options]="selects.tipoChamado" class="po-md-4" ></po-select>
+
+                <po-select formControlName="active" p-label="Status" [p-options]="selects.statusOptions"
                     class="po-md-3"></po-select>
             </div>
         </form>
