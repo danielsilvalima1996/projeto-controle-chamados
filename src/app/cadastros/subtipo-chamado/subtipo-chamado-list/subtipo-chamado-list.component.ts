@@ -16,6 +16,7 @@ export class SubtipoChamadoListComponent implements OnInit {
     title: 'Lista de SubTipo de Chamados',
     breadcrumb: {
       items: [
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'SubTipo de Chamados' },
       ]
@@ -51,7 +52,7 @@ export class SubtipoChamadoListComponent implements OnInit {
       { label: 'ID', value: 'id' },
       { label: 'DESCRIÇÃO', value: 'descricao' },
       { label: 'ATIVO', value: 'active' },
-      {label: 'Id Tipo Chamado', value: 'idTipoChamado'}
+      {label: 'ID TIPO CHAMADO', value: 'idTipoChamado'}
     ],
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },

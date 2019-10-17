@@ -23,4 +23,8 @@ export class SubtipoChamadoService {
   findById(id: number): Observable<SubtipoChamado> {
     return this.http.get(`${this.url}/${id}`) as Observable<SubtipoChamado>;
   }
+
+  createSubtipoChamado(SubtipoChamado: any) {
+    return this.http.post(`${this.url}`, SubtipoChamado);
+  }
 }

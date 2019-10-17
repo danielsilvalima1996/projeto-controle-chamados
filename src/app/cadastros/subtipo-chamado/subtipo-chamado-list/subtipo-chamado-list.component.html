@@ -1,7 +1,15 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
     <form [formGroup]="subtipoForm">
-        <po-combo class="po-md-2" p-label="Pesquisa" p-filter-mode="contains" p-placeholder="Pesquisa" formControlName="pesquisa" [p-options]="selects.pesquisa"></po-combo>
-        <po-input class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
-        <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="findSubtipoChamado(this.subtipoForm.value)"></po-button>
+        <div class="po-row">
+            <po-combo class="po-md-2" p-label="Pesquisar por:" p-filter-mode="contains" p-placeholder="Pesquisa"
+                formControlName="pesquisa" [p-options]="selects.pesquisa"></po-combo>
+            <po-input class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
+            <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="findSubtipoChamado(this.subtipoForm.value)">
+            </po-button>
+        </div>
     </form>
+
+    <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
+        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" p-checkbox="true" p-single-select="true">
+    </po-table>
 </po-page-default>
