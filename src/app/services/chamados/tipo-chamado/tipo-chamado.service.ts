@@ -20,4 +20,16 @@ export class TipoChamadoService {
   getTipoChamado(parameters:any): Observable<TipoChamado> {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<TipoChamado> ;
   }
+
+  createTipoChamado(TipoChamado: any) {
+    return this.http.post(`${this.url}`, TipoChamado);
+  }
+
+  alterTipoChamado(TipoChamado: TipoChamado) {
+    return this.http.put(`${this.url}`, TipoChamado);
+  }
+
+  findById(id: number): Observable<TipoChamado> {
+    return this.http.get(`${this.url}/${id}`) as Observable<TipoChamado>;
+  }
 }

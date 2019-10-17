@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService } from '@portinari/portinari-ui';
+import { HttpErrorResponse } from '@angular/common/http';
+import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 
 @Component({
   selector: 'app-tipo-chamado-add',
@@ -6,10 +11,63 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tipo-chamado-add.component.css']
 })
 export class TipoChamadoAddComponent implements OnInit {
+  
+  page = {
+    actions: <PoPageAction[]>[
+      { label: 'Salvar', disabled: true, action: () => { this.createTipoChamado() } },
+      { label: 'Cancelar', action: () => { this.location.back() } },
+    ],
 
-  constructor() { }
+    title: 'Adicionar Tipo de Chamado',
+    breadcrumb: <PoBreadcrumb>{
+      items: <PoBreadcrumbItem[]>[
+        { label: 'Home' },
+        { label: 'Cadastros' },
+        { label: 'Tipos Chamado' },
+        { label: 'Adicionar Tipo de Chamado' },
+      ]
+    },
+    statusOptions: [
+      { label: 'ATIVA', value: true },
+      { label: 'INATIVA', value: false }
+    ]
+  }
+
+  tipoChamadoAddForm: FormGroup = this.fb.group({
+    descricao: ['', [Validators.required, Validators.minLength(5)]],
+    active: ['', [Validators.required]],
+  });
+
+  constructor(
+    private fb: FormBuilder,
+    private location: Location,
+    private notificationService: PoNotificationService,
+    private tipoChamadoService: TipoChamadoService
+  ) { }
 
   ngOnInit() {
+    this.tipoChamadoAddForm.valueChanges.subscribe((_) => {
+      this.page.actions[0].disabled = this.tipoChamadoAddForm.invalid;
+    })
+  }
+
+  createTipoChamado() {
+    if (this.tipoChamadoAddForm.invalid) {
+      this.notificationService.warning('Formulário Inválido!');
+      return;
+    }
+    else {
+      this.tipoChamadoService
+        .createTipoChamado(this.tipoChamadoAddForm.value)
+        .subscribe((data) => {
+          this.notificationService.success('Tipo de Chamado Salvo com Sucesso');
+          this.location.back();
+        },
+          (error: HttpErrorResponse) => {
+            this.notificationService.error(error.error.meta.message);
+          }
+        );
+    }
   }
 
 }
