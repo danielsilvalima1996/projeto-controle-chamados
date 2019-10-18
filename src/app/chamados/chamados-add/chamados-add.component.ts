@@ -7,6 +7,7 @@ import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'app-chamados-add',
@@ -148,6 +149,11 @@ export class ChamadosAddComponent implements OnInit {
   }
 
   registrarChamado() {
+    this.controls.idEmpresa.value == '' ? this.controls.idEmpresa.setValue(1) : this.controls.idEmpresa.setValue(this.controls.idEmpresa.value);
+    this.controls.idAnalista.value == '' ? this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
+    this.controls.idUsuario.value == '' ? this.controls.idUsuario.setValue(1) : this.controls.idUsuario.setValue(this.controls.idUsuario.value);
+    this.controls.codigoStatusChamado.value == '' ? this.controls.codigoStatusChamado.setValue(1) : this.controls.codigoStatusChamado.setValue(this.controls.codigoStatusChamado.value);
+    
     let chamado = {
       idEmpresa: { id: parseInt(this.controls.idEmpresa.value) },
       idAnalista: { id: parseInt(this.controls.idAnalista.value) },
@@ -163,15 +169,16 @@ export class ChamadosAddComponent implements OnInit {
       descricaoChamado: this.controls.descricaoChamado.value,
       solucaoChamado: this.controls.solucaoChamado.value
     }
-    console.log(chamado);
 
     this.chamadosService
       .createChamado(chamado)
       .subscribe((data) => {
-
+        this.notificationService.success('Chamado aberto com sucesso!');
+        this.location.back();
       },
         (error: any) => {
           this.notificationService.error(error.error.error);
+          return;
         })
   }
 

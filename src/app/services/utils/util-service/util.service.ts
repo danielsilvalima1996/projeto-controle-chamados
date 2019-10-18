@@ -76,7 +76,7 @@ export class UtilService {
     if (mm < 10) {
       minuto = `0${mm}`
     } else {
-      minuto = hh;
+      minuto = mm;
     }
     let horaAtual = `${hora}:${minuto}`;
     return horaAtual;
