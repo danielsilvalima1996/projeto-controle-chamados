@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class TipoChamadoService {
 
   private relativeLink = 'tipo-chamado'
-  private url = `${environment.url.apirest}${this.relativeLink}`;
+  private url = `${environment.url.apirest}/${this.relativeLink}`;
 
   constructor(
     private http: HttpClient
@@ -31,5 +31,9 @@ export class TipoChamadoService {
 
   findById(id: number): Observable<TipoChamado> {
     return this.http.get(`${this.url}/${id}`) as Observable<TipoChamado>;
+  }
+
+  findAll(): Observable<TipoChamado[]> {
+    return this.http.get(`${this.url}/active`) as Observable<TipoChamado[]>;
   }
 }

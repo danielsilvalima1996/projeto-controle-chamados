@@ -8,8 +8,8 @@
             <po-combo *ngIf="constValue.select" class="po-md-2" p-filter-mode="contains" p-label="Filtro"
                 [p-options]="selects.filtro" formControlName="filtro">
             </po-combo>
-            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (click)="getUser(this.userform.value)">
-            </po-button>
+            <!-- <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (click)="getUser(this.userform.value)">
+            </po-button> -->
         </div>
     </form>
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"

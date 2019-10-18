@@ -1,26 +1,27 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
-    <!-- <form [formGroup]="chamadosForm" class="po-row">
-        <po-input *ngIf="constValue.visibilidade" class="po-md-2" p-label="ID Empresa" formControlName="idEmpresa">
-        </po-input>
-        <po-input *ngIf="constValue.visibilidade" class="po-md-2" p-label="ID Analista" formControlName="idAnalista">
-        </po-input>
-        <po-input *ngIf="constValue.visibilidade" class="po-md-2" p-label="ID Usuário" formControlName="idUsuario">
-        </po-input>
+    <form [formGroup]="chamadosForm" class="po-row">
+        <po-number *ngIf="constValue.visibilidade" class="po-md-2" p-label="ID Empresa" formControlName="idEmpresa">
+        </po-number>
+        <po-number *ngIf="constValue.visibilidade" class="po-md-2" p-label="ID Analista" formControlName="idAnalista">
+        </po-number>
+        <po-number *ngIf="constValue.visibilidade" class="po-md-2" p-label="ID Usuário" formControlName="idUsuario">
+        </po-number>
         <po-datepicker class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy" p-label="Data Abertura" formControlName="dataAbertura">
         </po-datepicker>
-        <po-input class="po-md-2" p-readonly="true" p-mask="23:59" p-label="Hora Abertura" formControlName="horaAbertura"></po-input>
+        <po-input class="po-md-2" p-readonly="true" p-mask="99:99" p-label="Hora Abertura" formControlName="horaAbertura"></po-input>
         <po-datepicker *ngIf="constValue.visibilidade" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy" p-label="Data Fechamento" formControlName="dataFechamento"></po-datepicker>
-        <po-input class="po-md-2" *ngIf="constValue.visibilidade" p-readonly="true" *ngIf="constValue.visibilidade" p-mask="23:59" p-label="Hora Fechamento" formControlName="horaFechamento"></po-input>
-        <po-input class="po-md-2" *ngIf="constValue.visibilidade" p-mask="99:59:59" p-label="Tempo" formControlName="tempoChamado"></po-input>
+        <po-input class="po-md-2" *ngIf="constValue.visibilidade" p-readonly="true" p-mask="99:99" p-label="Hora Fechamento" formControlName="horaFechamento"></po-input>
+        <po-input class="po-md-2" *ngIf="constValue.visibilidade" p-mask="99:59" p-label="Tempo" formControlName="tempoChamado"></po-input>
         <po-input class="po-md-2" *ngIf="constValue.visibilidade" p-label="Status" formControlName="codigoStatusChamado"></po-input>
-        <po-input class="po-md-2" p-label="Tipo Chamado" formControlName="tipoChamado"></po-input>
-        <po-input class="po-md-2" p-label="Subtipo Chamado" formControlName="subtipoChamado"></po-input>
+        <po-combo class="po-md-2" p-filter-mode="contains" p-placeholder="Descricão" p-label="Tipo Chamado" [p-options]="selects.tipoChamado" formControlName="tipoChamado"></po-combo>
+        <po-combo class="po-md-2" p-filter-mode="contains" p-placeholder="Descricão" p-label="Subtipo Chamado" [p-options]="selects.subtipoChamado" formControlName="subtipoChamado"></po-combo>
         <po-textarea class="po-md-6" p-label="Descricão Chamado" p-rows="4" formControlName="descricaoChamado">
         </po-textarea>
         <po-textarea *ngIf="constValue.visibilidade" class="po-md-6" p-label="Solucão Chamado" p-rows="4" formControlName="solucaoChamado">
         </po-textarea>
     </form>
 
-    <po-table></po-table> -->
+    <!-- {{constValue | json}} <br> -->
+    {{chamadosForm.value | json}}
 
 </po-page-default>

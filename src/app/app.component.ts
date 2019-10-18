@@ -23,8 +23,8 @@ export class AppComponent {
     },
     {
       label: 'Chamados', shortLabel: 'Chamados', icon: 'po-icon po-icon-list', subItems: [
-        { label: 'Externo', shortLabel: 'Externo', link: 'chamados/externo/list', icon: 'po-icon po-icon-minus' },
-        { label: 'Interno', shortLabel: 'Interno', link: 'chamados/interno/list', icon: 'po-icon po-icon-minus' }
+        { label: 'Externo', shortLabel: 'Externo', link: 'chamados/externo', icon: 'po-icon po-icon-minus' },
+        { label: 'Interno', shortLabel: 'Interno', link: 'chamados/interno', icon: 'po-icon po-icon-minus' }
       ]
     },
     { label: 'Testing', shortLabel: 'Testing', icon: 'po-icon po-icon-list', link: 'testing' }

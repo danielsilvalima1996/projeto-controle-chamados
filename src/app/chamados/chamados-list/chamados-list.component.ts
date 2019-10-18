@@ -17,7 +17,8 @@ export class ChamadosListComponent implements OnInit {
     actions: [
       {
         label: 'Novo', icon: 'po-icon po-icon-plus-circle', action: () => {
-          this.router.navigate(['add'], { relativeTo: this.route });
+          let url = `chamados/${this.constValue.tipoChamado}/add`;
+          this.router.navigate([url]);
         }
       },
       {
@@ -95,15 +96,24 @@ export class ChamadosListComponent implements OnInit {
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
     this.findChamados(this.chamadosForm.value);
+    this.tipoChamados();
   }
 
   get controls() {
     return this.chamadosForm.controls;
   }
 
+  private tipoChamados() {
+    if (this.router.url.toString().indexOf('externo') != -1) {
+      this.constValue.tipoChamado = 'externo';
+    } else {
+      this.constValue.tipoChamado = 'interno';
+    }
+  }
+
   selectedTable(event) {
-    this.constValue.selecionado = event.id;
-    console.log(event.id);
+    this.constValue.selecionado = event.idChamado;
+    console.log(event.idChamado);
   }
 
   unSelectedTable(event) {
