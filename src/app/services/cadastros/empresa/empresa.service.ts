@@ -26,5 +26,13 @@ export class EmpresaService {
     return this.http.post(`${this.url}`, obj);
   }
 
+  findById(id: number): Observable<Empresa> {
+    return this.http.get(`${this.url}/${id}`) as Observable<Empresa>;
+  }
+
+  alterEmpresa(empresa: Empresa) {
+    return this.http.put(`${this.url}`,empresa);
+  }
+
   
 }

@@ -88,6 +88,10 @@ export class AnalistaEditComponent implements OnInit {
   }
 
    saveRole(analista: Analista) {
+    if (this.editAnalistaForm.invalid) {
+      this.notification.warning('Formulário Inválido!');
+      return;
+    } else {
     this.analistaService
       .alterAnalista(analista)
       .subscribe((data) => {
@@ -98,8 +102,5 @@ export class AnalistaEditComponent implements OnInit {
           this.notification.error('Erro ao salvar analista!');
         })
   }
-
-
-
-
+   }
 }

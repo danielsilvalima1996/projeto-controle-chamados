@@ -141,6 +141,19 @@ export class UtilService {
     }
     return teleCel;
   }
+
+   /**
+   * 
+   * @param telefone recebe uma string com número de telefone ou celular
+   * @returns uma string formatada utilizando como paramêtro o length da string
+   */
+  
+  mascaraDeTelefone2(v){
+    v=v.replace(/\D/g,"");             		//Remove tudo o que não é dígito
+    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+    v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+    return v.substr(0, 15);
+}
   /**
    * 
    * @param telefone recebe uma string com pontos e traços

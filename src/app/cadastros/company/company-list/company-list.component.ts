@@ -29,17 +29,18 @@ export class CompanyListComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      { property: 'id', label: 'ID', width: '5%' },
-      { property: 'cnpj', label: 'CNPJ', width: '10%' },
-      { property: 'razaoSocial', label: 'Razão Social', width: '12.5%' },
-      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '12.5%' },
-      { property: 'endereco', label: 'Endereço', width: '10%' },
-      { property: 'codigoTotvs', label: 'Codigo Totvs', width: '5%' },
-      { property: 'admin', label: 'Contato', width: '10%' },
-      { property: 'telefone', label: 'Telefone', width: '10%' },
-      { property: 'criado', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modificado', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'ativo', label: 'Ativo', width:'5%'}
+      { property: 'id', label: 'ID', width: '50px' },
+      { property: 'cnpj', label: 'CNPJ', width: '150px' },
+      { property: 'razaoSocial', label: 'Razão Social', width: '120.5px' },
+      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '120.5px' },
+      { property: 'endereco', label: 'Endereço', width: '150px' },
+      { property: 'codigoTotvs', label: 'Codigo Totvs', width: '120px' },
+      { property: 'admin', label: 'Contato', width: '100px' },
+      { property: 'telefone', label: 'Telefone', width: '120px' },
+      { property: 'celular', label: 'Celular', width: '120px' },
+      { property: 'criado', label: 'Criado ', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modificado', label: 'Modificado ', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'ativo', label: 'Ativo', width:'100px', type:'boolean'}
     ],
     items: [],
     height: 0,
@@ -90,7 +91,15 @@ export class CompanyListComponent implements OnInit {
    getCompany(form?) {
     this.empresaService.getEmpresa(this.utilService.getParameters(form))
       .subscribe((data: any) => {
-        this.table.items = data.content
+        let value: Array<any> = data.content;
+        value = value.map((item: any) => {
+          item.cnpj = this.utilService.formatarCnpjCpf(item.cnpj);
+          item.telefone = this.utilService.mascaraDeTelefone2(item.telefone);
+          item.celular = this.utilService.mascaraDeTelefone2(item.celular)
+          return item;
+        })
+
+        this.table.items = value
       })
 
   }
