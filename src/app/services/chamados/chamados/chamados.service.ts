@@ -25,7 +25,7 @@ export class ChamadosService {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}/${id}`) as Observable<Chamados[]>;
   }
 
-  createChamado(chamados: Chamados): Observable<Chamados> {
+  createChamado(chamados: any): Observable<Chamados> {
     return this.http.post(`${environment.url.apirest}/${this.relativeLink}`, chamados) as Observable<Chamados>;
   }
 
