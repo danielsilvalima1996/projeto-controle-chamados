@@ -21,8 +21,8 @@ export class TipoChamadoService {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<TipoChamado> ;
   }
 
-  createTipoChamado(TipoChamado: any) {
-    return this.http.post(`${this.url}`, TipoChamado);
+  createTipoChamado(tipoChamado: any) {
+    return this.http.post(`${this.url}`, tipoChamado);
   }
 
   alterTipoChamado(TipoChamado: TipoChamado) {

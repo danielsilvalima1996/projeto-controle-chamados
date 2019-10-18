@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService } from '@portinari/portinari-ui';
+import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService, PoSelectOption, PoPageDefault } from '@portinari/portinari-ui';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class UserAddComponent implements OnInit {
 
-  page = {
+  page : PoPageDefault = {
     actions: <PoPageAction[]>[
       { label: 'Salvar', disabled:true, action: () => { this.addUser()} },
       { label: 'Cancelar', action: () => { this.location.back() } },
@@ -27,9 +27,13 @@ export class UserAddComponent implements OnInit {
         { label: 'Adicionar Usuário' },
       ]
     },
-    statusOptions: [
-      { label: 'ATIVO', value: true },
-      { label: 'INATIVO', value: false }
+
+  }
+
+  selects = {
+    statusOptions: <PoSelectOption[]> [
+      { label: 'ATIVA', value: 'true' },
+      { label: 'INATIVA', value: 'false' }
     ]
   }
 

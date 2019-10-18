@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { PoPageAction, PoBreadcrumbItem, PoBreadcrumb, PoNotificationService } from '@portinari/portinari-ui';
+import { PoPageAction, PoBreadcrumbItem, PoBreadcrumb, PoNotificationService, PoPageDefault, PoSelectOption } from '@portinari/portinari-ui';
 import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class RoleAddComponent implements OnInit {
 
-  page = {
+  page: PoPageDefault = {
     actions: <PoPageAction[]>[
       { label: 'Salvar', disabled: true, action: () => { this.addRole() } },
       { label: 'Cancelar', action: () => { this.location.back() } },
@@ -27,9 +27,12 @@ export class RoleAddComponent implements OnInit {
         { label: 'Adicionar Regra' },
       ]
     },
-    statusOptions: [
-      { label: 'ATIVA', value: true },
-      { label: 'INATIVA', value: false }
+  }
+
+  selects = {
+    statusOptions: <PoSelectOption[]> [
+      { label: 'ATIVA', value: 'true' },
+      { label: 'INATIVA', value: 'false' }
     ]
   }
 

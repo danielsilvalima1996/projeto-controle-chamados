@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { PoNotificationService, PoPageDefault, PoSelectOption } from '@portinari/portinari-ui';
 import { Empresa } from 'src/app/interfaces/empresa.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-company-add',
@@ -72,6 +73,9 @@ export class CompanyAddComponent implements OnInit {
         .subscribe((data) => {
           this.notificationService.success('Empresa cadastrada com sucesso!');
           this.location.back();
+        },
+        (error: HttpErrorResponse) => {
+          this.notificationService.error(error.error.meta.message);
         })
     }
   }

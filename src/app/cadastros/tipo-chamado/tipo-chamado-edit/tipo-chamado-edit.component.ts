@@ -17,7 +17,7 @@ export class TipoChamadoEditComponent implements OnInit {
 
     title: 'Editar Tipo de Chamado',
     actions: [
-      { label: 'Salvar', disabled: true, action: () => { this.saveRole(this.tipoChamadoEditForm.value) } },
+      { label: 'Salvar', disabled: true, action: () => { this.saveTipoChamado(this.tipoChamadoEditForm.value) } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -86,7 +86,7 @@ export class TipoChamadoEditComponent implements OnInit {
       })
   }
 
-  private saveRole(TipoChamado: TipoChamado) {
+  private saveTipoChamado(TipoChamado: TipoChamado) {
     this.tipoChamadoService
       .alterTipoChamado(TipoChamado)
       .subscribe((data) => {
@@ -94,7 +94,7 @@ export class TipoChamadoEditComponent implements OnInit {
         this.location.back();
       },
         (error: any) => {
-          this.notificationService.error('Erro ao salvar regra!');
+          this.notificationService.error('Erro ao salvar Tipo Chamado!');
         })
   }
 

@@ -18,12 +18,12 @@ export class TipoChamadoListComponent implements OnInit {
       { label: 'Editar', action: () => {this.router.navigate(['edit', this.constValue.selecionado], {relativeTo:this.route})}}
     ],
 
-    title: 'Tipos de Chamado',
+    title: 'Tipo Chamado',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Tipos Chamado' }
+        { label: 'Tipo Chamado' }
       ]
     }
   }
