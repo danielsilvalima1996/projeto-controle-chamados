@@ -11,6 +11,10 @@
       </div>
   
       <div class="po-row">
+          <po-select formControlName="idEmpresa" p-required="true" p-label="ID Empresa" [p-options]="selects.empresas" class="po-md-3"></po-select>
+
+          <po-select formControlName="role" p-required="true" p-label="Regra" [p-options]="selects.roleOptions" class="po-md-3"></po-select>
+
         <po-select formControlName="active" p-required="true" p-label="Status" [p-options]="selects.statusOptions" class="po-md-3"></po-select>
       </div>
     </form>

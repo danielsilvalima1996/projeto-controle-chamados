@@ -34,7 +34,9 @@ export class UserAddComponent implements OnInit {
     statusOptions: <PoSelectOption[]> [
       { label: 'ATIVA', value: 'true' },
       { label: 'INATIVA', value: 'false' }
-    ]
+    ],
+    roleOptions:<PoSelectOption[]>[],
+    empresas:<PoSelectOption[]>[]
   }
 
   useraddForm: FormGroup = this.fb.group({
@@ -42,6 +44,8 @@ export class UserAddComponent implements OnInit {
     email: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
     password: ['', [Validators.required,Validators.minLength(5)]],
     active: ['', [Validators.required]],
+    role:['',[Validators.required]],
+    idEmpresa:['',[Validators.required]]
   });
 
   constructor(
