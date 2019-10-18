@@ -18,7 +18,7 @@ export class TipoChamadoService {
   ) { }
 
   getTipoChamado(parameters:any): Observable<TipoChamado> {
-    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<TipoChamado> ;
+    return this.http.get(`${this.url}?${parameters}`) as Observable<TipoChamado> ;
   }
 
   createTipoChamado(tipoChamado: any) {
