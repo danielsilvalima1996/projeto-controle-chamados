@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageDefault, PoBreadcrumbItem } from '@portinari/portinari-ui';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Route, Router, ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -29,25 +29,27 @@ export class ChamadosAddComponent implements OnInit {
 
   constValue = {
     tipoChamado: '',
-    visibilidade: <boolean>true,
+    visibilidade: true,
     action: ''
   }
 
   chamadosForm: FormGroup = this.fb.group({
-    idEmpresa: ['', []],
+    idEmpresa: ['', [Validators.required]],
     idAnalista: ['', []],
     idUsuario: ['', []],
-    dataAbertura: ['', []],
-    horaAbertura: ['', []],
+    dataAbertura: ['', [Validators.required]],
+    horaAbertura: ['', [Validators]],
     dataFechamento: ['', []],
     horaFechamento: ['', []],
     tempoChamado: ['', []],
-    codigoStatusChamado: ['', []],
-    tipoChamado: ['', []],
-    subtipoChamado: ['', []],
-    descricaoChamado: ['', []],
+    codigoStatusChamado: ['', [Validators.required]],
+    tipoChamado: ['', [Validators.required]],
+    subtipoChamado: ['', [Validators.required]],
+    descricaoChamado: ['', [Validators.required]],
     solucaoChamado: ['', []]
   })
+
+  
 
   constructor(
     private location: Location,

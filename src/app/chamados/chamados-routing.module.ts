@@ -10,13 +10,14 @@ const routes: Routes = [
     path: 'interno', children: [
       { path: '', component: ChamadosListComponent },
       { path: 'add', component: ChamadosAddComponent },
-      { path: ':acao/:id', component: ChamadosEditComponent },
+      { path: ':acao/:id', component: ChamadosEditComponent }
     ]
   },
   {
     path: 'externo', children: [
       { path: '', component: ChamadosListComponent },
-      { path: ':acao/:id', component: ChamadosEditComponent },
+      { path: 'add', component: ChamadosAddComponent },
+      { path: ':acao/:id', component: ChamadosEditComponent }
     ]
   }
 ];
