@@ -102,7 +102,7 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  private getUser(form?) {
+   getUser(form?) {
     this.userService.getUser(this.utilService.getParameters(form))
       .subscribe((data:any) => {
         this.table.items = data.content
