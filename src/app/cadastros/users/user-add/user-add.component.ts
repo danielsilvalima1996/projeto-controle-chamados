@@ -69,9 +69,9 @@ export class UserAddComponent implements OnInit {
 
   getRole() {
     this.roleService
-      .getRolesChumbado()
+      .getRoles()
       .subscribe((data: any) => {
-        let arr: Array<any> = data; // chumbado ----  data.content no original
+        let arr: Array<any> = data.content; // chumbado ----  data.content no original
         arr = arr.map((item: any) => {
           return <PoSelectOption>{ label: `${item.id} - ${item.nome}`, value: item.id };
         })
@@ -81,9 +81,9 @@ export class UserAddComponent implements OnInit {
 
   getEmpresas() {
     this.empresaService
-      .getEmpresaChumbado()
+      .getEmpresa()
       .subscribe((data: any) => {
-        let arr: Array<any> = data; // chumbado ----  data.content no original
+        let arr: Array<any> = data.content; // chumbado ----  data.content no original
         arr = arr.map((item: any) => {
           return <PoSelectOption>{ label: `${item.id} - ${item.razaoSocial}`, value: item.id };
         })

@@ -13,6 +13,6 @@
         </div>
     </form>
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
-        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" p-checkbox="true" p-single-select="true">
+        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-checkbox="true" p-single-select="true">
     </po-table>
 </po-page-default>

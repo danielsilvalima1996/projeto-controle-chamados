@@ -1,16 +1,20 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
-        <po-divider p-label="Dados Cadastrais "></po-divider>
-    
-        <form [formGroup]="subTipoChamadoAddForm">
-            <div class="po-row">
-                <po-input formControlName="descricao" p-label="Descrição SubTipo Chamado" class="po-md-4"
-                    p-error-pattern="Insira no mínimo 5 caracteres!"></po-input>
+    <po-divider p-label="Dados Cadastrais "></po-divider>
 
-                <po-select formControlName="idTipoChamado" p-label="Tipo Chamado" [p-options]="selects.tipoChamado" class="po-md-4" ></po-select>
+    <form [formGroup]="subTipoChamadoAddForm">
+        <div class="po-row">
+            <po-input formControlName="descricao" p-label="Descrição SubTipo Chamado" class="po-md-4"
+                p-error-pattern="Insira no mínimo 5 caracteres!"></po-input>
 
-                <po-select formControlName="active" p-label="Status" [p-options]="selects.statusOptions"
-                    class="po-md-3"></po-select>
-            </div>
-        </form>
-    
-    </po-page-default>
+            <po-combo class="po-md-3" p-filter-mode="contains" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
+                formControlName="idTipoChamado">
+            </po-combo>
+
+            <po-select formControlName="active" p-label="Status" [p-options]="selects.statusOptions" class="po-md-3">
+            </po-select>
+
+
+        </div>
+    </form>
+
+</po-page-default>

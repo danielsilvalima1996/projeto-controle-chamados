@@ -106,4 +106,9 @@ export class TipoChamadoListComponent implements OnInit {
     
   }
 
+  getUnSelected() {
+    this.constValue.selecionado = ''
+    
+  }
+
 }

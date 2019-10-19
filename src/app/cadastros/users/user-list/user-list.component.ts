@@ -114,4 +114,8 @@ export class UserListComponent implements OnInit {
     
   }
 
+  getUnSelected(){
+    this.constValue.selecionado = ''
+  }
+
 }

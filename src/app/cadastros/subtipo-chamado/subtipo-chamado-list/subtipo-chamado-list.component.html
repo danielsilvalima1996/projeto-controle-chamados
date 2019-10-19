@@ -14,6 +14,6 @@
     </form>
 
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
-        p-sort="true" p-striped="true" p-checkbox="true" p-single-select="true">
+        p-sort="true" p-striped="true" p-checkbox="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-single-select="true">
     </po-table>
 </po-page-default>

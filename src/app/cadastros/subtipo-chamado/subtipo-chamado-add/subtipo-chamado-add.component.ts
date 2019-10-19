@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
+import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 
 @Component({
   selector: 'app-subtipo-chamado-add',
@@ -48,18 +49,28 @@ export class SubtipoChamadoAddComponent implements OnInit {
     private fb: FormBuilder,
     private location: Location,
     private notificationService: PoNotificationService,
-    private subTipoChamadoService: SubtipoChamadoService
+    private subTipoChamadoService: SubtipoChamadoService,
+    private tipoChamadoService: TipoChamadoService
   ) { }
 
   ngOnInit() {
     this.subTipoChamadoAddForm.valueChanges.subscribe((_) => {
       this.page.actions[0].disabled = this.subTipoChamadoAddForm.invalid;
     })
+    this.getTipoChamado();
   }
 
-  // getTipoChamado(){
-  //   this.subTipoChamadoService.
-  // }
+  getTipoChamado() {
+    this.tipoChamadoService
+      .getTipoChamado()
+      .subscribe((data: any) => {
+        let arr: Array<any> = data.content; // chumbado ----  data.content no original
+        arr = arr.map((item: any) => {
+          return <PoSelectOption>{ label: `${item.id} - ${item.descricao}`, value: item.id };
+        })
+        this.selects.tipoChamado = arr;
+      })
+  }
 
   createSubtipoChamado() {
     if (this.subTipoChamadoAddForm.invalid) {
@@ -72,6 +83,8 @@ export class SubtipoChamadoAddComponent implements OnInit {
         .subscribe((data) => {
           this.notificationService.success('SubTipo de Chamado Salvo com Sucesso');
           this.location.back();
+          console.log(this.subTipoChamadoAddForm.value);
+          
         },
           (error: HttpErrorResponse) => {
             this.notificationService.error(error.error.meta.message);

@@ -88,22 +88,6 @@ export class CompanyListComponent implements OnInit {
     this.getCompany(this.companyform.value)
   }
 
-   getCompany(form?) {
-    this.empresaService.getEmpresa(this.utilService.getParameters(form))
-      .subscribe((data: any) => {
-        let value: Array<any> = data.content;
-        value = value.map((item: any) => {
-          item.cnpj = this.utilService.formatarCnpjCpf(item.cnpj);
-          item.telefone = this.utilService.mascaraDeTelefone2(item.telefone);
-          item.celular = this.utilService.mascaraDeTelefone2(item.celular)
-          return item;
-        })
-
-        this.table.items = value
-      })
-
-  }
-
   get controls() {
     return this.companyform.controls
   }
@@ -120,7 +104,25 @@ export class CompanyListComponent implements OnInit {
 
   getSelected(event) {
     this.constValue.itemSelecionado = event.id;
-    console.log(event.id)
+  }
+
+  getUnSelected() {
+    this.constValue.itemSelecionado = '';
+  }
+
+  getCompany(form?) {
+    this.empresaService.getEmpresa(this.utilService.getParameters(form))
+      .subscribe((data: any) => {
+        let value: Array<any> = data.content;
+        value = value.map((item: any) => {
+          item.cnpj = this.utilService.formatarCnpjCpf(item.cnpj);
+          item.telefone = this.utilService.mascaraDeTelefone2(item.telefone);
+          item.celular = this.utilService.mascaraDeTelefone2(item.celular)
+          return item;
+        })
+
+        this.table.items = value
+      })
 
   }
 

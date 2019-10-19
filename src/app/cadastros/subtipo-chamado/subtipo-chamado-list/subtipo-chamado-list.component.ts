@@ -112,4 +112,9 @@ export class SubtipoChamadoListComponent implements OnInit {
     
   }
 
+  getUnSelected() {
+    this.constValue.selecionado = ''
+    
+  }
+
 }

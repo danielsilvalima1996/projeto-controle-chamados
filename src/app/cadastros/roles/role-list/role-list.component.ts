@@ -107,14 +107,6 @@ export class RoleListComponent implements OnInit {
 
   }
 
-  //  getRoles(form?) {
-  //   this.roleService.getRolesChumbado()
-  //     .subscribe((data) => {
-  //       this.table.items = data;
-  //     })
-
-  // }
-
   getSelected(event) {
     this.constValue.selecionado = event.id;
   }
