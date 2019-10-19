@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Pageable } from 'src/app/interfaces/pageable.model';
 import { Empresa } from 'src/app/interfaces/empresa.model';
 
@@ -20,6 +20,27 @@ export class EmpresaService {
 
   getEmpresa(parameters: any): Observable<Pageable<Empresa>> {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Pageable<Empresa>>;
+  }
+
+  getEmpresaChumbado(){
+    return of(
+      [
+        {
+          "id": "1",
+          "razaoSocial": "Fulano de Tal SA",
+          "active": true,
+          "created": "2019-09-14",
+          "modified": "2019-09-14"
+        },
+        {
+          "id": "2",
+          "razaoSocial": "João das Couves Ltda",
+          "active":true,
+          "created": "2019-09-14",
+          "modified": "2019-09-14"
+        },
+      ]
+    ) 
   }
 
   createEmpresa(obj: any) {

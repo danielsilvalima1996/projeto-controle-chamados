@@ -21,24 +21,24 @@ export class RolesService {
   }
 
   getRolesChumbado(){
-  //      return of(
-  //     [
-  //       {
-  //         "id": "1",
-  //         "name": "Admnistrador",
-  //         "active": true,
-  //         "created": "2019-09-14",
-  //         "modified": "2019-09-14"
-  //       },
-  //       {
-  //         "id": "2",
-  //         "name": "Analista",
-  //         "active":true,
-  //         "created": "2019-09-14",
-  //         "modified": "2019-09-14"
-  //       },
-  //     ]
-  //   )
+       return of(
+      [
+        {
+          "id": "1",
+          "nome": "Admnistrador",
+          "active": true,
+          "created": "2019-09-14",
+          "modified": "2019-09-14"
+        },
+        {
+          "id": "2",
+          "nome": "Analista",
+          "active":true,
+          "created": "2019-09-14",
+          "modified": "2019-09-14"
+        },
+      ]
+    )
   }
 
   findById(id: number): Observable<Role> {

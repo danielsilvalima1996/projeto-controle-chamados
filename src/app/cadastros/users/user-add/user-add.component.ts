@@ -4,6 +4,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
+import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 
 @Component({
   selector: 'app-user-add',
@@ -32,8 +34,8 @@ export class UserAddComponent implements OnInit {
 
   selects = {
     statusOptions: <PoSelectOption[]> [
-      { label: 'ATIVA', value: 'true' },
-      { label: 'INATIVA', value: 'false' }
+      { label: 'ATIVO', value: 'true' },
+      { label: 'INATIVO', value: 'false' }
     ],
     roleOptions:<PoSelectOption[]>[],
     empresas:<PoSelectOption[]>[]
@@ -52,13 +54,41 @@ export class UserAddComponent implements OnInit {
     private fb: FormBuilder,
     private location: Location,
     private notificationService: PoNotificationService,
-    private userService: UserService
+    private userService: UserService,
+    private roleService: RolesService,
+    private empresaService: EmpresaService
   ) { }
 
   ngOnInit() {
     this.useraddForm.valueChanges.subscribe((_) => {
       this.page.actions[0].disabled = this.useraddForm.invalid;
     })
+    this.getRole()
+    this.getEmpresas()
+  }
+
+  getRole() {
+    this.roleService
+      .getRolesChumbado()
+      .subscribe((data: any) => {
+        let arr: Array<any> = data; // chumbado ----  data.content no original
+        arr = arr.map((item: any) => {
+          return <PoSelectOption>{ label: `${item.id} - ${item.nome}`, value: item.id };
+        })
+        this.selects.roleOptions = arr;
+      })
+  }
+
+  getEmpresas() {
+    this.empresaService
+      .getEmpresaChumbado()
+      .subscribe((data: any) => {
+        let arr: Array<any> = data; // chumbado ----  data.content no original
+        arr = arr.map((item: any) => {
+          return <PoSelectOption>{ label: `${item.id} - ${item.razaoSocial}`, value: item.id };
+        })
+        this.selects.empresas = arr;
+      })
   }
 
   addUser() {
@@ -70,8 +100,11 @@ export class UserAddComponent implements OnInit {
       this.userService
         .addUser(this.useraddForm.value)
         .subscribe((data) => {
+          console.log(data);
           this.notificationService.success('Usuário Cadastrado com Sucesso');
           this.location.back();
+          
+          
         },
           (error: HttpErrorResponse) => {
             this.notificationService.error(error.error.meta.message);

@@ -1,23 +1,26 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
-    <po-divider p-label="Dados Cadastrais"></po-divider>
-  
-    <form [formGroup]="useraddForm">
-      <div class="po-row">
-        <po-input formControlName="username" p-required="true" p-label="Nome Usuário" class="po-md-4"
-          p-error-pattern="Insira no mínimo 5 caracteres"></po-input>
-        <po-input formControlName="email" p-required="true" p-label="E-mail" class="po-md-4"
-          p-error-pattern="Insira um e-mail válido!"></po-input>
-        <po-password formControlName="password" p-required="true" p-label="Senha" class="po-md-4" p-error-pattern="Insira no mínimo 5 caracteres"></po-password>
-      </div>
-  
-      <div class="po-row">
-          <po-select formControlName="idEmpresa" p-required="true" p-label="ID Empresa" [p-options]="selects.empresas" class="po-md-3"></po-select>
+  <po-divider p-label="Dados Cadastrais"></po-divider>
 
-          <po-select formControlName="role" p-required="true" p-label="Regra" [p-options]="selects.roleOptions" class="po-md-3"></po-select>
+  <form [formGroup]="useraddForm">
+    <div class="po-row">
+      <po-input formControlName="username" p-label="Nome Usuário" class="po-md-4"
+        p-error-pattern="Insira no mínimo 5 caracteres"></po-input>
+      <po-input formControlName="email" p-label="E-mail" class="po-md-4" p-error-pattern="Insira um e-mail válido!">
+      </po-input>
+      <po-password formControlName="password" p-label="Senha" class="po-md-4"
+        p-error-pattern="Insira no mínimo 5 caracteres"></po-password>
+    </div>
 
-        <po-select formControlName="active" p-required="true" p-label="Status" [p-options]="selects.statusOptions" class="po-md-3"></po-select>
-      </div>
-    </form>
-  </po-page-default>
-  
+    <div class="po-row">
+      <po-select formControlName="idEmpresa" p-label="ID Empresa" [p-options]="selects.empresas" class="po-md-3">
+      </po-select>
 
+      <po-combo class="po-md-3" p-filter-mode="contains" p-label="Regra:" [p-options]="selects.roleOptions"
+        formControlName="role">
+      </po-combo>
+
+      <po-select formControlName="active" p-label="Status" [p-options]="selects.statusOptions" class="po-md-3">
+      </po-select>
+    </div>
+  </form>
+</po-page-default>

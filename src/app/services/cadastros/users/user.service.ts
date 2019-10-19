@@ -10,8 +10,8 @@ import { User } from 'src/app/interfaces/user.model'
 })
 export class UserService {
 
-  private relativeLink = 'user'
-  private url = `${environment.url.apirest}/${this.relativeLink}`;
+  private relativeLink = '/user'
+  private url = `${environment.url.apirest}${this.relativeLink}`;
 
   constructor(
     private http: HttpClient
