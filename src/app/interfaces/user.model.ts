@@ -1,14 +1,21 @@
 import { Empresa } from './empresa.model';
 import { Role } from './role.model';
+import { Permission } from './permission.model';
 
 export interface User {
     id: number,
-    email:string,
-    username: string,
-    password:string,
-    active: boolean,
+    userName: string,
+    fullName: string,
+    password: string,
+    accountNonExpired: boolean,
+    accountNonLocked: boolean,
+    credentialsNonExpired: boolean,
+    enabled: boolean,
+    permissions: Array<Permission>,
     created: Date,
     modified: Date,
     idEmpresa: Empresa,
-    idRole: Role
+    authorities: Array<Permission>,
+    username: string,
+    roles: Array<string>,
 }
