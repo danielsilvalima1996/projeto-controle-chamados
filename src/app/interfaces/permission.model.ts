@@ -1,10 +1,10 @@
 import { Page } from './page.model'
 
-export interface Role {
+export interface Permission {
     id: number,
-    name: string,
+    description: string,
     active: boolean,
     created: Date,
     modified: Date,
-    page: Page
+    permission_page: Page
 }

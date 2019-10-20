@@ -1,30 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoTableColumn, PoSelectOption, PoTableAction } from '@portinari/portinari-ui';
+import { PoPageDefault, PoTableColumn, PoSelectOption } from '@portinari/portinari-ui';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
+import { PermissionsService } from 'src/app/services/cadastros/permissions/permissions.service';
 
 @Component({
-  selector: 'app-role-list',
-  templateUrl: './role-list.component.html',
-  styleUrls: ['./role-list.component.css']
+  selector: 'app-permissions-list',
+  templateUrl: './permissions-list.component.html',
+  styleUrls: ['./permissions-list.component.css']
 })
-export class RoleListComponent implements OnInit {
+export class PermissionsListComponent implements OnInit {
 
   page: PoPageDefault = {
 
-    title: ' Cadastro de Regras',
+    title: ' Cadastro de Permissões',
     breadcrumb:
     {
       items: [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Regras' }
+        { label: 'Permissões' }
       ]
     },
     actions: [
-      { label: 'Nova', url: 'role/add' },
+      { label: 'Nova', url: 'permission/add' },
       {
         label: 'Editar', action: () => {
           this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
@@ -36,7 +36,7 @@ export class RoleListComponent implements OnInit {
   table = {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '10%' },
-      { property: 'name', label: 'Nome da Regra', width: '20%' },
+      { property: 'description', label: 'Descrição', width: '20%' },
       { property: 'active', label: 'Ativo', width: '20%', type: 'boolean' },
       { property: 'created', label: 'Criado', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado', width: '20%', type: 'date', format: 'dd/MM/yyyy' }
@@ -49,7 +49,7 @@ export class RoleListComponent implements OnInit {
   selects = {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
-      { label: 'NOME', value: 'name' },
+      { label: 'NOME', value: 'description' },
       { label: 'ATIVO', value: 'active' }
     ],
     filtro: <PoSelectOption[]>[
@@ -58,7 +58,7 @@ export class RoleListComponent implements OnInit {
     ]
   }
 
-  roleForm: FormGroup = this.fb.group({
+  permissionForm: FormGroup = this.fb.group({
     pesquisa: ['', []],
     filtro: ['', []]
   })
@@ -71,7 +71,7 @@ export class RoleListComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private roleService: RolesService,
+    private permissionService: PermissionsService,
     private router: Router,
     private route: ActivatedRoute,
     private utilService: UtilService
@@ -82,11 +82,11 @@ export class RoleListComponent implements OnInit {
       .valueChanges.subscribe((data) => {
         this.tipoForm(data);
       })
-    this.getRoles(this.roleForm.value);
+    this.getPermission(this.permissionForm.value);
   }
 
   get controls() {
-    return this.roleForm.controls;
+    return this.permissionForm.controls;
   }
 
   tipoForm(tipo) {
@@ -99,8 +99,8 @@ export class RoleListComponent implements OnInit {
     }
   }
 
-  getRoles(form?) {
-    this.roleService.getRoles(this.utilService.getParameters(form))
+  getPermission(form?) {
+    this.permissionService.findAll(this.utilService.getParameters(form))
       .subscribe((data) => {
         this.table.items = data.content;
       })

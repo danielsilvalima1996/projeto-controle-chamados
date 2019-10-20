@@ -3,8 +3,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
-import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 import { PoSelectOption } from '@portinari/portinari-ui';
+import { PermissionsService } from 'src/app/services/cadastros/permissions/permissions.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -35,7 +35,7 @@ export class UserEditComponent implements OnInit {
       { label: 'ATIVA', value: 'true' },
       { label: 'INATIVA', value: 'false' }
     ],
-    regrasOptions:<PoSelectOption[]>[]
+    permissoes:<PoSelectOption[]>[]
   }
 
   constValue = {
@@ -60,14 +60,14 @@ export class UserEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private userService:UserService,
-    private roleService:RolesService
+    private permissionService:PermissionsService
   ) { }
 
 
   ngOnInit() {
     this.page.actions[0].disabled = this.editUserForm.invalid;
-    this.roleService.getRoles().subscribe((data: any) => {
-      this.selects.regrasOptions = data.map((item)=>{
+    this.permissionService.findAll().subscribe((data: any) => {
+      this.selects.permissoes = data.map((item)=>{
         return { label:item.name, value:item.id}
       })
     })

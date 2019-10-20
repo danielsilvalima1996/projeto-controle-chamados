@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { of, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 import { Pageable } from 'src/app/interfaces/pageable.model';
-import { Role } from 'src/app/interfaces/role.model';
+import { Permission } from 'src/app/interfaces/permission.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RolesService {
-  private relativeLink = '/role';
+export class PermissionsService {
+
+  private relativeLink = '/permission';
   private url = `${environment.url.apirest}${this.relativeLink}`;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getRoles(parameters?: any): Observable<Pageable<Role>> {
-     return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<Role>>;
+  findAll(parameters?: any): Observable<Pageable<Permission>> {
+     return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<Permission>>;
   }
 
   getRolesChumbado(){
@@ -41,15 +42,17 @@ export class RolesService {
     )
   }
 
-  findById(id: number): Observable<Role> {
-    return this.http.get(`${this.url}/${id}`) as Observable<Role>;
+  findById(id: number): Observable<Permission> {
+    return this.http.get(`${this.url}/${id}`) as Observable<Permission>;
   }
 
-  createRole(role: any) {
-    return this.http.post(`${this.url}`, role);
+  createPermission(permission: any) {
+    return this.http.post(`${this.url}`, permission);
   }
 
-  alterRole(role: Role) {
-    return this.http.put(`${this.url}`, role);
+  alterPermission(permission: Permission) {
+    return this.http.put(`${this.url}`, permission);
   }
+
+  deletePermission(){}
 }

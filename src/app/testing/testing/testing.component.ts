@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { RolesService } from 'src/app/services/cadastros/roles/roles.service';
 
 @Component({
   selector: 'app-testing',
@@ -16,7 +15,6 @@ export class TestingComponent implements OnInit {
   })
 
   constructor(
-    private rolesListService: RolesService,
     private fb: FormBuilder
   ) { }
 

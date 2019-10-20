@@ -12,9 +12,6 @@ import { PoPageModule, PoButtonModule, PoTableModule, PoFieldModule, PoLoadingMo
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserAddComponent } from './users/user-add/user-add.component';
-import { RoleAddComponent } from './roles/role-add/role-add.component';
-import { RoleEditComponent } from './roles/role-edit/role-edit.component';
-import { RoleListComponent } from './roles/role-list/role-list.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { TipoChamadoListComponent } from './tipo-chamado/tipo-chamado-list/tipo-chamado-list.component';
 import { TipoChamadoAddComponent } from './tipo-chamado/tipo-chamado-add/tipo-chamado-add.component';
@@ -22,6 +19,9 @@ import { TipoChamadoEditComponent } from './tipo-chamado/tipo-chamado-edit/tipo-
 import { SubtipoChamadoAddComponent } from './subtipo-chamado/subtipo-chamado-add/subtipo-chamado-add.component';
 import { SubtipoChamadoListComponent } from './subtipo-chamado/subtipo-chamado-list/subtipo-chamado-list.component';
 import { SubtipoChamadoEditComponent } from './subtipo-chamado/subtipo-chamado-edit/subtipo-chamado-edit.component';
+import { PermissionsListComponent } from './permissions/permissions-list/permissions-list.component';
+import { PermissionsAddComponent } from './permissions/permissions-add/permissions-add.component';
+import { PermissionsEditComponent } from './permissions/permissions-edit/permissions-edit.component';
 
 @NgModule({
   declarations: [
@@ -33,16 +33,16 @@ import { SubtipoChamadoEditComponent } from './subtipo-chamado/subtipo-chamado-e
     AnalistaListComponent,
     UserEditComponent,
     UserAddComponent,
-    RoleAddComponent,
-    RoleEditComponent,
-    RoleListComponent,
     UserListComponent,
     TipoChamadoListComponent,
     TipoChamadoAddComponent,
     TipoChamadoEditComponent,
     SubtipoChamadoAddComponent,
     SubtipoChamadoListComponent,
-    SubtipoChamadoEditComponent
+    SubtipoChamadoEditComponent,
+    PermissionsListComponent,
+    PermissionsAddComponent,
+    PermissionsEditComponent
   ],
   imports: [
     CommonModule,

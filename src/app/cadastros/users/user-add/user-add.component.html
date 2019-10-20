@@ -15,8 +15,8 @@
       <po-select formControlName="idEmpresa" p-label="ID Empresa" [p-options]="selects.empresas" class="po-md-3">
       </po-select>
 
-      <po-combo class="po-md-3" p-filter-mode="contains" p-label="Regra:" [p-options]="selects.roleOptions"
-        formControlName="role">
+      <po-combo class="po-md-3" p-filter-mode="contains" p-label="Regra:" [p-options]="selects.permission"
+        formControlName="permission">
       </po-combo>
 
       <po-select formControlName="active" p-label="Status" [p-options]="selects.statusOptions" class="po-md-3">

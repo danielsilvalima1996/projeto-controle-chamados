@@ -1,14 +1,15 @@
 import { Empresa } from './empresa.model';
-import { Role } from './role.model';
+import { Permission } from './permission.model';
+import { Page } from './page.model';
 
 export interface User {
     id: number,
     email:string,
-    username: string,
+    userName: string, // Mostrar email na tela
     password:string,
-    active: boolean,
+    enabled: boolean, // ou active
     created: Date,
     modified: Date,
     idEmpresa: Empresa,
-    idRole: Role
+    page: Page
 }

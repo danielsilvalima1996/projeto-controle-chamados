@@ -1,9 +1,9 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
     <po-divider p-label="Dados Cadastrais "></po-divider>
 
-    <form [formGroup]="roleAddForm">
+    <form [formGroup]="permissionAddForm">
         <div class="po-row">
-            <po-input formControlName="name" p-required="true" p-label="Nome Regra" class="po-md-4"
+            <po-input formControlName="description" p-required="true" p-label="Nome da Permissão" class="po-md-4"
                 p-error-pattern="Insira apenas letras e sem espaços em branco!"></po-input>
             <po-select formControlName="active" p-required="true" p-label="Status" [p-options]="selects.statusOptions"
                 class="po-md-3"></po-select>

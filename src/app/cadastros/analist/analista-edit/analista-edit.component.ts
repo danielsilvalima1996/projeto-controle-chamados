@@ -17,7 +17,7 @@ export class AnalistaEditComponent implements OnInit {
   page = {
     title: 'Editar Analista',
     actions: [
-      { label: 'Salvar', disabled: true, action: () => { this.saveRole(this.editAnalistaForm.value) } },
+      { label: 'Salvar', disabled: true, action: () => { this.saveAnalista(this.editAnalistaForm.value) } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -87,7 +87,7 @@ export class AnalistaEditComponent implements OnInit {
       })
   }
 
-   saveRole(analista: Analista) {
+   saveAnalista(analista: Analista) {
     if (this.editAnalistaForm.invalid) {
       this.notification.warning('Formulário Inválido!');
       return;
