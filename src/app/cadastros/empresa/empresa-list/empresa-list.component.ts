@@ -81,6 +81,7 @@ export class EmpresaListComponent implements OnInit {
 
 
   ngOnInit() {
+    this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
     this.controls.pesquisa.
     valueChanges.subscribe((data)=>{
       this.tipoForm(data);

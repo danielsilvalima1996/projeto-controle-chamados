@@ -31,13 +31,13 @@ export class UserListComponent implements OnInit {
   table = {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '10%' },
-      { property: 'username', label: 'Nome', width: '15%' },
-      { property: 'email', label: 'E-mail', width: '25%' },
+      { property: 'fullName', label: 'Nome Completo', width: '15%' },
+      { property: 'userName', label: 'E-mail', width: '25%' },
       { property: 'idEmpresa', label: 'ID Empresa', width: '10%' },
-      { property: 'role', label:'Regra', width:'10%' },
+      { property: 'permissions', label:'Permissões', width:'10%' },
       { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'active', label: 'Ativo', width: '10%', type:'boolean' }
+      { property: 'enabled', label: 'Ativo', width: '10%', type:'boolean' }
     ],
     items: [],
     height: 0,
@@ -52,11 +52,10 @@ export class UserListComponent implements OnInit {
   selects = {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
-      { label: 'USUÁRIO', value: 'username' },
-      { label: 'E-MAIL', value:'email'},
-      { label: 'ATIVO', value: 'active' },
+      { label: 'E-MAIL', value: 'userName' },
+      { label: 'NOME', value:'fullName'},
+      { label: 'ATIVO', value: 'enabled' },
       { label: 'ID EMPRESA', value: 'idEmpresa'},
-      { label: 'ID ROLE', value: 'idRole'}
     ],
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
