@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
+import { PoPageDefault, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
-import { PoNotificationService, PoPageDefault, PoSelectOption } from '@portinari/portinari-ui';
-import { Empresa } from 'src/app/interfaces/empresa.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-company-add',
-  templateUrl: './company-add.component.html',
-  styleUrls: ['./company-add.component.css']
+  selector: 'app-empresa-add',
+  templateUrl: './empresa-add.component.html',
+  styleUrls: ['./empresa-add.component.css']
 })
-export class CompanyAddComponent implements OnInit {
+export class EmpresaAddComponent implements OnInit {
 
   page: PoPageDefault = {
     actions: [
-      { label: 'Salvar', disabled: true, action: () => { this.registrarEmpresa(this.companyAddForm.value) } },
+      { label: 'Salvar', disabled: true, action: () => { this.registrarEmpresa(this.empresaAddForm.value) } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -37,7 +36,7 @@ export class CompanyAddComponent implements OnInit {
     ]
   }
 
-  companyAddForm: FormGroup = this.fb.group({
+  empresaAddForm: FormGroup = this.fb.group({
     cnpj: ['', [Validators.required]],
     nomeFantasia: ['', [Validators.required]],
     razaoSocial: ['', [Validators.required]],
@@ -57,14 +56,14 @@ export class CompanyAddComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.companyAddForm.
+    this.empresaAddForm.
       valueChanges.subscribe((data) => {
-        this.page.actions[0].disabled = this.companyAddForm.invalid;
+        this.page.actions[0].disabled = this.empresaAddForm.invalid;
       })
   }
 
   registrarEmpresa(empresa) {
-    if (this.companyAddForm.invalid) {
+    if (this.empresaAddForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');
       return;
     } else {
@@ -81,4 +80,5 @@ export class CompanyAddComponent implements OnInit {
   }
 
 }
+
 

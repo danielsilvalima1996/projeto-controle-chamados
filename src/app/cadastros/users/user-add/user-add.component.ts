@@ -42,12 +42,13 @@ export class UserAddComponent implements OnInit {
   }
 
   useraddForm: FormGroup = this.fb.group({
-    username: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(5)]],
-    email: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
-    password: ['', [Validators.required,Validators.minLength(5)]],
-    active: ['', [Validators.required]],
+    userName: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
+    fullName:['',Validators.required,Validators.minLength(6)],
+    password: ['', [Validators.required]],
+    authorities: ['', [Validators.required]],
     permission:['',[Validators.required]],
-    idEmpresa:['',[Validators.required]]
+    idEmpresa:['',[Validators.required]],
+    roles:['',[Validators.required]]
   });
 
   constructor(

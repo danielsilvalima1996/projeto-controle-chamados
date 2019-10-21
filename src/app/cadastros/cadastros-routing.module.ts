@@ -3,9 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AnalistaListComponent } from './analist/analista-list/analista-list.component';
 import { AnalistaEditComponent } from './analist/analista-edit/analista-edit.component';
 import { AnalistaAddComponent } from './analist/analista-add/analista-add.component';
-import { CompanyListComponent } from './company/company-list/company-list.component';
-import { CompanyEditComponent } from './company/company-edit/company-edit.component';
-import { CompanyAddComponent } from './company/company-add/company-add.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserAddComponent } from './users/user-add/user-add.component';
@@ -18,6 +15,9 @@ import { SubtipoChamadoEditComponent } from './subtipo-chamado/subtipo-chamado-e
 import { PermissionsListComponent } from './permissions/permissions-list/permissions-list.component';
 import { PermissionsEditComponent } from './permissions/permissions-edit/permissions-edit.component';
 import { PermissionsAddComponent } from './permissions/permissions-add/permissions-add.component';
+import { EmpresaListComponent } from './empresa/empresa-list/empresa-list.component';
+import { EmpresaEditComponent } from './empresa/empresa-edit/empresa-edit.component';
+import { EmpresaAddComponent } from './empresa/empresa-add/empresa-add.component';
 
 
 const routes: Routes = [
@@ -31,9 +31,9 @@ const routes: Routes = [
   },
   {
     path: 'empresa', children: [
-      { path: '', component: CompanyListComponent },
-      { path: ':action/:companyId', component: CompanyEditComponent },
-      { path: 'add', component: CompanyAddComponent }
+      { path: '', component: EmpresaListComponent },
+      { path: ':action/:id', component: EmpresaEditComponent },
+      { path: 'add', component: EmpresaAddComponent }
 
     ]
   },

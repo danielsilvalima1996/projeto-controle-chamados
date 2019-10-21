@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { PoSelectOption, PoTableAction, PoTableColumn, PoPageDefault } from '@portinari/portinari-ui';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
+import { PoPageDefault, PoTableColumn, PoSelectOption } from '@portinari/portinari-ui';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-company-list',
-  templateUrl: './company-list.component.html',
-  styleUrls: ['./company-list.component.css']
+  selector: 'app-empresa-list',
+  templateUrl: './empresa-list.component.html',
+  styleUrls: ['./empresa-list.component.css']
 })
-export class CompanyListComponent implements OnInit {
+export class EmpresaListComponent implements OnInit {
 
   page: PoPageDefault = {
     title: 'Cadastro de Empresas',
@@ -47,7 +47,7 @@ export class CompanyListComponent implements OnInit {
     loading: false
   }
 
-  companyform: FormGroup = this.fb.group({
+  empresaform: FormGroup = this.fb.group({
     filtro: ['', []],
     pesquisa: ['']
   })
@@ -85,11 +85,11 @@ export class CompanyListComponent implements OnInit {
     valueChanges.subscribe((data)=>{
       this.tipoForm(data);
     })
-    this.getCompany(this.companyform.value)
+    this.getEmpresa(this.empresaform.value)
   }
 
   get controls() {
-    return this.companyform.controls
+    return this.empresaform.controls
   }
 
   tipoForm(tipo) {
@@ -110,7 +110,7 @@ export class CompanyListComponent implements OnInit {
     this.constValue.itemSelecionado = '';
   }
 
-  getCompany(form?) {
+  getEmpresa(form?) {
     this.empresaService.getEmpresa(this.utilService.getParameters(form))
       .subscribe((data: any) => {
         let value: Array<any> = data.content;

@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
 import { PoPageDefault, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Empresa } from 'src/app/interfaces/empresa.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-company-edit',
-  templateUrl: './company-edit.component.html',
-  styleUrls: ['./company-edit.component.css']
+  selector: 'app-empresa-edit',
+  templateUrl: './empresa-edit.component.html',
+  styleUrls: ['./empresa-edit.component.css']
 })
-export class CompanyEditComponent implements OnInit {
-
+export class EmpresaEditComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Editar Empresa',
     actions: [
@@ -77,9 +76,6 @@ export class CompanyEditComponent implements OnInit {
         this.constValue.id = params.get('id')
       })
     this.findById(this.constValue.id)
-    console.log(this.constValue.id);
-
-
   }
 
   get controls() {
@@ -91,8 +87,6 @@ export class CompanyEditComponent implements OnInit {
     this.empresaService
       .findById(id)
       .subscribe((data) => {
-        console.log(data);
-
         data.criado = new Date(data.criado);
         data.modificado = new Date(data.modificado);
         this.editEmpresaForm.setValue(data);
