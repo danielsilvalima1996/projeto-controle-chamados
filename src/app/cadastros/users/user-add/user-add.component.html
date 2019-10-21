@@ -3,8 +3,9 @@
 
   <form [formGroup]="useraddForm">
     <div class="po-row">
-      <po-input formControlName="username" p-label="Nome Usuário" class="po-md-4"
-        p-error-pattern="Insira no mínimo 5 caracteres"></po-input>
+      <po-input formControlName="userName" p-label="email" class="po-md-4"
+        p-error-pattern="Insira um e-mail válido"></po-input>
+      <po-input formControlName="fullName" p-label="Nome Usuário" class="po-md-4" p-error-pattern="Insira o seu nome Completo"></po-input>
       <po-input formControlName="email" p-label="E-mail" class="po-md-4" p-error-pattern="Insira um e-mail válido!">
       </po-input>
       <po-password formControlName="password" p-label="Senha" class="po-md-4"

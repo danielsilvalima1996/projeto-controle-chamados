@@ -15,7 +15,7 @@ export class AnalistaListComponent implements OnInit {
   page = {
     actions: <PoPageAction[]>[
       { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista/add' },
-      { label: 'Editar', action: () => { this.router.navigate(['edit', this.constValue.itemSelecionado],{relativeTo:this.route}) } },
+      { label: 'Editar', action: () => { this.router.navigate(['edit', this.constValue.itemSelecionado], { relativeTo: this.route }) } },
     ],
 
     title: 'Cadastro de Analistas',
@@ -33,36 +33,44 @@ export class AnalistaListComponent implements OnInit {
       { property: 'id', label: 'ID', width: '10%' },
       { property: 'nome', label: 'Nome', width: '20%' },
       { property: 'email', label: 'E-mail', width: '20%' },
-      { property: 'matricula', label:'Matricula', width:'10%'},
+      { property: 'matricula', label: 'Matricula', width: '10%' },
       { property: 'criado', label: 'Criado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'ativo', label: 'Ativo', width: '10%', type:'boolean' }
+      { property: 'ativo', label: 'Ativo', width: '10%', type: 'boolean' }
     ],
     items: [],
     height: 0,
     loading: false
   }
 
+  pagination = {
+    totalItems: 0,
+    itemsPerPage: 150,
+    currentPage: 1
+  }
+
   analistaform: FormGroup = this.fb.group({
     filtro: ['', []],
-    pesquisa: ['',[]]
+    pesquisa: ['', []]
   })
 
   selects = {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
       { label: 'ANALISTA', value: 'nome' },
-      { label: 'STATUS', value: 'active' }
+      { label: 'STATUS', value: 'ativo' },
+      { label: 'E-MAIL', value: 'email' },
+      { label: 'MATRÍCULA',value: 'matricula'},
     ],
     filtro: <PoSelectOption[]>[
-      { label: 'SIM', value:'true'},
-      { label: 'NÃO', value: 'false'}
+      { label: 'SIM', value: 'true' },
+      { label: 'NÃO', value: 'false' }
     ]
   }
 
   constValue = {
     itemSelecionado: '',
-    analistaId:'',
+    analistaId: '',
     input: <Boolean>true,
     select: <Boolean>false
   }
@@ -80,9 +88,9 @@ export class AnalistaListComponent implements OnInit {
 
   ngOnInit() {
     this.controls.pesquisa
-    .valueChanges.subscribe((data) => {
-      this.tipoForm(data);
-    })
+      .valueChanges.subscribe((data) => {
+        this.tipoForm(data);
+      })
     this.getAnalista(this.analistaform.value)
 
   }
@@ -101,11 +109,14 @@ export class AnalistaListComponent implements OnInit {
     }
   }
 
-   getAnalista(form?) {
+  getAnalista(form?) {
+    this.table.loading = true
     this.analistaService.getAnalista(this.utilService.getParameters(form))
-      .subscribe((data:any) => {
+      .subscribe((data: any) => {
         this.table.items = data.content;
-        console.log(data.content)
+        this.table.loading = false
+        this.pagination.totalItems = data.content.total;
+        this.pagination.itemsPerPage = data.content.limit;
       })
 
   }
@@ -114,7 +125,7 @@ export class AnalistaListComponent implements OnInit {
     this.constValue.itemSelecionado = event.id;
   }
 
- getUnSelected() {
+  getUnSelected() {
     this.constValue.itemSelecionado = '';
   }
 

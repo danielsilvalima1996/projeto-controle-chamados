@@ -12,7 +12,7 @@ export interface Pageable<T> {
         paged: boolean,
         unpaged: boolean
     },
-    totalPages: number,
+    totalPages: number, // Total de Páginas
     totalElements: number,
     last: boolean,
     size: number,
@@ -23,6 +23,6 @@ export interface Pageable<T> {
         empty: boolean
     },
     first: boolean,
-    numberOfElements: number,
+    numberOfElements: number, 
     empty: boolean
 }

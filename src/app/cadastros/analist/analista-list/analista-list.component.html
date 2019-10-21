@@ -9,7 +9,8 @@
                 [p-options]="selects.filtro" formControlName="filtro">
             </po-combo>
 
-            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (click)="getAnalista(this.analistaform.value)">
+            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar"
+                (click)="getAnalista(this.analistaform.value)">
             </po-button>
         </div>
     </form>
@@ -17,5 +18,10 @@
         p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()"
         p-checkbox="true" p-single-select="true">
     </po-table>
+
+    <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
+        (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage">
+    </app-pagination>
 
 </po-page-default>
