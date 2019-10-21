@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login/login.component';
-import { PoFieldModule, PoPageModule, PoButtonModule } from '@portinari/portinari-ui';
+import { PoFieldModule, PoPageModule, PoButtonModule, PoLoadingModule } from '@portinari/portinari-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -16,7 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PoFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    PoButtonModule
+    PoButtonModule,
+    PoLoadingModule
   ]
 })
 export class LoginModule { }
