@@ -22,6 +22,7 @@ import { PermissionsEditComponent } from './permissions/permissions-edit/permiss
 import { EmpresaListComponent } from './empresa/empresa-list/empresa-list.component';
 import { EmpresaAddComponent } from './empresa/empresa-add/empresa-add.component';
 import { EmpresaEditComponent } from './empresa/empresa-edit/empresa-edit.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { EmpresaEditComponent } from './empresa/empresa-edit/empresa-edit.compon
     PoDynamicModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule
 
 
   ]

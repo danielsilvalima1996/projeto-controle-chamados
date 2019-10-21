@@ -40,7 +40,7 @@ export class EmpresaListComponent implements OnInit {
       { property: 'celular', label: 'Celular', width: '120px' },
       { property: 'criado', label: 'Criado ', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado ', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'ativo', label: 'Ativo', width:'100px', type:'boolean'}
+      { property: 'ativo', label: 'Ativo', width: '100px', type: 'boolean' }
     ],
     items: [],
     height: 0,
@@ -56,7 +56,12 @@ export class EmpresaListComponent implements OnInit {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
       { label: 'NOME FANTASIA', value: 'nomeFantasia' },
-      { label: 'ATIVO', value: 'active' }
+      { label: 'RAZÃO SOCIAL', value: 'razaoSocial' },
+      { label: 'CNPJ', value:'cnpj'},
+      { label: 'ADMIN', value: 'admin' },
+      { label: 'CODIGO TOTVS', value:'codigoTotvs'},
+      { label: 'ATIVO', value: 'ativo' },
+
     ],
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
@@ -83,9 +88,9 @@ export class EmpresaListComponent implements OnInit {
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
     this.controls.pesquisa.
-    valueChanges.subscribe((data)=>{
-      this.tipoForm(data);
-    })
+      valueChanges.subscribe((data) => {
+        this.tipoForm(data);
+      })
     this.getEmpresa(this.empresaform.value)
   }
 
