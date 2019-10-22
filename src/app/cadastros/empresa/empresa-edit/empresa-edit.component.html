@@ -3,7 +3,7 @@
     <form [formGroup]="editEmpresaForm">
         <div class="po-row">
             <po-input class="po-md-2" p-label="ID" p-readonly="true" formControlName="id"></po-input>
-            <po-input class="po-md-4" formControlName="cnpj" p-label="CNPJ" p-mask="99.999.999/9999-99"></po-input>
+            <po-input class="po-md-4" formControlName="cnpj" p-label="CNPJ" p-readonly="true" p-mask="99.999.999/9999-99"></po-input>
             <po-input class="po-md-3" formControlName="razaoSocial" p-readonly="true"
                 p-label="Razão Social"></po-input>
             <po-input class="po-md-3" formControlName="nomeFantasia" p-readonly="true"

@@ -45,7 +45,7 @@ export class AnalistaListComponent implements OnInit {
 
   pagination = {
     totalItems: 0,
-    itemsPerPage: 150,
+    itemsPerPage: 30,
     currentPage: 1
   }
 
@@ -92,6 +92,7 @@ export class AnalistaListComponent implements OnInit {
         this.tipoForm(data);
       })
     this.getAnalista(this.analistaform.value)
+    // this.getAnalista()
 
   }
 
@@ -110,16 +111,27 @@ export class AnalistaListComponent implements OnInit {
   }
 
   getAnalista(form?) {
-    this.table.loading = true
+    // this.table.loading = true
     this.analistaService.getAnalista(this.utilService.getParameters(form))
       .subscribe((data: any) => {
         this.table.items = data.content;
-        this.table.loading = false
-        this.pagination.totalItems = data.content.total;
-        this.pagination.itemsPerPage = data.content.limit;
+        // this.table.loading = false
+        // this.pagination.totalItems = data.content.total;
+        // this.pagination.itemsPerPage = data.content.limit;
       })
 
   }
+
+  // getAnalista(){
+  //   this.table.loading = true;
+  //   this.analistaService.getAnalistaChumbado()
+  //   .subscribe((data:any) => {
+  //     this.table.items = data
+  //     this.table.loading = false;
+  //     this.pagination.totalItems = data.total;
+  //     this.pagination.itemsPerPage = data.limit
+  //   })
+  // }
 
   getSelected(event) {
     this.constValue.itemSelecionado = event.id;

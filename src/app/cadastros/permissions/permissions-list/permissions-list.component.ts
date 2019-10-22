@@ -100,9 +100,11 @@ export class PermissionsListComponent implements OnInit {
   }
 
   getPermission(form?) {
+    this.table.loading = true;
     this.permissionService.findAll(this.utilService.getParameters(form))
       .subscribe((data) => {
         this.table.items = data.content;
+        this.table.loading = false;
       })
 
   }
