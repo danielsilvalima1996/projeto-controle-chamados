@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PoModule } from '@portinari/portinari-ui';
+import { PoModule, PoToolbarModule, PoModalModule } from '@portinari/portinari-ui';
 import { RouterModule } from '@angular/router';
 import { CadastrosModule } from './cadastros/cadastros.module';
 import { ChamadosModule } from './chamados/chamados.module';
@@ -20,6 +20,8 @@ import { InterceptorService } from './services/authentication/interceptor/interc
   imports: [
     BrowserModule,
     AppRoutingModule,
+    PoToolbarModule,
+    PoModalModule,
     CadastrosModule,
     ChamadosModule,
     DashboardModule,

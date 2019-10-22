@@ -8,15 +8,15 @@ import { Observable } from 'rxjs';
 export class InterceptorService implements HttpInterceptor {
 
   constructor() { }
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler) {
 
-    const jwt = sessionStorage.getItem('token');
-    console.log(jwt);
-    
-
-    request = request.clone({
-      headers: request.headers.set('Authorization', `${jwt}`)
-    });
+    if (sessionStorage.getItem('token')) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: sessionStorage.getItem('token')
+        }
+      })
+    }
 
     console.log(request);
 

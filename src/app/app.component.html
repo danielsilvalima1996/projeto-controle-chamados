@@ -1,7 +1,7 @@
 <div class="po-wrapper">
-    <po-toolbar *ngIf="true" p-title="Portal Chamados Lobios"></po-toolbar>
+    <po-toolbar *ngIf="logged" p-title="Portal Chamados Lobios" [p-profile]="profile" [p-profile-actions]="profileActions"></po-toolbar>
 
-    <po-menu *ngIf="true"
+    <po-menu *ngIf="logged"
         p-collapsed 
         p-filter [p-menus]="menus" 
         p-logo="assets/img/lobios-logo-transparente.png" 
@@ -10,3 +10,8 @@
     <router-outlet></router-outlet>
 
 </div>
+
+<po-modal #trocarSenha
+    [p-primary-action]="primaryAction"
+    [p-secondary-action]="secondaryAction">
+</po-modal>
