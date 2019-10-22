@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
         .login(this.loginForm.value)
         .subscribe((data: Login) => {
 
-        const jwtToken = data.token;
+        const jwtToken = `Bearer ${data.token}`;
         sessionStorage.setItem('token', jwtToken);
 
         const userInformation: User = data.user;

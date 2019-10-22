@@ -10,6 +10,8 @@ import { ChamadosModule } from './chamados/chamados.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { LoginModule } from './login/login.module';
 import { TestingModule } from './testing/testing.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from './services/authentication/interceptor/interceptor.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,12 @@ import { TestingModule } from './testing/testing.module';
     PoModule,
     RouterModule.forRoot([])
   ],
-  providers: [],
+  providers: [,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
