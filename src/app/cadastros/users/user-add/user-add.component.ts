@@ -48,7 +48,8 @@ export class UserAddComponent implements OnInit {
     authorities: ['', [Validators.required]],
     permission:['',[Validators.required]],
     idEmpresa:['',[Validators.required]],
-    roles:['',[Validators.required]]
+    roles:['',[Validators.required]],
+    enabled:['',[Validators.required]]
   });
 
   constructor(
@@ -70,11 +71,13 @@ export class UserAddComponent implements OnInit {
 
   getPermission() {
     this.permissionService
-      .findAll()
+      .findAllActive()
       .subscribe((data: any) => {
-        let arr: Array<any> = data.content; // chumbado ----  data.content no original
+        let arr: Array<any> = data;
+        console.log(arr);
+        
         arr = arr.map((item: any) => {
-          return <PoSelectOption>{ label: `${item.id} - ${item.nome}`, value: item.id };
+          return <PoSelectOption>{ label: `${item.id} - ${item.description}`, value: item.id };
         })
         this.selects.permission = arr;
       })
@@ -84,7 +87,7 @@ export class UserAddComponent implements OnInit {
     this.empresaService
       .getEmpresa()
       .subscribe((data: any) => {
-        let arr: Array<any> = data.content; // chumbado ----  data.content no original
+        let arr: Array<any> = data.content;
         arr = arr.map((item: any) => {
           return <PoSelectOption>{ label: `${item.id} - ${item.razaoSocial}`, value: item.id };
         })
@@ -101,11 +104,8 @@ export class UserAddComponent implements OnInit {
       this.userService
         .addUser(this.useraddForm.value)
         .subscribe((data) => {
-          console.log(data);
           this.notificationService.success('Usuário Cadastrado com Sucesso');
           this.location.back();
-          
-          
         },
           (error: HttpErrorResponse) => {
             this.notificationService.error(error.error.meta.message);

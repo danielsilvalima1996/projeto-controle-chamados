@@ -16,7 +16,7 @@ export class EmpresaEditComponent implements OnInit {
   page: PoPageDefault = {
     title: 'Editar Empresa',
     actions: [
-      { label: 'Salvar', action: () => { } },
+      { label: 'Salvar', action: () => { this.registrarEmpresa(this.editEmpresaForm.value) } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -37,7 +37,7 @@ export class EmpresaEditComponent implements OnInit {
 
   selects = {
     active: <PoSelectOption[]>[
-      { label: 'ATIVO', value: 'true ' },
+      { label: 'ATIVO', value: 'true' },
       { label: 'INATIVO', value: 'false' }
     ]
   }
@@ -87,6 +87,7 @@ export class EmpresaEditComponent implements OnInit {
     this.empresaService
       .findById(id)
       .subscribe((data) => {
+        console.log(data);
         data.criado = new Date(data.criado);
         data.modificado = new Date(data.modificado);
         this.editEmpresaForm.setValue(data);

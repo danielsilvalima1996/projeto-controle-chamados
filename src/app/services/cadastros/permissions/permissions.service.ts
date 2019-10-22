@@ -13,6 +13,9 @@ export class PermissionsService {
   private relativeLink = '/permission';
   private url = `${environment.url.apirest}${this.relativeLink}`;
 
+  private relativeLinkAll = '/permission/all';
+  private urlAll = `${environment.url.apirest}${this.relativeLinkAll}`;
+
   constructor(
     private http: HttpClient
   ) { }
@@ -20,6 +23,10 @@ export class PermissionsService {
   findAll(parameters?: any): Observable<Pageable<Permission>> {
      return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<Permission>>;
   }
+
+  findAllActive(parameters?: any): Observable<Pageable<Permission>> {
+    return this.http.get(`${this.urlAll}?${parameters}`) as Observable<Pageable<Permission>>;
+ }
 
   getRolesChumbado(){
        return of(
