@@ -28,12 +28,13 @@ import { InterceptorService } from './services/authentication/interceptor/interc
     PoModule,
     RouterModule.forRoot([])
   ],
-  providers: [,
+  providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
-    }],
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
