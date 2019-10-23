@@ -83,6 +83,7 @@ export class SubtipoChamadoListComponent implements OnInit {
       this.tipoForm(data);
     })
     this.findSubtipoChamado(this.subtipoForm.value);
+    // this.findSubtipoChamado();
   }
 
   get controls() {
@@ -96,6 +97,17 @@ export class SubtipoChamadoListComponent implements OnInit {
         this.table.items = data.content
       })
   }
+
+  //  findSubtipoChamado() {
+  //   this.subtipoChamadoService
+  //     .findSubtipoChamadoChumbado()
+  //     .subscribe((data:any) => {
+  //       console.log(data);
+  //       this.table.items = data
+  //     })
+  // }
+
+  
   
   tipoForm(tipo) {
     if (tipo == 'active') {

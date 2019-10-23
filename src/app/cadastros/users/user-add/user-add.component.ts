@@ -14,9 +14,9 @@ import { PermissionsService } from 'src/app/services/cadastros/permissions/permi
 })
 export class UserAddComponent implements OnInit {
 
-  page : PoPageDefault = {
+  page: PoPageDefault = {
     actions: <PoPageAction[]>[
-      { label: 'Salvar', disabled:true, action: () => { this.addUser()} },
+      { label: 'Salvar', disabled: true, action: () => { this.addUser() } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -33,23 +33,23 @@ export class UserAddComponent implements OnInit {
   }
 
   selects = {
-    statusOptions: <PoSelectOption[]> [
+    statusOptions: <PoSelectOption[]>[
       { label: 'ATIVO', value: 'true' },
       { label: 'INATIVO', value: 'false' }
     ],
-    permission:<PoSelectOption[]>[],
-    empresas:<PoSelectOption[]>[]
+    permission: <PoSelectOption[]>[],
+    empresas: <PoSelectOption[]>[]
   }
 
   useraddForm: FormGroup = this.fb.group({
     userName: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
-    fullName:['',Validators.required,Validators.minLength(6)],
+    fullName: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(8)]],
     password: ['', [Validators.required]],
     authorities: ['', [Validators.required]],
-    permission:['',[Validators.required]],
-    idEmpresa:['',[Validators.required]],
-    roles:['',[Validators.required]],
-    enabled:['',[Validators.required]]
+    permission: ['', [Validators.required]],
+    idEmpresa: ['', [Validators.required]],
+    roles: ['', [Validators.required]],
+    enabled: ['', [Validators.required]]
   });
 
   constructor(
@@ -57,13 +57,15 @@ export class UserAddComponent implements OnInit {
     private location: Location,
     private notificationService: PoNotificationService,
     private userService: UserService,
-    private permissionService: PermissionsService ,
+    private permissionService: PermissionsService,
     private empresaService: EmpresaService
   ) { }
 
   ngOnInit() {
     this.useraddForm.valueChanges.subscribe((_) => {
       this.page.actions[0].disabled = this.useraddForm.invalid;
+      console.log(this.useraddForm.invalid);
+      
     })
     this.getPermission()
     this.getEmpresas()
@@ -74,8 +76,6 @@ export class UserAddComponent implements OnInit {
       .findAllActive()
       .subscribe((data: any) => {
         let arr: Array<any> = data;
-        console.log(arr);
-        
         arr = arr.map((item: any) => {
           return <PoSelectOption>{ label: `${item.id} - ${item.description}`, value: item.id };
         })
@@ -101,16 +101,32 @@ export class UserAddComponent implements OnInit {
       return;
     }
     else {
-      this.userService
-        .addUser(this.useraddForm.value)
-        .subscribe((data) => {
-          this.notificationService.success('Usuário Cadastrado com Sucesso');
-          this.location.back();
-        },
-          (error: HttpErrorResponse) => {
-            this.notificationService.error(error.error.meta.message);
-          }
-        );
+      let permissions: Array<any> = [];
+      console.log(permissions);
+
+      // this.useraddForm.controls.permission.value
+      // this.useraddForm.controls.idEmpresa.value,
+
+      let obj = {
+        userName: this.useraddForm.controls.userName.value,
+        fullName: this.useraddForm.controls.fullName.value,
+        password: this.useraddForm.controls.password.value,
+        permissions: [this.useraddForm.controls.permission.value],
+        idEmpresa: [this.useraddForm.controls.idEmpresa.value,],
+        authorities: this.useraddForm.controls.authorities.value,
+        roles: [],
+      }
+      console.log(obj);
+
+      this.userService.addUser(obj).subscribe(() => {
+        this.notificationService.success('Usuário Cadastrado com Sucesso!');
+        this.location.back();
+      },
+        (error: HttpErrorResponse) => {
+          this.notificationService.error('Erro no Cadastro do Usuário');
+        }
+
+      )
     }
   }
 
