@@ -133,6 +133,7 @@ export class ChamadosListComponent implements OnInit {
               obj[data] = '-';
             } else if (data == 'idEmpresa') {
               obj[data] = item[data].nomeFantasia;
+              item.idEmpresa.nomeFantasia
             } else if (data == 'idAnalista') {
               obj[data] = item[data].nome;
             } else if (data == 'tipoChamado') {
@@ -141,6 +142,8 @@ export class ChamadosListComponent implements OnInit {
               obj[data] = item[data].descricao;
             } else if (data == 'idUsuario') {
               obj[data] = item[data].fullName;
+            } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-' ) {
+              obj[data] = this.utilService.formataData(item[data].toString());
             } else {
               obj[data] = item[data];
             }
@@ -148,8 +151,7 @@ export class ChamadosListComponent implements OnInit {
           })
           return obj;
         })
-        console.log(arr);
-        
+
         this.table.loading = false;
         this.table.items = arr;
       },

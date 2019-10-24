@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilService {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   /**
- * 
- * @param json recebe um JSON com chave e valor
- * EX: {"nome": "Daniel", filter: "pesquisa"}
- * @returns retornas uma string separando chave e valor com & '"E" comercial'
- *  nome="Daniel"&filter=pesquisa
- */
+   * 
+   * @param json recebe um JSON com chave e valor
+   * EX: {"nome": "Daniel", filter: "pesquisa"}
+   * @returns retornas uma string separando chave e valor com & '"E" comercial'
+   *  nome="Daniel"&filter=pesquisa
+   */
   getParameters(json) {
     return Object.keys(json).map((key) => {
       if (json[key] === undefined || json[key] === null) {
@@ -22,6 +25,7 @@ export class UtilService {
       return `${key}=${json[key]}`;
     }).join('&');
   }
+
   /**
    * terceira versão
    * @param date date
@@ -30,6 +34,7 @@ export class UtilService {
   formatDate(date: string) {
     return date.split('T')[0];
   }
+
   /**
    *
    * @param windowHeight innerHeight
@@ -40,6 +45,7 @@ export class UtilService {
     windowHeight = windowHeight * percent;
     return windowHeight;
   }
+
   /**
    * Função retorna o dia atual formatado
    * @returns hoje = 'yyyy-mm-dd' => 2019-07-31
@@ -58,6 +64,7 @@ export class UtilService {
     let hoje = yyyy + '-' + mm + '-' + dd;
     return hoje;
   }
+
   /**
    * Função retorna a hora atual formatada
    * @returns hh:mm => 14:39
@@ -81,6 +88,7 @@ export class UtilService {
     let horaAtual = `${hora}:${minuto}`;
     return horaAtual;
   }
+
   /**
    * 
    * @param campoTexto Recebe uma string com o CPF ou CNPJ
@@ -95,6 +103,7 @@ export class UtilService {
     }
     return campoTexto;
   }
+
   /**
    * 
    * @param campoTexto Recebe uma string com o CPF ou CNPJ
@@ -104,6 +113,7 @@ export class UtilService {
   retirarFormatacaoCnpjCpf(campoTexto: string) {
     campoTexto = campoTexto.replace(/(\.|\/|\-)/g, "");
   }
+
   /**
    * 
    * @param valor recebe CPF, somente números
@@ -112,6 +122,7 @@ export class UtilService {
   private mascaraCpf(valor: string) {
     return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3\-\$4");
   }
+
   /**
    * 
    * @param valor recebe CPF, somente números
@@ -120,6 +131,7 @@ export class UtilService {
   private mascaraCnpj(valor: string) {
     return valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3\/\$4\-\$5");
   }
+
   /**
    * 
    * @param telefone recebe uma string com número de telefone ou celular
@@ -142,18 +154,6 @@ export class UtilService {
     return teleCel;
   }
 
-   /**
-   * 
-   * @param telefone recebe uma string com número de telefone ou celular
-   * @returns uma string formatada utilizando como paramêtro o length da string
-   */
-  
-  mascaraDeTelefone2(v){
-    v=v.replace(/\D/g,"");             		//Remove tudo o que não é dígito
-    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
-    return v.substr(0, 15);
-}
   /**
    * 
    * @param telefone recebe uma string com pontos e traços
@@ -163,6 +163,7 @@ export class UtilService {
     telefone = telefone.replace(/[^0-9]+/g, '');
     return telefone;
   }
+
   /**
    * 
    * @param string dados a ser convertido, recebe qualquer tipo de dados
@@ -174,6 +175,7 @@ export class UtilService {
     filter = filter.toUpperCase();
     return filter;
   }
+
   /**
    * 
    * @param arr Array com os valores
@@ -181,10 +183,12 @@ export class UtilService {
    * @returns retorna um Array sem o value informado
    */
   arrayRemove(arr, value) {
+
     return arr.filter(function (ele) {
       return ele != value;
     });
   }
+
   /**
    * 
    * @param int qualquer tipo de variavel, porém deve ser um número
@@ -200,6 +204,7 @@ export class UtilService {
     int = int.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
     return int;
   }
+
   /**
    * 
    * @param arr Array e posição do que deseja somar. EX: 'data.response' || 'data'
@@ -222,5 +227,47 @@ export class UtilService {
     }
   }
 
+  /**
+   * 
+   * @param data recebe uma data yyyy/mm/dd
+   * @returns string dd/mm/yyyy
+   */
+  formataData(data: String) {
+    let fullDate = data;
+    let yyyy = fullDate.substr(0, 4);
+    let mm = fullDate.substr(5, 2);
+    let dd = fullDate.substr(8, 2);
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  multiFormataData(data: string, formatoVolta: string) {
+    let fullDate = data;
+    if (formatoVolta == 'yyyy-mm-dd') {
+      let yyyy = fullDate.substr(6, 4);
+      let mm = fullDate.substr(3, 2);
+      let dd = fullDate.substr(0, 2);
+      return `${yyyy}-${mm}-${dd}`;
+    } else if (formatoVolta == 'dd/mm/yyyy') {
+      let yyyy = fullDate.substr(0, 4);
+      let mm = fullDate.substr(5, 2);
+      let dd = fullDate.substr(8, 2);
+      return `${dd}/${mm}/${yyyy}`;
+    } else {
+      return;
+    }
+  }
+
+  /**
+  * 
+  * @param telefone recebe uma string com número de telefone ou celular
+  * @returns uma string formatada utilizando como paramêtro o length da string
+  */
+
+  mascaraDeTelefone2(v) {
+    v = v.replace(/\D/g, "");             		//Remove tudo o que não é dígito
+    v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+    v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+    return v.substr(0, 15);
+  }
 
 }

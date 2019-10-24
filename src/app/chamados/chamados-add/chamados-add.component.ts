@@ -51,7 +51,7 @@ export class ChamadosAddComponent implements OnInit {
   }
 
   chamadosForm: FormGroup = this.fb.group({
-    idEmpresa: ['', [Validators.required]],
+    idEmpresa: ['', []],
     idAnalista: ['', []],
     idUsuario: ['', []],
     dataAbertura: ['', [Validators.required]],
@@ -59,7 +59,7 @@ export class ChamadosAddComponent implements OnInit {
     dataFechamento: ['', []],
     horaFechamento: ['', []],
     tempoChamado: ['', []],
-    codigoStatusChamado: ['1', [Validators.required]],
+    codigoStatusChamado: ['', []],
     tipoChamado: ['', [Validators.required]],
     subtipoChamado: ['', [Validators.required]],
     descricaoChamado: ['', [Validators.required]],
@@ -154,32 +154,44 @@ export class ChamadosAddComponent implements OnInit {
   }
 
   registrarChamado() {
-    this.controls.idAnalista.value == '' ? this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
-    let userId: number;
+    this.controls.idAnalista.value == '' || this.controls.idAnalista.value == null ?
+      this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
+    this.controls.codigoStatusChamado.value == '' || this.controls.codigoStatusChamado.value == '' ?
+      this.controls.codigoStatusChamado.setValue(1) :
+      this.controls.codigoStatusChamado.setValue(this.controls.codigoStatusChamado.value);
+
+    let user: User;
     let empresaId: number
     this.loginService.getUserInformation$.subscribe((data) => {
-      userId = data.id;
+      user = data;
       empresaId = data.idEmpresa.id
     })
+    user.authorities = []
     let chamado = {
+      idChamado: '',
       idEmpresa: { id: empresaId },
-      idAnalista: { id: this.controls.idAnalista.value },
-      idUsuario: { id: userId},
+      idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
+      idUsuario: user,
       dataAbertura: this.controls.dataAbertura.value,
       horaAbertura: this.controls.horaAbertura.value,
       dataFechamento: this.controls.dataFechamento.value,
       horaFechamento: this.controls.horaFechamento.value,
       tempoChamado: this.controls.tempoChamado.value,
-      codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value),
-      tipoChamado: { id: parseInt(this.controls.tipoChamado.value) },
-      subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value) },
+      codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
+      tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
+      subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
       descricaoChamado: this.controls.descricaoChamado.value,
       solucaoChamado: this.controls.solucaoChamado.value
     }
 
+    console.log(chamado);
+    
+
     this.chamadosService
       .createChamado(chamado)
       .subscribe((data) => {
+        console.log(data);
+        
         this.notificationService.success('Chamado aberto com sucesso!');
         this.location.back();
       },
