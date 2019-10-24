@@ -44,7 +44,8 @@ export class PermissionsEditComponent implements OnInit {
     active: ['', [Validators.required]],
     created: ['', []],
     modified: ['', []],
-    page: ['', []]
+    page: ['', []],
+    authority:['']
   })
 
   constValue = {

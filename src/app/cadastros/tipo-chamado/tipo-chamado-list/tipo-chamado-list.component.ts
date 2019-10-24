@@ -31,10 +31,10 @@ export class TipoChamadoListComponent implements OnInit {
   table = {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '10%' },
-      { property: 'descricao', label: 'Descrição', width: '30%' },
-      { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'active', label: 'Ativo', width: '10%', type:'boolean' }
+      { property: 'descricao', label: 'Descrição', width: '20%' },
+      { property: 'created', label: 'Criado ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modified', label: 'Modificado ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'active', label: 'Ativo', width: '20%', type:'boolean' }
     ],
     items: [],
     height: 0,
@@ -95,9 +95,11 @@ export class TipoChamadoListComponent implements OnInit {
   }
 
    getTipoChamado(form?) {
+     this.table.loading = true;
     this.tipoChamadoService.getTipoChamado(this.utilService.getParameters(form))
       .subscribe((data:any) => {
         this.table.items = data.content
+        this.table.loading = false;
       })
   }
 

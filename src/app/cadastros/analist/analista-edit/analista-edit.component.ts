@@ -83,7 +83,6 @@ export class AnalistaEditComponent implements OnInit {
         data.criado = new Date(data.criado);
         data.modificado = new Date(data.modificado);
         this.editAnalistaForm.setValue(data);
-        data.ativo == true ? this.controls.active.setValue('true') : this.controls.active.setValue('false');
       })
   }
 

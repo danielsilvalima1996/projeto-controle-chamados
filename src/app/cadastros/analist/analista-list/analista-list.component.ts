@@ -15,7 +15,7 @@ export class AnalistaListComponent implements OnInit {
   page = {
     actions: <PoPageAction[]>[
       { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'analista/add' },
-      { label: 'Editar', action: () => { this.router.navigate(['edit', this.constValue.itemSelecionado], { relativeTo: this.route }) } },
+      { label: 'Editar', action: () => { this.editarAnalista() } },
     ],
 
     title: 'Cadastro de Analistas',
@@ -31,7 +31,7 @@ export class AnalistaListComponent implements OnInit {
   table = {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '10%' },
-      { property: 'nome', label: 'Nome', width: '20%' },
+      { property: 'nome', label: 'Analista', width: '20%' },
       { property: 'email', label: 'E-mail', width: '20%' },
       { property: 'matricula', label: 'Matricula', width: '10%' },
       { property: 'criado', label: 'Criado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
@@ -58,7 +58,7 @@ export class AnalistaListComponent implements OnInit {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
       { label: 'ANALISTA', value: 'nome' },
-      { label: 'STATUS', value: 'ativo' },
+      { label: 'ATIVO', value: 'ativo' },
       { label: 'E-MAIL', value: 'email' },
       { label: 'MATRÍCULA',value: 'matricula'},
     ],
@@ -101,7 +101,7 @@ export class AnalistaListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    if (tipo == 'active') {
+    if (tipo == 'ativo') {
       this.constValue.input = false;
       this.constValue.select = true;
     } else {
@@ -111,27 +111,25 @@ export class AnalistaListComponent implements OnInit {
   }
 
   getAnalista(form?) {
-    // this.table.loading = true
+    this.table.loading = true
     this.analistaService.getAnalista(this.utilService.getParameters(form))
       .subscribe((data: any) => {
         this.table.items = data.content;
-        // this.table.loading = false
+        this.table.loading = false
         // this.pagination.totalItems = data.content.total;
         // this.pagination.itemsPerPage = data.content.limit;
       })
 
   }
 
-  // getAnalista(){
-  //   this.table.loading = true;
-  //   this.analistaService.getAnalistaChumbado()
-  //   .subscribe((data:any) => {
-  //     this.table.items = data
-  //     this.table.loading = false;
-  //     this.pagination.totalItems = data.total;
-  //     this.pagination.itemsPerPage = data.limit
-  //   })
-  // }
+  private editarAnalista() {
+    if (this.constValue.itemSelecionado == null || this.constValue.itemSelecionado == '') {
+      this.notificationService.warning('Selecione um Analista para editar!');
+      return;
+    } else {
+      this.router.navigate(['edit', this.constValue.itemSelecionado], { relativeTo: this.route });
+    }
+  }
 
   getSelected(event) {
     this.constValue.itemSelecionado = event.id;
