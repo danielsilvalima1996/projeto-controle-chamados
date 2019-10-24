@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { of, Observable, from } from 'rxjs';
 import { Pageable } from 'src/app/interfaces/pageable.model';
 import { User } from 'src/app/interfaces/user.model'
+import { TrocarSenha } from 'src/app/interfaces/trocarSenha.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,11 @@ export class UserService {
   addUser(obj: any) {
     return this.http.post(`${this.url}`, obj);
   }
+
+  trocarSenha(senhas: TrocarSenha) {
+    return this.http.post(`${this.url}/trocarSenha`, senhas);
+  }
+
+
 
 }

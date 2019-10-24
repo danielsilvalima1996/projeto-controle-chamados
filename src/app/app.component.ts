@@ -5,6 +5,10 @@ import { LoginService } from './services/authentication/login/login.service';
 import { User } from './interfaces/user.model';
 import { Profile } from 'selenium-webdriver/firefox';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TrocarSenha } from './interfaces/trocarSenha.model';
+import { UserService } from './services/cadastros/users/user.service';
+import { ErrorSpringBoot } from './interfaces/ErrorSpringBoot.model';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +45,7 @@ export class AppComponent implements OnInit {
     {
       label: 'Trocar Senha',
       icon: 'po-icon po-icon-change',
-      action: () => this.trocarSenhaFn()
+      action: () => this.openModal()
     },
     {
       label: 'Sair',
@@ -53,6 +57,14 @@ export class AppComponent implements OnInit {
   ]
 
   logged: boolean = false;
+  idUser: number;
+  loading: boolean = false;
+
+  trocarForm: FormGroup = this.fb.group({
+    atual: ['', [Validators.required, Validators.minLength(8)]],
+    confirme: ['', [Validators.required, Validators.minLength(8)]],
+    nova: ['', [Validators.required, Validators.minLength(8)]]
+  })
 
   @ViewChild('trocarSenha', { static: true }) trocarSenha: PoModalComponent;
 
@@ -60,7 +72,9 @@ export class AppComponent implements OnInit {
     private loginService: LoginService,
     private dialogService: PoDialogService,
     private router: Router,
-    private notificationService: PoNotificationService
+    private notificationService: PoNotificationService,
+    private fb: FormBuilder,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -72,7 +86,22 @@ export class AppComponent implements OnInit {
         this.logged = data;
         this.router.navigate(['login']);
       }
-    });
+    })
+
+    //12345678
+    this.trocarForm
+      .valueChanges
+      .subscribe((_) => {
+        if ((this.controls.nova.value === this.controls.confirme.value) && this.trocarForm.valid) {
+          this.primaryAction.disabled = false;
+        } else {
+          this.primaryAction.disabled = true;
+        }
+      })
+  }
+
+  get controls() {
+    return this.trocarForm.controls;
   }
 
   //Botões Modais
@@ -92,6 +121,7 @@ export class AppComponent implements OnInit {
         subtitle: data.username,
         avatar: ''
       }
+      this.idUser = data.id;
       this.profile = profile;
     })
   }
@@ -108,24 +138,26 @@ export class AppComponent implements OnInit {
   private openModal() {
     this.trocarSenha.title = 'Trocar Senha';
     this.trocarSenha.size = 'md';
-    this.trocarSenha.open;
+    this.trocarSenha.open();
   }
 
   trocarSenhaFn() {
-    //   if (this.passwordForm.invalid) {
-    //     return;
-    //   } else {
-    //     this.userService.changePassword(this.passwordForm.value)
-    //       .subscribe((data: any) => {
-    //         this.changePasswordModal.close();
-    //         this.notification.success(data.data.response);
-    //         this.sessionService.logout();
-    //         this.passwordForm.reset();
-    //       }, (error) => {
-    //         this.notification.error(error.error.meta.description);
-    //       });
-    //   }
-    this.notificationService.warning('em desenvolvimento');
-
+    this.loading = true;
+    let senhas: TrocarSenha = {
+      id: this.idUser,
+      atual: this.controls.atual.value,
+      nova: this.controls.nova.value
+    }
+    this.userService
+      .trocarSenha(senhas)
+      .subscribe((data) => {
+        this.notificationService.success('Senha alterada com sucesso!');
+        this.loading = false;
+        this.trocarForm.reset();
+      },
+      (error: ErrorSpringBoot) => {
+        this.notificationService.error(error.message);
+        this.loading = false;
+      })
   }
 }
