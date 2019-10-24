@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
-import { PoPageDefault, PoTableColumn, PoSelectOption } from '@portinari/portinari-ui';
+import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -16,7 +16,7 @@ export class EmpresaListComponent implements OnInit {
     title: 'Cadastro de Empresas',
     actions: [
       { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa/add' },
-      { label: 'Editar', action: () => { this.router.navigate(['edit', this.constValue.itemSelecionado], { relativeTo: this.route }) } }
+      { label: 'Editar', action: () => { this.editarEmpresa() } }
     ],
     breadcrumb: {
       items: [
@@ -80,7 +80,8 @@ export class EmpresaListComponent implements OnInit {
     private empresaService: EmpresaService,
     private router: Router,
     private route: ActivatedRoute,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private notificationService: PoNotificationService
   ) { }
 
 
@@ -99,7 +100,7 @@ export class EmpresaListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    if (tipo == 'active') {
+    if (tipo == 'ativo') {
       this.constValue.input = false;
       this.constValue.select = true;
     } else {
@@ -116,7 +117,18 @@ export class EmpresaListComponent implements OnInit {
     this.constValue.itemSelecionado = '';
   }
 
+  
+   editarEmpresa() {
+    if (this.constValue.itemSelecionado == null || this.constValue.itemSelecionado == '') {
+      this.notificationService.warning('Selecione uma Empresa para editar!');
+      return;
+    } else {
+      this.router.navigate(['edit', this.constValue.itemSelecionado], { relativeTo: this.route });
+    }
+  }
+
   getEmpresa(form?) {
+    this.table.loading = true;
     this.empresaService.getEmpresa(this.utilService.getParameters(form))
       .subscribe((data: any) => {
         let value: Array<any> = data.content;
@@ -128,6 +140,7 @@ export class EmpresaListComponent implements OnInit {
         })
 
         this.table.items = value
+        this.table.loading = false;
       })
 
   }

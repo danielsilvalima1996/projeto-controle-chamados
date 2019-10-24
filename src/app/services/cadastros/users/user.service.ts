@@ -17,12 +17,22 @@ export class UserService {
   constructor(
     private http: HttpClient
   ) { }
-  getUser(parameters:any): Observable<Pageable<User>> {
-    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Pageable<User>> ;
-  }
+
+  getUser(parameters?: any): Observable<Pageable<User>> {
+    return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<User>>;
+ }
 
   addUser(obj: any) {
     return this.http.post(`${this.url}`, obj);
+  }
+
+  findById(id: number): Observable<User> {
+    return this.http.get(`${this.url}/${id}`) as Observable<User>;
+  }
+
+
+  alterUser(user: User) {
+    return this.http.put(`${this.url}`, user);
   }
 
   trocarSenha(senhas: TrocarSenha) {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoSelectOption, PoTableColumn, PoTableAction, PoPageAction, PoBreadcrumb, PoBreadcrumbItem } from '@portinari/portinari-ui';
+import { PoPageDefault, PoSelectOption, PoTableColumn, PoTableAction, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService } from '@portinari/portinari-ui';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
@@ -15,7 +15,7 @@ export class UserListComponent implements OnInit {
   page = {
     actions: <PoPageAction[]>[
       { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'user/add' },
-      { label: 'Editar', action: () => {this.router.navigate(['edit', this.constValue.selecionado], {relativeTo:this.route})}}
+      { label: 'Editar', action: () => { this.editarUsuario() } }
     ],
 
     title: 'Cadastro de Usuários',
@@ -34,10 +34,10 @@ export class UserListComponent implements OnInit {
       { property: 'fullName', label: 'Nome Completo', width: '15%' },
       { property: 'userName', label: 'E-mail', width: '25%' },
       { property: 'idEmpresa', label: 'ID Empresa', width: '10%' },
-      { property: 'permissions', label:'Permissões', width:'10%' },
+      { property: 'permissions', label: 'Permissões', width: '10%' },
       { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'enabled', label: 'Ativo', width: '10%', type:'boolean' }
+      { property: 'enabled', label: 'Ativo', width: '10%', type: 'boolean' }
     ],
     items: [],
     height: 0,
@@ -53,9 +53,9 @@ export class UserListComponent implements OnInit {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
       { label: 'E-MAIL', value: 'userName' },
-      { label: 'NOME', value:'fullName'},
+      { label: 'NOME', value: 'fullName' },
       { label: 'ATIVO', value: 'enabled' },
-      { label: 'ID EMPRESA', value: 'idEmpresa'},
+      { label: 'ID EMPRESA', value: 'idEmpresa' },
     ],
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
@@ -64,9 +64,9 @@ export class UserListComponent implements OnInit {
   }
 
   constValue = {
-    selecionado:'',
+    selecionado: '',
     input: <Boolean>true,
-    select:<Boolean>false,
+    select: <Boolean>false,
   }
 
   constructor(
@@ -74,7 +74,8 @@ export class UserListComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private notificationService: PoNotificationService
   ) { }
 
 
@@ -92,7 +93,7 @@ export class UserListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    if (tipo == 'active') {
+    if (tipo == 'enabled') {
       this.constValue.input = false;
       this.constValue.select = true;
     } else {
@@ -101,20 +102,32 @@ export class UserListComponent implements OnInit {
     }
   }
 
-   getUser(form?) {
-    this.userService.getUser(this.utilService.getParameters(form))
-      .subscribe((data:any) => {
-        this.table.items = data.content
+  getUser(form?) {
+    this.table.loading = true;
+    this.userService
+      .getUser(this.utilService.getParameters(form))
+      .subscribe((data: any) => {
+        this.table.items = data.content;
+        this.table.loading = false;
       })
   }
 
   getSelected(event) {
     this.constValue.selecionado = event.id;
-    
+
   }
 
-  getUnSelected(){
+  getUnSelected() {
     this.constValue.selecionado = ''
+  }
+
+  editarUsuario() {
+    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
+      this.notificationService.warning('Selecione um Usuário para editar!');
+      return;
+    } else {
+      this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
+    }
   }
 
 }

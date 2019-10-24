@@ -91,24 +91,15 @@ export class SubtipoChamadoListComponent implements OnInit {
   }
 
   findSubtipoChamado(parameters: any) {
+    this.table.loading = true;
     this.subtipoChamadoService
       .findSubtipoChamado(this.utilService.getParameters(parameters))
       .subscribe((data:any) => {
-        this.table.items = data.content
+        this.table.items = data.content;
+        this.table.loading = false;
       })
   }
 
-  //  findSubtipoChamado() {
-  //   this.subtipoChamadoService
-  //     .findSubtipoChamadoChumbado()
-  //     .subscribe((data:any) => {
-  //       console.log(data);
-  //       this.table.items = data
-  //     })
-  // }
-
-  
-  
   tipoForm(tipo) {
     if (tipo == 'active') {
       this.constValue.input = false;

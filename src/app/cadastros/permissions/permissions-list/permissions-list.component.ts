@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoTableColumn, PoSelectOption } from '@portinari/portinari-ui';
+import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
@@ -27,7 +27,7 @@ export class PermissionsListComponent implements OnInit {
       { label: 'Nova', url: 'permission/add' },
       {
         label: 'Editar', action: () => {
-          this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
+          this.editarPermissao()
         }
       }
     ],
@@ -74,7 +74,8 @@ export class PermissionsListComponent implements OnInit {
     private permissionService: PermissionsService,
     private router: Router,
     private route: ActivatedRoute,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private notificationService: PoNotificationService
   ) { }
 
   ngOnInit() {
@@ -115,5 +116,14 @@ export class PermissionsListComponent implements OnInit {
 
   getUnSelected() {
     this.constValue.selecionado = '';
+  }
+
+  editarPermissao() {
+    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
+      this.notificationService.warning('Selecione uma Permissão para editar!');
+      return;
+    } else {
+      this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
+    }
   }
 }
