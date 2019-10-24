@@ -8,6 +8,9 @@ import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
 import { identifierModuleUrl } from '@angular/compiler';
+import { User } from 'src/app/interfaces/user.model';
+import { Login } from 'src/app/interfaces/login.model';
+import { LoginService } from 'src/app/services/authentication/login/login.service';
 
 @Component({
   selector: 'app-chamados-add',
@@ -48,9 +51,9 @@ export class ChamadosAddComponent implements OnInit {
   }
 
   chamadosForm: FormGroup = this.fb.group({
-    idEmpresa: ['1', [Validators.required]],
-    idAnalista: ['1', []],
-    idUsuario: ['1', []],
+    idEmpresa: ['', [Validators.required]],
+    idAnalista: ['', []],
+    idUsuario: ['', []],
     dataAbertura: ['', [Validators.required]],
     horaAbertura: ['', [Validators.required]],
     dataFechamento: ['', []],
@@ -72,7 +75,8 @@ export class ChamadosAddComponent implements OnInit {
     private tipoChamadoService: TipoChamadoService,
     private subtipoChamadoService: SubtipoChamadoService,
     private chamadosService: ChamadosService,
-    private notificationService: PoNotificationService
+    private notificationService: PoNotificationService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit() {
@@ -99,6 +103,7 @@ export class ChamadosAddComponent implements OnInit {
   private externoInterno() {
     if (this.router.url.toString().indexOf('externo') != -1) {
       this.constValue.tipoChamado = 'externo';
+      this.controls.codigoStatusChamado.setValue(1);
     } else {
       this.constValue.tipoChamado = 'interno';
     }
@@ -149,15 +154,17 @@ export class ChamadosAddComponent implements OnInit {
   }
 
   registrarChamado() {
-    this.controls.idEmpresa.value == '' ? this.controls.idEmpresa.setValue(1) : this.controls.idEmpresa.setValue(this.controls.idEmpresa.value);
     this.controls.idAnalista.value == '' ? this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
-    this.controls.idUsuario.value == '' ? this.controls.idUsuario.setValue(1) : this.controls.idUsuario.setValue(this.controls.idUsuario.value);
-    this.controls.codigoStatusChamado.value == '' ? this.controls.codigoStatusChamado.setValue(1) : this.controls.codigoStatusChamado.setValue(this.controls.codigoStatusChamado.value);
-
+    let userId: number;
+    let empresaId: number
+    this.loginService.getUserInformation$.subscribe((data) => {
+      userId = data.id;
+      empresaId = data.idEmpresa.id
+    })
     let chamado = {
-      idEmpresa: { id: parseInt(this.controls.idEmpresa.value) },
-      idAnalista: { id: parseInt(this.controls.idAnalista.value) },
-      idUsuario: { id: parseInt(this.controls.idUsuario.value) },
+      idEmpresa: { id: empresaId },
+      idAnalista: { id: this.controls.idAnalista.value },
+      idUsuario: { id: userId},
       dataAbertura: this.controls.dataAbertura.value,
       horaAbertura: this.controls.horaAbertura.value,
       dataFechamento: this.controls.dataFechamento.value,

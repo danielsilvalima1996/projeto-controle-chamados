@@ -10,7 +10,7 @@ import { ChamadosModule } from './chamados/chamados.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { LoginModule } from './login/login.module';
 import { TestingModule } from './testing/testing.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { InterceptorService } from './services/authentication/interceptor/interceptor.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -21,6 +21,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     PoToolbarModule,
     PoModalModule,
     PoFieldModule,

@@ -135,7 +135,7 @@ export class SubtipoChamadoService {
     return this.http.post(`${this.url}`, subTipoChamado);
   }
 
-  alterSubTipoChamado(subTipoChamado: SubtipoChamado) {
+  alterSubTipoChamado(subTipoChamado: any) {
     return this.http.put(`${this.url}`, subTipoChamado);
   }
 

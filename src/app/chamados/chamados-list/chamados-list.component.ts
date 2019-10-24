@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
+import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 
 @Component({
   selector: 'app-chamados-list',
@@ -42,20 +43,20 @@ export class ChamadosListComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      { label: 'idChamado', property: 'idChamado', width: '100px' },
-      { label: 'idEmpresa', property: 'idEmpresa.id', width: '100px' },
-      { label: 'idAnalista', property: 'idAnalista.id', width: '100px' },
-      { label: 'dataAbertura', property: 'dataAbertura', width: '100px' },
-      { label: 'horaAbertura', property: 'horaAbertura', width: '100px' },
-      { label: 'dataFechamento', property: 'dataFechamento', width: '100px' },
-      { label: 'horaFechamento', property: 'horaFechamento', width: '100px' },
-      { label: 'tempoChamado', property: 'tempoChamado', width: '100px' },
-      { label: 'codigoStatusChamado', property: 'codigoStatusChamado', width: '100px' },
-      { label: 'tipoChamado', property: 'tipoChamado.descricao', width: '100px' },
-      { label: 'subtipoChamado', property: 'subtipoChamado.descricao', width: '100px' },
-      { label: 'idUsuario', property: 'idUsuario.id', width: '100px' },
-      { label: 'descricaoChamado', property: 'descricaoChamado', width: '100px' },
-      { label: 'solucaoChamado', property: 'solucaoChamado', width: '100px' }
+      { label: 'Id Chamado', property: 'idChamado', width: '150px' },
+      { label: 'Empresa', property: 'idEmpresa', width: '150px' },
+      { label: 'Analista', property: 'idAnalista', width: '150px' },
+      { label: 'Data Abertura', property: 'dataAbertura', width: '150px' },
+      { label: 'Hora Abertura', property: 'horaAbertura', width: '150px' },
+      { label: 'Data Fechamento', property: 'dataFechamento', width: '150px' },
+      { label: 'Hora Fechamento', property: 'horaFechamento', width: '150px' },
+      { label: 'Tempo Chamado', property: 'tempoChamado', width: '150px' },
+      { label: 'Status Chamado', property: 'codigoStatusChamado', width: '150px' },
+      { label: 'Tipo Chamado', property: 'tipoChamado', width: '150px' },
+      { label: 'Subtipo Chamado', property: 'subtipoChamado', width: '150px' },
+      { label: 'Usuario', property: 'idUsuario', width: '150px' },
+      { label: 'Descrição Chamado', property: 'descricaoChamado', width: '300px' },
+      { label: 'Solução Chamado', property: 'solucaoChamado', width: '300px' }
     ],
     items: [],
     loading: <boolean>false,
@@ -113,7 +114,6 @@ export class ChamadosListComponent implements OnInit {
 
   selectedTable(event) {
     this.constValue.selecionado = event.idChamado;
-    console.log(event.idChamado);
   }
 
   unSelectedTable(event) {
@@ -126,9 +126,36 @@ export class ChamadosListComponent implements OnInit {
     this.chamadosService
       .findChamados(this.utilService.getParameters(parameters))
       .subscribe((data) => {
-        this.table.items = data.content;
+        let arr: Array<any> = data.content.map((item) => {
+          let obj = {};
+          Object.keys(item).map((data) => {
+            if (item[data] == '' || item[data] == null) {
+              obj[data] = '-';
+            } else if (data == 'idEmpresa') {
+              obj[data] = item[data].nomeFantasia;
+            } else if (data == 'idAnalista') {
+              obj[data] = item[data].nome;
+            } else if (data == 'tipoChamado') {
+              obj[data] = item[data].descricao;
+            } else if (data == 'subtipoChamado') {
+              obj[data] = item[data].descricao;
+            } else if (data == 'idUsuario') {
+              obj[data] = item[data].fullName;
+            } else {
+              obj[data] = item[data];
+            }
+
+          })
+          return obj;
+        })
+        console.log(arr);
+        
         this.table.loading = false;
-      })
+        this.table.items = arr;
+      },
+        (error: ErrorSpringBoot) => {
+          this.notificationService.error(error.message);
+        })
   }
 
   private visualizarChamado() {
