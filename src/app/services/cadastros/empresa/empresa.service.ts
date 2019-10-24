@@ -22,26 +22,26 @@ export class EmpresaService {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Pageable<Empresa>>;
   }
 
-  getEmpresaChumbado(){
-    return of(
-      [
-        {
-          "id": "1",
-          "razaoSocial": "Fulano de Tal SA",
-          "active": true,
-          "created": "2019-09-14",
-          "modified": "2019-09-14"
-        },
-        {
-          "id": "2",
-          "razaoSocial": "João das Couves Ltda",
-          "active":true,
-          "created": "2019-09-14",
-          "modified": "2019-09-14"
-        },
-      ]
-    ) 
-  }
+  // getEmpresaChumbado(){
+  //   return of(
+  //     [
+  //       {
+  //         "id": "1",
+  //         "razaoSocial": "Fulano de Tal SA",
+  //         "active": true,
+  //         "created": "2019-09-14",
+  //         "modified": "2019-09-14"
+  //       },
+  //       {
+  //         "id": "2",
+  //         "razaoSocial": "João das Couves Ltda",
+  //         "active":true,
+  //         "created": "2019-09-14",
+  //         "modified": "2019-09-14"
+  //       },
+  //     ]
+  //   ) 
+  // }
 
   createEmpresa(obj: any) {
     return this.http.post(`${this.url}`, obj);
@@ -55,5 +55,8 @@ export class EmpresaService {
     return this.http.put(`${this.url}`,empresa);
   }
 
+  findAllAtivo(): Observable<Empresa[]> {
+    return this.http.get(`${this.url}/ativo`) as Observable<Empresa[]>;
+  }
   
 }

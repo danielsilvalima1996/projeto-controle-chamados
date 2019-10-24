@@ -22,704 +22,704 @@ export class AnalistaService {
     return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<Analista>>;
  }
 
-  getAnalistaChumbado(){
-        return of(
-      [
-        {
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },{
-          "id": '1',
-          "nome": "Gustavo",
-          "email": "gustavo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '2',
-          "nome": "Vitor",
-          "email": "vitor@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '3',
-          "nome": "Saulo",
-          "email": "saulo@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '4',
-          "nome": "Carlos",
-          "email": "carlos@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        },
-        {
-          "id": '5',
-          "nome": "Aline",
-          "email": "aline@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": false
-        },
-        {
-          "id": '6',
-          "nome": "Winston",
-          "email": "winston@lobios.com.br",
-          "matricula":"5",
-          "created": "2019-09-13",
-          "modified": "2019-09-13",
-          "active": true
-        }
+  // getAnalistaChumbado(){
+  //       return of(
+  //     [
+  //       {
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },{
+  //         "id": '1',
+  //         "nome": "Gustavo",
+  //         "email": "gustavo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '2',
+  //         "nome": "Vitor",
+  //         "email": "vitor@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '3',
+  //         "nome": "Saulo",
+  //         "email": "saulo@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '4',
+  //         "nome": "Carlos",
+  //         "email": "carlos@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       },
+  //       {
+  //         "id": '5',
+  //         "nome": "Aline",
+  //         "email": "aline@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": false
+  //       },
+  //       {
+  //         "id": '6',
+  //         "nome": "Winston",
+  //         "email": "winston@lobios.com.br",
+  //         "matricula":"5",
+  //         "created": "2019-09-13",
+  //         "modified": "2019-09-13",
+  //         "active": true
+  //       }
 
-      ]
-    )
-  }
+  //     ]
+  //   )
+  // }
 
   findById(id: number): Observable<Analista> {
     return this.http.get(`${this.url}/${id}`) as Observable<Analista>;
@@ -729,8 +729,12 @@ export class AnalistaService {
     return this.http.post(`${this.url}`, obj);
   }
 
-  alterAnalista(analista: Analista) {
-    return this.http.put(`${this.url}`, analista);
+  alterAnalista(analista: Analista): Observable<Analista> {
+    return this.http.put(`${this.url}`, analista) as Observable<Analista>;
+  }
+
+  findAllAtivo(): Observable<Analista[]> {
+    return this.http.get(`${this.url}/ativo`) as Observable<Analista[]>;
   }
 
 }

@@ -29,6 +29,8 @@ export class UserService {
     return this.http.post(`${this.url}/trocarSenha`, senhas);
   }
 
-
+  findAllEmpresa(id: number): Observable<User[]>{
+    return this.http.get(`${this.url}/all/${id}`) as Observable<User[]>;
+  }
 
 }

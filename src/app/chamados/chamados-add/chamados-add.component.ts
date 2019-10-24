@@ -11,6 +11,9 @@ import { identifierModuleUrl } from '@angular/compiler';
 import { User } from 'src/app/interfaces/user.model';
 import { Login } from 'src/app/interfaces/login.model';
 import { LoginService } from 'src/app/services/authentication/login/login.service';
+import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
+import { UserService } from 'src/app/services/cadastros/users/user.service';
+import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 
 @Component({
   selector: 'app-chamados-add',
@@ -42,7 +45,10 @@ export class ChamadosAddComponent implements OnInit {
 
   selects = {
     tipoChamado: <PoSelectOption[]>[],
-    subtipoChamado: <PoSelectOption[]>[]
+    subtipoChamado: <PoSelectOption[]>[],
+    analistas: <PoSelectOption[]>[],
+    empresas: <PoSelectOption[]>[],
+    users: <PoSelectOption[]>[]
   }
 
   constValue = {
@@ -76,11 +82,16 @@ export class ChamadosAddComponent implements OnInit {
     private subtipoChamadoService: SubtipoChamadoService,
     private chamadosService: ChamadosService,
     private notificationService: PoNotificationService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private analistaService: AnalistaService,
+    private userService: UserService,
+    private empresaService: EmpresaService
   ) { }
 
   ngOnInit() {
     this.externoInterno();
+    this.analistas();
+    this.empresas();
     this.tipoTela(this.constValue.tipoChamado);
     this.controls.dataAbertura.setValue(this.utilService.dataAtual());
     this.controls.horaAbertura.setValue(this.utilService.horaAtual());
@@ -92,7 +103,21 @@ export class ChamadosAddComponent implements OnInit {
       })
     this.controls.tipoChamado
       .valueChanges.subscribe((data) => {
-        this.subtipoChamado(data);
+        if (data == undefined || data == '') {
+          this.selects.subtipoChamado = [];
+          return;
+        } else {
+          this.subtipoChamado(data);
+        }
+      })
+    this.controls.idEmpresa
+      .valueChanges.subscribe((data) => {
+        if (data == undefined || data == '') {
+          this.selects.users = [];
+          return;
+        } else {
+          this.users(data);
+        }
       })
   }
 
@@ -153,45 +178,101 @@ export class ChamadosAddComponent implements OnInit {
       })
   }
 
+  private analistas() {
+    this.analistaService
+      .findAllAtivo()
+      .subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.nome, value: item.id }
+        })
+        this.selects.analistas = arr;
+      })
+  }
+
+  private empresas() {
+    this.empresaService
+      .findAllAtivo()
+      .subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.nomeFantasia, value: item.id }
+        })
+        this.selects.empresas = arr;
+      })
+  }
+
+  private users(id: number) {
+    this.userService
+      .findAllEmpresa(id)
+      .subscribe((data) => {
+        if (data.length > 0) {
+          let arr = data.map((item) => {
+            return <PoSelectOption>{ label: item.fullName, value: item.id }
+          })
+          this.selects.users = arr;
+        }
+      })
+  }
+
   registrarChamado() {
-    this.controls.idAnalista.value == '' || this.controls.idAnalista.value == null ?
-      this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
-    this.controls.codigoStatusChamado.value == '' || this.controls.codigoStatusChamado.value == '' ?
-      this.controls.codigoStatusChamado.setValue(1) :
-      this.controls.codigoStatusChamado.setValue(this.controls.codigoStatusChamado.value);
+    let chamado;
+    if (this.constValue.tipoChamado == 'externo') {
+      let user: User;
+      let dataFechamento: string;
+      let empresaId: number
 
-    let user: User;
-    let empresaId: number
-    this.loginService.getUserInformation$.subscribe((data) => {
-      user = data;
-      empresaId = data.idEmpresa.id
-    })
-    user.authorities = []
-    let chamado = {
-      idChamado: '',
-      idEmpresa: { id: empresaId },
-      idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
-      idUsuario: user,
-      dataAbertura: this.controls.dataAbertura.value,
-      horaAbertura: this.controls.horaAbertura.value,
-      dataFechamento: this.controls.dataFechamento.value,
-      horaFechamento: this.controls.horaFechamento.value,
-      tempoChamado: this.controls.tempoChamado.value,
-      codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
-      tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
-      subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
-      descricaoChamado: this.controls.descricaoChamado.value,
-      solucaoChamado: this.controls.solucaoChamado.value
+      this.controls.idAnalista.value == '' || this.controls.idAnalista.value == null ?
+        this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
+      this.controls.codigoStatusChamado.value == '' || this.controls.codigoStatusChamado.value == '' ?
+        this.controls.codigoStatusChamado.setValue(1) :
+        this.controls.codigoStatusChamado.setValue(this.controls.codigoStatusChamado.value);
+      if (this.controls.dataAbertura.value != '' || this.controls.dataAbertura.value != null) {
+        dataFechamento = this.controls.dataFechamento.value;
+      }
+
+      this.loginService.getUserInformation$.subscribe((data) => {
+        user = data;
+        empresaId = data.idEmpresa.id
+      })
+      user.authorities = []
+      chamado = {
+        idChamado: '',
+        idEmpresa: { id: empresaId },
+        idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
+        idUsuario: user,
+        dataAbertura: this.controls.dataAbertura.value,
+        horaAbertura: this.controls.horaAbertura.value,
+        dataFechamento: this.controls.dataFechamento.value,
+        horaFechamento: this.controls.horaFechamento.value,
+        tempoChamado: this.controls.tempoChamado.value,
+        codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
+        tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
+        subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
+        descricaoChamado: this.controls.descricaoChamado.value,
+        solucaoChamado: this.controls.solucaoChamado.value
+      }
+    } else {
+      chamado = {
+        idChamado: '',
+        idEmpresa: { id: this.controls.idEmpresa.value },
+        idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
+        idUsuario: 'arrumar aqui',
+        dataAbertura: this.controls.dataAbertura.value,
+        horaAbertura: this.controls.horaAbertura.value,
+        dataFechamento: this.controls.dataFechamento.value,
+        horaFechamento: this.controls.horaFechamento.value,
+        tempoChamado: this.controls.tempoChamado.value,
+        codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
+        tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
+        subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
+        descricaoChamado: this.controls.descricaoChamado.value,
+        solucaoChamado: this.controls.solucaoChamado.value
+      }
     }
-
-    console.log(chamado);
-    
 
     this.chamadosService
       .createChamado(chamado)
       .subscribe((data) => {
-        console.log(data);
-        
+
         this.notificationService.success('Chamado aberto com sucesso!');
         this.location.back();
       },
