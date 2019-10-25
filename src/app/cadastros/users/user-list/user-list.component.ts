@@ -66,6 +66,12 @@ export class UserListComponent implements OnInit {
     ]
   }
 
+  pagination = {
+    totalItems: 0,
+    itemsPerPage: 30,
+    currentPage: 1
+  }
+
   constValue = {
     selecionado: '',
     input: <Boolean>true,
@@ -84,6 +90,7 @@ export class UserListComponent implements OnInit {
 
 
   ngOnInit() {
+    this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
     this.controls.pesquisa
       .valueChanges.subscribe((data) => {
         this.tipoForm(data);

@@ -87,6 +87,7 @@ export class AnalistaListComponent implements OnInit {
 
 
   ngOnInit() {
+    this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
     this.controls.pesquisa
       .valueChanges.subscribe((data) => {
         this.tipoForm(data);
@@ -115,9 +116,10 @@ export class AnalistaListComponent implements OnInit {
     this.analistaService.getAnalista(this.utilService.getParameters(form))
       .subscribe((data: any) => {
         this.table.items = data.content;
-        this.table.loading = false
+      
         // this.pagination.totalItems = data.content.total;
         // this.pagination.itemsPerPage = data.content.limit;
+        this.table.loading = false
       })
 
   }
@@ -144,6 +146,13 @@ export class AnalistaListComponent implements OnInit {
       this.notificationService.warning('Selecione um Analista !');
       return;
     }
+  }
+
+  onPageChange(event: number) {
+    this.pagination.currentPage = event;
+    let filter = this.utilService.convertUpperCase(this.controls.filtro.value);
+    let busca: string = `${this.controls.pesquisa.value}=${filter}&page=${this.pagination.currentPage}`;
+    this.getAnalista(busca);
   }
 
 }

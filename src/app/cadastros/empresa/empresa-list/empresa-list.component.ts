@@ -47,6 +47,12 @@ export class EmpresaListComponent implements OnInit {
     loading: false
   }
 
+  pagination = {
+    totalItems: 0,
+    itemsPerPage: 30,
+    currentPage: 1
+  }
+
   empresaform: FormGroup = this.fb.group({
     filtro: ['', []],
     pesquisa: ['']
