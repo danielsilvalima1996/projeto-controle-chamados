@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
+import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 
 @Component({
   selector: 'app-user-list',
@@ -43,6 +44,8 @@ export class UserListComponent implements OnInit {
     height: 0,
     loading: false
   }
+
+
 
   userform: FormGroup = this.fb.group({
     filtro: ['', [Validators.required]],
@@ -102,14 +105,34 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  getUser(form?) {
+  getUser(parameters?: any) {
     this.table.loading = true;
     this.userService
-      .getUser(this.utilService.getParameters(form))
-      .subscribe((data: any) => {
-        this.table.items = data.content;
+      .getUser(this.utilService.getParameters(parameters))
+      .subscribe((data) => {
+        let arr: Array<any> = data.content.map((item) => {
+          let obj = {};
+          Object.keys(item).map((data) => {
+            if (item[data] == '' || item[data] == null) {
+              obj[data] = '-';
+            } else if (data == 'idEmpresa') {
+              obj[data] = item[data].nomeFantasia;
+            } else if (data == 'permissions') {
+              obj[data] = item[data][0].description
+            } else {
+              obj[data] = item[data];
+            }
+
+          })
+          return obj;
+        })
+
         this.table.loading = false;
-      })
+        this.table.items = arr;
+      },
+        (error: ErrorSpringBoot) => {
+          this.notificationService.error(error.message);
+        })
   }
 
   getSelected(event) {

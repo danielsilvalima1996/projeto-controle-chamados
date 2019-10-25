@@ -123,9 +123,13 @@ export class SubtipoChamadoService {
     )
   }
 
-  findSubtipoChamado(parameters?: any): Observable<SubtipoChamado> {
-    return this.http.get(`${this.url}?${parameters}`) as Observable<SubtipoChamado>;
-  }
+  // findSubtipoChamado(parameters?: any): Observable<SubtipoChamado> {
+  //   return this.http.get(`${this.url}?${parameters}`) as Observable<SubtipoChamado>;
+  // }
+
+  findSubtipoChamado(parameters?: any): Observable<Pageable<SubtipoChamado>> {
+    return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<SubtipoChamado>>;
+ }
 
   findById(id: number): Observable<SubtipoChamado> {
     return this.http.get(`${this.url}/${id}`) as Observable<SubtipoChamado>;

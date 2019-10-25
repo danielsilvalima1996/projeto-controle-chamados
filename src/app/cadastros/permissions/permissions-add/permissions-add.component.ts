@@ -30,9 +30,9 @@ export class PermissionsAddComponent implements OnInit {
   }
 
   selects = {
-    statusOptions: <PoSelectOption[]>[
-      { label: 'ATIVO', value: 'true' },
-      { label: 'INATIVO', value: 'false' }
+    ativoOptions: <PoSelectOption[]>[
+      { label: 'ATIVA', value: 'true' },
+      { label: 'INATIVA', value: 'false' }
     ]
   }
 

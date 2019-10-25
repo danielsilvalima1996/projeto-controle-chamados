@@ -27,7 +27,7 @@ export class AnalistaAddComponent implements OnInit {
         { label: 'Adicionar Analistas' },
       ]
     },
-    statusOptions: [
+    ativoOptions: [
       { label: 'ATIVO', value: true },
       { label: 'INATIVO', value: false }
     ]
