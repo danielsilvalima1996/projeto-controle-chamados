@@ -69,6 +69,12 @@ export class PermissionsListComponent implements OnInit {
     select: <Boolean>false
   }
 
+  pagination = {
+    totalItems: 0,
+    itemsPerPage: 30,
+    currentPage: 1
+  }
+
   constructor(
     private fb: FormBuilder,
     private permissionService: PermissionsService,
@@ -79,6 +85,7 @@ export class PermissionsListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
     this.controls.pesquisa
       .valueChanges.subscribe((data) => {
         this.tipoForm(data);

@@ -16,7 +16,7 @@ export class UserAddComponent implements OnInit {
 
   page: PoPageDefault = {
     actions: <PoPageAction[]>[
-      { label: 'Salvar', disabled: true, action: () => { this.addUser() } },
+      { label: 'Salvar', action: () => { this.addUser() } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -33,7 +33,7 @@ export class UserAddComponent implements OnInit {
   }
 
   selects = {
-    statusOptions: <PoSelectOption[]>[
+    ativoOptions: <PoSelectOption[]>[
       { label: 'ATIVO', value: 'true' },
       { label: 'INATIVO', value: 'false' }
     ],
@@ -45,10 +45,10 @@ export class UserAddComponent implements OnInit {
     userName: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
     fullName: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(8)]],
     password: ['', [Validators.required]],
-    authorities: ['', [Validators.required]],
+    authorities: ['', []],
     permission: ['', [Validators.required]],
     idEmpresa: ['', [Validators.required]],
-    roles: ['', [Validators.required]],
+    roles: ['', []],
     enabled: ['', [Validators.required]]
   });
 

@@ -31,7 +31,7 @@ export class SubtipoChamadoAddComponent implements OnInit {
   }
 
   selects =  {
-    statusOptions: <PoSelectOption[]> [
+    ativoOptions: <PoSelectOption[]> [
       { label: 'ATIVA', value: 'true' },
       { label: 'INATIVA', value: 'false' }
     ],
@@ -64,7 +64,7 @@ export class SubtipoChamadoAddComponent implements OnInit {
     this.tipoChamadoService
       .getTipoChamado()
       .subscribe((data: any) => {
-        let arr: Array<any> = data.content; // chumbado ----  data.content no original
+        let arr: Array<any> = data.content;
         arr = arr.map((item: any) => {
           return <PoSelectOption>{ label: `${item.id} - ${item.descricao}`, value: item.id };
         })
@@ -81,9 +81,11 @@ export class SubtipoChamadoAddComponent implements OnInit {
       this.subTipoChamadoService
         .createSubtipoChamado(this.subTipoChamadoAddForm.value)
         .subscribe((data) => {
+          console.log(data);
+          
           this.notificationService.success('SubTipo de Chamado Salvo com Sucesso');
           this.location.back();
-          console.log(this.subTipoChamadoAddForm.value);
+     
           
         },
           (error: HttpErrorResponse) => {

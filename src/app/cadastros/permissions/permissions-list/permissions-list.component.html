@@ -15,5 +15,10 @@
         p-checkbox="true" p-single-select="true">
     </po-table>
 
+    <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
+    (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
+    [itemsPerPage]="pagination.itemsPerPage">
+</app-pagination>
+
 
 </po-page-default>

@@ -32,7 +32,7 @@ export class UserEditComponent implements OnInit {
   }
 
   selects = {
-    statusOptions: <PoSelectOption[]> [
+    ativoOptions: <PoSelectOption[]> [
       { label: 'ATIVA', value: 'true' },
       { label: 'INATIVA', value: 'false' }
     ],
@@ -73,11 +73,9 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit() {
     this.page.actions[0].disabled = this.editUserForm.invalid;
-    this.permissionService.findAll().subscribe((data: any) => {
-      this.selects.permissoes = data.map((item:any)=>{
-        console.log(item);
-        
-        return { label:item.name, value:item.id}
+    this.permissionService.findAllActive().subscribe((data: any) => {
+      this.selects.permissoes = data.map((item:any)=>{     
+        return { label:item.description, value:item.id}
       })
     })
     
@@ -93,9 +91,12 @@ private findById(id) {
   this.userService
     .findById(id)
     .subscribe((data) => {
+
+      // data.idEmpresa = data.idEmpresa.nomeFantasia // Verificar esse retorno
       data.created = new Date(data.created);
       data.modified = new Date(data.modified);
       this.editUserForm.setValue(data);
+      
     })
 }
 

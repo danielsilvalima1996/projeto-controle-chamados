@@ -33,8 +33,8 @@ export class PermissionsEditComponent implements OnInit {
 
   selects = {
     active: <PoSelectOption[]>[
-      { label: 'ATIVO', value: 'true' },
-      { label: 'INATIVO', value: 'false' }
+      { label: 'ATIVA', value: 'true' },
+      { label: 'INATIVA', value: 'false' }
     ]
   }
 

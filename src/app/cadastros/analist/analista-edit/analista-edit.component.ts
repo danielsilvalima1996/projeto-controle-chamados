@@ -28,7 +28,7 @@ export class AnalistaEditComponent implements OnInit {
         { label: 'Editar Analista' }
       ]
     },
-    statusOptions: [
+    ativoOptions: [
       { label: 'ATIVO', value: true },
       { label: 'INATIVO', value: false }
     ]

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoTableColumn, PoSelectOption } from '@portinari/portinari-ui';
+import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 
 @Component({
   selector: 'app-subtipo-chamado-list',
@@ -50,7 +51,7 @@ export class SubtipoChamadoListComponent implements OnInit {
       { label: 'ID', value: 'id' },
       { label: 'DESCRIÇÃO', value: 'descricao' },
       { label: 'ATIVO', value: 'active' },
-      {label: 'ID TIPO CHAMADO', value: 'idTipoChamado'}
+      { label: 'ID TIPO CHAMADO', value: 'idTipoChamado' }
     ],
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
@@ -58,10 +59,16 @@ export class SubtipoChamadoListComponent implements OnInit {
     ]
   }
 
+  pagination = {
+    totalItems: 0,
+    itemsPerPage: 30,
+    currentPage: 1
+  }
+
   constValue = {
     selecionado: '',
     input: <Boolean>true,
-    select:<Boolean>false
+    select: <Boolean>false
   }
 
   subtipoForm: FormGroup = this.fb.group({
@@ -74,14 +81,16 @@ export class SubtipoChamadoListComponent implements OnInit {
     private utilService: UtilService,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notificationService: PoNotificationService
   ) { }
 
   ngOnInit() {
+    this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
     this.controls.pesquisa
-    .valueChanges.subscribe((data) => {
-      this.tipoForm(data);
-    })
+      .valueChanges.subscribe((data) => {
+        this.tipoForm(data);
+      })
     this.findSubtipoChamado(this.subtipoForm.value);
     // this.findSubtipoChamado();
   }
@@ -90,14 +99,32 @@ export class SubtipoChamadoListComponent implements OnInit {
     return this.subtipoForm.controls;
   }
 
-  findSubtipoChamado(parameters: any) {
+  findSubtipoChamado(parameters?: any) {
     this.table.loading = true;
     this.subtipoChamadoService
       .findSubtipoChamado(this.utilService.getParameters(parameters))
-      .subscribe((data:any) => {
-        this.table.items = data.content;
+      .subscribe((data) => {
+        let arr: Array<any> = data.content.map((item) => {
+          let obj = {};
+          Object.keys(item).map((data) => {
+            if (item[data] == '' || item[data] == null) {
+              obj[data] = '-';
+            } else if (data == 'idTipoChamado') {
+              obj[data] = item[data].descricao;
+            } else {
+              obj[data] = item[data];
+            }
+
+          })
+          return obj;
+        })
+
         this.table.loading = false;
-      })
+        this.table.items = arr;
+      },
+        (error: ErrorSpringBoot) => {
+          this.notificationService.error(error.message);
+        })
   }
 
   tipoForm(tipo) {
@@ -112,12 +139,12 @@ export class SubtipoChamadoListComponent implements OnInit {
 
   getSelected(event) {
     this.constValue.selecionado = event.id;
-    
+
   }
 
   getUnSelected() {
     this.constValue.selecionado = ''
-    
+
   }
 
 }
