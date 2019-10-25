@@ -1,5 +1,43 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
-    <form [formGroup]="chamadosForm" class="po-row">
+    <form *ngIf="constValue.tipoChamado == 'interno'" [formGroup]="chamadosFormInterno" class="po-row">
+        <po-combo *ngIf="constValue.visibilidade" class="po-md-4" p-label="Empresa" p-filter-mode="contains"
+            p-placeholder="Nome Fantasia" [p-options]="selects.empresas" formControlName="idEmpresa">
+        </po-combo>
+        <po-combo *ngIf="constValue.visibilidade" class="po-md-4" p-label="Analista" p-filter-mode="contains"
+            p-placeholder="Nome Analista" [p-options]="selects.analistas" formControlName="idAnalista">
+        </po-combo>
+        <po-combo *ngIf="constValue.visibilidade" class="po-md-4" p-label="Usuário" p-filter-mode="contains"
+            p-placeholder="Nome Usuário" [p-options]="selects.users" formControlName="idUsuario">
+        </po-combo>
+        <po-datepicker class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy" p-label="Data Abertura"
+            formControlName="dataAbertura">
+        </po-datepicker>
+        <po-input class="po-md-2" p-readonly="true" p-mask="99:99" p-label="Hora Abertura"
+            formControlName="horaAbertura"></po-input>
+        <po-datepicker *ngIf="constValue.visibilidade" class="po-md-2" p-format="dd/MM/yyyy"
+            p-label="Data Fechamento" formControlName="dataFechamento" [p-min-date]="constValue.dataAtual"
+            [p-max-date]="constValue.dataAtual"></po-datepicker>
+        <po-input class="po-md-2" *ngIf="constValue.visibilidade" p-readonly="true" p-mask="99:99"
+            p-label="Hora Fechamento" formControlName="horaFechamento"></po-input>
+        <po-input class="po-md-2" *ngIf="constValue.visibilidade" p-mask="99:59" p-label="Tempo"
+            formControlName="tempoChamado"></po-input>
+        <po-combo class="po-md-2" *ngIf="constValue.visibilidade" p-label="Status" p-filter-mode="contains"
+            p-filter-mode="Status Chamados" [p-options]="selects.status" formControlName="codigoStatusChamado">
+        </po-combo>
+        <po-combo class="po-md-2" p-filter-mode="contains" p-placeholder="Descricão" p-label="Tipo Chamado"
+            [p-options]="selects.tipoChamado" formControlName="tipoChamado"></po-combo>
+        <po-combo class="po-md-2" p-filter-mode="contains" p-placeholder="Descricão" p-label="Subtipo Chamado"
+            [p-options]="selects.subtipoChamado" formControlName="subtipoChamado"></po-combo>
+        <div class="po-row">
+            <po-textarea class="po-md-6" p-label="Descricão Chamado" p-rows="4" formControlName="descricaoChamado">
+            </po-textarea>
+            <po-textarea *ngIf="constValue.visibilidade" class="po-md-6" p-label="Solucão Chamado" p-rows="4"
+                formControlName="solucaoChamado">
+            </po-textarea>
+        </div>
+    </form>
+
+    <form *ngIf="constValue.tipoChamado == 'externo'" [formGroup]="chamadosFormExterno" class="po-row">
         <po-combo *ngIf="constValue.visibilidade" class="po-md-4" p-label="Empresa" p-filter-mode="contains"
             p-placeholder="Nome Fantasia" [p-options]="selects.empresas" formControlName="idEmpresa">
         </po-combo>
@@ -20,8 +58,9 @@
             p-label="Hora Fechamento" formControlName="horaFechamento"></po-input>
         <po-input class="po-md-2" *ngIf="constValue.visibilidade" p-mask="99:59" p-label="Tempo"
             formControlName="tempoChamado"></po-input>
-        <po-input class="po-md-2" *ngIf="constValue.visibilidade" p-label="Status"
-            formControlName="codigoStatusChamado"></po-input>
+        <po-combo class="po-md-2" *ngIf="constValue.visibilidade" p-label="Status" p-filter-mode="contains"
+            p-filter-mode="Status Chamados" [p-options]="selects.status" formControlName="codigoStatusChamado">
+        </po-combo>
         <po-combo class="po-md-2" p-filter-mode="contains" p-placeholder="Descricão" p-label="Tipo Chamado"
             [p-options]="selects.tipoChamado" formControlName="tipoChamado"></po-combo>
         <po-combo class="po-md-2" p-filter-mode="contains" p-placeholder="Descricão" p-label="Subtipo Chamado"

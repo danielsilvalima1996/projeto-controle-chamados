@@ -7,6 +7,7 @@ import { ChamadosEditComponent } from './chamados-edit/chamados-edit.component';
 import { PoPageModule, PoTableModule, PoFieldModule, PoButtonModule, PoNotificationModule } from '@portinari/portinari-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChamadosAddComponent } from './chamados-add/chamados-add.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ChamadosAddComponent } from './chamados-add/chamados-add.component';
     ReactiveFormsModule,
     PoFieldModule,
     PoButtonModule,
-    PoNotificationModule
+    PoNotificationModule,
+    SharedModule
   ]
 })
 export class ChamadosModule { }

@@ -120,6 +120,7 @@ export class PaginationComponent implements OnInit {
 
   ngOnInit() {
     this.isFirstPage(this.currentPage);
+    this.isLastPage(this.currentPage);
     this.totalPages = this.calculatePages();
   }
 

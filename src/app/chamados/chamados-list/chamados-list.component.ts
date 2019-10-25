@@ -5,6 +5,7 @@ import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
+import { Pagination } from 'src/app/interfaces/pagination.model';
 
 @Component({
   selector: 'app-chamados-list',
@@ -80,6 +81,12 @@ export class ChamadosListComponent implements OnInit {
     number: <boolean>false
   }
 
+  pagination: Pagination = {
+    currentPage: 1,
+    totalItems: 0,
+    itemsPerPage: 50
+  }
+
   chamadosForm: FormGroup = this.fb.group({
     pesquisa: ['', []],
     filtro: ['', []],
@@ -142,8 +149,16 @@ export class ChamadosListComponent implements OnInit {
               obj[data] = item[data].descricao;
             } else if (data == 'idUsuario') {
               obj[data] = item[data].fullName;
-            } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-' ) {
+            } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-') {
               obj[data] = this.utilService.formataData(item[data].toString());
+            } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
+              if (item[data] != null || item[data].length >= 4) {
+                let hhMM: string = item[data];
+                console.log(item[data].toString());
+                obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+              } else {
+                obj[data] = item[data];
+              }
             } else {
               obj[data] = item[data];
             }
@@ -151,9 +166,12 @@ export class ChamadosListComponent implements OnInit {
           })
           return obj;
         })
-
+        this.pagination.itemsPerPage = data.size;
+        this.pagination.totalItems = data.totalElements;
         this.table.loading = false;
         this.table.items = arr;
+        console.log(this.pagination);
+
       },
         (error: ErrorSpringBoot) => {
           this.notificationService.error(error.message);
@@ -176,6 +194,13 @@ export class ChamadosListComponent implements OnInit {
     } else {
       this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
     }
+
+  }
+
+  onPageChange(event) {
+    this.pagination.currentPage = event;
+    let busca = Object.assign(this.chamadosForm.value, { page: this.pagination.currentPage });
+    this.findChamados(busca);
   }
 
 }

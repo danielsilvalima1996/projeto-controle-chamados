@@ -30,6 +30,7 @@ export class ChamadosAddComponent implements OnInit {
           this.registrarChamado()
         }
       },
+      { label: 'VER', action: () => { this.registrarChamado() } },
       {
         label: 'Voltar', action: () => {
           this.location.back();
@@ -48,15 +49,23 @@ export class ChamadosAddComponent implements OnInit {
     subtipoChamado: <PoSelectOption[]>[],
     analistas: <PoSelectOption[]>[],
     empresas: <PoSelectOption[]>[],
-    users: <PoSelectOption[]>[]
+    users: <PoSelectOption[]>[],
+    status: <PoSelectOption[]>[
+      { label: 'Aberto', value: 1 },
+      { label: 'Em Análise', value: 2 },
+      { label: 'Fechado', value: 3 },
+      { label: 'Indeferido', value: 4 }
+    ]
   }
 
   constValue = {
     tipoChamado: '',
-    visibilidade: <boolean>false
+    visibilidade: <boolean>false,
+    user: <User>{},
+    dataAtual: ''
   }
 
-  chamadosForm: FormGroup = this.fb.group({
+  chamadosFormInterno: FormGroup = this.fb.group({
     idEmpresa: ['', []],
     idAnalista: ['', []],
     idUsuario: ['', []],
@@ -66,6 +75,22 @@ export class ChamadosAddComponent implements OnInit {
     horaFechamento: ['', []],
     tempoChamado: ['', []],
     codigoStatusChamado: ['', []],
+    tipoChamado: ['', [Validators.required]],
+    subtipoChamado: ['', [Validators.required]],
+    descricaoChamado: ['', [Validators.required]],
+    solucaoChamado: ['', []]
+  })
+
+  chamadosFormExterno: FormGroup = this.fb.group({
+    idEmpresa: ['', [Validators.required]],
+    idAnalista: ['', [Validators.required]],
+    idUsuario: ['', [Validators.required]],
+    dataAbertura: ['', [Validators.required]],
+    horaAbertura: ['', [Validators.required]],
+    dataFechamento: ['', []],
+    horaFechamento: ['', []],
+    tempoChamado: ['', []],
+    codigoStatusChamado: ['', [Validators.required]],
     tipoChamado: ['', [Validators.required]],
     subtipoChamado: ['', [Validators.required]],
     descricaoChamado: ['', [Validators.required]],
@@ -89,6 +114,7 @@ export class ChamadosAddComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.constValue.dataAtual = this.utilService.dataAtual();
     this.externoInterno();
     this.analistas();
     this.empresas();
@@ -96,10 +122,19 @@ export class ChamadosAddComponent implements OnInit {
     this.controls.dataAbertura.setValue(this.utilService.dataAtual());
     this.controls.horaAbertura.setValue(this.utilService.horaAtual());
     this.tipoChamado();
-    this.chamadosForm
+    this.chamadosFormInterno
       .valueChanges
       .subscribe((_) => {
-        this.page.actions[0].disabled = this.chamadosForm.invalid;
+        if (this.constValue.tipoChamado == 'interno') {
+          this.page.actions[0].disabled = this.chamadosFormInterno.invalid;
+        }
+      })
+    this.chamadosFormExterno
+      .valueChanges
+      .subscribe((_) => {
+        if (this.constValue.tipoChamado == 'externo') {
+          this.page.actions[0].disabled = this.chamadosFormExterno.invalid;
+        }
       })
     this.controls.tipoChamado
       .valueChanges.subscribe((data) => {
@@ -119,10 +154,29 @@ export class ChamadosAddComponent implements OnInit {
           this.users(data);
         }
       })
+
+    this.controls.dataFechamento
+      .valueChanges.subscribe((data) => {
+        if (data == null || data == '') {
+          this.controls.horaFechamento.setValue(null);
+        } else {
+          this.controls.horaFechamento.setValue(this.utilService.horaAtual());
+          this.controls.codigoStatusChamado.setValue(3);
+        }
+      })
+
+    this.controls.idUsuario
+      .valueChanges.subscribe((data) => {
+        this.userById(data);
+      })
   }
 
   get controls() {
-    return this.chamadosForm.controls;
+    if (this.constValue.tipoChamado == 'externo') {
+      return this.chamadosFormExterno.controls;
+    } else {
+      return this.chamadosFormInterno.controls;
+    }
   }
 
   private externoInterno() {
@@ -213,13 +267,20 @@ export class ChamadosAddComponent implements OnInit {
       })
   }
 
+  private userById(id: number) {
+    this.userService
+      .findById(id)
+      .subscribe((data) => {
+        this.constValue.user = data;
+      })
+  }
+
   registrarChamado() {
     let chamado;
+    let user: User;
     if (this.constValue.tipoChamado == 'externo') {
-      let user: User;
       let dataFechamento: string;
       let empresaId: number
-
       this.controls.idAnalista.value == '' || this.controls.idAnalista.value == null ?
         this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
       this.controls.codigoStatusChamado.value == '' || this.controls.codigoStatusChamado.value == '' ?
@@ -233,17 +294,17 @@ export class ChamadosAddComponent implements OnInit {
         user = data;
         empresaId = data.idEmpresa.id
       })
-      user.authorities = []
+      user.authorities = [];
       chamado = {
         idChamado: '',
         idEmpresa: { id: empresaId },
         idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
         idUsuario: user,
         dataAbertura: this.controls.dataAbertura.value,
-        horaAbertura: this.controls.horaAbertura.value,
+        horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g,''),
         dataFechamento: this.controls.dataFechamento.value,
-        horaFechamento: this.controls.horaFechamento.value,
-        tempoChamado: this.controls.tempoChamado.value,
+        horaFechamento: this.controls.horaFechamento.value.replace(/[^0-9]/g,''),
+        tempoChamado: this.controls.tempoChamado.value.replace(/[^0-9]/g,''),
         codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
         tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
         subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
@@ -251,16 +312,17 @@ export class ChamadosAddComponent implements OnInit {
         solucaoChamado: this.controls.solucaoChamado.value
       }
     } else {
+      this.constValue.user.authorities = [];
       chamado = {
         idChamado: '',
         idEmpresa: { id: this.controls.idEmpresa.value },
         idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
-        idUsuario: 'arrumar aqui',
+        idUsuario: this.constValue.user,
         dataAbertura: this.controls.dataAbertura.value,
-        horaAbertura: this.controls.horaAbertura.value,
+        horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g,''),
         dataFechamento: this.controls.dataFechamento.value,
-        horaFechamento: this.controls.horaFechamento.value,
-        tempoChamado: this.controls.tempoChamado.value,
+        horaFechamento: this.controls.horaFechamento.value.replace(/[^0-9]/g,''),
+        tempoChamado: this.controls.tempoChamado.value.replace(/[^0-9]/g,''),
         codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
         tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
         subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },

@@ -19,4 +19,11 @@
         (p-unselected)="unSelectedTable($event)"
         p-checkbox="true" p-single-select="true">
     </po-table>
+
+    <app-pagination 
+        [(currentPage)]="pagination.currentPage"
+        [(totalItems)]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        (pageChanged)="onPageChange($event)">
+    </app-pagination>
 </po-page-default>
