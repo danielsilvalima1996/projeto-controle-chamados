@@ -22,8 +22,7 @@
 
     <app-pagination 
         [(currentPage)]="pagination.currentPage"
-        [(totalItems)]="pagination.totalItems"
-        [itemsPerPage]="pagination.itemsPerPage"
+        [(totalPages)]="pagination.totalPages"
         (pageChanged)="onPageChange($event)">
     </app-pagination>
 </po-page-default>
