@@ -17,7 +17,7 @@ export class UserEditComponent implements OnInit {
   page = {
     title: 'Editar Usuário',
     actions: [
-      { label: 'Salvar', disabled:true, action: () => { } },
+      { label: 'Salvar', disabled: true, action: () => { } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -32,11 +32,11 @@ export class UserEditComponent implements OnInit {
   }
 
   selects = {
-    ativoOptions: <PoSelectOption[]> [
+    ativoOptions: <PoSelectOption[]>[
       { label: 'ATIVA', value: 'true' },
       { label: 'INATIVA', value: 'false' }
     ],
-    permissoes:<PoSelectOption[]>[]
+    permissoes: <PoSelectOption[]>[]
   }
 
   constValue = {
@@ -47,26 +47,26 @@ export class UserEditComponent implements OnInit {
     id: [''],
     idEmpresa: [''],
     userName: [''],
-    password:[''],
-    fullName: ['', [Validators.required,Validators.minLength(7)]],
-    permissions: ['',[Validators.required]],
+    password: [''],
+    fullName: ['', [Validators.required, Validators.minLength(7)]],
+    permissions: ['', [Validators.required]],
     enabled: ['', [Validators.required]],
-    created:[''],
-    modified:[''],
-    accountNonExpired:[''],
-    accountNonLocked:[''],
-    credentialsNonExpired:[''],
-    authorities:[''],
-    roles:[''],
-    username:['']
+    created: [''],
+    modified: [''],
+    accountNonExpired: [''],
+    accountNonLocked: [''],
+    credentialsNonExpired: [''],
+    authorities: [''],
+    roles: [''],
+    username: ['']
   })
 
   constructor(
     private location: Location,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private userService:UserService,
-    private permissionService:PermissionsService,
+    private userService: UserService,
+    private permissionService: PermissionsService,
     private notification: PoNotificationService
   ) { }
 
@@ -74,46 +74,61 @@ export class UserEditComponent implements OnInit {
   ngOnInit() {
     this.page.actions[0].disabled = this.editUserForm.invalid;
     this.permissionService.findAllActive().subscribe((data: any) => {
-      this.selects.permissoes = data.map((item:any)=>{     
-        return { label:item.description, value:item.id}
+      this.selects.permissoes = data.map((item: any) => {
+        return { label: item.description, value: item.id }
       })
     })
-    
+
     this.route.paramMap
       .subscribe((params: ParamMap) => {
-        this.constValue.id = params.get('id');       
-  })
-  this.findById(this.constValue.id)
-
-}
-
-private findById(id) {
-  this.userService
-    .findById(id)
-    .subscribe((data) => {
-
-      // data.idEmpresa = data.idEmpresa.nomeFantasia // Verificar esse retorno
-      data.created = new Date(data.created);
-      data.modified = new Date(data.modified);
-      this.editUserForm.setValue(data);
-      
-    })
-}
-
-saveAnalista(user: User) {
-  if (this.editUserForm.invalid) {
-    this.notification.warning('Formulário Inválido!');
-    return;
-  } else {
-  this.userService
-    .alterUser(user)
-    .subscribe((data) => {
-      this.notification.success('Usuário alterado com sucesso!');
-      this.location.back();
-    },
-      (error: any) => {
-        this.notification.error('Erro ao salvar usuário!');
+        this.constValue.id = params.get('id');
       })
-}
- }
+    this.findById(this.constValue.id)
+
+  }
+
+  private findById(id) {
+    this.userService
+      .findById(id)
+      .subscribe((data) => {
+
+        let obj = {
+          id: data.id,
+          idEmpresa: data.idEmpresa.nomeFantasia,
+          userName: data.userName,
+          password: data.password,
+          fullName: data.fullName,
+          permissions: data.permissions,
+          enabled: data.enabled,
+          created: new Date(data.created),
+          modified: new Date(data.modified),
+          accountNonExpired: data.accountNonExpired,
+          accountNonLocked: data.accountNonLocked,
+          credentialsNonExpired: data.credentialsNonExpired,
+          authorities: data.authorities,
+          roles: data.roles,
+          username: data.username
+        }
+        console.log(obj);
+        this.editUserForm.setValue(Object.assign({}, obj));
+
+      })
+  }
+
+  saveAnalista(user: User) {
+    if (this.editUserForm.invalid) {
+      this.notification.warning('Formulário Inválido!');
+      return;
+    } else {
+      this.userService
+        .alterUser(user)
+        .subscribe((data) => {
+          this.notification.success('Usuário alterado com sucesso!');
+          this.location.back();
+        },
+          (error: any) => {
+            this.notification.error('Erro ao salvar usuário!');
+          })
+    }
+  }
 }

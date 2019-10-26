@@ -101,19 +101,16 @@ export class UserAddComponent implements OnInit {
       return;
     }
     else {
-      let permissions: Array<any> = [];
-      console.log(permissions);
-
-      // this.useraddForm.controls.permission.value
-      // this.useraddForm.controls.idEmpresa.value,
+      // let permissions: Array<any> = [];
+      // console.log(permissions);
 
       let obj = {
         userName: this.useraddForm.controls.userName.value,
         fullName: this.useraddForm.controls.fullName.value,
         password: this.useraddForm.controls.password.value,
-        permissions: [this.useraddForm.controls.permission.value],
-        idEmpresa: [this.useraddForm.controls.idEmpresa.value,],
-        authorities: this.useraddForm.controls.authorities.value,
+        permissions: [ { id: this.useraddForm.controls.permission.value}],
+        idEmpresa: { id: this.useraddForm.controls.idEmpresa.value},
+        authorities: [],
         roles: [],
       }
       console.log(obj);
