@@ -83,8 +83,7 @@ export class ChamadosListComponent implements OnInit {
 
   pagination: Pagination = {
     currentPage: 1,
-    totalItems: 0,
-    itemsPerPage: 50
+    totalPages: 0
   }
 
   chamadosForm: FormGroup = this.fb.group({
@@ -154,7 +153,6 @@ export class ChamadosListComponent implements OnInit {
             } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
               if (item[data] != null || item[data].length >= 4) {
                 let hhMM: string = item[data];
-                console.log(item[data].toString());
                 obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
               } else {
                 obj[data] = item[data];
@@ -166,8 +164,8 @@ export class ChamadosListComponent implements OnInit {
           })
           return obj;
         })
-        this.pagination.itemsPerPage = data.size;
-        this.pagination.totalItems = data.totalElements;
+        this.pagination.totalPages = data.totalPages;
+        // this.pagination.totalPages = 101;
         this.table.loading = false;
         this.table.items = arr;
         console.log(this.pagination);
