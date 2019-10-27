@@ -17,7 +17,8 @@ export class UserEditComponent implements OnInit {
   page = {
     title: 'Editar Usuário',
     actions: [
-      { label: 'Salvar', disabled: true, action: () => { } },
+      { label: 'Salvar', action: () => { this.saveUser(this.editUserForm.value) } },
+      // disabled: true,
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -72,7 +73,7 @@ export class UserEditComponent implements OnInit {
 
 
   ngOnInit() {
-    this.page.actions[0].disabled = this.editUserForm.invalid;
+    // this.page.actions[0].disabled = this.editUserForm.invalid;
     this.permissionService.findAllActive().subscribe((data: any) => {
       this.selects.permissoes = data.map((item: any) => {
         return { label: item.description, value: item.id }
@@ -98,7 +99,7 @@ export class UserEditComponent implements OnInit {
           userName: data.userName,
           password: data.password,
           fullName: data.fullName,
-          permissions: data.permissions,
+          permissions: data.permissions[0].description,
           enabled: data.enabled,
           created: new Date(data.created),
           modified: new Date(data.modified),
@@ -110,12 +111,13 @@ export class UserEditComponent implements OnInit {
           username: data.username
         }
         console.log(obj);
+        
         this.editUserForm.setValue(Object.assign({}, obj));
 
       })
   }
 
-  saveAnalista(user: User) {
+  saveUser(user: User) {
     if (this.editUserForm.invalid) {
       this.notification.warning('Formulário Inválido!');
       return;
