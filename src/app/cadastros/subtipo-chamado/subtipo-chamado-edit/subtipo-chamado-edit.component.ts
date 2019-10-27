@@ -95,13 +95,13 @@ export class SubtipoChamadoEditComponent implements OnInit {
 
   private tipoChamado() {
     this.tipoChamadoService
-    .findAll()
-    .subscribe((data) => {
-      let arr = data.map((item) => {
-        return <PoSelectOption>{label: item.descricao, value: item.id}
+      .findAll()
+      .subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.descricao, value: item.id }
+        })
+        this.selects.tipoChamado = arr;
       })
-      this.selects.tipoChamado = arr;
-    })
   }
 
   private saveSubTipoChamado() {
@@ -111,7 +111,7 @@ export class SubtipoChamadoEditComponent implements OnInit {
       active: this.controls.active.value,
       created: this.controls.created.value,
       modified: this.controls.modified.value,
-      idTipoChamado: {id: {id: this.controls.idTipoChamado.value}}
+      idTipoChamado: { id: this.controls.idTipoChamado.value }
     }
     this.subTipoChamadoService
       .alterSubTipoChamado(subtipo)

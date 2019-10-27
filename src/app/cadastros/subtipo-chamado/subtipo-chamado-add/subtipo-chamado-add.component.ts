@@ -78,11 +78,17 @@ export class SubtipoChamadoAddComponent implements OnInit {
       return;
     }
     else {
+
+      let obj = {
+        descricao: this.subTipoChamadoAddForm.controls.descricao.value,
+        idTipoChamado:{ id : this.subTipoChamadoAddForm.controls.idTipoChamado.value},
+        active:this.subTipoChamadoAddForm.controls.active.value
+      }
+      console.log(obj);
+      
       this.subTipoChamadoService
-        .createSubtipoChamado(this.subTipoChamadoAddForm.value)
+        .createSubtipoChamado(obj)
         .subscribe((data) => {
-          console.log(data);
-          
           this.notificationService.success('SubTipo de Chamado Salvo com Sucesso');
           this.location.back();
      
