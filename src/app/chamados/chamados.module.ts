@@ -8,13 +8,15 @@ import { PoPageModule, PoTableModule, PoFieldModule, PoButtonModule, PoNotificat
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChamadosAddComponent } from './chamados-add/chamados-add.component';
 import { SharedModule } from '../shared/shared.module';
+import { ChamadosViewComponent } from './chamados-view/chamados-view.component';
 
 
 @NgModule({
   declarations: [
     ChamadosListComponent,
     ChamadosEditComponent,
-    ChamadosAddComponent
+    ChamadosAddComponent,
+    ChamadosViewComponent
   ],
   imports: [
     CommonModule,

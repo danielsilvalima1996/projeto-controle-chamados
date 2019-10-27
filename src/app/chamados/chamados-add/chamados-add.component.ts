@@ -30,7 +30,6 @@ export class ChamadosAddComponent implements OnInit {
           this.registrarChamado()
         }
       },
-      { label: 'VER', action: () => { this.registrarChamado() } },
       {
         label: 'Voltar', action: () => {
           this.location.back();
@@ -82,15 +81,15 @@ export class ChamadosAddComponent implements OnInit {
   })
 
   chamadosFormExterno: FormGroup = this.fb.group({
-    idEmpresa: ['', [Validators.required]],
-    idAnalista: ['', [Validators.required]],
-    idUsuario: ['', [Validators.required]],
+    idEmpresa: ['', []],
+    idAnalista: ['', []],
+    idUsuario: ['', []],
     dataAbertura: ['', [Validators.required]],
     horaAbertura: ['', [Validators.required]],
     dataFechamento: ['', []],
     horaFechamento: ['', []],
     tempoChamado: ['', []],
-    codigoStatusChamado: ['', [Validators.required]],
+    codigoStatusChamado: ['', []],
     tipoChamado: ['', [Validators.required]],
     subtipoChamado: ['', [Validators.required]],
     descricaoChamado: ['', [Validators.required]],
@@ -125,16 +124,13 @@ export class ChamadosAddComponent implements OnInit {
     this.chamadosFormInterno
       .valueChanges
       .subscribe((_) => {
-        if (this.constValue.tipoChamado == 'interno') {
-          this.page.actions[0].disabled = this.chamadosFormInterno.invalid;
-        }
+        this.page.actions[0].disabled = this.chamadosFormInterno.invalid;
       })
     this.chamadosFormExterno
       .valueChanges
       .subscribe((_) => {
-        if (this.constValue.tipoChamado == 'externo') {
-          this.page.actions[0].disabled = this.chamadosFormExterno.invalid;
-        }
+        this.page.actions[0].disabled = this.chamadosFormExterno.invalid;
+
       })
     this.controls.tipoChamado
       .valueChanges.subscribe((data) => {
@@ -279,16 +275,13 @@ export class ChamadosAddComponent implements OnInit {
     let chamado;
     let user: User;
     if (this.constValue.tipoChamado == 'externo') {
-      let dataFechamento: string;
+      // let dataFechamento: string;
       let empresaId: number
       this.controls.idAnalista.value == '' || this.controls.idAnalista.value == null ?
         this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
       this.controls.codigoStatusChamado.value == '' || this.controls.codigoStatusChamado.value == '' ?
         this.controls.codigoStatusChamado.setValue(1) :
         this.controls.codigoStatusChamado.setValue(this.controls.codigoStatusChamado.value);
-      if (this.controls.dataAbertura.value != '' || this.controls.dataAbertura.value != null) {
-        dataFechamento = this.controls.dataFechamento.value;
-      }
 
       this.loginService.getUserInformation$.subscribe((data) => {
         user = data;
@@ -301,10 +294,10 @@ export class ChamadosAddComponent implements OnInit {
         idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
         idUsuario: user,
         dataAbertura: this.controls.dataAbertura.value,
-        horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g,''),
+        horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g, ''),
         dataFechamento: this.controls.dataFechamento.value,
-        horaFechamento: this.controls.horaFechamento.value.replace(/[^0-9]/g,''),
-        tempoChamado: this.controls.tempoChamado.value.replace(/[^0-9]/g,''),
+        horaFechamento: this.controls.horaFechamento.value.replace(/[^0-9]/g, ''),
+        tempoChamado: this.controls.tempoChamado.value.replace(/[^0-9]/g, ''),
         codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
         tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
         subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
@@ -313,16 +306,22 @@ export class ChamadosAddComponent implements OnInit {
       }
     } else {
       this.constValue.user.authorities = [];
+      let horaAbertura;
+      let horaFechamento;
+      let tempoChamado;
+      this.controls.horaAbertura.value == null ? horaAbertura = '' : horaAbertura = this.controls.horaAbertura.value.replace(/[^0-9]/g, '');
+      this.controls.horaFechamento.value == null ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
+      this.controls.tempoChamado.value == null ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
       chamado = {
         idChamado: '',
         idEmpresa: { id: this.controls.idEmpresa.value },
         idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
         idUsuario: this.constValue.user,
         dataAbertura: this.controls.dataAbertura.value,
-        horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g,''),
+        horaAbertura: horaAbertura,
         dataFechamento: this.controls.dataFechamento.value,
-        horaFechamento: this.controls.horaFechamento.value.replace(/[^0-9]/g,''),
-        tempoChamado: this.controls.tempoChamado.value.replace(/[^0-9]/g,''),
+        horaFechamento: horaFechamento,
+        tempoChamado: tempoChamado,
         codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
         tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
         subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },

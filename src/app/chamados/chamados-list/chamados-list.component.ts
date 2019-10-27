@@ -168,8 +168,6 @@ export class ChamadosListComponent implements OnInit {
         // this.pagination.totalPages = 101;
         this.table.loading = false;
         this.table.items = arr;
-        console.log(this.pagination);
-
       },
         (error: ErrorSpringBoot) => {
           this.notificationService.error(error.message);
