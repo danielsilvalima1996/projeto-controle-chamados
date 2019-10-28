@@ -66,11 +66,16 @@ export class ChamadosListComponent implements OnInit {
 
   selects = {
     pesquisa: <PoSelectOption[]>[
-      { label: 'ID', value: 'id' },
-      { label: 'ANALISTA', value: 'analista' },
-      { label: 'STATUS', value: 'status' },
+      { label: 'ID CHAMADO', value: 'idChamado' },
+      { label: 'ID ANALISTA', value: 'idAnalista' },
+      { label: 'STATUS', value: 'codigoStatusChamado' },
       { label: 'ASSUNTO', value: 'assunto' },
-      { label: 'DESCRIÇÃO', value: 'descricao' }
+      { label: 'DESCRIÇÃO', value: 'descricaoChamado' },
+      { label: 'SOLUÇÃO CHAMADO', value: 'solucaoChamado' },
+      { label: 'ID EMPRESA', value: 'idEmpresa' },
+      { label: 'ID USUÁRIO', value: 'idUsuario' },
+      { label: 'ID SUBTIPO CHAMADO', value: 'idSubtipoChamado' },
+      { label: 'ID TIPO CHAMADO', value: 'idTipoChamado' }
     ]
   }
 
@@ -104,6 +109,9 @@ export class ChamadosListComponent implements OnInit {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
     this.findChamados(this.chamadosForm.value);
     this.tipoChamados();
+    this.selects.pesquisa.sort((a, b) => {
+      return a.label < b.label ? -1 : a.label > b.label ? 1 : 0;
+    })
   }
 
   get controls() {
