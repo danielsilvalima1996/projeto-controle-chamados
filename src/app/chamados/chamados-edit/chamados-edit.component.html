@@ -1,6 +1,6 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
     <!-- INTERNO EDIT -->
-    <form *ngIf="constValue.tipoChamado == 'interno' && this.constValue.action == 'edit'"
+    <form *ngIf="constValue.tipoChamado == 'interno'"
         [formGroup]="chamadosFormInterno" class="po-row">
         <po-input class="po-md-2" p-label="Id Chamado" formControlName="idChamado" p-readonly="true"></po-input>
         
@@ -48,7 +48,7 @@
     </form>
 
     <!-- EXTERNO EDIT -->
-    <form *ngIf="constValue.tipoChamado == 'externo' && this.constValue.action == 'edit'"
+    <form *ngIf="constValue.tipoChamado == 'externo'"
         [formGroup]="chamadosFormExterno" class="po-row">
         <po-input class="po-md-2" p-label="Id Chamado" formControlName="idChamado" p-readonly="true"></po-input>
 
@@ -92,40 +92,6 @@
                 formControlName="solucaoChamado">
             </po-textarea>
 
-        </div>
-    </form>
-
-    <!-- VISUALIZAR -->
-
-    <form *ngIf="this.constValue.action == 'view'" [formGroup]="chamadosFormExterno" class="po-row">
-        <po-input class="po-md-4" p-label="Empresa" p-readonly="true" formControlName="idEmpresa">
-        </po-input>
-        <po-input class="po-md-4" p-label="Analista" p-readonly="true" formControlName="idAnalista">
-        </po-input>
-        <po-input class="po-md-4" p-label="Usuário" p-readonly="true" formControlName="idUsuario">
-        </po-input>
-        <po-input class="po-md-2" p-label="Data Abertura" p-readonly="true" formControlName="dataAbertura">
-        </po-input>
-        <po-input class="po-md-2" p-mask="99:99" p-label="Hora Abertura" p-readonly="true"
-            formControlName="horaAbertura"></po-input>
-        <po-input class="po-md-2" p-label="Data Fechamento" p-readonly="true" formControlName="dataFechamento">
-        </po-input>
-        <po-input class="po-md-2" p-mask="99:99" p-label="Hora Fechamento" p-readonly="true"
-            formControlName="horaFechamento"></po-input>
-        <po-input class="po-md-2" p-mask="99:59" p-label="Tempo" p-readonly="true" formControlName="tempoChamado">
-        </po-input>
-        <po-input class="po-md-2" p-label="Status" p-readonly="true" formControlName="codigoStatusChamado">
-        </po-input>
-        <po-input class="po-md-3" p-label="Tipo Chamado" p-readonly="true" formControlName="tipoChamado"></po-input>
-        <po-input class="po-md-3" p-label="Subtipo Chamado" p-readonly="true" formControlName="subtipoChamado">
-        </po-input>
-        <div class="po-row">
-            <po-textarea class="po-md-6" p-label="Descricão Chamado" p-rows="4" p-readonly="true"
-                formControlName="descricaoChamado">
-            </po-textarea>
-            <po-textarea class="po-md-6" p-label="Solucão Chamado" p-rows="4" p-readonly="true"
-                formControlName="solucaoChamado">
-            </po-textarea>
         </div>
     </form>
 

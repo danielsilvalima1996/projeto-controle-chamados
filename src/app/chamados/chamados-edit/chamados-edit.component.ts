@@ -6,9 +6,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
-import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
-import { UserService } from 'src/app/services/cadastros/users/user.service';
-import { LoginService } from 'src/app/services/authentication/login/login.service';
 import { User } from 'src/app/interfaces/user.model';
 import { Empresa } from 'src/app/interfaces/empresa.model';
 import { Analista } from 'src/app/interfaces/analista.model';
@@ -57,7 +54,6 @@ export class ChamadosEditComponent implements OnInit {
 
   constValue = {
     tipoChamado: '',
-    action: '',
     id: <number>0
   }
 
@@ -120,35 +116,46 @@ export class ChamadosEditComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap
       .subscribe((paramMap: ParamMap) => {
-        this.constValue.action = paramMap.get('acao');
         this.constValue.id = parseInt(paramMap.get('id'), 10);
       })
     if (this.router.url.toString().indexOf('externo') != -1) {
       this.constValue.tipoChamado = 'externo';
+      this.chamadosFormExterno
+        .valueChanges
+        .subscribe((_) => {
+          this.page.actions[0].disabled = this.chamadosFormExterno.invalid;
+        })
+      this.findById(this.constValue.id);
     } else {
       this.constValue.tipoChamado = 'interno';
       this.tipoChamadoList();
-      if (this.constValue.action == 'edit') {
-        this.controls.tipoChamado
-          .valueChanges.subscribe((data) => {
-            this.subtipoChamado(data);
-          })
-      }
+      this.chamadosFormInterno
+        .valueChanges
+        .subscribe((_) => {
+          this.page.actions[0].disabled = this.chamadosFormInterno.invalid;
+        })
+      this.controls.tipoChamado
+        .valueChanges.subscribe((data) => {
+          this.subtipoChamado(data);
+        })
+      this.controls.dataFechamento
+        .valueChanges.subscribe((data) => {
+          this.controls.horaFechamento.setValue(this.utilService.horaAtual());
+          this.controls.codigoStatusChamado.setValue(3);
+        })
+      this.controls.codigoStatusChamado
+        .valueChanges.subscribe((data) => {
+          if (data >= 1 && data <= 2) {
+            this.controls.dataFechamento.reset();
+            this.controls.horaFechamento.reset();
+            this.controls.tempoChamado.reset();
+          }
+        })
+      this.tipoChamado(this.constValue.tipoChamado);
+      this.analistas();
+      this.findById(this.constValue.id);
+      this.controls.subtipoChamado.setValue(this.controls.subtipoChamado.value);
     }
-    this.chamadosFormInterno
-      .valueChanges
-      .subscribe((_) => {
-        this.page.actions[0].disabled = this.chamadosFormInterno.invalid;
-      })
-    this.chamadosFormExterno
-      .valueChanges
-      .subscribe((_) => {
-        this.page.actions[0].disabled = this.chamadosFormExterno.invalid;
-      })
-    this.disabledButton(this.constValue.action);
-    this.findById(this.constValue.id);
-    this.tipoChamado(this.constValue.tipoChamado, this.constValue.action);
-    this.analistas();
   }
 
   get controls() {
@@ -192,32 +199,14 @@ export class ChamadosEditComponent implements OnInit {
       })
   }
 
-  private disabledButton(action: String) {
-    if (action == 'view') {
-      this.page.actions[0].disabled = true;
-    }
-  }
-
-  private tipoChamado(tipoChamado, action) {
-    console.log(tipoChamado + " | " + action);
+  private tipoChamado(tipoChamado) {
+    console.log(tipoChamado);
     let item: PoBreadcrumbItem[] = [];
-    if (tipoChamado == 'externo' && action == 'edit') {
+    if (tipoChamado == 'externo') {
       this.page.title = 'Editar Chamado Externo';
       item = [
         { label: 'Externo' },
         { label: 'Editar' }
-      ]
-    } else if (tipoChamado == 'externo' && action == 'view') {
-      this.page.title = 'Visualizar Chamado Externo';
-      item = [
-        { label: 'Externo' },
-        { label: 'Visualizar' }
-      ]
-    } else if (tipoChamado == 'interno' && action == 'view') {
-      this.page.title = 'Visualizar Chamado Interno';
-      item = [
-        { label: 'Interno' },
-        { label: 'Visualizar' }
       ]
     } else {
       this.page.title = 'Editar Chamado Interno';
@@ -237,71 +226,89 @@ export class ChamadosEditComponent implements OnInit {
       .subscribe((item) => {
         let obj = {};
         Object.keys(item).map((data) => {
-          if (item[data] == '') {
-            obj[data] = '-';
-          } else if (data == 'idEmpresa') {
-            this.formAuxiliar.empresa = item[data];
-            obj[data] = item[data].nomeFantasia;
-          } else if (data == 'idAnalista') {
-            if (this.constValue.tipoChamado == 'interno' && this.constValue.action == 'edit') {
+          if (this.constValue.tipoChamado == 'interno') {
+            if (data == 'idEmpresa') {
+              obj[data] = item[data].nomeFantasia;
+              this.formAuxiliar.empresa = item[data];
+            } else if (data == 'idAnalista') {
               obj[data] = item[data].id;
+            } else if (data == 'tipoChamado') {
+              obj[data] = item[data].id;
+            } else if (data == 'subtipoChamado') {
+              obj[data] = item[data].id.toString();
+            } else if (data == 'idUsuario') {
+              obj[data] = item[data].fullName;
+              this.formAuxiliar.user = item[data];
+            } else if (data == 'dataAbertura' && item[data].toString() != '-') {
+              if (item[data] != null || item[data].length >= 10) {
+                obj[data] = this.utilService.formataData(item[data].toString());
+              } else {
+                obj[data] = item[data];
+              }
+            } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
+              //se true, ele formata para tempo, se falta joga o valor que veio do banco
+              if (item[data] != null || item[data].length >= 4) {
+                let hhMM: string = item[data];
+                obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+              } else {
+                obj[data] = item[data];
+              }
+            } else if (data == 'codigoStatusChamado') {
+              obj[data] = item[data];
             } else {
-              this.formAuxiliar.analista = item[data];
+              obj[data] = item[data];
+            }
+          } else { // externo
+            if (data == 'idEmpresa') {
+              obj[data] = item[data].nomeFantasia;
+              this.formAuxiliar.empresa = item[data];
+            } else if (data == 'idAnalista') {
               obj[data] = item[data].nome;
-            }
-          } else if (data == 'tipoChamado') {
-            if (this.constValue.tipoChamado == 'interno' && this.constValue.action == 'edit') {
-              obj[data] = item[data].id;
-            } else {
+              this.formAuxiliar.analista = item[data];
+            } else if (data == 'tipoChamado') {
+              obj[data] = item[data].descricao;
               this.formAuxiliar.tipoChamado = item[data];
+            } else if (data == 'subtipoChamado') {
               obj[data] = item[data].descricao;
-            }
-          } else if (data == 'subtipoChamado') {
-            if (this.constValue.tipoChamado == 'interno' && this.constValue.action == 'edit') {
-              obj[data] = item[data].id;
-            } else {
               this.formAuxiliar.subtipoChamado = item[data];
-              obj[data] = item[data].descricao;
-            }
-          } else if (data == 'idUsuario') {
-            this.formAuxiliar.user = item[data];
-            obj[data] = item[data].fullName;
-          } else if (data == 'dataAbertura' && item[data].toString() != '-') {
-            if (this.constValue.tipoChamado == 'externo') {
+            } else if (data == 'idUsuario') {
+              obj[data] = item[data].fullName;
+              this.formAuxiliar.user = item[data];
+            } else if (data == 'dataAbertura' || data == 'dataFechamento' && item[data].toString().indexOf('-') == 4) {
               obj[data] = this.utilService.formataData(item[data].toString());
-            } else {
-              obj[data] = item[data];
-            }
-          } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
-            if (item[data] != null || item[data].length >= 4) {
-              let hhMM: string = item[data];
-              obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
-            }
-          } else if (data == 'codigoStatusChamado') {
-            if (this.constValue.tipoChamado == 'interno' && this.constValue.action == 'edit') {
-              obj[data] = item[data];
-            } else {
-              this.formAuxiliar.codigoStatusChamado = item[data];
+            } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
+              //se true, ele formata para tempo, se falta joga o valor que veio do banco
+              if (item[data] != null || item[data].length >= 4) {
+                let hhMM: string = item[data];
+                obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+              } else {
+                obj[data] = item[data];
+              }
+            } else if (data == 'codigoStatusChamado') {
               switch (item[data]) {
                 case 1:
-                  obj[data] = 'Em Aberto';
+                  obj[data] = 'Aberto';
+                  this.formAuxiliar.codigoStatusChamado = item[data];
                   break;
                 case 2:
                   obj[data] = 'Em Análise';
+                  this.formAuxiliar.codigoStatusChamado = item[data];
                   break;
                 case 3:
                   obj[data] = 'Fechado';
+                  this.formAuxiliar.codigoStatusChamado = item[data];
                   break;
                 case 4:
                   obj[data] = 'Indeferido';
+                  this.formAuxiliar.codigoStatusChamado = item[data];
                   break;
+                  obj[data] = item[data];
                 default:
-                  obj[data] = 'Sem Dados';
                   break;
               }
+            } else {
+              obj[data] = item[data];
             }
-          } else {
-            obj[data] = item[data];
           }
         })
         this.chamadosFormExterno.setValue(obj);
@@ -317,12 +324,20 @@ export class ChamadosEditComponent implements OnInit {
     let horaFechamento;
     let tempoChamado;
 
-    this.controls.dataFechamento.value == '' || this.controls.dataFechamento.value == ''
-      ? dataFechamento = '' : dataFechamento = this.utilService.multiFormataData(this.controls.dataFechamento.value, 'yyyy-mm-dd');
     this.controls.horaFechamento.value == '' || this.controls.horaFechamento.value == ''
       ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
     this.controls.tempoChamado.value == '' || this.controls.tempoChamado.value == ''
       ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
+
+    if (this.controls.dataFechamento.value == null) {
+      dataFechamento = '';
+    } else if (this.controls.dataFechamento.value.toString().indexOf('/') == 2) {
+      dataFechamento = this.utilService.multiFormataData(this.controls.dataFechamento.value, 'yyyy-mm-dd');
+    } else if (this.controls.dataFechamento.value.toString().indexOf('-') == 4) {
+      dataFechamento = this.controls.dataFechamento.value;
+    } else {
+      dataFechamento = '';
+    }
 
     if (this.constValue.tipoChamado == 'externo') {
       chamado = {
@@ -348,22 +363,23 @@ export class ChamadosEditComponent implements OnInit {
       this.controls.horaAbertura.value == null ? horaAbertura = '' : horaAbertura = this.controls.horaAbertura.value.replace(/[^0-9]/g, '');
       this.controls.horaFechamento.value == null ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
       this.controls.tempoChamado.value == null ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
-      chamado = {
-        idChamado: '',
-        idEmpresa: this.formAuxiliar.empresa,
-        idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
-        idUsuario: this.formAuxiliar.user,
-        dataAbertura: this.utilService.multiFormataData(this.controls.dataAbertura.value, 'yyyy-mm-dd'),
-        horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g, ''),
-        dataFechamento: dataFechamento,
-        horaFechamento: horaFechamento,
-        tempoChamado: tempoChamado,
-        codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
-        tipoChamado: this.formAuxiliar.tipoChamado,
-        subtipoChamado: this.formAuxiliar.subtipoChamado,
-        descricaoChamado: this.controls.descricaoChamado.value,
-        solucaoChamado: this.controls.solucaoChamado.value
-      }
+      if (this.controls.dataFechamento)
+        chamado = {
+          idChamado: this.controls.idChamado.value,
+          idEmpresa: this.formAuxiliar.empresa,
+          idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
+          idUsuario: this.formAuxiliar.user,
+          dataAbertura: this.utilService.multiFormataData(this.controls.dataAbertura.value, 'yyyy-mm-dd'),
+          horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g, ''),
+          dataFechamento: dataFechamento,
+          horaFechamento: horaFechamento,
+          tempoChamado: tempoChamado,
+          codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
+          tipoChamado: { id: this.controls.tipoChamado.value },
+          subtipoChamado: { id: this.controls.tipoChamado.value },
+          descricaoChamado: this.controls.descricaoChamado.value,
+          solucaoChamado: this.controls.solucaoChamado.value
+        }
     }
 
     this.chamadosService
