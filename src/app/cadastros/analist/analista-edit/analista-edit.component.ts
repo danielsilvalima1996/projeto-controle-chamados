@@ -42,7 +42,7 @@ export class AnalistaEditComponent implements OnInit {
   editAnalistaForm: FormGroup = this.fb.group({
     id: [''],
     nome: [''],
-    email: [''],
+    email: ['',[]],
     matricula: [''],
     ativo: ['', [Validators.required]],
     criado: [''],

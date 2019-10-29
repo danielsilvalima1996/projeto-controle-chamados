@@ -35,7 +35,7 @@ export class AnalistaAddComponent implements OnInit {
 
   analistAddForm: FormGroup = this.fb.group({
     nome: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(8)]],
-    email: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
+    email: ['', [Validators.required]],
     matricula:['',[]],
     ativo: ['', [Validators.required]],
   });

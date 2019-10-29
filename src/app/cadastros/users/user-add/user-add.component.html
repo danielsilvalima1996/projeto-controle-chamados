@@ -3,8 +3,8 @@
 
   <form [formGroup]="useraddForm">
     <div class="po-row">
-      <po-input formControlName="userName" p-label="E-mail" class="po-md-4"
-        p-error-pattern="Insira um e-mail válido"></po-input>
+      <po-email formControlName="userName" p-label="E-mail" class="po-md-4"
+        p-error-pattern="Insira um e-mail válido"></po-email>
       <po-input formControlName="fullName" p-label="Nome Usuário" class="po-md-4" p-error-pattern="Insira o seu nome Completo"></po-input>
       <po-password formControlName="password" p-label="Senha" class="po-md-4"
         p-error-pattern="Insira no mínimo 5 caracteres"></po-password>
@@ -23,3 +23,6 @@
     </div>
   </form>
 </po-page-default>
+
+<po-loading-overlay *ngIf="constValue.loadingPage" p-screen-lock="true" p-text="Adcionando Usuário">
+</po-loading-overlay>

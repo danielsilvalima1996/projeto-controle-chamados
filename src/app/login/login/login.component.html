@@ -1,6 +1,6 @@
 <div class="form">
     <form [formGroup]="loginForm" (keyup.enter)="login()" class="po-form">
-        <po-login class="po-md-12" p-label="E-mail" formControlName="username"></po-login>
+        <po-email class="po-md-12" p-label="E-mail" formControlName="username"></po-email>
         <po-password class="po-md-12" p-label="Senha" formControlName="password"></po-password>
         <po-button class="po-md-12 po-mt-2" p-label="Entrar" (click)="login()"></po-button>
     </form>

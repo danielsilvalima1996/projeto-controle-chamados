@@ -5,7 +5,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { PermissionsService } from 'src/app/services/cadastros/permissions/permissions.service';
-import { User } from 'src/app/interfaces/user.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-edit',
@@ -17,8 +17,7 @@ export class UserEditComponent implements OnInit {
   page = {
     title: 'Editar Usuário',
     actions: [
-      { label: 'Salvar', action: () => { this.saveUser(this.editUserForm.value) } },
-      // disabled: true,
+      { label: 'Salvar', disabled: true, action: () => { this.saveUser() } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -41,7 +40,11 @@ export class UserEditComponent implements OnInit {
   }
 
   constValue = {
-    id: ''
+    id: '',
+    loadingPage: false,
+    permissions: <number>0,
+    authorities: [],
+    empresa: <any>[]
   }
 
   editUserForm: FormGroup = this.fb.group({
@@ -49,7 +52,7 @@ export class UserEditComponent implements OnInit {
     idEmpresa: [''],
     userName: [''],
     password: [''],
-    fullName: ['', [Validators.required, Validators.minLength(7)]],
+    fullName: ['', [Validators.required]],
     permissions: ['', [Validators.required]],
     enabled: ['', [Validators.required]],
     created: [''],
@@ -73,12 +76,16 @@ export class UserEditComponent implements OnInit {
 
 
   ngOnInit() {
-    // this.page.actions[0].disabled = this.editUserForm.invalid;
-    this.permissionService.findAllActive().subscribe((data: any) => {
-      this.selects.permissoes = data.map((item: any) => {
-        return { label: item.description, value: item.id }
-      })
+    this.editUserForm.valueChanges.subscribe((_) => {
+      this.page.actions[0].disabled = this.editUserForm.invalid;
     })
+    this.permissionService.findAllActive(this.constValue.permissions)
+      .subscribe((data: any) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.description, value: item.id }
+        })
+        this.selects.permissoes = arr;
+      })
 
     this.route.paramMap
       .subscribe((params: ParamMap) => {
@@ -99,7 +106,7 @@ export class UserEditComponent implements OnInit {
           userName: data.userName,
           password: data.password,
           fullName: data.fullName,
-          permissions: data.permissions[0].description,
+          permissions: data.permissions[0].id,
           enabled: data.enabled,
           created: new Date(data.created),
           modified: new Date(data.modified),
@@ -109,28 +116,60 @@ export class UserEditComponent implements OnInit {
           authorities: data.authorities,
           roles: data.roles,
           username: data.username
+
         }
+
+        this.constValue.empresa = data.idEmpresa
+        this.constValue.permissions = data.permissions[0].id;
+        this.constValue.authorities = data.authorities;
         console.log(obj);
-        
+
         this.editUserForm.setValue(Object.assign({}, obj));
 
       })
   }
 
-  saveUser(user: User) {
+  saveUser() {
+    this.constValue.loadingPage = true;
+
     if (this.editUserForm.invalid) {
       this.notification.warning('Formulário Inválido!');
       return;
-    } else {
-      this.userService
-        .alterUser(user)
-        .subscribe((data) => {
-          this.notification.success('Usuário alterado com sucesso!');
-          this.location.back();
-        },
-          (error: any) => {
-            this.notification.error('Erro ao salvar usuário!');
-          })
     }
+    else {
+
+      let obj = {
+        id: this.constValue.id,
+        userName: this.editUserForm.controls.userName.value,
+        fullName: this.editUserForm.controls.fullName.value,
+        password: this.editUserForm.controls.password.value,
+        permissions: [{ id: this.constValue.permissions }],
+        idEmpresa: this.constValue.empresa,
+        authorities: [],
+        roles: [this.editUserForm.controls.permissions.value],
+        enabled: this.editUserForm.controls.enabled.value,
+        created: new Date(this.editUserForm.controls.created.value),
+        modified: new Date(this.editUserForm.controls.modified.value),
+        accountNonExpired: true,
+        accountNonLocked: true,
+        credentialsNonExpired: true,
+        username: ''
+      }
+
+      this.userService.addUser(obj).subscribe(() => {
+        this.notification.success('Usuário Cadastrado com Sucesso!');
+        this.location.back();
+        this.constValue.loadingPage = false;
+      },
+        (error: HttpErrorResponse) => {
+          this.constValue.loadingPage = false;
+          this.notification.error('Erro no Cadastro do Usuário');
+        }
+
+
+      )
+    }
+
   }
+
 }

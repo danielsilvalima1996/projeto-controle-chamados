@@ -41,8 +41,12 @@ export class UserAddComponent implements OnInit {
     empresas: <PoSelectOption[]>[]
   }
 
+  constValue = {
+    loadingPage: false
+  }
+
   useraddForm: FormGroup = this.fb.group({
-    userName: ['', [Validators.required, Validators.pattern('^^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
+    userName: ['', [Validators.required]],
     fullName: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(8)]],
     password: ['', [Validators.required]],
     authorities: ['', []],
@@ -96,14 +100,14 @@ export class UserAddComponent implements OnInit {
   }
 
   addUser() {
+    this.constValue.loadingPage = true;
+
     if (this.useraddForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');
       return;
     }
     else {
-      // let permissions: Array<any> = [];
-      // console.log(permissions);
-
+      
       let obj = {
         userName: this.useraddForm.controls.userName.value,
         fullName: this.useraddForm.controls.fullName.value,
@@ -118,13 +122,17 @@ export class UserAddComponent implements OnInit {
       this.userService.addUser(obj).subscribe(() => {
         this.notificationService.success('Usuário Cadastrado com Sucesso!');
         this.location.back();
+        this.constValue.loadingPage = false;
       },
         (error: HttpErrorResponse) => {
+          this.constValue.loadingPage = false;
           this.notificationService.error('Erro no Cadastro do Usuário');
         }
 
+
       )
     }
+
   }
 
 }

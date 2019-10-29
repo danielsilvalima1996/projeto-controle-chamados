@@ -93,7 +93,6 @@ export class AnalistaListComponent implements OnInit {
         this.tipoForm(data);
       })
     this.getAnalista(this.analistaform.value)
-    // this.getAnalista()
 
   }
 
