@@ -28,27 +28,6 @@ export class PermissionsService {
     return this.http.get(`${this.urlAll}?${parameters}`) as Observable<Pageable<Permission>>;
  }
 
-  getRolesChumbado(){
-       return of(
-      [
-        {
-          "id": "1",
-          "nome": "Admnistrador",
-          "active": true,
-          "created": "2019-09-14",
-          "modified": "2019-09-14"
-        },
-        {
-          "id": "2",
-          "nome": "Analista",
-          "active":true,
-          "created": "2019-09-14",
-          "modified": "2019-09-14"
-        },
-      ]
-    )
-  }
-
   findById(id: number): Observable<Permission> {
     return this.http.get(`${this.url}/${id}`) as Observable<Permission>;
   }

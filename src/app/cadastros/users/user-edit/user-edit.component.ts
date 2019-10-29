@@ -5,7 +5,6 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { PermissionsService } from 'src/app/services/cadastros/permissions/permissions.service';
-import { User } from 'src/app/interfaces/user.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -18,7 +17,7 @@ export class UserEditComponent implements OnInit {
   page = {
     title: 'Editar Usuário',
     actions: [
-      { label: 'Salvar',disabled: true, action: () => { this.saveUser() } },
+      { label: 'Salvar', disabled: true, action: () => { this.saveUser() } },
       { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
     ],
     breadcrumb: {
@@ -53,9 +52,9 @@ export class UserEditComponent implements OnInit {
     idEmpresa: [''],
     userName: [''],
     password: [''],
-    fullName: ['', []],
-    permissions: ['', []],
-    enabled: ['', []],
+    fullName: ['', [Validators.required]],
+    permissions: ['', [Validators.required]],
+    enabled: ['', [Validators.required]],
     created: [''],
     modified: [''],
     accountNonExpired: [''],
@@ -77,12 +76,16 @@ export class UserEditComponent implements OnInit {
 
 
   ngOnInit() {
-    this.page.actions[0].disabled = this.editUserForm.invalid;
-    this.permissionService.findAllActive().subscribe((data: any) => {
-      this.selects.permissoes = data.map((item: any) => {
-        return { label: item.description, value: item.id }
-      })
+    this.editUserForm.valueChanges.subscribe((_) => {
+      this.page.actions[0].disabled = this.editUserForm.invalid;
     })
+    this.permissionService.findAllActive(this.constValue.permissions)
+      .subscribe((data: any) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.description, value: item.id }
+        })
+        this.selects.permissoes = arr;
+      })
 
     this.route.paramMap
       .subscribe((params: ParamMap) => {
@@ -103,7 +106,7 @@ export class UserEditComponent implements OnInit {
           userName: data.userName,
           password: data.password,
           fullName: data.fullName,
-          permissions: data.permissions[0].description,
+          permissions: data.permissions[0].id,
           enabled: data.enabled,
           created: new Date(data.created),
           modified: new Date(data.modified),

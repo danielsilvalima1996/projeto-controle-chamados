@@ -92,7 +92,6 @@ export class SubtipoChamadoListComponent implements OnInit {
         this.tipoForm(data);
       })
     this.findSubtipoChamado(this.subtipoForm.value);
-    // this.findSubtipoChamado();
   }
 
   get controls() {
