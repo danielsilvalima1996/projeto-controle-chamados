@@ -20,7 +20,7 @@ export class UserService {
 
   getUser(parameters?: any): Observable<Pageable<User>> {
     return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<User>>;
- }
+  }
 
   addUser(obj: any) {
     return this.http.post(`${this.url}`, obj);
@@ -39,8 +39,13 @@ export class UserService {
     return this.http.post(`${this.url}/trocarSenha`, senhas);
   }
 
-  findAllEmpresa(id: number): Observable<User[]>{
+  findAllEmpresa(id: number): Observable<User[]> {
     return this.http.get(`${this.url}/all/${id}`) as Observable<User[]>;
+  }
+
+  //f3 users
+  findAllUser(): Observable<User[]> {
+    return this.http.get(`${this.url}/all`) as Observable<User[]>;
   }
 
 }

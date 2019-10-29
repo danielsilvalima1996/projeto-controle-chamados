@@ -1,11 +1,12 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
 
     <div class="po-row" [formGroup]="chamadosForm">
-        <po-select class="po-md-2" p-label="Pesquisa" [p-options]="selects.pesquisa" formControlName="pesquisa">
-        </po-select>
-        <po-input *ngIf="constValue.input" class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
-        <po-select *ngIf="constValue.select" class="po-md-2" p-label="Filtro" formControlName="filtro" 
-        [p-options]="selects.filtro"></po-select>
+        <po-combo class="po-md-4" p-label="Pesquisa" p-filter-mode="contains" p-placeholder="Pesquisar por ..."
+        [p-options]="selects.pesquisa" formControlName="pesquisa"></po-combo>
+        <po-input *ngIf="constValue.input" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-input>
+        <po-input *ngIf="constValue.number" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-input>
+        <po-combo *ngIf="constValue.select" class="po-md-6" p-label="Filtro" formControlName="filtro" p-filter-mode="contains" 
+        p-placeholder="Filtrar por ..." [p-options]="selects.filtro"></po-combo>
 
         <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="searchData()"></po-button>
     </div>

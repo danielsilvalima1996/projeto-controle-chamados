@@ -9,6 +9,9 @@ import { Pagination } from 'src/app/interfaces/pagination.model';
 import { LoginService } from 'src/app/services/authentication/login/login.service';
 import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
+import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
+import { UserService } from 'src/app/services/cadastros/users/user.service';
+import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 
 @Component({
   selector: 'app-chamados-list',
@@ -73,6 +76,8 @@ export class ChamadosListComponent implements OnInit {
     analista: <PoSelectOption[]>[],
     tipoChamado: <PoSelectOption[]>[],
     subtipoChamado: <PoSelectOption[]>[],
+    empresa: <PoSelectOption[]>[],
+    user: <PoSelectOption[]>[],
     status: <PoSelectOption[]>[
       { label: 'Aberto', value: 1 },
       { label: 'Em Análise', value: 2 },
@@ -86,6 +91,7 @@ export class ChamadosListComponent implements OnInit {
     tipoChamado: '',
     input: <boolean>true,
     select: <boolean>false,
+    number: <boolean>false,
     idUsuario: <number>null
   }
 
@@ -108,22 +114,28 @@ export class ChamadosListComponent implements OnInit {
     private notificationService: PoNotificationService,
     private loginService: LoginService,
     private analistaService: AnalistaService,
-    private subtipoChamadoService: SubtipoChamadoService
+    private subtipoChamadoService: SubtipoChamadoService,
+    private tipoChamadoService: TipoChamadoService,
+    private empresaService: EmpresaService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
     this.analista();
     this.subtipoChamadoList();
+    this.tipoChamadoList();
+    this.empresaList();
+    this.userList();
     this.loginService.getUserInformation$.subscribe((data) => {
       this.constValue.idUsuario = data.id;
     })
-    this.findChamados();
     this.tipoChamados();
     this.controls.pesquisa
       .valueChanges.subscribe((data) => {
         this.inputSelect(data);
       })
+    this.findChamados();
   }
 
   get controls() {
@@ -141,47 +153,103 @@ export class ChamadosListComponent implements OnInit {
       })
   }
 
-  subtipoChamadoList() {
-    this.sus
+  private subtipoChamadoList() {
+    this.subtipoChamadoService
+      .findAll().subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.descricao, value: item.id }
+        })
+        this.selects.subtipoChamado = arr;
+      })
+  }
+
+  private tipoChamadoList() {
+    this.tipoChamadoService
+      .findAll().subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.descricao, value: item.id }
+        })
+        this.selects.tipoChamado = arr;
+      })
+  }
+
+  private empresaList() {
+    this.empresaService
+      .findAllAtivo().subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.nomeFantasia, value: item.id }
+        })
+        this.selects.empresa = arr;
+      })
+  }
+
+  private userList() {
+    this.userService.findAllUser()
+      .subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: `Usuário: ${item.fullName} - Empresa: ${item.idEmpresa.nomeFantasia}`, value: item.id }
+        })
+        this.selects.user = arr;
+      })
   }
 
   private inputSelect(data) {
     switch (data) {
       case 'idChamado':
-        this.constValue.input = true;
+        this.constValue.input = false;
         this.constValue.select = false;
+        this.constValue.number = true;
         break;
       case 'idAnalista':
         this.constValue.input = false;
         this.constValue.select = true;
         this.selects.filtro = this.selects.analista;
+        this.constValue.number = false;
         break;
       case 'codigoStatusChamado':
         this.constValue.input = false;
         this.constValue.select = true;
         this.selects.filtro = this.selects.status;
+        this.constValue.number = false;
         break;
       case 'descricaoChamado':
         this.constValue.input = true;
         this.constValue.select = false;
+        this.constValue.number = false;
         break;
       case 'solucaoChamado':
         this.constValue.input = true;
         this.constValue.select = false;
+        this.constValue.number = false;
         break;
       case 'idSubtipoChamado':
         this.constValue.input = false;
         this.constValue.select = true;
         this.selects.filtro = this.selects.subtipoChamado;
+        this.constValue.number = false;
         break;
       case 'idTipoChamado':
         this.constValue.input = false;
         this.constValue.select = true;
         this.selects.filtro = this.selects.tipoChamado;
+        this.constValue.number = false;
+        break;
+      case 'idEmpresa':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.empresa;
+        this.constValue.number = false;
+        break;
+      case 'idUsuario':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.user;
+        this.constValue.number = false;
         break;
       default:
         this.constValue.input = true;
         this.constValue.select = false;
+        this.constValue.number = false;
         break;
     }
   }
@@ -234,7 +302,7 @@ export class ChamadosListComponent implements OnInit {
 
   findChamados(parameters?: any) {
     this.table.loading = true;
-    if (this.constValue.tipoChamado = 'externo') {
+    if (this.constValue.tipoChamado == 'externo') {
       this.chamadosService
         .findChamadosUser(this.constValue.idUsuario, parameters)
         .subscribe((data) => {
