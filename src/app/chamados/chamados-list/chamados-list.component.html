@@ -4,9 +4,10 @@
         <po-select class="po-md-2" p-label="Pesquisa" [p-options]="selects.pesquisa" formControlName="pesquisa">
         </po-select>
         <po-input *ngIf="constValue.input" class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
-        <po-number *ngIf="constValue.number" class="po-md-2" p-label="Filtro" formControlName="filtro"></po-number>
+        <po-select *ngIf="constValue.select" class="po-md-2" p-label="Filtro" formControlName="filtro" 
+        [p-options]="selects.filtro"></po-select>
 
-        <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="findChamados(this.chamadosForm.value)"></po-button>
+        <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="searchData()"></po-button>
     </div>
     <po-table 
         [p-columns]="table.columns"

@@ -21,6 +21,10 @@ export class ChamadosService {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Pageable<Chamados>>;
   }
 
+  findChamadosUser(idUsuario: number, parameters?: any): Observable<Pageable<Chamados>> {
+    return this.http.get(`${environment.url.apirest}/${this.relativeLink}/user/${idUsuario}?${parameters}`) as Observable<Pageable<Chamados>>;
+  }
+
   findById(id: Number): Observable<Chamados> {
     return this.http.get(`${environment.url.apirest}/${this.relativeLink}/${id}`) as Observable<Chamados>;
   }

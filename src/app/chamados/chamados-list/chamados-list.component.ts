@@ -6,6 +6,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 import { Pagination } from 'src/app/interfaces/pagination.model';
+import { LoginService } from 'src/app/services/authentication/login/login.service';
+import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
+import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
 
 @Component({
   selector: 'app-chamados-list',
@@ -65,25 +68,25 @@ export class ChamadosListComponent implements OnInit {
   }
 
   selects = {
-    pesquisa: <PoSelectOption[]>[
-      { label: 'ID CHAMADO', value: 'idChamado' },
-      { label: 'ID ANALISTA', value: 'idAnalista' },
-      { label: 'STATUS', value: 'codigoStatusChamado' },
-      { label: 'ASSUNTO', value: 'assunto' },
-      { label: 'DESCRIÇÃO', value: 'descricaoChamado' },
-      { label: 'SOLUÇÃO CHAMADO', value: 'solucaoChamado' },
-      { label: 'ID EMPRESA', value: 'idEmpresa' },
-      { label: 'ID USUÁRIO', value: 'idUsuario' },
-      { label: 'ID SUBTIPO CHAMADO', value: 'idSubtipoChamado' },
-      { label: 'ID TIPO CHAMADO', value: 'idTipoChamado' }
-    ]
+    pesquisa: <PoSelectOption[]>[],
+    filtro: <PoSelectOption[]>[],
+    analista: <PoSelectOption[]>[],
+    tipoChamado: <PoSelectOption[]>[],
+    subtipoChamado: <PoSelectOption[]>[],
+    status: <PoSelectOption[]>[
+      { label: 'Aberto', value: 1 },
+      { label: 'Em Análise', value: 2 },
+      { label: 'Fechado', value: 3 },
+      { label: 'Indeferido', value: 4 }
+    ],
   }
 
   constValue = {
     selecionado: '',
     tipoChamado: '',
     input: <boolean>true,
-    number: <boolean>false
+    select: <boolean>false,
+    idUsuario: <number>null
   }
 
   pagination: Pagination = {
@@ -102,27 +105,118 @@ export class ChamadosListComponent implements OnInit {
     private utilService: UtilService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private notificationService: PoNotificationService
+    private notificationService: PoNotificationService,
+    private loginService: LoginService,
+    private analistaService: AnalistaService,
+    private subtipoChamadoService: SubtipoChamadoService
   ) { }
 
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
-    this.findChamados(this.chamadosForm.value);
-    this.tipoChamados();
-    this.selects.pesquisa.sort((a, b) => {
-      return a.label < b.label ? -1 : a.label > b.label ? 1 : 0;
+    this.analista();
+    this.subtipoChamadoList();
+    this.loginService.getUserInformation$.subscribe((data) => {
+      this.constValue.idUsuario = data.id;
     })
+    this.findChamados();
+    this.tipoChamados();
+    this.controls.pesquisa
+      .valueChanges.subscribe((data) => {
+        this.inputSelect(data);
+      })
   }
 
   get controls() {
     return this.chamadosForm.controls;
   }
 
+  private analista() {
+    this.analistaService
+      .findAllAtivo()
+      .subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.nome, value: item.id.toString() }
+        })
+        this.selects.analista = arr
+      })
+  }
+
+  subtipoChamadoList() {
+    this.sus
+  }
+
+  private inputSelect(data) {
+    switch (data) {
+      case 'idChamado':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        break;
+      case 'idAnalista':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.analista;
+        break;
+      case 'codigoStatusChamado':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.status;
+        break;
+      case 'descricaoChamado':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        break;
+      case 'solucaoChamado':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        break;
+      case 'idSubtipoChamado':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.subtipoChamado;
+        break;
+      case 'idTipoChamado':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.tipoChamado;
+        break;
+      default:
+        this.constValue.input = true;
+        this.constValue.select = false;
+        break;
+    }
+  }
+
   private tipoChamados() {
     if (this.router.url.toString().indexOf('externo') != -1) {
       this.constValue.tipoChamado = 'externo';
+      this.selects.pesquisa = [
+        { label: 'ID CHAMADO', value: 'idChamado' },
+        { label: 'ID ANALISTA', value: 'idAnalista' },
+        { label: 'STATUS', value: 'codigoStatusChamado' },
+        { label: 'DESCRIÇÃO', value: 'descricaoChamado' },
+        { label: 'SOLUÇÃO CHAMADO', value: 'solucaoChamado' },
+        { label: 'ID SUBTIPO CHAMADO', value: 'idSubtipoChamado' },
+        { label: 'ID TIPO CHAMADO', value: 'idTipoChamado' }
+      ]
+      this.selects.pesquisa.sort((a, b) => {
+        return a.label < b.label ? -1 : a.label > b.label ? 1 : 0;
+      })
     } else {
       this.constValue.tipoChamado = 'interno';
+      this.selects.pesquisa = [
+        { label: 'ID CHAMADO', value: 'idChamado' },
+        { label: 'ID ANALISTA', value: 'idAnalista' },
+        { label: 'STATUS', value: 'codigoStatusChamado' },
+        { label: 'DESCRIÇÃO', value: 'descricaoChamado' },
+        { label: 'SOLUÇÃO CHAMADO', value: 'solucaoChamado' },
+        { label: 'ID EMPRESA', value: 'idEmpresa' },
+        { label: 'ID USUÁRIO', value: 'idUsuario' },
+        { label: 'ID SUBTIPO CHAMADO', value: 'idSubtipoChamado' },
+        { label: 'ID TIPO CHAMADO', value: 'idTipoChamado' }
+      ]
+      this.selects.pesquisa.sort((a, b) => {
+        return a.label < b.label ? -1 : a.label > b.label ? 1 : 0;
+      })
     }
   }
 
@@ -134,52 +228,103 @@ export class ChamadosListComponent implements OnInit {
     this.constValue.selecionado = '';
   }
 
+  searchData() {
+    this.findChamados(this.utilService.getParameters(this.chamadosForm.value));
+  }
 
   findChamados(parameters?: any) {
     this.table.loading = true;
-    this.chamadosService
-      .findChamados(this.utilService.getParameters(parameters))
-      .subscribe((data) => {
-        let arr: Array<any> = data.content.map((item) => {
-          let obj = {};
-          Object.keys(item).map((data) => {
-            if (item[data] == '' || item[data] == null) {
-              obj[data] = '-';
-            } else if (data == 'idEmpresa') {
-              obj[data] = item[data].nomeFantasia;
-              item.idEmpresa.nomeFantasia
-            } else if (data == 'idAnalista') {
-              obj[data] = item[data].nome;
-            } else if (data == 'tipoChamado') {
-              obj[data] = item[data].descricao;
-            } else if (data == 'subtipoChamado') {
-              obj[data] = item[data].descricao;
-            } else if (data == 'idUsuario') {
-              obj[data] = item[data].fullName;
-            } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-') {
-              obj[data] = this.utilService.formataData(item[data].toString());
-            } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
-              if (item[data] != null || item[data].length >= 4) {
-                let hhMM: string = item[data];
-                obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+    if (this.constValue.tipoChamado = 'externo') {
+      this.chamadosService
+        .findChamadosUser(this.constValue.idUsuario, parameters)
+        .subscribe((data) => {
+          let arr: Array<any> = data.content.map((item) => {
+            let obj = {};
+            Object.keys(item).map((data) => {
+              if (item[data] == '' || item[data] == null) {
+                obj[data] = '-';
+              } else if (data == 'idEmpresa') {
+                obj[data] = item[data].nomeFantasia;
+                item.idEmpresa.nomeFantasia
+              } else if (data == 'idAnalista') {
+                obj[data] = item[data].nome;
+              } else if (data == 'tipoChamado') {
+                obj[data] = item[data].descricao;
+              } else if (data == 'subtipoChamado') {
+                obj[data] = item[data].descricao;
+              } else if (data == 'idUsuario') {
+                obj[data] = item[data].fullName;
+              } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-') {
+                obj[data] = this.utilService.formataData(item[data].toString());
+              } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
+                if (item[data] != null || item[data].length >= 4) {
+                  let hhMM: string = item[data];
+                  obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+                } else {
+                  obj[data] = item[data];
+                }
               } else {
                 obj[data] = item[data];
               }
-            } else {
-              obj[data] = item[data];
-            }
 
+            })
+            return obj;
           })
-          return obj;
-        })
-        this.pagination.totalPages = data.totalPages;
-        // this.pagination.totalPages = 101;
-        this.table.loading = false;
-        this.table.items = arr;
-      },
-        (error: ErrorSpringBoot) => {
-          this.notificationService.error(error.message);
-        })
+          this.pagination.totalPages = data.totalPages;
+          // this.pagination.totalPages = 101;
+          this.table.loading = false;
+          this.table.items = arr;
+        },
+          (error: ErrorSpringBoot) => {
+            this.notificationService.error(error.message);
+          })
+    } else {
+      this.chamadosService
+        .findChamados(parameters)
+        .subscribe((data) => {
+          let arr: Array<any> = data.content.map((item) => {
+            let obj = {};
+            Object.keys(item).map((data) => {
+              if (item[data] == '' || item[data] == null) {
+                obj[data] = '-';
+              } else if (data == 'idEmpresa') {
+                obj[data] = item[data].nomeFantasia;
+                item.idEmpresa.nomeFantasia
+              } else if (data == 'idAnalista') {
+                obj[data] = item[data].nome;
+              } else if (data == 'tipoChamado') {
+                obj[data] = item[data].descricao;
+              } else if (data == 'subtipoChamado') {
+                obj[data] = item[data].descricao;
+              } else if (data == 'idUsuario') {
+                obj[data] = item[data].fullName;
+              } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-') {
+                obj[data] = this.utilService.formataData(item[data].toString());
+              } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
+                if (item[data] != null || item[data].length >= 4) {
+                  let hhMM: string = item[data];
+                  obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+                } else {
+                  obj[data] = item[data];
+                }
+              } else {
+                obj[data] = item[data];
+              }
+
+            })
+            return obj;
+          })
+          this.pagination.totalPages = data.totalPages;
+          // this.pagination.totalPages = 101;
+          this.table.loading = false;
+          this.table.items = arr;
+        },
+          (error: ErrorSpringBoot) => {
+            this.notificationService.error(error.message);
+          })
+    }
+
+
   }
 
   private visualizarChamado() {
@@ -204,7 +349,7 @@ export class ChamadosListComponent implements OnInit {
   onPageChange(event) {
     this.pagination.currentPage = event;
     let busca = Object.assign(this.chamadosForm.value, { page: this.pagination.currentPage });
-    this.findChamados(busca);
+    this.findChamados(this.utilService.getParameters(busca));
   }
 
 }
