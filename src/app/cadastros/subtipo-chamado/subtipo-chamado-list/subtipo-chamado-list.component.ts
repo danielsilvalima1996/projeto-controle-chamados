@@ -5,6 +5,7 @@ import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
+import { Pagination } from 'src/app/interfaces/pagination.model';
 
 @Component({
   selector: 'app-subtipo-chamado-list',
@@ -59,7 +60,7 @@ export class SubtipoChamadoListComponent implements OnInit {
     ]
   }
 
-  pagination = {
+  pagination: Pagination = {
     totalItems: 0,
     itemsPerPage: 30,
     currentPage: 1
@@ -117,9 +118,11 @@ export class SubtipoChamadoListComponent implements OnInit {
           })
           return obj;
         })
-
-        this.table.loading = false;
         this.table.items = arr;
+        this.pagination.totalItems = data.totalElements;
+        this.pagination.itemsPerPage = data.numberOfElements;
+        this.table.loading = false;
+
       },
         (error: ErrorSpringBoot) => {
           this.notificationService.error(error.message);
@@ -144,6 +147,12 @@ export class SubtipoChamadoListComponent implements OnInit {
   getUnSelected() {
     this.constValue.selecionado = ''
 
+  }
+
+  onPageChange(event: number) {
+    this.pagination.currentPage = event;
+    let busca: string = Object.assign({}, this.subtipoForm.value, { page: this.pagination.currentPage });
+    this.findSubtipoChamado(busca);
   }
 
 }

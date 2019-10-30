@@ -4,6 +4,7 @@ import { PoTableColumn, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableAct
 import { Router, ActivatedRoute } from '@angular/router';
 import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
+import { Pagination } from 'src/app/interfaces/pagination.model';
 
 @Component({
   selector: 'app-analista-list',
@@ -43,7 +44,7 @@ export class AnalistaListComponent implements OnInit {
     loading: false
   }
 
-  pagination = {
+  pagination: Pagination = {
     totalItems: 0,
     itemsPerPage: 30,
     currentPage: 1
@@ -115,9 +116,8 @@ export class AnalistaListComponent implements OnInit {
     this.analistaService.getAnalista(this.utilService.getParameters(form))
       .subscribe((data: any) => {
         this.table.items = data.content;
-      
-        // this.pagination.totalItems = data.content.total;
-        // this.pagination.itemsPerPage = data.content.limit;
+        this.pagination.totalItems = data.totalElements;
+        this.pagination.itemsPerPage = data.numberOfElements;
         this.table.loading = false
       })
 
@@ -149,8 +149,7 @@ export class AnalistaListComponent implements OnInit {
 
   onPageChange(event: number) {
     this.pagination.currentPage = event;
-    let filter = this.utilService.convertUpperCase(this.controls.filtro.value);
-    let busca: string = `${this.controls.pesquisa.value}=${filter}&page=${this.pagination.currentPage}`;
+    let busca: string = Object.assign({}, this.analistaform.value, { page: this.pagination.currentPage });
     this.getAnalista(busca);
   }
 

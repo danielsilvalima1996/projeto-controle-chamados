@@ -19,12 +19,13 @@
         p-striped="true"
         (p-selected)="selectedTable($event)"
         (p-unselected)="unSelectedTable($event)"
-        p-checkbox="true" p-single-select="true">
+        p-checkbox="true" p-single-select="true"
+        p-hide-text-overflow="true">
     </po-table>
 
-    <!-- <app-pagination 
-        [(currentPage)]="pagination.currentPage"
-        [(totalPages)]="pagination.totalPages"
-        (pageChanged)="onPageChange($event)">
-    </app-pagination> -->
+    
+    <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
+        (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage">
+    </app-pagination>
 </po-page-default>

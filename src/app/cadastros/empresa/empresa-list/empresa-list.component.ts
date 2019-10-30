@@ -4,6 +4,7 @@ import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService } f
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Pagination } from 'src/app/interfaces/pagination.model';
 
 @Component({
   selector: 'app-empresa-list',
@@ -47,7 +48,7 @@ export class EmpresaListComponent implements OnInit {
     loading: false
   }
 
-  pagination = {
+  pagination: Pagination = {
     totalItems: 0,
     itemsPerPage: 30,
     currentPage: 1
@@ -136,7 +137,7 @@ export class EmpresaListComponent implements OnInit {
   getEmpresa(form?) {
     this.table.loading = true;
     this.empresaService.getEmpresa(this.utilService.getParameters(form))
-      .subscribe((data: any) => {
+      .subscribe((data: any) => {        
         let value: Array<any> = data.content;
         value = value.map((item: any) => {
           item.cnpj = this.utilService.formatarCnpjCpf(item.cnpj);
@@ -146,9 +147,17 @@ export class EmpresaListComponent implements OnInit {
         })
 
         this.table.items = value
+        this.pagination.totalItems = data.totalElements;
+        this.pagination.itemsPerPage = data.numberOfElements;
         this.table.loading = false;
       })
 
+  }
+
+  onPageChange(event: number) {
+    this.pagination.currentPage = event;
+    let busca: string = Object.assign({}, this.empresaform.value, { page: this.pagination.currentPage });
+    this.getEmpresa(busca);
   }
 
 

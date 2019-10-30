@@ -1,6 +1,8 @@
 <div class="po-row">
-    <po-button-group [p-buttons]="buttons"> </po-button-group>
+    <po-button-group class="po-mt-2" [p-buttons]="buttons"> </po-button-group>
+    <po-button-group class="po-mt-2" [p-buttons]="newButtons"> </po-button-group>
     <span class="azul-thf po-mt-2"><strong>{{currentPage}} / {{totalPages}}</strong></span>
+
     <!-- <form [formGroup]="paginaForm" class="po-md-6">
         <po-number class="po-md-2" formControlName="pagina" (keyup.enter)="goTo()" p-placeholder="Ir Para"></po-number>
     </form> -->
