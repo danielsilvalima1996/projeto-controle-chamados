@@ -185,7 +185,13 @@ export class AppComponent implements OnInit {
         })
       }
     })
-    menus.sort((a, b) => {
+    menus = this.sortMenu(menus);
+    this.menus = menus;
+  }
+
+  private sortMenu(arr) {
+
+    arr.sort((a, b) => {
       if (a.label < b.label) {
         return -1;
       } else if (a.label > b.label) {
@@ -194,6 +200,13 @@ export class AppComponent implements OnInit {
         return 0;
       }
     });
-    this.menus = menus;
+
+    for (let item of arr) {
+      if ('subItems' in item) {
+        item.subItems = this.sortMenu(item.subItems);
+      }
+    };
+
+    return arr;
   }
 }

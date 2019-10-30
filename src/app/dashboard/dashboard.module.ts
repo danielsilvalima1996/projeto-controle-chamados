@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { PoPageModule } from '@portinari/portinari-ui';
+import { PoPageModule, PoWidgetModule } from '@portinari/portinari-ui';
 
 
 @NgModule({
@@ -11,7 +11,8 @@ import { PoPageModule } from '@portinari/portinari-ui';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    PoPageModule
+    PoPageModule,
+    PoWidgetModule
   ]
 })
 export class DashboardModule { }
