@@ -96,8 +96,9 @@ export class ChamadosListComponent implements OnInit {
   }
 
   pagination: Pagination = {
-    currentPage: 1,
-    totalPages: 0
+    itemsPerPage: 30,
+    totalItems: 0,
+    currentPage:1
   }
 
   chamadosForm: FormGroup = this.fb.group({
@@ -338,8 +339,8 @@ export class ChamadosListComponent implements OnInit {
             })
             return obj;
           })
-          this.pagination.totalPages = data.totalPages;
-          // this.pagination.totalPages = 101;
+          this.pagination.totalItems = data.totalElements;
+          this.pagination.itemsPerPage = data.numberOfElements;
           this.table.loading = false;
           this.table.items = arr;
         },
@@ -382,8 +383,8 @@ export class ChamadosListComponent implements OnInit {
             })
             return obj;
           })
-          this.pagination.totalPages = data.totalPages;
-          // this.pagination.totalPages = 101;
+          this.pagination.totalItems = data.totalElements;
+          this.pagination.itemsPerPage = data.numberOfElements;
           this.table.loading = false;
           this.table.items = arr;
         },
@@ -414,10 +415,10 @@ export class ChamadosListComponent implements OnInit {
 
   }
 
-  onPageChange(event) {
+  onPageChange(event: number) {
     this.pagination.currentPage = event;
-    let busca = Object.assign(this.chamadosForm.value, { page: this.pagination.currentPage });
-    this.findChamados(this.utilService.getParameters(busca));
+    let busca: string = Object.assign({}, this.chamadosForm.value, { page: this.pagination.currentPage });
+    this.findChamados(busca);
   }
 
 }

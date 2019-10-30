@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
+import { Pagination } from 'src/app/interfaces/pagination.model';
 
 @Component({
   selector: 'app-tipo-chamado-list',
@@ -64,7 +65,7 @@ export class TipoChamadoListComponent implements OnInit {
     select:<Boolean>false,
   }
 
-  pagination = {
+  pagination: Pagination = {
     totalItems: 0,
     itemsPerPage: 30,
     currentPage: 1
@@ -107,6 +108,8 @@ export class TipoChamadoListComponent implements OnInit {
     this.tipoChamadoService.getTipoChamado(this.utilService.getParameters(form))
       .subscribe((data:any) => {
         this.table.items = data.content
+        this.pagination.totalItems = data.totalElements;
+        this.pagination.itemsPerPage = data.numberOfElements;
         this.table.loading = false;
       })
   }
@@ -119,6 +122,12 @@ export class TipoChamadoListComponent implements OnInit {
   getUnSelected() {
     this.constValue.selecionado = ''
     
+  }
+
+  onPageChange(event: number) {
+    this.pagination.currentPage = event;
+    let busca: string = Object.assign({}, this.tipoChamadoForm.value, { page: this.pagination.currentPage });
+    this.getTipoChamado(busca);
   }
 
 }

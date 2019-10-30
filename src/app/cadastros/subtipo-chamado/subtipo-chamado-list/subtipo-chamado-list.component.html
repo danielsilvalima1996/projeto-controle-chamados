@@ -17,8 +17,8 @@
         p-sort="true" p-striped="true" p-checkbox="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-single-select="true">
     </po-table>
     
-    <!-- <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
+    <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
         (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
         [itemsPerPage]="pagination.itemsPerPage">
-    </app-pagination> -->
+    </app-pagination>
 </po-page-default>

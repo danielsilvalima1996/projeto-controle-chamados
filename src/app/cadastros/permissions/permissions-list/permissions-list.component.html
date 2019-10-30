@@ -11,14 +11,14 @@
         <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="getPermission(this.permissionForm.value)"></po-button>
     </form>
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
-        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()"
+        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-hide-text-overflow="true"
         p-checkbox="true" p-single-select="true">
     </po-table>
 
-    <!-- <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
+    <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
     (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
     [itemsPerPage]="pagination.itemsPerPage">
-</app-pagination> -->
+</app-pagination>
 
 
 </po-page-default>

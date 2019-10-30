@@ -56,7 +56,7 @@ export class AnalistaAddComponent implements OnInit {
   addAnalista() {
     this.analistaService.addAnalista(this.analistAddForm.value)
       .subscribe((data) => {
-        this.notificationService.success('Regra Salva com Sucesso');
+        this.notificationService.success('Analista salvo com Sucesso');
         this.location.back();
       },
         (error: HttpErrorResponse) => {

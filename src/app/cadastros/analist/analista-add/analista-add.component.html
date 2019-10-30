@@ -7,7 +7,7 @@
               p-error-pattern="Insira no mínimo 8 caracteres"></po-input>
             <po-email formControlName="email" p-required="true" p-label="E-mail" class="po-md-3"
               p-error-pattern="Insira um e-mail válido!"></po-email>
-            <po-input class="po-md-2" p-label="Matrícula" formControlName="matricula" ></po-input>
+            <po-number class="po-md-2" p-label="Matrícula" formControlName="matricula" ></po-number>
             <po-select formControlName="ativo" p-required="true" p-label="Ativo" [p-options]="page.ativoOptions" class="po-md-3"></po-select>
           </div>
         </form>

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { PermissionsService } from 'src/app/services/cadastros/permissions/permissions.service';
+import { Pagination } from 'src/app/interfaces/pagination.model';
 
 @Component({
   selector: 'app-permissions-list',
@@ -69,9 +70,9 @@ export class PermissionsListComponent implements OnInit {
     select: <Boolean>false
   }
 
-  pagination = {
+  pagination: Pagination = {
     totalItems: 0,
-    itemsPerPage: 30,
+    itemsPerPage: 5,
     currentPage: 1
   }
 
@@ -112,6 +113,8 @@ export class PermissionsListComponent implements OnInit {
     this.permissionService.findAll(this.utilService.getParameters(form))
       .subscribe((data) => {
         this.table.items = data.content;
+        this.pagination.totalItems = data.totalElements;
+        this.pagination.itemsPerPage = data.numberOfElements;
         this.table.loading = false;
       })
 
@@ -132,5 +135,11 @@ export class PermissionsListComponent implements OnInit {
     } else {
       this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
     }
+  }
+
+  onPageChange(event: number) {
+    this.pagination.currentPage = event;
+    let busca: string = Object.assign({}, this.permissionForm.value, { page: this.pagination.currentPage });
+    this.getPermission(busca);
   }
 }
