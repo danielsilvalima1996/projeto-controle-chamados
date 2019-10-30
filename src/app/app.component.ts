@@ -9,6 +9,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TrocarSenha } from './interfaces/trocarSenha.model';
 import { UserService } from './services/cadastros/users/user.service';
 import { ErrorSpringBoot } from './interfaces/ErrorSpringBoot.model';
+import { Page } from './interfaces/page.model';
+import { PermissionsService } from './services/cadastros/permissions/permissions.service';
+import { Permission } from './interfaces/permission.model';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +20,7 @@ import { ErrorSpringBoot } from './interfaces/ErrorSpringBoot.model';
 })
 export class AppComponent implements OnInit {
 
-  readonly menus: Array<PoMenuItem> = [
+  menus: Array<any> = [] /*[
     {
       label: 'Cadastros', shortLabel: 'Cadastros', icon: 'po-icon po-icon-document-filled',
       subItems: [
@@ -37,7 +40,7 @@ export class AppComponent implements OnInit {
     },
     { label: 'Testing', shortLabel: 'Testing', icon: 'po-icon po-icon-list', link: 'testing' }
     // { label: '', shortLabel: '', link: '', icon: '' },
-  ];
+  ];*/
 
   profile: PoToolbarProfile;
 
@@ -74,7 +77,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private notificationService: PoNotificationService,
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private permissionsService: PermissionsService
   ) { }
 
   ngOnInit() {
@@ -88,7 +92,6 @@ export class AppComponent implements OnInit {
       }
     })
 
-    //12345678
     this.trocarForm
       .valueChanges
       .subscribe((_) => {
@@ -98,6 +101,11 @@ export class AppComponent implements OnInit {
           this.primaryAction.disabled = true;
         }
       })
+    this.loginService.getUserInformation$.subscribe((data) => {
+      this.permissionsService.findById(data.permissions[0].id).subscribe((data) => {
+        this.criarMenu(data.page);
+      })
+    })
   }
 
   get controls() {
@@ -155,9 +163,37 @@ export class AppComponent implements OnInit {
         this.loading = false;
         this.trocarForm.reset();
       },
-      (error: ErrorSpringBoot) => {
-        this.notificationService.error(error.message);
-        this.loading = false;
-      })
+        (error: ErrorSpringBoot) => {
+          this.notificationService.error(error.message);
+          this.loading = false;
+        })
+  }
+
+  private criarMenu(menu: Array<Page>) {
+    let menus: Array<any> = [];
+    menu.map((item) => {
+      //adicionar os items de primeiro nível
+      if (item.parent == 0) {
+        item['subItems'] = [];
+        menus.push(item);
+      } else { // adicionar os filhos de zero
+        menus.filter((data) => {
+          if (item.parent == data.id) {
+            item.link = data.link + item.link;
+            return data['subItems'].push(item);
+          }
+        })
+      }
+    })
+    menus.sort((a, b) => {
+      if (a.label < b.label) {
+        return -1;
+      } else if (a.label > b.label) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    this.menus = menus;
   }
 }
