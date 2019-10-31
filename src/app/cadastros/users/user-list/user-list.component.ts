@@ -136,7 +136,7 @@ export class UserListComponent implements OnInit {
         })
         this.table.items = arr;
         this.pagination.totalItems = data.totalElements;
-        this.pagination.itemsPerPage = data.numberOfElements;
+        this.pagination.itemsPerPage = data.size;
         this.table.loading = false;
         
       },

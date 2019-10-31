@@ -114,10 +114,10 @@ export class AnalistaListComponent implements OnInit {
   getAnalista(form?) {
     this.table.loading = true
     this.analistaService.getAnalista(this.utilService.getParameters(form))
-      .subscribe((data: any) => {
+      .subscribe((data) => {
         this.table.items = data.content;
         this.pagination.totalItems = data.totalElements;
-        this.pagination.itemsPerPage = data.numberOfElements;
+        this.pagination.itemsPerPage = data.size;
         this.table.loading = false
       })
 

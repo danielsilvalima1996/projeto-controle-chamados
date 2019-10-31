@@ -340,7 +340,7 @@ export class ChamadosListComponent implements OnInit {
             return obj;
           })
           this.pagination.totalItems = data.totalElements;
-          this.pagination.itemsPerPage = data.numberOfElements;
+          this.pagination.itemsPerPage = data.size;
           this.table.loading = false;
           this.table.items = arr;
         },
@@ -384,7 +384,7 @@ export class ChamadosListComponent implements OnInit {
             return obj;
           })
           this.pagination.totalItems = data.totalElements;
-          this.pagination.itemsPerPage = data.numberOfElements;
+          this.pagination.itemsPerPage = data.size;
           this.table.loading = false;
           this.table.items = arr;
         },

@@ -109,7 +109,7 @@ export class TipoChamadoListComponent implements OnInit {
       .subscribe((data:any) => {
         this.table.items = data.content
         this.pagination.totalItems = data.totalElements;
-        this.pagination.itemsPerPage = data.numberOfElements;
+        this.pagination.itemsPerPage = data.size;
         this.table.loading = false;
       })
   }
