@@ -62,6 +62,10 @@ export class EmpresaAddComponent implements OnInit {
       })
   }
 
+  get controls() {
+    return this.empresaAddForm.controls;
+  }
+
   registrarEmpresa(empresa) {
     if (this.empresaAddForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');
@@ -75,6 +79,40 @@ export class EmpresaAddComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           this.notificationService.error(error.error.meta.message);
+        })
+    }
+  }
+
+  verificaCnpj() {
+    if (this.controls.cnpj.value == null || this.controls.cnpj.value == '') {
+      return;
+    } else {
+      this.empresaService
+        .verificaCnpj(this.controls.cnpj.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('CNPJ já cadastrado!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('CNPJ válido!');
+          }
+        })
+    }
+  }
+
+  verificaCodigoTotvs(){
+    if (this.controls.codigoTotvs.value == null || this.controls.codigoTotvs.value == '') {
+      return;
+    } else {
+      this.empresaService
+        .verificaCodigoTotvs(this.controls.codigoTotvs.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('CodigoTotvs já cadastrado!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('CodigoTotvs válido!');
+          }
         })
     }
   }

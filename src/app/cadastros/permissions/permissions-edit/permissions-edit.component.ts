@@ -100,5 +100,22 @@ export class PermissionsEditComponent implements OnInit {
         })
   }
 
+  verificaDescription(){
+    if (this.controls.description.value == null || this.controls.description.value == '') {
+      return;
+    } else {
+      this.permissionService
+        .verificaDescription(this.controls.description.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('Descrição já cadastrado!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('Descrição válido!');
+          }
+        })
+    }
+  }
+
 }
 

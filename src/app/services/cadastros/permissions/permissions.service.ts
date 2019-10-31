@@ -40,5 +40,8 @@ export class PermissionsService {
     return this.http.put(`${this.url}`, permission);
   }
 
-  deletePermission(){}
+
+  verificaDescription(description: string): Observable<boolean> {
+    return this.http.get(`${this.url}/verificaDescription/${description}`) as Observable<boolean>;
+  }
 }
