@@ -42,4 +42,12 @@ export class AnalistaService {
     return this.http.get(`${this.url}/total`) as Observable<number>;
   }
 
+  verificaEmail(email: string): Observable<boolean> {
+    return this.http.get(`${this.url}/verificaEmail/${email}`) as Observable<boolean>;
+  }
+
+  verificaMatricula(matricula: number): Observable<boolean> {
+    return this.http.get(`${this.url}/verificaMatricula/${matricula}`) as Observable<boolean>;
+  }
+
 }

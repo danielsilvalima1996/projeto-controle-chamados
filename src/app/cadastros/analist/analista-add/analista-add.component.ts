@@ -14,7 +14,7 @@ export class AnalistaAddComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Salvar', disabled:true, action: () => { this.addAnalista() } },
+      { label: 'Salvar', disabled: true, action: () => { this.addAnalista() } },
       { label: 'Cancelar', action: () => { this.location.back() } },
     ],
 
@@ -36,7 +36,7 @@ export class AnalistaAddComponent implements OnInit {
   analistAddForm: FormGroup = this.fb.group({
     nome: ['', [Validators.required, Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'), Validators.minLength(8)]],
     email: ['', [Validators.required]],
-    matricula:['',[]],
+    matricula: ['', []],
     ativo: ['', [Validators.required]],
   });
 
@@ -53,6 +53,9 @@ export class AnalistaAddComponent implements OnInit {
     })
   }
 
+  get controls() {
+    return this.analistAddForm.controls;
+  }
   addAnalista() {
     this.analistaService.addAnalista(this.analistAddForm.value)
       .subscribe((data) => {
@@ -64,6 +67,39 @@ export class AnalistaAddComponent implements OnInit {
         }
       );
   }
-  
+
+  verificaEmail() {
+    if (this.controls.email.value == null || this.controls.email.value == '') {
+      return;
+    } else {
+      this.analistaService
+        .verificaEmail(this.controls.email.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('E-mail já cadastrado!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('E-mail válido!');
+          }
+        })
+    }
+  }
+
+  verificaMatricula() {
+    if (this.controls.matricula.value == null || this.controls.matricula.value == '') {
+      return;
+    } else {
+      this.analistaService
+        .verificaMatricula(this.controls.matricula.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('Matricula já cadastrado!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('Matricula válido!');
+          }
+        })
+    }
+  }
 
 }

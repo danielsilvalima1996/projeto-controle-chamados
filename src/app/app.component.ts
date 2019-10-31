@@ -86,6 +86,11 @@ export class AppComponent implements OnInit {
       if (data) {
         this.getProfile();
         this.logged = data;
+        this.loginService.getUserInformation$.subscribe((data) => {
+          this.permissionsService.findById(data.permissions[0].id).subscribe((data) => {
+            this.criarMenu(data.page);
+          })
+        })
       } else {
         this.logged = data;
         this.router.navigate(['login']);
@@ -101,11 +106,6 @@ export class AppComponent implements OnInit {
           this.primaryAction.disabled = true;
         }
       })
-    this.loginService.getUserInformation$.subscribe((data) => {
-      this.permissionsService.findById(data.permissions[0].id).subscribe((data) => {
-        this.criarMenu(data.page);
-      })
-    })
   }
 
   get controls() {
