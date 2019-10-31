@@ -114,7 +114,7 @@ export class PermissionsListComponent implements OnInit {
       .subscribe((data) => {
         this.table.items = data.content;
         this.pagination.totalItems = data.totalElements;
-        this.pagination.itemsPerPage = data.numberOfElements;
+        this.pagination.itemsPerPage = data.size;
         this.table.loading = false;
       })
 

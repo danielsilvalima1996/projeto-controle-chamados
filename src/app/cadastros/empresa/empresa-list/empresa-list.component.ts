@@ -148,7 +148,7 @@ export class EmpresaListComponent implements OnInit {
 
         this.table.items = value
         this.pagination.totalItems = data.totalElements;
-        this.pagination.itemsPerPage = data.numberOfElements;
+        this.pagination.itemsPerPage = data.size;
         this.table.loading = false;
       })
 
