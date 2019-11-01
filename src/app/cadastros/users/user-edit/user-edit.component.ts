@@ -82,6 +82,7 @@ export class UserEditComponent implements OnInit {
     this.permissionService.findAllActive()
       .subscribe((data: any) => {
         let arr = data.map((item) => {
+          
           return <PoSelectOption>{ label: item.description, value: item.id }
         })
         this.selects.permissoes = arr;
@@ -103,12 +104,12 @@ export class UserEditComponent implements OnInit {
     this.userService
       .findById(id)
       .subscribe((data) => {
-
+        
         let obj = {
           id: data.id,
           idEmpresa: data.idEmpresa.nomeFantasia,
           userName: data.userName,
-          password: data.password,
+          password: '',
           fullName: data.fullName,
           permissions: data.permissions[0].id,
           enabled: data.enabled,
@@ -117,7 +118,7 @@ export class UserEditComponent implements OnInit {
           accountNonExpired: data.accountNonExpired,
           accountNonLocked: data.accountNonLocked,
           credentialsNonExpired: data.credentialsNonExpired,
-          authorities: data.authorities,
+          authorities: [],
           roles: data.roles,
           username: data.username
 
@@ -126,7 +127,6 @@ export class UserEditComponent implements OnInit {
         this.constValue.empresa = data.idEmpresa
         this.constValue.permissions = data.permissions[0].id;
         this.constValue.authorities = data.authorities;
-        console.log(obj);
 
         this.editUserForm.setValue(Object.assign({}, obj));
 
