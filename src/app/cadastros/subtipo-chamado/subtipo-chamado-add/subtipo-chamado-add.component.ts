@@ -40,7 +40,7 @@ export class SubtipoChamadoAddComponent implements OnInit {
   }
 
   subTipoChamadoAddForm: FormGroup = this.fb.group({
-    descricao: ['', [Validators.required, Validators.minLength(5)]],
+    descricao: ['', [Validators.required]],
     active: ['', [Validators.required]],
     idTipoChamado:['',Validators.required]
   });
@@ -58,6 +58,10 @@ export class SubtipoChamadoAddComponent implements OnInit {
       this.page.actions[0].disabled = this.subTipoChamadoAddForm.invalid;
     })
     this.getTipoChamado();
+  }
+
+  get controls() {
+    return this.subTipoChamadoAddForm.controls;
   }
 
   getTipoChamado() {
@@ -98,6 +102,23 @@ export class SubtipoChamadoAddComponent implements OnInit {
             this.notificationService.error(error.error.meta.message);
           }
         );
+    }
+  }
+
+  verificaDescricao(){
+    if (this.controls.descricao.value == null || this.controls.descricao.value == '') {
+      return;
+    } else {
+      this.subTipoChamadoService
+        .verificaDescricao(this.controls.descricao.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('Descrição já cadastrada!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('Descrição válida!');
+          }
+        })
     }
   }
 

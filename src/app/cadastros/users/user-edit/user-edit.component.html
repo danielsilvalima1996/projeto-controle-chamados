@@ -4,7 +4,7 @@
         <div class="po-row">
             <po-input class="po-md-2" p-label="ID Usuário" p-readonly="true" formControlName="id"></po-input>
             <po-input class="po-md-2" p-label="Nome Empresa" p-readonly="true" formControlName="idEmpresa"></po-input>
-            <po-email class="po-md-3" p-label="E-mail Usuário" p-readonly="true" formControlName="userName">
+            <po-email class="po-md-3" p-label="E-mail Usuário" p-readonly="true" formControlName="userName" (p-blur)="verificaUsername()">
             </po-email>
             <po-input class="po-md-3" p-label="Nome Usuário" formControlName="fullName">
             </po-input>

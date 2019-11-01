@@ -71,7 +71,7 @@ export class UserEditComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private permissionService: PermissionsService,
-    private notification: PoNotificationService
+    private notificationService: PoNotificationService
   ) { }
 
 
@@ -79,7 +79,7 @@ export class UserEditComponent implements OnInit {
     this.editUserForm.valueChanges.subscribe((_) => {
       this.page.actions[0].disabled = this.editUserForm.invalid;
     })
-    this.permissionService.findAllActive(this.constValue.permissions)
+    this.permissionService.findAllActive()
       .subscribe((data: any) => {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: item.description, value: item.id }
@@ -93,6 +93,10 @@ export class UserEditComponent implements OnInit {
       })
     this.findById(this.constValue.id)
 
+  }
+
+  get controls() {
+    return this.editUserForm.controls;
   }
 
   private findById(id) {
@@ -133,7 +137,7 @@ export class UserEditComponent implements OnInit {
     this.constValue.loadingPage = true;
 
     if (this.editUserForm.invalid) {
-      this.notification.warning('Formulário Inválido!');
+      this.notificationService.warning('Formulário Inválido!');
       return;
     }
     else {
@@ -143,7 +147,7 @@ export class UserEditComponent implements OnInit {
         userName: this.editUserForm.controls.userName.value,
         fullName: this.editUserForm.controls.fullName.value,
         password: this.editUserForm.controls.password.value,
-        permissions: [{ id: this.constValue.permissions }],
+        permissions: [{ id: this.editUserForm.controls.permissions.value }],
         idEmpresa: this.constValue.empresa,
         authorities: [],
         roles: [this.editUserForm.controls.permissions.value],
@@ -157,19 +161,36 @@ export class UserEditComponent implements OnInit {
       }
 
       this.userService.addUser(obj).subscribe(() => {
-        this.notification.success('Usuário Cadastrado com Sucesso!');
+        this.notificationService.success('Usuário Cadastrado com Sucesso!');
         this.location.back();
         this.constValue.loadingPage = false;
       },
         (error: HttpErrorResponse) => {
           this.constValue.loadingPage = false;
-          this.notification.error('Erro no Cadastro do Usuário');
+          this.notificationService.error('Erro no Cadastro do Usuário');
         }
 
 
       )
     }
 
+  }
+
+  verificaUsername(){
+    if (this.controls.userName.value == null || this.controls.userName.value == '') {
+      return;
+    } else {
+      this.userService
+        .verificaUsername(this.controls.userName.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('Email já cadastrado!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('Email válido!');
+          }
+        })
+    }
   }
 
 }

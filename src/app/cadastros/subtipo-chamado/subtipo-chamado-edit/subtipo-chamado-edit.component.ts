@@ -124,4 +124,21 @@ export class SubtipoChamadoEditComponent implements OnInit {
         })
   }
 
+  verificaDescricao(){
+    if (this.controls.descricao.value == null || this.controls.descricao.value == '') {
+      return;
+    } else {
+      this.subTipoChamadoService
+        .verificaDescricao(this.controls.descricao.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('Descrição já cadastrada!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('Descrição válida!');
+          }
+        })
+    }
+  }
+
 }

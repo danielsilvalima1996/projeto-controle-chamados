@@ -37,7 +37,7 @@ export class TipoChamadoAddComponent implements OnInit {
   }
 
   tipoChamadoAddForm: FormGroup = this.fb.group({
-    descricao: ['', [Validators.required, Validators.minLength(5)]],
+    descricao: ['', [Validators.required]],
     active: ['', [Validators.required]],
   });
 
@@ -54,9 +54,11 @@ export class TipoChamadoAddComponent implements OnInit {
     })
   }
 
-  createTipoChamado() {
-    console.log(this.tipoChamadoAddForm.value);
-    
+  get controls() {
+    return this.tipoChamadoAddForm.controls;
+  }
+
+  createTipoChamado() {   
     if (this.tipoChamadoAddForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');
       return;
@@ -72,6 +74,23 @@ export class TipoChamadoAddComponent implements OnInit {
             this.notificationService.error(error.error.meta.message);
           }
         );
+    }
+  }
+
+  verificaDescricao(){
+    if (this.controls.descricao.value == null || this.controls.descricao.value == '') {
+      return;
+    } else {
+      this.tipoChamadoService
+        .verificaDescricao(this.controls.descricao.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('Descrição já cadastrada!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('Descrição válida!');
+          }
+        })
     }
   }
 

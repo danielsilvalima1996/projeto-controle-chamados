@@ -36,4 +36,8 @@ export class TipoChamadoService {
   findAll(): Observable<TipoChamado[]> {
     return this.http.get(`${this.url}/active`) as Observable<TipoChamado[]>;
   }
+
+  verificaDescricao(descricao: string): Observable<boolean> {
+    return this.http.get(`${this.url}/verificaDescricao/${descricao}`) as Observable<boolean>;
+  }
 }
