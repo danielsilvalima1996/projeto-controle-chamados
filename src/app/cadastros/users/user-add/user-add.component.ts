@@ -75,6 +75,10 @@ export class UserAddComponent implements OnInit {
     this.getEmpresas()
   }
 
+  get controls() {
+    return this.useraddForm.controls;
+  }
+
   getPermission() {
     this.permissionService
       .findAllActive()
@@ -133,6 +137,23 @@ export class UserAddComponent implements OnInit {
       )
     }
 
+  }
+
+  verificaUsername(){
+    if (this.controls.userName.value == null || this.controls.userName.value == '') {
+      return;
+    } else {
+      this.userService
+        .verificaUsername(this.controls.userName.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('E-mail já cadastrado!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('E-mail válido!');
+          }
+        })
+    }
   }
 
 }

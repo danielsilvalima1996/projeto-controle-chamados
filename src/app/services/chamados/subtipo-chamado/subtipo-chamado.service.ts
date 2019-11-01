@@ -40,4 +40,8 @@ export class SubtipoChamadoService {
   findAllByTipo(id: number): Observable<SubtipoChamado[]> {
     return this.http.get(`${this.url}/active/${id}`) as Observable<SubtipoChamado[]>;
   }
+
+  verificaDescricao(descricao: string): Observable<boolean> {
+    return this.http.get(`${this.url}/verificaDescricao/${descricao}`) as Observable<boolean>;
+  }
 }

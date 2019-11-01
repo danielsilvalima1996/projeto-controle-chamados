@@ -48,4 +48,8 @@ export class UserService {
     return this.http.get(`${this.url}/all`) as Observable<User[]>;
   }
 
+  verificaUsername(username: string): Observable<boolean> {
+    return this.http.get(`${this.url}/verificaUsername/${username}`) as Observable<boolean>;
+  }
+
 }

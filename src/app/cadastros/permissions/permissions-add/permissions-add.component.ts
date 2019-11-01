@@ -55,6 +55,11 @@ export class PermissionsAddComponent implements OnInit {
     })
   }
 
+  get controls() {
+    return this.permissionAddForm.controls;
+  }
+
+
   addPermission() {
     if (this.permissionAddForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');
@@ -71,6 +76,23 @@ export class PermissionsAddComponent implements OnInit {
             this.notificationService.error(error.error.meta.message);
           }
         );
+    }
+  }
+
+  verificaDescription(){
+    if (this.controls.description.value == null || this.controls.description.value == '') {
+      return;
+    } else {
+      this.permissionService
+        .verificaDescription(this.controls.description.value)
+        .subscribe((data) => {
+          if (data) {
+            this.notificationService.error('Descrição já cadastrado!');
+            this.page.actions[0].disabled = true;
+          } else {
+            this.notificationService.success('Descrição válido!');
+          }
+        })
     }
   }
 

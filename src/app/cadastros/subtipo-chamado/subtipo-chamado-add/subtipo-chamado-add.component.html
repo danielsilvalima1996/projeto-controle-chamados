@@ -4,7 +4,7 @@
     <form [formGroup]="subTipoChamadoAddForm">
         <div class="po-row">
             <po-input formControlName="descricao" p-label="Descrição SubTipo Chamado" class="po-md-4"
-                p-error-pattern="Insira no mínimo 5 caracteres!"></po-input>
+            (p-blur)="verificaDescricao()" ></po-input>
 
             <po-combo class="po-md-3" p-filter-mode="contains" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
                 formControlName="idTipoChamado">

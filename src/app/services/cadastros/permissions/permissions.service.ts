@@ -24,8 +24,8 @@ export class PermissionsService {
      return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<Permission>>;
   }
 
-  findAllActive(parameters?: any): Observable<Pageable<Permission>> {
-    return this.http.get(`${this.urlAll}?${parameters}`) as Observable<Pageable<Permission>>;
+  findAllActive(): Observable<Permission> {
+    return this.http.get(`${this.urlAll}`) as Observable<Permission>;
  }
 
   findById(id: number): Observable<Permission> {
@@ -40,5 +40,8 @@ export class PermissionsService {
     return this.http.put(`${this.url}`, permission);
   }
 
-  deletePermission(){}
+
+  verificaDescription(description: string): Observable<boolean> {
+    return this.http.get(`${this.url}/verificaDescription/${description}`) as Observable<boolean>;
+  }
 }

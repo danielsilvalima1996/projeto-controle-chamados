@@ -2,13 +2,13 @@
     <po-divider p-label="Dados Cadastrais"></po-divider>
 
     <form [formGroup]="empresaAddForm" class="po-row">
-        <po-input class="po-md-4" formControlName="cnpj" p-label="CNPJ"  p-mask="99.999.999/9999-99"></po-input>
+        <po-input class="po-md-4" formControlName="cnpj" p-label="CNPJ" (p-blur)="verificaCnpj()" p-mask="99.999.999/9999-99"></po-input>
         <po-input class="po-md-4" formControlName="razaoSocial" p-label="Razão Social" ></po-input>
         <po-input class="po-md-4" formControlName="nomeFantasia" p-label="Nome Fantasia" >
         </po-input>
         <po-input class="po-md-3" formControlName="endereco" p-label="Endereço" >
         </po-input>
-        <po-input class="po-md-2" p-label="Código Totvs" formControlName="codigoTotvs"></po-input>
+        <po-input class="po-md-2" p-label="Código Totvs" formControlName="codigoTotvs" (p-blur)="verificaCodigoTotvs()"></po-input>
         <po-input class="po-md-3" formControlName="admin" p-label="Contato Empresa"></po-input>
         <po-input class="po-md-3" formControlName="telefone" p-label="Telefone" p-mask="(99) 9999-9999">
         </po-input>

@@ -37,5 +37,13 @@ export class EmpresaService {
   findAllAtivo(): Observable<Empresa[]> {
     return this.http.get(`${this.url}/ativo`) as Observable<Empresa[]>;
   }
+
+  verificaCnpj(cnpj: string): Observable<boolean> {
+    return this.http.get(`${this.url}/verificaCnpj/${cnpj}`) as Observable<boolean>;
+  }
+
+  verificaCodigoTotvs(codigoTotvs: string): Observable<boolean> {
+    return this.http.get(`${this.url}/verificaCodigoTotvs/${codigoTotvs}`) as Observable<boolean>;
+  }
   
 }

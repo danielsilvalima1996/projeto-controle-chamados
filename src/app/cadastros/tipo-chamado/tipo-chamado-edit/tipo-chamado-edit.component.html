@@ -1,7 +1,7 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
     <form [formGroup]="tipoChamadoEditForm" class="po-row">
             <po-input class="po-md-2" p-label="ID" p-readonly="true" formControlName="id"></po-input>
-            <po-input class="po-md-3" p-label="Descição Tipo de Chamado" formControlName="descricao"></po-input>
+            <po-input class="po-md-3" p-label="Descição Tipo de Chamado" formControlName="descricao" (p-blur)="verificaDescricao()" ></po-input>
             <po-select class="po-md-2"  p-label="Ativo" [p-options]="selects.active" formControlName="active"></po-select>
             <po-datepicker class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy" p-label="Criado" formControlName="created"></po-datepicker>
             <po-datepicker class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy" p-label="Modificado" formControlName="modified"></po-datepicker>
