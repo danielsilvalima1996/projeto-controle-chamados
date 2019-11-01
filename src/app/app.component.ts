@@ -87,9 +87,13 @@ export class AppComponent implements OnInit {
         this.getProfile();
         this.logged = data;
         this.loginService.getUserInformation$.subscribe((data) => {
-          this.permissionsService.findById(data.permissions[0].id).subscribe((data) => {
-            this.criarMenu(data.page);
-          })
+          if (data.permissions.length < 1) {
+            return;
+          } else {
+            this.permissionsService.findById(data.permissions[0].id).subscribe((data) => {
+              this.criarMenu(data.page);
+            })
+          }
         })
       } else {
         this.logged = data;
