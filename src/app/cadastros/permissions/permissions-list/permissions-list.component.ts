@@ -67,7 +67,8 @@ export class PermissionsListComponent implements OnInit {
   constValue = {
     selecionado: '',
     input: <Boolean>true,
-    select: <Boolean>false
+    select: <Boolean>false,
+    number: <boolean>false
   }
 
   pagination: Pagination = {
@@ -99,12 +100,27 @@ export class PermissionsListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    if (tipo == 'active') {
-      this.constValue.input = false;
-      this.constValue.select = true;
-    } else {
-      this.constValue.input = true;
-      this.constValue.select = false;
+    switch (tipo) {
+      case 'id':
+        this.constValue.input = false;
+        this.constValue.number = true;
+        this.constValue.select = false;
+        break;
+      case 'description':
+        this.constValue.input = true;
+        this.constValue.number = false;
+        this.constValue.select = false;
+        break;
+      case 'active':
+        this.constValue.input = false;
+        this.constValue.number = false;
+        this.constValue.select = true;
+        break;
+      default:
+        this.constValue.input = false;
+        this.constValue.number = true;
+        this.constValue.select = false;
+        break;
     }
   }
 

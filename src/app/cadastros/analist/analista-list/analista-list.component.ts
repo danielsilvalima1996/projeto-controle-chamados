@@ -61,7 +61,7 @@ export class AnalistaListComponent implements OnInit {
       { label: 'ANALISTA', value: 'nome' },
       { label: 'ATIVO', value: 'ativo' },
       { label: 'E-MAIL', value: 'email' },
-      { label: 'MATRÍCULA',value: 'matricula'},
+      { label: 'MATRÍCULA', value: 'matricula' },
     ],
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
@@ -73,7 +73,8 @@ export class AnalistaListComponent implements OnInit {
     itemSelecionado: '',
     analistaId: '',
     input: <Boolean>true,
-    select: <Boolean>false
+    select: <Boolean>false,
+    number: <Boolean>false
   }
 
   constructor(
@@ -102,12 +103,36 @@ export class AnalistaListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    if (tipo == 'ativo') {
-      this.constValue.input = false;
-      this.constValue.select = true;
-    } else {
-      this.constValue.input = true;
-      this.constValue.select = false;
+    switch (tipo) {
+      case 'id':
+        this.constValue.input = false;
+        this.constValue.select = false;
+        this.constValue.number = true;
+        break;
+      case 'nome':
+
+        break;
+      case 'ativo':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.constValue.number = false;
+        break;
+      case 'email':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'matricula':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+
+      default:
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
     }
   }
 

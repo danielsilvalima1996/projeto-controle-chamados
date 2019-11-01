@@ -64,9 +64,9 @@ export class EmpresaListComponent implements OnInit {
       { label: 'ID', value: 'id' },
       { label: 'NOME FANTASIA', value: 'nomeFantasia' },
       { label: 'RAZÃO SOCIAL', value: 'razaoSocial' },
-      { label: 'CNPJ', value:'cnpj'},
+      { label: 'CNPJ', value: 'cnpj' },
       { label: 'ADMIN', value: 'admin' },
-      { label: 'CODIGO TOTVS', value:'codigoTotvs'},
+      { label: 'CODIGO TOTVS', value: 'codigoTotvs' },
       { label: 'ATIVO', value: 'ativo' },
 
     ],
@@ -79,7 +79,8 @@ export class EmpresaListComponent implements OnInit {
   constValue = {
     itemSelecionado: '',
     input: <Boolean>true,
-    select: <Boolean>false
+    select: <Boolean>false,
+    number: <Boolean>false,
   }
 
   constructor(
@@ -107,12 +108,47 @@ export class EmpresaListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    if (tipo == 'ativo') {
-      this.constValue.input = false;
-      this.constValue.select = true;
-    } else {
-      this.constValue.input = true;
-      this.constValue.select = false;
+    switch (tipo) {
+      case 'id':
+        this.constValue.input = false;
+        this.constValue.select = false;
+        this.constValue.number = true;
+        break;
+      case 'nomeFantasia':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'razaoSocial':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'cnpj':
+        this.constValue.input = false;
+        this.constValue.select = false;
+        this.constValue.number = true;
+        break;
+      case 'admin':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'codigoTotvs':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'ativo':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.constValue.number = false;
+        break;
+      default:
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
     }
   }
 
@@ -124,8 +160,8 @@ export class EmpresaListComponent implements OnInit {
     this.constValue.itemSelecionado = '';
   }
 
-  
-   editarEmpresa() {
+
+  editarEmpresa() {
     if (this.constValue.itemSelecionado == null || this.constValue.itemSelecionado == '') {
       this.notificationService.warning('Selecione uma Empresa para editar!');
       return;
@@ -137,7 +173,7 @@ export class EmpresaListComponent implements OnInit {
   getEmpresa(form?) {
     this.table.loading = true;
     this.empresaService.getEmpresa(this.utilService.getParameters(form))
-      .subscribe((data: any) => {        
+      .subscribe((data: any) => {
         let value: Array<any> = data.content;
         value = value.map((item: any) => {
           item.cnpj = this.utilService.formatarCnpjCpf(item.cnpj);
