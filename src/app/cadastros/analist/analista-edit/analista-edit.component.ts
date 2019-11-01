@@ -29,8 +29,8 @@ export class AnalistaEditComponent implements OnInit {
       ]
     },
     ativoOptions: [
-      { label: 'ATIVO', value: true },
-      { label: 'INATIVO', value: false }
+      { label: 'ATIVO', value: 'true' },
+      { label: 'INATIVO', value: 'false' }
     ]
 
   }
