@@ -79,14 +79,7 @@ export class UserEditComponent implements OnInit {
     this.editUserForm.valueChanges.subscribe((_) => {
       this.page.actions[0].disabled = this.editUserForm.invalid;
     })
-    this.permissionService.findAllActive()
-      .subscribe((data: any) => {
-        let arr = data.map((item) => {
-          
-          return <PoSelectOption>{ label: item.description, value: item.id }
-        })
-        this.selects.permissoes = arr;
-      })
+    this.permissionsList();
 
     this.route.paramMap
       .subscribe((params: ParamMap) => {
@@ -100,11 +93,21 @@ export class UserEditComponent implements OnInit {
     return this.editUserForm.controls;
   }
 
+  private permissionsList() {
+    this.permissionService.findAllActive()
+      .subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.description, value: item.id }
+        })
+        this.selects.permissoes = arr;
+      })
+  }
+
   private findById(id) {
     this.userService
       .findById(id)
       .subscribe((data) => {
-        
+
         let obj = {
           id: data.id,
           idEmpresa: data.idEmpresa.nomeFantasia,
@@ -119,7 +122,7 @@ export class UserEditComponent implements OnInit {
           accountNonLocked: data.accountNonLocked,
           credentialsNonExpired: data.credentialsNonExpired,
           authorities: [],
-          roles: data.roles,
+          roles: [],
           username: data.username
 
         }
@@ -128,7 +131,8 @@ export class UserEditComponent implements OnInit {
         this.constValue.permissions = data.permissions[0].id;
         this.constValue.authorities = data.authorities;
 
-        this.editUserForm.setValue(Object.assign({}, obj));
+        this.editUserForm.setValue(obj);
+        console.log(this.editUserForm.value);
 
       })
   }
@@ -141,13 +145,13 @@ export class UserEditComponent implements OnInit {
       return;
     }
     else {
-
+      let permissions: Object = { id: this.editUserForm.controls.permissions.value }
       let obj = {
         id: this.constValue.id,
         userName: this.editUserForm.controls.userName.value,
         fullName: this.editUserForm.controls.fullName.value,
         password: this.editUserForm.controls.password.value,
-        permissions: [{ id: this.editUserForm.controls.permissions.value }],
+        permissions: [permissions],
         idEmpresa: this.constValue.empresa,
         authorities: [],
         roles: [this.editUserForm.controls.permissions.value],
@@ -159,6 +163,9 @@ export class UserEditComponent implements OnInit {
         credentialsNonExpired: true,
         username: ''
       }
+
+      console.log(obj);
+
 
       this.userService.addUser(obj).subscribe(() => {
         this.notificationService.success('Usuário Cadastrado com Sucesso!');
@@ -176,7 +183,7 @@ export class UserEditComponent implements OnInit {
 
   }
 
-  verificaUsername(){
+  verificaUsername() {
     if (this.controls.userName.value == null || this.controls.userName.value == '') {
       return;
     } else {
