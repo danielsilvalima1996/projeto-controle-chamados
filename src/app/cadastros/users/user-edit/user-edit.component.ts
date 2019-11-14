@@ -168,7 +168,7 @@ export class UserEditComponent implements OnInit {
 
 
       this.userService.addUser(obj).subscribe(() => {
-        this.notificationService.success('Usuário Cadastrado com Sucesso!');
+        this.notificationService.success('Usuário Alterado com Sucesso!');
         this.location.back();
         this.constValue.loadingPage = false;
       },

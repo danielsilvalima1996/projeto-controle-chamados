@@ -66,7 +66,8 @@ export class AnalistaListComponent implements OnInit {
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
       { label: 'NÃO', value: 'false' }
-    ]
+    ],
+    analista: <PoSelectOption[]>[]
   }
 
   constValue = {
@@ -94,6 +95,7 @@ export class AnalistaListComponent implements OnInit {
       .valueChanges.subscribe((data) => {
         this.tipoForm(data);
       })
+    this.analistaSelect();
     this.getAnalista(this.analistaform.value)
 
   }
@@ -110,7 +112,10 @@ export class AnalistaListComponent implements OnInit {
         this.constValue.number = true;
         break;
       case 'nome':
-
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.analista
+        this.constValue.number = false;
         break;
       case 'ativo':
         this.constValue.input = false;
@@ -176,6 +181,17 @@ export class AnalistaListComponent implements OnInit {
     this.pagination.currentPage = event;
     let busca: string = Object.assign({}, this.analistaform.value, { page: this.pagination.currentPage });
     this.getAnalista(busca);
+  }
+
+  analistaSelect() {
+    this.analistaService
+      .findAllAtivo()
+      .subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.nome, value: item.id.toString() }
+        })
+        this.selects.analista = arr
+      })
   }
 
 }

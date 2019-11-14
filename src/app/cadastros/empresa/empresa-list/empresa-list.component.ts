@@ -65,7 +65,7 @@ export class EmpresaListComponent implements OnInit {
       { label: 'NOME FANTASIA', value: 'nomeFantasia' },
       { label: 'RAZÃO SOCIAL', value: 'razaoSocial' },
       { label: 'CNPJ', value: 'cnpj' },
-      { label: 'ADMIN', value: 'admin' },
+      { label: 'CONTATO', value: 'admin' },
       { label: 'CODIGO TOTVS', value: 'codigoTotvs' },
       { label: 'ATIVO', value: 'ativo' },
 
