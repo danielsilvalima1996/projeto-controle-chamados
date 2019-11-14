@@ -18,6 +18,7 @@ import { PermissionsAddComponent } from './permissions/permissions-add/permissio
 import { EmpresaListComponent } from './empresa/empresa-list/empresa-list.component';
 import { EmpresaEditComponent } from './empresa/empresa-edit/empresa-edit.component';
 import { EmpresaAddComponent } from './empresa/empresa-add/empresa-add.component';
+import { UserEditResolve } from './users/user-list/user-edit.resolver';
 
 
 const routes: Routes = [
@@ -40,7 +41,10 @@ const routes: Routes = [
   {
     path: 'user', children: [
       { path: '', component: UserListComponent },
-      { path: ':action/:id', component: UserEditComponent },
+      {
+        path: ':action/:id', component: UserEditComponent,
+        resolve: { permissions: UserEditResolve }
+      },
       { path: 'add', component: UserAddComponent }
     ]
   },

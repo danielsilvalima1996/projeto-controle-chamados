@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { PermissionsService } from 'src/app/services/cadastros/permissions/permissions.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Permission } from 'src/app/interfaces/permission.model';
 
 @Component({
   selector: 'app-user-edit',
@@ -76,10 +77,16 @@ export class UserEditComponent implements OnInit {
 
 
   ngOnInit() {
+    let permissions: Array<Permission> = this.route.snapshot.data.permissions;
+    let arr = permissions.map((item) => {
+      return <PoSelectOption>{ label: item.description, value: item.id };
+    })
+    this.selects.permissoes = arr;
+
     this.editUserForm.valueChanges.subscribe((_) => {
       this.page.actions[0].disabled = this.editUserForm.invalid;
     })
-    this.permissionsList();
+    // this.permissionsList();
 
     this.route.paramMap
       .subscribe((params: ParamMap) => {
