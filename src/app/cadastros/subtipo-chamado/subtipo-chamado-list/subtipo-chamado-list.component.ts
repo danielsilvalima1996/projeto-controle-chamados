@@ -26,9 +26,7 @@ export class SubtipoChamadoListComponent implements OnInit {
     actions: [
       { label: 'Novo', url: 'subtipo-chamado/add' },
       {
-        label: 'Editar', action: () => {
-          this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
-        }
+        label: 'Editar', action: () => {this.editarSubtipoChamado()     }
       }
     ],
   }
@@ -38,9 +36,9 @@ export class SubtipoChamadoListComponent implements OnInit {
       { property: 'id', label: 'ID', width: '10%' },
       { property: 'descricao', label: 'Descrição', width: '20%' },
       { property: 'active', label: 'Ativo', width: '10%', type: 'boolean' },
-      { property: 'idTipoChamado', label: 'Id Tipo Chamado', width: '10%' },
-      { property: 'created', label: 'Criado', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modified', label: 'Modificado', width: '20%', type: 'date', format: 'dd/MM/yyyy' }
+      { property: 'idTipoChamado', label: 'Tipo Chamado', width: '20%' },
+      { property: 'created', label: 'Criado', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modified', label: 'Modificado', width: '15%', type: 'date', format: 'dd/MM/yyyy' }
     ],
     items: [],
     height: 0,
@@ -139,6 +137,43 @@ export class SubtipoChamadoListComponent implements OnInit {
     }
   }
 
+  // tipoForm(tipo) {
+  //   switch (tipo) {
+  //     case 'id':
+  //       this.constValue.input = false;
+  //       this.constValue.select = false;
+  //       this.constValue.number = true;
+  //       break;
+  //     case 'nome':
+  //       this.constValue.input = false;
+  //       this.constValue.select = true;
+  //       this.selects.filtro = this.selects.analista
+  //       this.constValue.number = false;
+  //       break;
+  //     case 'ativo':
+  //       this.constValue.input = false;
+  //       this.constValue.select = true;
+  //       this.constValue.number = false;
+  //       break;
+  //     case 'email':
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+  //     case 'matricula':
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+
+  //     default:
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+  //   }
+  // }
+
   getSelected(event) {
     this.constValue.selecionado = event.id;
 
@@ -153,6 +188,15 @@ export class SubtipoChamadoListComponent implements OnInit {
     this.pagination.currentPage = event;
     let busca: string = Object.assign({}, this.subtipoForm.value, { page: this.pagination.currentPage });
     this.findSubtipoChamado(busca);
+  }
+
+   editarSubtipoChamado() {
+    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
+      this.notificationService.warning('Selecione um SubTipo de Chamado para editar!');
+      return;
+    } else {
+      this.router.navigate(['edit', this.constValue.selecionado], {relativeTo:this.route})
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableColumn, PoSelectOption } from '@portinari/portinari-ui';
+import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableColumn, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
@@ -16,7 +16,7 @@ export class TipoChamadoListComponent implements OnInit {
   page = {
     actions: <PoPageAction[]>[
       { label: 'Novo', url: 'tipo-chamado/add' },
-      { label: 'Editar', action: () => {this.router.navigate(['edit', this.constValue.selecionado], {relativeTo:this.route})}}
+      { label: 'Editar', action: () => {this.editarTipoChamado()}}
     ],
 
     title: 'Tipo Chamado',
@@ -77,7 +77,8 @@ export class TipoChamadoListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private tipoChamadoService: TipoChamadoService,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private notificationService: PoNotificationService
   ) { }
 
   ngOnInit() {
@@ -129,5 +130,16 @@ export class TipoChamadoListComponent implements OnInit {
     let busca: string = Object.assign({}, this.tipoChamadoForm.value, { page: this.pagination.currentPage });
     this.getTipoChamado(busca);
   }
+
+  private editarTipoChamado() {
+    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
+      this.notificationService.warning('Selecione um Tipo de Chamado para editar!');
+      return;
+    } else {
+      this.router.navigate(['edit', this.constValue.selecionado], {relativeTo:this.route})
+    }
+  }
+
+
 
 }

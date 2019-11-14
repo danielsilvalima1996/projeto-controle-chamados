@@ -50,7 +50,7 @@ export class PermissionsListComponent implements OnInit {
   selects = {
     pesquisa: <PoSelectOption[]>[
       { label: 'ID', value: 'id' },
-      { label: 'NOME', value: 'description' },
+      { label: 'DESCRIÇÃO', value: 'description' },
       { label: 'ATIVO', value: 'active' }
     ],
     filtro: <PoSelectOption[]>[
