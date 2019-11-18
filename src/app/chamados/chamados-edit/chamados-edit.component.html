@@ -1,5 +1,6 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
     <!-- INTERNO EDIT -->
+
     <form *ngIf="constValue.tipoChamado == 'interno'"
         [formGroup]="chamadosFormInterno" class="po-row">
         <po-input class="po-md-2" p-label="Id Chamado" formControlName="idChamado" p-readonly="true"></po-input>

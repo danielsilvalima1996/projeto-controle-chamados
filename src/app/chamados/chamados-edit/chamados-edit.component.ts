@@ -114,6 +114,10 @@ export class ChamadosEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    let arr: Array<SubtipoChamado> = this.route.snapshot.data.subtipo;
+    this.selects.subtipoChamado = arr.map((data) => {
+      return <PoSelectOption>{ label: data.descricao, value: data.id }
+    })
     this.route.paramMap
       .subscribe((paramMap: ParamMap) => {
         this.constValue.id = parseInt(paramMap.get('id'), 10);
@@ -136,7 +140,14 @@ export class ChamadosEditComponent implements OnInit {
         })
       this.controls.tipoChamado
         .valueChanges.subscribe((data) => {
-          this.subtipoChamado(data);
+          this.controls.subtipoChamado.reset();
+          this.selects.subtipoChamado = [];
+          if (data == null) {
+            return;
+          } else {
+            this.subtipoChamado(data);
+          }
+          
         })
       this.controls.dataFechamento
         .valueChanges.subscribe((data) => {
@@ -235,7 +246,7 @@ export class ChamadosEditComponent implements OnInit {
             } else if (data == 'tipoChamado') {
               obj[data] = item[data].id;
             } else if (data == 'subtipoChamado') {
-              obj[data] = item[data].id.toString();
+              obj[data] = item[data].id;
             } else if (data == 'idUsuario') {
               obj[data] = item[data].fullName;
               this.formAuxiliar.user = item[data];

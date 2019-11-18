@@ -4,6 +4,7 @@ import { ChamadosListComponent } from './chamados-list/chamados-list.component';
 import { ChamadosEditComponent } from './chamados-edit/chamados-edit.component';
 import { ChamadosAddComponent } from './chamados-add/chamados-add.component';
 import { ChamadosViewComponent } from './chamados-view/chamados-view.component';
+import { ChamadosEditResolve } from './chamados-edit/chamados-edit.resolver';
 
 
 const routes: Routes = [
@@ -12,7 +13,11 @@ const routes: Routes = [
       { path: '', component: ChamadosListComponent },
       { path: 'add', component: ChamadosAddComponent },
       { path: 'view/:id', component: ChamadosViewComponent },
-      { path: 'edit/:id', component: ChamadosEditComponent }
+      {
+        path: 'edit/:id',
+        component: ChamadosEditComponent,
+        resolve: { subtipo: ChamadosEditResolve }
+      }
     ]
   },
   {

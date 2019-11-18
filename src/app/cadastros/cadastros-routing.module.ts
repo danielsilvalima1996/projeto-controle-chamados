@@ -18,7 +18,7 @@ import { PermissionsAddComponent } from './permissions/permissions-add/permissio
 import { EmpresaListComponent } from './empresa/empresa-list/empresa-list.component';
 import { EmpresaEditComponent } from './empresa/empresa-edit/empresa-edit.component';
 import { EmpresaAddComponent } from './empresa/empresa-add/empresa-add.component';
-import { UserEditResolve } from './users/user-list/user-edit.resolver';
+import { UserEditResolve } from './users/user-edit/user-edit.resolver';
 
 
 const routes: Routes = [
