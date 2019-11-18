@@ -139,13 +139,18 @@ export class UserEditComponent implements OnInit {
         this.constValue.authorities = data.authorities;
 
         this.editUserForm.setValue(obj);
-        console.log(this.editUserForm.value);
-
       })
   }
 
   saveUser() {
     this.constValue.loadingPage = true;
+
+    let password: string = '';
+    if(this.controls.password.value == null || this.controls.password.value == ''){
+      password = "";
+    } else {
+      password = this.controls.password.value;
+    }
 
     if (this.editUserForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');
@@ -157,7 +162,7 @@ export class UserEditComponent implements OnInit {
         id: this.constValue.id,
         userName: this.editUserForm.controls.userName.value,
         fullName: this.editUserForm.controls.fullName.value,
-        password: this.editUserForm.controls.password.value,
+        password: password,
         permissions: [permissions],
         idEmpresa: this.constValue.empresa,
         authorities: [],
@@ -173,8 +178,7 @@ export class UserEditComponent implements OnInit {
 
       console.log(obj);
 
-
-      this.userService.addUser(obj).subscribe(() => {
+      this.userService.alterUser(obj).subscribe(() => {
         this.notificationService.success('Usuário Alterado com Sucesso!');
         this.location.back();
         this.constValue.loadingPage = false;

@@ -31,7 +31,7 @@ export class UserService {
   }
 
 
-  alterUser(user: User) {
+  alterUser(user: any) {
     return this.http.put(`${this.url}`, user);
   }
 
