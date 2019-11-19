@@ -5,8 +5,8 @@
                 formControlName="pesquisa">
             </po-combo>
             <po-input *ngIf="constValue.input" class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
-            <po-number *ngIf="constValue.number" class="po-md-2" p-label="Filtro" formControlName="filtro"></po-number>
-            <po-combo *ngIf="constValue.select" class="po-md-2" p-filter-mode="contains" p-label="Filtro"
+            <po-number *ngIf="constValue.number" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-number>
+            <po-combo *ngIf="constValue.select" class="po-md-3" p-filter-mode="contains" p-label="Filtro"
                 [p-options]="selects.filtro" formControlName="filtro">
             </po-combo>
 

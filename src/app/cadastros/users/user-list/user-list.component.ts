@@ -61,7 +61,7 @@ export class UserListComponent implements OnInit {
       { label: 'E-MAIL', value: 'userName' },
       { label: 'NOME', value: 'fullName' },
       { label: 'ATIVO', value: 'enabled' },
-      { label: 'ID EMPRESA', value: 'idEmpresa' },
+      { label: 'EMPRESA', value: 'idEmpresa' },
     ],
     ativo: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },

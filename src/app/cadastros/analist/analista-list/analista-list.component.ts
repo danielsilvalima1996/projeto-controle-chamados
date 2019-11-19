@@ -63,11 +63,12 @@ export class AnalistaListComponent implements OnInit {
       { label: 'E-MAIL', value: 'email' },
       { label: 'MATRÍCULA', value: 'matricula' },
     ],
-    filtro: <PoSelectOption[]>[
+    ativo: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
       { label: 'NÃO', value: 'false' }
     ],
-    analista: <PoSelectOption[]>[]
+    analista: <PoSelectOption[]>[],
+    filtro:<PoSelectOption[]>[]
   }
 
   constValue = {
@@ -75,7 +76,7 @@ export class AnalistaListComponent implements OnInit {
     analistaId: '',
     input: <boolean>true,
     select: <boolean>false,
-    number: <boolean>false,
+    number: <boolean>false
   }
 
   constructor(
@@ -121,7 +122,7 @@ export class AnalistaListComponent implements OnInit {
       case 'ativo':
         this.constValue.input = false;
         this.constValue.select = true;
-        this.selects.filtro;
+        this.selects.filtro = this.selects.ativo;
         this.constValue.number = false;
         break;
       case 'email':
