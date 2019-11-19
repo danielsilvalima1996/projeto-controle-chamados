@@ -25,7 +25,7 @@ export class PermissionsListComponent implements OnInit {
       ]
     },
     actions: [
-      { label: 'Nova', url: 'permission/add' },
+      { label: 'Nova', icon: 'po-icon po-icon-plus-circle', url: 'permission/add' },
       {
         label: 'Editar', action: () => {
           this.editarPermissao()
@@ -91,6 +91,7 @@ export class PermissionsListComponent implements OnInit {
     this.controls.pesquisa
       .valueChanges.subscribe((data) => {
         this.tipoForm(data);
+        this.controls.filtro.reset();
       })
     this.getPermission(this.permissionForm.value);
   }

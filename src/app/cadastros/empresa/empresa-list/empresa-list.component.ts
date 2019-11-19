@@ -32,11 +32,11 @@ export class EmpresaListComponent implements OnInit {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '50px' },
       { property: 'cnpj', label: 'CNPJ', width: '150px' },
-      { property: 'razaoSocial', label: 'Razão Social', width: '120.5px' },
-      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '120.5px' },
-      { property: 'endereco', label: 'Endereço', width: '150px' },
-      { property: 'codigoTotvs', label: 'Codigo Totvs', width: '120px' },
-      { property: 'admin', label: 'Contato', width: '100px' },
+      { property: 'razaoSocial', label: 'Razão Social', width: '150px' },
+      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '150px' },
+      { property: 'endereco', label: 'Endereço', width: '250px' },
+      { property: 'codigoTotvs', label: 'Codigo Totvs', width: '100px' },
+      { property: 'admin', label: 'Contato', width: '150px' },
       { property: 'telefone', label: 'Telefone', width: '120px' },
       { property: 'celular', label: 'Celular', width: '120px' },
       { property: 'criado', label: 'Criado ', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
@@ -99,6 +99,7 @@ export class EmpresaListComponent implements OnInit {
     this.controls.pesquisa.
       valueChanges.subscribe((data) => {
         this.tipoForm(data);
+        this.controls.filtro.reset();
       })
     this.getEmpresa(this.empresaform.value)
   }
@@ -135,9 +136,9 @@ export class EmpresaListComponent implements OnInit {
         this.constValue.number = false;
         break;
       case 'codigoTotvs':
-        this.constValue.input = true;
+        this.constValue.input = false;
         this.constValue.select = false;
-        this.constValue.number = false;
+        this.constValue.number = true;
         break;
       case 'ativo':
         this.constValue.input = false;
