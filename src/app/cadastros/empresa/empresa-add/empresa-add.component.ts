@@ -21,7 +21,7 @@ export class EmpresaAddComponent implements OnInit {
     title: 'Adicionar Empresas',
     breadcrumb: {
       items: [
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'Empresas' },
         { label: 'Adicionar Empresas' },

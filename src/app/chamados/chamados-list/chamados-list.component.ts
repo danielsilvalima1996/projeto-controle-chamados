@@ -12,6 +12,7 @@ import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chamados-list',
@@ -42,7 +43,7 @@ export class ChamadosListComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Lista de Chamados' }
       ]
     }
@@ -98,7 +99,7 @@ export class ChamadosListComponent implements OnInit {
   pagination: Pagination = {
     itemsPerPage: 30,
     totalItems: 0,
-    currentPage:1
+    currentPage: 1
   }
 
   chamadosForm: FormGroup = this.fb.group({
@@ -133,8 +134,10 @@ export class ChamadosListComponent implements OnInit {
     })
     this.tipoChamados();
     this.controls.pesquisa
-      .valueChanges.subscribe((data) => {
+      .valueChanges.pipe(debounceTime(200))
+      .subscribe((data) => {
         this.inputSelect(data);
+        this.controls.filtro.reset();
       })
     this.findChamados();
   }
@@ -150,7 +153,7 @@ export class ChamadosListComponent implements OnInit {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: item.nome, value: item.id.toString() }
         })
-        this.selects.analista = arr
+        this.selects.analista = arr;
       })
   }
 

@@ -1,23 +1,26 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
     <form [formGroup]="userform">
         <div class="po-row">
-            <po-combo class="po-md-2" p-filter-mode="contains" p-label="Pesquisar por:" [p-options]="selects.pesquisa"
+            <po-combo class="po-md-3" p-filter-mode="contains" p-label="Pesquisar por" [p-options]="selects.pesquisa"
                 formControlName="pesquisa">
             </po-combo>
-            <po-input *ngIf="constValue.input" class="po-md-2" p-label="Filtro" formControlName="filtro"></po-input>
-            <po-combo *ngIf="constValue.select" class="po-md-2" p-filter-mode="contains" p-label="Filtro"
+            <po-input *ngIf="constValue.input" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-input>
+            <po-number *ngIf="constValue.number" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-number>
+            <po-combo *ngIf="constValue.select" class="po-md-3" p-filter-mode="contains" p-label="Filtro"
                 [p-options]="selects.filtro" formControlName="filtro">
             </po-combo>
-            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (click)="getUser(this.userform.value)">
+            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar"
+                (click)="getUser(this.userform.value)">
             </po-button>
         </div>
     </form>
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
-        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-checkbox="true" p-hide-text-overflow="true" p-single-select="true">
+        p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()"
+        p-checkbox="true" p-hide-text-overflow="true" p-single-select="true">
     </po-table>
 
     <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
-    (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
-    [itemsPerPage]="pagination.itemsPerPage">
-</app-pagination>
+        (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage">
+    </app-pagination>
 </po-page-default>

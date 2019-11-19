@@ -21,7 +21,7 @@ export class EmpresaEditComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'Empresas' },
         { label: 'Editar Empresa' }

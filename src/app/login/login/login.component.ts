@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
         },
         (error: ErrorSpringBoot) => {
           this.loginService.setIsLogged$(false);
+          this.notificationService.error('Acesso Negado!');
           this.constValue.loading = false;
         })
     }

@@ -22,7 +22,7 @@ export class TipoChamadoListComponent implements OnInit {
     title: 'Tipo Chamado',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'Tipo Chamado' }
       ]

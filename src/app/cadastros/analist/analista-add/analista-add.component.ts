@@ -21,7 +21,7 @@ export class AnalistaAddComponent implements OnInit {
     title: 'Cadastro de Analistas',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'Analistas' },
         { label: 'Adicionar Analistas' },
