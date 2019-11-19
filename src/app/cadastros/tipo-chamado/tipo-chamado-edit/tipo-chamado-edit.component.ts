@@ -22,7 +22,7 @@ export class TipoChamadoEditComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'Tipos Chamado' },
         { label: 'Editar Tipo de Chamado' }

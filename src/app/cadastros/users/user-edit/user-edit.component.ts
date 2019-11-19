@@ -23,7 +23,7 @@ export class UserEditComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'Usuários' },
         { label: 'Editar Usuário' }

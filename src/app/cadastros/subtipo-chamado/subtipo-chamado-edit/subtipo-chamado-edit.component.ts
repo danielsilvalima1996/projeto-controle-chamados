@@ -23,7 +23,7 @@ export class SubtipoChamadoEditComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'SubTipo Chamado' },
         { label: 'Editar SubTipo Chamado' }

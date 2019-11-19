@@ -6,6 +6,8 @@ import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 import { Pagination } from 'src/app/interfaces/pagination.model';
+import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-list',
@@ -23,7 +25,7 @@ export class UserListComponent implements OnInit {
     title: 'Cadastro de Usuários',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'Usuários' }
       ]
@@ -61,10 +63,12 @@ export class UserListComponent implements OnInit {
       { label: 'ATIVO', value: 'enabled' },
       { label: 'ID EMPRESA', value: 'idEmpresa' },
     ],
-    filtro: <PoSelectOption[]>[
+    ativo: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
       { label: 'NÃO', value: 'false' }
-    ]
+    ],
+    filtro: <PoSelectOption[]>[],
+    empresa: <PoSelectOption[]>[]
   }
 
   pagination: Pagination = {
@@ -75,8 +79,9 @@ export class UserListComponent implements OnInit {
 
   constValue = {
     selecionado: '',
-    input: <Boolean>true,
-    select: <Boolean>false,
+    input: <boolean>true,
+    select: <boolean>false,
+    number: <boolean>false
   }
 
   constructor(
@@ -85,15 +90,19 @@ export class UserListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private utilService: UtilService,
-    private notificationService: PoNotificationService
+    private notificationService: PoNotificationService,
+    private empresaService: EmpresaService
   ) { }
 
 
 
   ngOnInit() {
+    this.empresaList();
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
     this.controls.pesquisa
-      .valueChanges.subscribe((data) => {
+      .valueChanges.pipe(debounceTime(200))
+      .subscribe((data) => {
+        this.controls.filtro.reset();
         this.tipoForm(data);
       })
     this.getUser(this.userform.value);
@@ -104,13 +113,52 @@ export class UserListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    if (tipo == 'enabled') {
-      this.constValue.input = false;
-      this.constValue.select = true;
-    } else {
-      this.constValue.input = true;
-      this.constValue.select = false;
+    console.log(tipo);
+
+    switch (tipo) {
+      case 'id':
+        this.constValue.input = false;
+        this.constValue.select = false;
+        this.constValue.number = true;
+        break;
+      case 'userName':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'fullName':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'enabled':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.ativo;
+        this.constValue.number = false;
+        break;
+      case 'idEmpresa':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.empresa;
+        this.constValue.number = false;
+        break;
+      default:
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
     }
+  }
+
+  private empresaList() {
+    this.empresaService
+      .findAllAtivo().subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.nomeFantasia, value: item.id }
+        })
+        this.selects.empresa = arr;
+      })
   }
 
   getUser(parameters?: any) {
@@ -138,7 +186,7 @@ export class UserListComponent implements OnInit {
         this.pagination.totalItems = data.totalElements;
         this.pagination.itemsPerPage = data.size;
         this.table.loading = false;
-        
+
       },
         (error: ErrorSpringBoot) => {
           this.notificationService.error(error.message);

@@ -22,7 +22,7 @@ export class AnalistaEditComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'Analistas' },
         { label: 'Editar Analista' }

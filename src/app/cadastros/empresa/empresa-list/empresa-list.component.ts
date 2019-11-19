@@ -21,7 +21,7 @@ export class EmpresaListComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Home' },
+        { label: 'Dashboard' },
         { label: 'Cadastros' },
         { label: 'Empresas' }
       ]
