@@ -15,7 +15,7 @@ export class TipoChamadoListComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Novo', url: 'tipo-chamado/add' },
+      { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'tipo-chamado/add' },
       { label: 'Editar', action: () => {this.editarTipoChamado()}}
     ],
 

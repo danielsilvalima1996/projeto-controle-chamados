@@ -73,9 +73,9 @@ export class AnalistaListComponent implements OnInit {
   constValue = {
     itemSelecionado: '',
     analistaId: '',
-    input: <Boolean>true,
-    select: <Boolean>false,
-    number: <Boolean>false
+    input: <boolean>true,
+    select: <boolean>false,
+    number: <boolean>false,
   }
 
   constructor(
@@ -94,6 +94,7 @@ export class AnalistaListComponent implements OnInit {
     this.controls.pesquisa
       .valueChanges.subscribe((data) => {
         this.tipoForm(data);
+        this.controls.filtro.reset();
       })
     this.analistaSelect();
     this.getAnalista(this.analistaform.value)
@@ -120,6 +121,7 @@ export class AnalistaListComponent implements OnInit {
       case 'ativo':
         this.constValue.input = false;
         this.constValue.select = true;
+        this.selects.filtro;
         this.constValue.number = false;
         break;
       case 'email':
@@ -128,9 +130,9 @@ export class AnalistaListComponent implements OnInit {
         this.constValue.number = false;
         break;
       case 'matricula':
-        this.constValue.input = true;
+        this.constValue.input = false;
         this.constValue.select = false;
-        this.constValue.number = false;
+        this.constValue.number = true;
         break;
 
       default:
