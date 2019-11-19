@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { Pagination } from 'src/app/interfaces/pagination.model';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tipo-chamado-list',
@@ -15,8 +16,8 @@ export class TipoChamadoListComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Novo', url: 'tipo-chamado/add' },
-      { label: 'Editar', action: () => {this.editarTipoChamado()}}
+      { label: 'Novo', url: 'tipo-chamado/add', icon: 'po-icon po-icon-plus-circle' },
+      { label: 'Editar', action: () => { this.editarTipoChamado() } }
     ],
 
     title: 'Tipo Chamado',
@@ -35,7 +36,7 @@ export class TipoChamadoListComponent implements OnInit {
       { property: 'descricao', label: 'Descrição', width: '20%' },
       { property: 'created', label: 'Criado ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'active', label: 'Ativo', width: '20%', type:'boolean' }
+      { property: 'active', label: 'Ativo', width: '20%', type: 'boolean' }
     ],
     items: [],
     height: 0,
@@ -60,9 +61,10 @@ export class TipoChamadoListComponent implements OnInit {
   })
 
   constValue = {
-    selecionado:'',
+    selecionado: '',
     input: <Boolean>true,
-    select:<Boolean>false,
+    select: <Boolean>false,
+    number: <Boolean>false,
   }
 
   pagination: Pagination = {
@@ -84,9 +86,11 @@ export class TipoChamadoListComponent implements OnInit {
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
     this.controls.pesquisa
-    .valueChanges.subscribe((data) => {
-      this.tipoForm(data);
-    })
+      .valueChanges.pipe(debounceTime(200))
+      .subscribe((data) => {
+        this.controls.filtro.reset();
+        this.tipoForm(data);
+      })
     this.getTipoChamado(this.tipoChamadoForm.value);
   }
 
@@ -95,19 +99,34 @@ export class TipoChamadoListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    if (tipo == 'active') {
-      this.constValue.input = false;
-      this.constValue.select = true;
-    } else {
-      this.constValue.input = true;
-      this.constValue.select = false;
+    switch (tipo) {
+      case 'id':
+        this.constValue.input = false;
+        this.constValue.select = false;
+        this.constValue.number = true;
+        break;
+      case 'descricao':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'active':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.constValue.number = false;
+        break;
+      default:
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
     }
   }
 
-   getTipoChamado(form?) {
-     this.table.loading = true;
+  getTipoChamado(form?) {
+    this.table.loading = true;
     this.tipoChamadoService.getTipoChamado(this.utilService.getParameters(form))
-      .subscribe((data:any) => {
+      .subscribe((data: any) => {
         this.table.items = data.content
         this.pagination.totalItems = data.totalElements;
         this.pagination.itemsPerPage = data.size;
@@ -117,12 +136,12 @@ export class TipoChamadoListComponent implements OnInit {
 
   getSelected(event) {
     this.constValue.selecionado = event.id;
-    
+
   }
 
   getUnSelected() {
     this.constValue.selecionado = ''
-    
+
   }
 
   onPageChange(event: number) {
@@ -136,7 +155,7 @@ export class TipoChamadoListComponent implements OnInit {
       this.notificationService.warning('Selecione um Tipo de Chamado para editar!');
       return;
     } else {
-      this.router.navigate(['edit', this.constValue.selecionado], {relativeTo:this.route})
+      this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route })
     }
   }
 
