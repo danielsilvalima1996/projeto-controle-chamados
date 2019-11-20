@@ -121,7 +121,7 @@ export class AppComponent implements OnInit {
     label: 'Trocar Senha', action: () => { this.trocarSenhaFn(); }, disabled: true
   };
 
-  secondayAction: PoModalAction = {
+  secondaryAction: PoModalAction = {
     label: 'Cancelar', action: () => { this.trocarSenha.close(); }
   };
 
