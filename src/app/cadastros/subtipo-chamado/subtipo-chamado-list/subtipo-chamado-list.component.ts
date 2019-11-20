@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 import { Pagination } from 'src/app/interfaces/pagination.model';
+import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 
 @Component({
   selector: 'app-subtipo-chamado-list',
@@ -24,9 +25,9 @@ export class SubtipoChamadoListComponent implements OnInit {
       ]
     },
     actions: [
-      { label: 'Novo', url: 'subtipo-chamado/add' },
+      { label: 'Novo', icon: 'po-icon po-icon-plus-circle', url: 'subtipo-chamado/add' },
       {
-        label: 'Editar', action: () => {this.editarSubtipoChamado()     }
+        label: 'Editar', action: () => { this.editarSubtipoChamado() }
       }
     ],
   }
@@ -50,12 +51,14 @@ export class SubtipoChamadoListComponent implements OnInit {
       { label: 'ID', value: 'id' },
       { label: 'DESCRIÇÃO', value: 'descricao' },
       { label: 'ATIVO', value: 'active' },
-      { label: 'ID TIPO CHAMADO', value: 'idTipoChamado' }
+      { label: 'TIPO CHAMADO', value: 'idTipoChamado' }
     ],
-    filtro: <PoSelectOption[]>[
+    ativo: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
       { label: 'NÃO', value: 'false' }
-    ]
+    ],
+    tipoChamado: <PoSelectOption[]>[],
+    filtro:<PoSelectOption[]>[]
   }
 
   pagination: Pagination = {
@@ -66,8 +69,9 @@ export class SubtipoChamadoListComponent implements OnInit {
 
   constValue = {
     selecionado: '',
-    input: <Boolean>true,
-    select: <Boolean>false
+    input: <boolean>true,
+    select: <boolean>false,
+    number: <boolean>false
   }
 
   subtipoForm: FormGroup = this.fb.group({
@@ -81,14 +85,17 @@ export class SubtipoChamadoListComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private notificationService: PoNotificationService
+    private notificationService: PoNotificationService,
+    private tipoChamadoService: TipoChamadoService
   ) { }
 
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
+    this.tipoChamadoList();
     this.controls.pesquisa
       .valueChanges.subscribe((data) => {
         this.tipoForm(data);
+        this.controls.filtro.reset();
       })
     this.findSubtipoChamado(this.subtipoForm.value);
   }
@@ -128,51 +135,47 @@ export class SubtipoChamadoListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    if (tipo == 'active') {
-      this.constValue.input = false;
-      this.constValue.select = true;
-    } else {
-      this.constValue.input = true;
-      this.constValue.select = false;
+    switch (tipo) {
+      case 'id':
+        this.constValue.input = false;
+        this.constValue.select = false;
+        this.constValue.number = true;
+        break;
+      case 'descricao':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'active':
+        this.constValue.input = false;
+        this.constValue.select = true;
+        this.selects.filtro = this.selects.ativo;
+        this.constValue.number = false;
+        break;
+        case 'idTipoChamado':
+          this.constValue.input = false;
+          this.constValue.select = true;
+          this.selects.filtro = this.selects.tipoChamado;
+          this.constValue.number = false;
+          break;
+
+      default:
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
     }
   }
 
-  // tipoForm(tipo) {
-  //   switch (tipo) {
-  //     case 'id':
-  //       this.constValue.input = false;
-  //       this.constValue.select = false;
-  //       this.constValue.number = true;
-  //       break;
-  //     case 'nome':
-  //       this.constValue.input = false;
-  //       this.constValue.select = true;
-  //       this.selects.filtro = this.selects.analista
-  //       this.constValue.number = false;
-  //       break;
-  //     case 'ativo':
-  //       this.constValue.input = false;
-  //       this.constValue.select = true;
-  //       this.constValue.number = false;
-  //       break;
-  //     case 'email':
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-  //     case 'matricula':
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-
-  //     default:
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-  //   }
-  // }
+  private tipoChamadoList() {
+    this.tipoChamadoService
+      .findAll().subscribe((data) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.descricao, value: item.id }
+        })
+        this.selects.tipoChamado = arr;
+      })
+  }
 
   getSelected(event) {
     this.constValue.selecionado = event.id;
@@ -183,19 +186,18 @@ export class SubtipoChamadoListComponent implements OnInit {
     this.constValue.selecionado = ''
 
   }
-
   onPageChange(event: number) {
     this.pagination.currentPage = event;
     let busca: string = Object.assign({}, this.subtipoForm.value, { page: this.pagination.currentPage });
     this.findSubtipoChamado(busca);
   }
 
-   editarSubtipoChamado() {
+  editarSubtipoChamado() {
     if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
       this.notificationService.warning('Selecione um SubTipo de Chamado para editar!');
       return;
     } else {
-      this.router.navigate(['edit', this.constValue.selecionado], {relativeTo:this.route})
+      this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route })
     }
   }
 

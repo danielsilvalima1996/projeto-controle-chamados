@@ -31,8 +31,8 @@ export class TipoChamadoAddComponent implements OnInit {
 
   selects = {
     ativoOptions: [
-      { label: 'ATIVA', value: true },
-      { label: 'INATIVA', value: false }
+      { label: 'ATIVO', value: true },
+      { label: 'INATIVO', value: false }
     ]
   }
 

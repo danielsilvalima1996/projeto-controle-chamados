@@ -34,8 +34,8 @@ export class SubtipoChamadoEditComponent implements OnInit {
 
   selects = {
     ativoOptions: <PoSelectOption[]>[
-      { label: 'ATIVA', value: 'true' },
-      { label: 'INATIVA', value: 'false' }
+      { label: 'ATIVO', value: 'true' },
+      { label: 'INATIVO', value: 'false' }
     ],
     tipoChamado: <PoSelectOption[]>[]
 
