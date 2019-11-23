@@ -113,8 +113,8 @@ export class ChamadosViewComponent implements OnInit {
           } else if (data == 'idUsuario') {
             obj[data] = item[data].fullName;
           } else if ((data == 'dataAbertura' || data == 'dataFechamento') &&
-            item[data].toString() != '-') {
-            if (item[data].length == 10) {
+            item[data] != '-' && item[data] != null) {
+            if (item[data].length == 10 && item[data]) {
               obj[data] = this.utilService.multiFormataData(item[data].toString(), 'dd/mm/yyyy');
             } else {
               obj[data] = item[data];
