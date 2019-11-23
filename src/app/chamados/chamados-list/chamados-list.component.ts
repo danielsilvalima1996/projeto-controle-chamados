@@ -263,12 +263,12 @@ export class ChamadosListComponent implements OnInit {
       this.constValue.tipoChamado = 'externo';
       this.selects.pesquisa = [
         { label: 'ID CHAMADO', value: 'idChamado' },
-        { label: 'ID ANALISTA', value: 'idAnalista' },
+        { label: 'ANALISTA', value: 'idAnalista' },
         { label: 'STATUS', value: 'codigoStatusChamado' },
         { label: 'DESCRIÇÃO', value: 'descricaoChamado' },
         { label: 'SOLUÇÃO CHAMADO', value: 'solucaoChamado' },
-        { label: 'ID SUBTIPO CHAMADO', value: 'idSubtipoChamado' },
-        { label: 'ID TIPO CHAMADO', value: 'idTipoChamado' }
+        { label: 'SUBTIPO CHAMADO', value: 'idSubtipoChamado' },
+        { label: 'TIPO CHAMADO', value: 'idTipoChamado' }
       ]
       this.selects.pesquisa.sort((a, b) => {
         return a.label < b.label ? -1 : a.label > b.label ? 1 : 0;
