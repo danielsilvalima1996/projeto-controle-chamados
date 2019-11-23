@@ -8,8 +8,13 @@ export const environment = {
     // apirest: 'http://localhost:5000/api'
     // apirest: 'http://192.168.43.184:5000/api' // FACULDADE
     // apirest: 'http://172.20.10.6:5000/api'
+<<<<<<< HEAD
     apirest: 'http://192.168.0.15:5000/api'
     // apirest: 'http://http://52.67.131.147:5000/api' 
+=======
+    // apirest: 'http://192.168.0.15:5000/api'
+    apirest: 'http://52.67.131.147:5000/api' 
+>>>>>>> 38464119cc39f3cfc5ccac57e37c2ae49d961ac2
   }
 };
 
