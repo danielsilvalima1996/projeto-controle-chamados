@@ -77,9 +77,7 @@ export class AnalistaEditComponent implements OnInit {
   private findById(id) {
     this.analistaService
       .findById(id)
-      .subscribe((data) => {
-        console.log(data);
-        
+      .subscribe((data) => {        
         data.criado = new Date(data.criado);
         data.modificado = new Date(data.modificado);
         this.editAnalistaForm.setValue(data);

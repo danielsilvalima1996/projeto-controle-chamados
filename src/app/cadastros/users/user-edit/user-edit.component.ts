@@ -175,9 +175,6 @@ export class UserEditComponent implements OnInit {
         credentialsNonExpired: true,
         username: ''
       }
-
-      console.log(obj);
-
       this.userService.alterUser(obj).subscribe(() => {
         this.notificationService.success('Usuário Alterado com Sucesso!');
         this.location.back();

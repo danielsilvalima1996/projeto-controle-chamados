@@ -215,7 +215,6 @@ export class ChamadosEditComponent implements OnInit {
   }
 
   private tipoChamado(tipoChamado) {
-    console.log(tipoChamado);
     let item: PoBreadcrumbItem[] = [];
     if (tipoChamado == 'externo') {
       this.page.title = 'Editar Chamado Externo';

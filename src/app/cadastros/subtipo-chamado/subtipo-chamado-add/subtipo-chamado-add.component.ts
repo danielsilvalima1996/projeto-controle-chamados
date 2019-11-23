@@ -87,9 +87,7 @@ export class SubtipoChamadoAddComponent implements OnInit {
         descricao: this.subTipoChamadoAddForm.controls.descricao.value,
         idTipoChamado:{ id : this.subTipoChamadoAddForm.controls.idTipoChamado.value},
         active:this.subTipoChamadoAddForm.controls.active.value
-      }
-      console.log(obj);
-      
+      }     
       this.subTipoChamadoService
         .createSubtipoChamado(obj)
         .subscribe((data) => {

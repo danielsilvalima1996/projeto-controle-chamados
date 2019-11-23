@@ -87,7 +87,6 @@ export class EmpresaEditComponent implements OnInit {
     this.empresaService
       .findById(id)
       .subscribe((data) => {
-        console.log(data);
         data.criado = new Date(data.criado);
         data.modificado = new Date(data.modificado);
         this.editEmpresaForm.setValue(data);
