@@ -32,8 +32,8 @@ export class EmpresaListComponent implements OnInit {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '50px' },
       { property: 'cnpj', label: 'CNPJ', width: '150px' },
-      { property: 'razaoSocial', label: 'Razão Social', width: '150px' },
-      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '150px' },
+      { property: 'razaoSocial', label: 'Razão Social', width: '250px' },
+      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '250px' },
       { property: 'endereco', label: 'Endereço', width: '250px' },
       { property: 'codigoTotvs', label: 'Codigo Totvs', width: '100px' },
       { property: 'admin', label: 'Contato', width: '150px' },

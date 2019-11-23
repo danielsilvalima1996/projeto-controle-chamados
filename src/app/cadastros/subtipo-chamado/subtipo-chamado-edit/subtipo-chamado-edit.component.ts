@@ -6,6 +6,7 @@ import { SubtipoChamado } from 'src/app/interfaces/subtipo-chamado.model';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
+import { TipoChamado } from 'src/app/interfaces/tipo-chamado.model';
 
 @Component({
   selector: 'app-subtipo-chamado-edit',
@@ -59,15 +60,17 @@ export class SubtipoChamadoEditComponent implements OnInit {
     private location: Location,
     private subTipoChamadoService: SubtipoChamadoService,
     private notificationService: PoNotificationService,
-    private route: ActivatedRoute,
-    private tipoChamadoService: TipoChamadoService
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((param: ParamMap) => {
       this.getSubtipoChamado(parseInt(param.get('id'), 10));
     })
-    this.tipoChamado();
+    let arr: Array<TipoChamado> = this.route.snapshot.data['tipoChamado'];
+    arr.map((item) => {
+      this.selects.tipoChamado.push(<PoSelectOption>{ label: item.descricao, value: item.id })
+    })
     this.subTipoChamadoEditForm.valueChanges.subscribe((_) => {
       this.page.actions[0].disabled = this.subTipoChamadoEditForm.invalid;
     })
@@ -93,17 +96,6 @@ export class SubtipoChamadoEditComponent implements OnInit {
       })
   }
 
-  private tipoChamado() {
-    this.tipoChamadoService
-      .findAll()
-      .subscribe((data) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.descricao, value: item.id }
-        })
-        this.selects.tipoChamado = arr;
-      })
-  }
-
   private saveSubTipoChamado() {
     let subtipo = {
       id: this.controls.id.value,
@@ -124,7 +116,7 @@ export class SubtipoChamadoEditComponent implements OnInit {
         })
   }
 
-  verificaDescricao(){
+  verificaDescricao() {
     if (this.controls.descricao.value == null || this.controls.descricao.value == '') {
       return;
     } else {

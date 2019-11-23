@@ -19,6 +19,7 @@ import { EmpresaListComponent } from './empresa/empresa-list/empresa-list.compon
 import { EmpresaEditComponent } from './empresa/empresa-edit/empresa-edit.component';
 import { EmpresaAddComponent } from './empresa/empresa-add/empresa-add.component';
 import { UserEditResolve } from './users/user-edit/user-edit.resolver';
+import { SubtipoChamadoEditResolve } from './subtipo-chamado/subtipo-chamado-edit/subtipo-chamado-edit.resolver';
 
 
 const routes: Routes = [
@@ -27,7 +28,6 @@ const routes: Routes = [
       { path: '', component: AnalistaListComponent },
       { path: ':action/:id', component: AnalistaEditComponent },
       { path: 'add', component: AnalistaAddComponent }
-
     ]
   },
   {
@@ -66,7 +66,10 @@ const routes: Routes = [
     path: 'subtipo-chamado', children: [
       { path: '', component: SubtipoChamadoListComponent },
       { path: 'add', component: SubtipoChamadoAddComponent },
-      { path: 'edit/:id', component: SubtipoChamadoEditComponent },
+      {
+        path: 'edit/:id', component: SubtipoChamadoEditComponent,
+        resolve: { tipoChamado: SubtipoChamadoEditResolve }
+      },
     ]
   }
 

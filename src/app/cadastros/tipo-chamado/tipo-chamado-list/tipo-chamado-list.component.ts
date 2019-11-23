@@ -33,10 +33,10 @@ export class TipoChamadoListComponent implements OnInit {
   table = {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '10%' },
-      { property: 'descricao', label: 'Descrição', width: '20%' },
-      { property: 'created', label: 'Criado ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modified', label: 'Modificado ', width: '20%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'active', label: 'Ativo', width: '20%', type: 'boolean' }
+      { property: 'descricao', label: 'Descrição', width: '35%' },
+      { property: 'created', label: 'Criado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modified', label: 'Modificado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'active', label: 'Ativo', width: '15%', type: 'boolean' }
     ],
     items: [],
     height: 0,

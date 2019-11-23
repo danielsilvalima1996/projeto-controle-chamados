@@ -115,13 +115,16 @@ export class ChamadosEditComponent implements OnInit {
 
   ngOnInit() {
     let arr: Array<SubtipoChamado> = this.route.snapshot.data.subtipo;
-    this.selects.subtipoChamado = arr.map((data) => {
-      return <PoSelectOption>{ label: data.descricao, value: data.id }
-    })
+    if (arr != null) {
+      this.selects.subtipoChamado = arr.map((data) => {
+        return <PoSelectOption>{ label: data.descricao, value: data.id }
+      })
+    }
     this.route.paramMap
       .subscribe((paramMap: ParamMap) => {
         this.constValue.id = parseInt(paramMap.get('id'), 10);
       })
+
     if (this.router.url.toString().indexOf('externo') != -1) {
       this.constValue.tipoChamado = 'externo';
       this.chamadosFormExterno
@@ -131,6 +134,7 @@ export class ChamadosEditComponent implements OnInit {
         })
       this.findById(this.constValue.id);
     } else {
+
       this.constValue.tipoChamado = 'interno';
       this.tipoChamadoList();
       this.chamadosFormInterno
@@ -147,7 +151,7 @@ export class ChamadosEditComponent implements OnInit {
           } else {
             this.subtipoChamado(data);
           }
-          
+
         })
       this.controls.dataFechamento
         .valueChanges.subscribe((data) => {

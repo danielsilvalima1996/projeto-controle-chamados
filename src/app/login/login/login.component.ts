@@ -15,8 +15,8 @@ import { User } from 'src/app/interfaces/user.model';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = this.fb.group({
-    username: ['daniel@daniel.com.br', [Validators.email, Validators.required]],
-    password: ['12345678', [Validators.required, Validators.minLength(8)]]
+    username: ['', [Validators.email, Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(8)]]
   })
 
   constValue = {
