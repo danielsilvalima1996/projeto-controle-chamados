@@ -68,8 +68,6 @@ export class UserAddComponent implements OnInit {
   ngOnInit() {
     this.useraddForm.valueChanges.subscribe((_) => {
       this.page.actions[0].disabled = this.useraddForm.invalid;
-      console.log(this.useraddForm.invalid);
-      
     })
     this.getPermission()
     this.getEmpresas()
@@ -121,8 +119,6 @@ export class UserAddComponent implements OnInit {
         authorities: [],
         roles: [],
       }
-      console.log(obj);
-
       this.userService.addUser(obj).subscribe(() => {
         this.notificationService.success('Usuário Cadastrado com Sucesso!');
         this.location.back();

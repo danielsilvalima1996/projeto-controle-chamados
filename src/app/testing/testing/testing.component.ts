@@ -21,9 +21,6 @@ export class TestingComponent implements OnInit {
   ngOnInit() {
 
     this.controls.data.valueChanges.subscribe((data) => {
-      console.log(data);
-      
-
     })
 
   }

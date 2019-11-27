@@ -53,8 +53,6 @@ export class TipoChamadoAddComponent implements OnInit {
       this.page.actions[0].disabled = this.tipoChamadoAddForm.invalid;
     })
     this.controls.active.valueChanges.subscribe((data) => {
-      console.log(data);
-      
     })
   }
 

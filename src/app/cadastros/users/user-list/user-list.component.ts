@@ -113,8 +113,6 @@ export class UserListComponent implements OnInit {
   }
 
   tipoForm(tipo) {
-    console.log(tipo);
-
     switch (tipo) {
       case 'id':
         this.constValue.input = false;

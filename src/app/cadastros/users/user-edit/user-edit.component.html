@@ -1,7 +1,4 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
-
-    {{editUserForm.value | json}}
-
     <form [formGroup]="editUserForm">
         <div class="po-row">
             <po-input class="po-md-2" p-label="ID Usuário" p-readonly="true" formControlName="id"></po-input>
