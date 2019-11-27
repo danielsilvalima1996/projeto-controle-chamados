@@ -37,7 +37,7 @@ export class UserListComponent implements OnInit {
       { property: 'id', label: 'ID', width: '10%' },
       { property: 'fullName', label: 'Nome Completo', width: '15%' },
       { property: 'userName', label: 'E-mail', width: '25%' },
-      { property: 'idEmpresa', label: 'ID Empresa', width: '10%' },
+      { property: 'idEmpresa', label: 'Empresa', width: '10%' },
       { property: 'permissions', label: 'Permissões', width: '10%' },
       { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },

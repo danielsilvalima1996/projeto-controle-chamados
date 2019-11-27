@@ -35,8 +35,8 @@ export class AnalistaListComponent implements OnInit {
       { property: 'nome', label: 'Analista', width: '20%' },
       { property: 'email', label: 'E-mail', width: '20%' },
       { property: 'matricula', label: 'Matricula', width: '10%' },
-      { property: 'criado', label: 'Criado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modificado', label: 'Modificado em ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'criado', label: 'Criado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modificado', label: 'Modificado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'ativo', label: 'Ativo', width: '10%', type: 'boolean' }
     ],
     items: [],

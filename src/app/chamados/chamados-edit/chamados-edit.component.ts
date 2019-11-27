@@ -13,6 +13,7 @@ import { TipoChamado } from 'src/app/interfaces/tipo-chamado.model';
 import { SubtipoChamado } from 'src/app/interfaces/subtipo-chamado.model';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chamados-edit',
@@ -127,12 +128,12 @@ export class ChamadosEditComponent implements OnInit {
 
     if (this.router.url.toString().indexOf('externo') != -1) {
       this.constValue.tipoChamado = 'externo';
+      this.findById(this.constValue.id);
       this.chamadosFormExterno
         .valueChanges
         .subscribe((_) => {
           this.page.actions[0].disabled = this.chamadosFormExterno.invalid;
         })
-      this.findById(this.constValue.id);
     } else {
 
       this.constValue.tipoChamado = 'interno';
@@ -155,15 +156,23 @@ export class ChamadosEditComponent implements OnInit {
         })
       this.controls.dataFechamento
         .valueChanges.subscribe((data) => {
-          this.controls.horaFechamento.setValue(this.utilService.horaAtual());
-          this.controls.codigoStatusChamado.setValue(3);
+          if (data == null || data == '' || data == undefined) {
+            return;
+          } else {
+            this.controls.horaFechamento.setValue(this.utilService.horaAtual());
+            this.controls.codigoStatusChamado.setValue(3);
+          }
         })
       this.controls.codigoStatusChamado
-        .valueChanges.subscribe((data) => {
-          if (data >= 1 && data <= 2) {
+        .valueChanges.pipe(debounceTime(250)).subscribe((data) => {
+          if (data != 3) {
             this.controls.dataFechamento.reset();
             this.controls.horaFechamento.reset();
             this.controls.tempoChamado.reset();
+            this.controls.dataFechamento.clearValidators();
+          } else {
+            this.controls.horaFechamento.setValue(this.utilService.horaAtual());
+            this.controls.dataFechamento.setValidators([Validators.required, Validators.minLength(8)]);
           }
         })
       this.tipoChamado(this.constValue.tipoChamado);
@@ -338,9 +347,9 @@ export class ChamadosEditComponent implements OnInit {
     let horaFechamento;
     let tempoChamado;
 
-    this.controls.horaFechamento.value == '' || this.controls.horaFechamento.value == ''
+    this.controls.horaFechamento.value == '' || this.controls.horaFechamento.value == null || this.controls.horaFechamento.value == undefined
       ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
-    this.controls.tempoChamado.value == '' || this.controls.tempoChamado.value == ''
+    this.controls.tempoChamado.value == '' || this.controls.tempoChamado.value == null || this.controls.tempoChamado.value == undefined
       ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
 
     if (this.controls.dataFechamento.value == null) {
