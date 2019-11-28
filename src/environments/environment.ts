@@ -6,9 +6,9 @@ export const environment = {
   production: false,
   url: {
     // apirest: 'http://localhost:5000/api'
-    // apirest: 'http://192.168.43.184:5000/api' // FACULDADE
+    apirest: 'http://192.168.43.184:5000/api' // FACULDADE
     // apirest: 'http://172.20.10.6:5000/api'
-    apirest: 'http://192.168.0.11:5000/api'
+    // apirest: 'http://192.168.0.11:5000/api'
     // apirest: 'http://http://52.67.131.147:5000/api' 
   }
 };
