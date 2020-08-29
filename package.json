@@ -22,7 +22,7 @@
     "@angular/platform-server": "~9.1.12",
     "@angular/router": "~9.1.12",
     "@po-ui/ng-components": "2.10.0",
-    "@totvs/po-theme": "2.10.0",
+    "@totvs/po-theme": "2.0.0",
     "rxjs": "~6.6.2",
     "sortablejs": "^1.10.2",
     "ts-md5": "^1.2.6",
