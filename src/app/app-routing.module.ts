@@ -3,11 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: 'cadastros', loadChildren: './cadastros/cadastros.module#CadastrosModule' },
-  { path: 'chamados', loadChildren: './chamados/chamados.module#ChamadosModule' },
-  { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginModule' },
-  { path: 'testing', loadChildren: './testing/testing.module#TestingModule' }
+  { path: 'cadastros', loadChildren: () => import('./cadastros/cadastros.module').then(m => m.CadastrosModule) },
+  { path: 'chamados', loadChildren: () => import('./chamados/chamados.module').then(m => m.ChamadosModule) },
+  { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
+  { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
+  { path: 'testing', loadChildren: () => import('./testing/testing.module').then(m => m.TestingModule) }
 ];
 
 @NgModule({
