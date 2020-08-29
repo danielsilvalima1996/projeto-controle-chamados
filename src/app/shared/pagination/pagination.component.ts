@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, SimpleChanges, SimpleChange } from '@angular/core';
-import { PoButtonGroupItem, PoNotificationService } from '@portinari/portinari-ui';
+import { PoButtonGroupItem, PoNotificationService } from '@po-ui/ng-components';
 import { EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 

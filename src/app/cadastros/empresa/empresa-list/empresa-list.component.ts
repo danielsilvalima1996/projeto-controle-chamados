@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
-import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
+import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { Router, ActivatedRoute } from '@angular/router';

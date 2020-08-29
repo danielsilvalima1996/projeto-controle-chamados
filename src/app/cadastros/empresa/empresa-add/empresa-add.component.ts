@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
+import { PoPageDefault, PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { HttpErrorResponse } from '@angular/common/http';

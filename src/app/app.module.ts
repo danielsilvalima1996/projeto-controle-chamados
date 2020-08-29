@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PoModule, PoToolbarModule, PoModalModule, PoFieldModule, PoLoadingModule } from '@portinari/portinari-ui';
+import { PoModule, PoToolbarModule, PoModalModule, PoFieldModule, PoLoadingModule } from '@po-ui/ng-components';
 import { RouterModule } from '@angular/router';
 import { CadastrosModule } from './cadastros/cadastros.module';
 import { ChamadosModule } from './chamados/chamados.module';

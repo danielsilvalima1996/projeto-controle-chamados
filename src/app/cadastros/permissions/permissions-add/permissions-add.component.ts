@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
+import { PoPageDefault, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from '@angular/common';

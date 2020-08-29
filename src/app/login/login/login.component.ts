@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/authentication/login/login.service';
 import { Router } from '@angular/router';
-import { PoNotificationService } from '@portinari/portinari-ui';
+import { PoNotificationService } from '@po-ui/ng-components';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 import { Login } from 'src/app/interfaces/login.model';
 import { User } from 'src/app/interfaces/user.model';

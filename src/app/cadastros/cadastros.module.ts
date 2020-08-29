@@ -5,7 +5,7 @@ import { CadastrosRoutingModule } from './cadastros-routing.module';
 import { AnalistaEditComponent } from './analist/analista-edit/analista-edit.component';
 import { AnalistaAddComponent } from './analist/analista-add/analista-add.component';
 import { AnalistaListComponent } from './analist/analista-list/analista-list.component';
-import { PoPageModule, PoButtonModule, PoTableModule, PoFieldModule, PoLoadingModule, PoDividerModule, PoModalModule, PoDynamicModule } from '@portinari/portinari-ui';
+import { PoPageModule, PoButtonModule, PoTableModule, PoFieldModule, PoLoadingModule, PoDividerModule, PoModalModule, PoDynamicModule } from '@po-ui/ng-components';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserAddComponent } from './users/user-add/user-add.component';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoSelectOption, PoPageDefault, PoNotificationService } from '@portinari/portinari-ui';
+import { PoSelectOption, PoPageDefault, PoNotificationService } from '@po-ui/ng-components';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { SubtipoChamado } from 'src/app/interfaces/subtipo-chamado.model';

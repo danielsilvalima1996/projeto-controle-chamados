@@ -3,7 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
-import { PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
+import { PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
 import { PermissionsService } from 'src/app/services/cadastros/permissions/permissions.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Permission } from 'src/app/interfaces/permission.model';

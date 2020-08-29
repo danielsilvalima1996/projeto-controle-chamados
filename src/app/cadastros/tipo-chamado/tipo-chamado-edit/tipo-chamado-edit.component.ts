@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoSelectOption, PoNotificationService } from '@portinari/portinari-ui';
+import { PoPageDefault, PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TipoChamado } from 'src/app/interfaces/tipo-chamado.model';

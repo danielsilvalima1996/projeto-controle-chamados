@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { TestingRoutingModule } from './testing-routing.module';
 import { TestingComponent } from './testing/testing.component';
-import { PoPageModule, PoFieldModule, PoButtonModule } from '@portinari/portinari-ui';
+import { PoPageModule, PoFieldModule, PoButtonModule } from '@po-ui/ng-components';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 

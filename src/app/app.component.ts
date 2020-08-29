@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { PoMenuItem, PoToolbarProfile, PoToolbarAction, PoDialogService, PoModalComponent, PoModalAction, PoNotificationService } from '@portinari/portinari-ui';
+import { PoMenuItem, PoToolbarProfile, PoToolbarAction, PoDialogService, PoModalComponent, PoModalAction, PoNotificationService } from '@po-ui/ng-components';
 import { LoginService } from './services/authentication/login/login.service';
 import { User } from './interfaces/user.model';
 import { Profile } from 'selenium-webdriver/firefox';
