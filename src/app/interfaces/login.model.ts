@@ -1,6 +1,13 @@
-import { User } from './user.model';
+export interface LoginRetorno {
+    avatar: string;
+    id: number;
+    email: string;
+    token: string;
+    nomeCompleto: string;
+    ativo: boolean
+}
 
-export interface Login {
-    user: User,
-    token: string
+export interface LoginEnvio {
+    username: string,
+    password: string
 }

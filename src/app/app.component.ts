@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { PoMenuItem, PoToolbarProfile, PoToolbarAction, PoDialogService, PoModalComponent, PoModalAction, PoNotificationService } from '@po-ui/ng-components';
 import { LoginService } from './services/authentication/login/login.service';
-import { User } from './interfaces/user.model';
+import { User, } from './interfaces/user.model';
 import { Profile } from 'selenium-webdriver/firefox';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,7 +12,7 @@ import { ErrorSpringBoot } from './interfaces/ErrorSpringBoot.model';
 import { Page } from './interfaces/page.model';
 import { PermissionsService } from './services/cadastros/permissions/permissions.service';
 import { Permission } from './interfaces/permission.model';
-
+import { LoginRetorno } from 'src/app/interfaces/login.model';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,7 +20,26 @@ import { Permission } from './interfaces/permission.model';
 })
 export class AppComponent implements OnInit {
 
-  menus: Array<any> = [];
+  public menus: Array<PoMenuItem> = [
+    {
+      label: 'Cadastros', shortLabel: 'Cadastros', icon: 'po-icon po-icon-document-filled',
+      subItems: [
+        { label: 'Empresas', shortLabel: 'Empresas', link: 'cadastros/empresa', icon: 'po-icon po-icon-document-filled' },
+        { label: 'Usuários', shortLabel: 'Usuários', link: 'cadastros/user', icon: 'po-icon po-icon-users' },
+        { label: 'Permissões', shortLabel: 'Permissões', link: 'cadastros/permission', icon: 'po-icon po-icon-minus' },
+        { label: 'Tipo Chamado', shortLabel: 'Tipo Chamado', link: 'cadastros/tipo-chamado', icon: 'po-icon po-icon-minus' },
+        { label: 'SubTipo Chamado', shortLabel: 'SubTipo Chamado', link: 'cadastros/subtipo-chamado', icon: 'po-icon po-icon-minus' },
+      ]
+    },
+    {
+      label: 'Chamados', shortLabel: 'Chamados', icon: 'po-icon po-icon-touch', subItems: [
+        { label: 'Externo', shortLabel: 'Externo', link: 'chamados/externo', icon: 'po-icon po-icon-minus' },
+        // { label: 'Interno', shortLabel: 'Interno', link: 'chamados/interno', icon: 'po-icon po-icon-minus' }
+      ]
+    },
+    // { label: 'Testing', shortLabel: 'Testing', icon: 'po-icon po-icon-list', link: 'testing' }
+    // { label: '', shortLabel: '', link: '', icon: '' },
+  ];
 
   profile: PoToolbarProfile;
 
@@ -62,24 +81,28 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loginService.getIsLogged$.subscribe((data) => {
-      if (data) {
-        this.getProfile();
-        this.logged = data;
-        this.loginService.getUserInformation$.subscribe((data) => {
-          if (data.permissions.length < 1) {
-            return;
-          } else {
-            this.permissionsService.findById(data.permissions[0].id).subscribe((data) => {
-              this.criarMenu(data.page);
-            })
-          }
-        })
-      } else {
-        this.logged = data;
-        this.router.navigate(['login']);
-      }
-    })
+    this.loginService.getIsLogged$
+      .subscribe((data) => {
+        if (data) {
+          this.getProfile();
+          this.logged = data;
+          console.log(data);
+
+          // this.loginService.getUserInformation$
+          //   .subscribe((data) => {
+          //     if (data.permissions.length < 1) {
+          //       return;
+          //     } else {
+          //       this.permissionsService.findById(data.permissions[0].id).subscribe((data) => {
+          //         this.criarMenu(data.page);
+          //       })
+          //     }
+          //   })
+        } else {
+          this.logged = data;
+          this.router.navigate(['login']);
+        }
+      })
 
     this.trocarForm
       .valueChanges
@@ -107,15 +130,16 @@ export class AppComponent implements OnInit {
 
   getProfile() {
     let user: User;
-    this.loginService.getUserInformation$.subscribe((data: User) => {
-      let profile = {
-        title: data.fullName,
-        subtitle: data.username,
-        avatar: ''
-      }
-      this.idUser = data.id;
-      this.profile = profile;
-    })
+    this.loginService.getUserInformation$
+      .subscribe((data: LoginRetorno) => {
+        let profile = {
+          title: data.nomeCompleto,
+          subtitle: data.email,
+          avatar: data.avatar
+        }
+        this.idUser = data.id;
+        this.profile = profile;
+      })
   }
 
   confirmeLogout() {

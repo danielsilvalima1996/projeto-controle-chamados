@@ -1,7 +1,8 @@
 <div class="po-wrapper">
-    <po-toolbar *ngIf="logged" p-title="Portal Chamados Lobios" [p-profile]="profile" [p-profile-actions]="profileActions"></po-toolbar>
+    <po-toolbar *ngIf="logged" p-title="Portal Controle de Chamados" [p-profile]="profile" [p-profile-actions]="profileActions"></po-toolbar>
 
-    <po-menu *ngIf="logged"
+    <!-- *ngIf="logged" -->
+    <po-menu 
         p-collapsed 
         p-filter [p-menus]="menus" 
         p-logo="assets/img/lobios-logo-transparente.png" 

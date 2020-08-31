@@ -4,7 +4,7 @@ import { LoginService } from 'src/app/services/authentication/login/login.servic
 import { Router } from '@angular/router';
 import { PoNotificationService } from '@po-ui/ng-components';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
-import { Login } from 'src/app/interfaces/login.model';
+import { LoginRetorno } from 'src/app/interfaces/login.model';
 import { User } from 'src/app/interfaces/user.model';
 
 @Component({
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = this.fb.group({
     username: ['', [Validators.email, Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
+    password: ['', [Validators.required, Validators.minLength(6)]]
   })
 
   constValue = {
@@ -46,29 +46,30 @@ export class LoginComponent implements OnInit {
   login() {
     this.constValue.loading = true;
     if (this.loginForm.invalid) {
+      this.notificationService.warning('Formulário Inválido. Por favor tente novamente!');
       this.constValue.loading = false;
       return;
     } else {
       this.loginService
         .login(this.loginForm.value)
-        .subscribe((data: Login) => {
+        .subscribe((data: any) => {
 
-        const jwtToken = `Bearer ${data.token}`;
-        sessionStorage.setItem('token', jwtToken);
+          const jwtToken = `Bearer ${data.token}`;
+          sessionStorage.setItem('token', jwtToken);
 
-        const userInformation: User = data.user;
-        sessionStorage.setItem('user', JSON.stringify(userInformation));
+          const userInformation: LoginRetorno = data;
+          sessionStorage.setItem('user', JSON.stringify(userInformation));
 
-        this.loginService.setUserInformation$(userInformation);
+          this.loginService.setUserInformation$(userInformation);
 
-        this.loginService.setIsLogged$(true);
+          this.loginService.setIsLogged$(true);
         },
-        (error: ErrorSpringBoot) => {
-          console.log(error)
-          this.loginService.setIsLogged$(false);
-          this.notificationService.error('Acesso Negado!');
-          this.constValue.loading = false;
-        })
+          (error: ErrorSpringBoot) => {
+            console.log(error)
+            this.loginService.setIsLogged$(false);
+            this.notificationService.error('Acesso Negado!');
+            this.constValue.loading = false;
+          })
     }
   }
 

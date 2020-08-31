@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Login } from 'src/app/interfaces/login.model';
+import { Login, LoginRetorno } from 'src/app/interfaces/login.model';
 import { User } from 'src/app/interfaces/user.model';
 import { Router } from '@angular/router';
 import { AccountCredentials } from 'src/app/interfaces/accountCredentials.model';
@@ -12,9 +12,9 @@ import { AccountCredentials } from 'src/app/interfaces/accountCredentials.model'
 })
 export class LoginService {
 
-  private relativeLink = 'auth/signin';
+  private relativeLink = 'login';
   private isLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private userInfo$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  private userInfo$: BehaviorSubject<LoginRetorno> = new BehaviorSubject<LoginRetorno>(null);
 
   constructor(
     private http: HttpClient,
@@ -36,7 +36,7 @@ export class LoginService {
   }
 
   get getUserInformation$() {
-    const user: User = JSON.parse(sessionStorage.getItem('user'));
+    const user: LoginRetorno = JSON.parse(sessionStorage.getItem('user'));
     this.userInfo$.next(user);
     return this.userInfo$.asObservable();
   }

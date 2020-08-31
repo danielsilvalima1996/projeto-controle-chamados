@@ -5,11 +5,11 @@
 export const environment = {
   production: false,
   url: {
-    // apirest: 'http://localhost:5000/api'
+     apirest: 'http://localhost:5000/api'
     // apirest: 'http://192.168.43.184:5000/api' // FACULDADE
     // apirest: 'http://172.20.10.6:5000/api'
     // apirest: 'http://localhost:5000/api'
-    apirest: 'http://34.196.102.36:5000/api'
+    // apirest: 'http://34.196.102.36:5000/api'
     // apirest: 'http://ec2-18-229-133-182.sa-east-1.compute.amazonaws.com:5000/api'
   }
 };
