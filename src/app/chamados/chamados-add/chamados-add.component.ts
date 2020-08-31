@@ -9,7 +9,7 @@ import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
 import { identifierModuleUrl } from '@angular/compiler';
 import { User } from 'src/app/interfaces/user.model';
-import { Login } from 'src/app/interfaces/login.model';
+import { LoginRetorno } from 'src/app/interfaces/login.model';
 import { LoginService } from 'src/app/services/authentication/login/login.service';
 import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
@@ -283,10 +283,12 @@ export class ChamadosAddComponent implements OnInit {
         this.controls.codigoStatusChamado.setValue(1) :
         this.controls.codigoStatusChamado.setValue(this.controls.codigoStatusChamado.value);
 
-      this.loginService.getUserInformation$.subscribe((data) => {
-        user = data;
-        empresaId = data.idEmpresa.id
-      })
+      this.loginService
+        .getUserInformation$
+        .subscribe((data: any) => {
+          user = data;
+          empresaId = data.idEmpresa.id
+        })
       user.authorities = [];
       chamado = {
         idChamado: '',

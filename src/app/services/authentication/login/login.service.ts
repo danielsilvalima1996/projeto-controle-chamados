@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Login, LoginRetorno } from 'src/app/interfaces/login.model';
+import { LoginRetorno } from 'src/app/interfaces/login.model';
 import { User } from 'src/app/interfaces/user.model';
 import { Router } from '@angular/router';
 import { AccountCredentials } from 'src/app/interfaces/accountCredentials.model';
@@ -52,8 +52,8 @@ export class LoginService {
   }
 
 
-  login(credentials: AccountCredentials): Observable<Login> {
-    return this.http.post(`${environment.url.apirest}/${this.relativeLink}`, credentials) as Observable<Login>;
+  login(credentials: AccountCredentials): Observable<LoginRetorno> {
+    return this.http.post(`${environment.url.apirest}/${this.relativeLink}`, credentials) as Observable<LoginRetorno>;
   }
 
   getVersion() {
