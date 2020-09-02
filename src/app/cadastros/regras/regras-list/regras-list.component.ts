@@ -14,7 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class RegrasListComponent implements OnInit {
 
   public page: PoPageDefault = {
-    title: 'Cadastro de Regras',
+    title: 'Regras',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
         { label: 'Home' },

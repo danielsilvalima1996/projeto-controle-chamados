@@ -35,10 +35,6 @@ export class EmpresaListComponent implements OnInit {
       { property: 'razaoSocial', label: 'Razão Social', width: '250px' },
       { property: 'nomeFantasia', label: 'Nome Fantasia', width: '250px' },
       { property: 'endereco', label: 'Endereço', width: '250px' },
-      { property: 'codigoTotvs', label: 'Codigo Totvs', width: '100px' },
-      { property: 'admin', label: 'Contato', width: '150px' },
-      { property: 'telefone', label: 'Telefone', width: '120px' },
-      { property: 'celular', label: 'Celular', width: '120px' },
       { property: 'criado', label: 'Criado ', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado ', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'ativo', label: 'Ativo', width: '100px', type: 'boolean' }

@@ -3,11 +3,20 @@
     <form [formGroup]="regrasForm">
 
         <div class="po-row">
-            <po-input *ngIf="tipoTela != 'add'" class="po-md-4" [p-readonly]="disabledFields || disabledId"
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" [p-readonly]="disabledFields || disabledId"
                 p-label="Código" formControlName="id">
             </po-input>
             <po-input class="po-md-2" [p-readonly]="disabledFields" p-label="Descrição" p-required="true"
                 formControlName="descricao"></po-input>
+
+            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy"
+                p-label="Criado" formControlName="criado"></po-datepicker>
+            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy"
+                p-label="Modificado" formControlName="modificado"></po-datepicker>
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Criado Por"
+                formControlName="criadoPor"></po-input>
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Modificado Por"
+                formControlName="modificadoPor"></po-input>
 
             <po-switch [p-disabled]="disabledFields" formControlName="ativo" p-label="Ativo" p-label-off="Inativo"
                 p-label-on="Ativo"> </po-switch>

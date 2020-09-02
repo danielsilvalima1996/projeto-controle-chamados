@@ -24,7 +24,11 @@ export class RegrasEditComponent implements OnInit {
   regrasForm: FormGroup = this.fb.group({
     id: ['', []],
     descricao: ['', [Validators.required]],
-    ativo: [true, [Validators.required]]
+    ativo: [, []],
+    criado:['',[]],
+    modificado:['',[]],
+    criadoPor:['',[]],
+    modificadoPor:['',[]]
   })
 
   public disabledId: boolean = false;
@@ -114,8 +118,10 @@ export class RegrasEditComponent implements OnInit {
     this.regrasService
       .findById(id)
       .subscribe((data) => {
-        this.loading = false;
+        data.criado = new Date(data.criado);
+        data.modificado = new Date(data.modificado);
         this.regrasForm.setValue(data);
+        this.loading = false;
       },
         (error: HttpErrorResponse) => {
           this.notificationService.error(`Regra ${id} não encontrada`);

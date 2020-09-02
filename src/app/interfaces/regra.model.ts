@@ -3,7 +3,7 @@ export interface Regras {
     descricao:string;
     ativo:boolean;
     criado:Date;
-    modifiacdo:Date;
+    modificado:Date;
     criadoPor:string;
     modificadoPor:string;
 }
