@@ -207,14 +207,14 @@ export class ChamadosAddComponent implements OnInit {
   }
 
   private tipoChamado() {
-    this.tipoChamadoService
-      .findAll()
-      .subscribe((data) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.descricao, value: item.id };
-        })
-        this.selects.tipoChamado = arr;
-      })
+    // this.tipoChamadoService
+    //   .findAll()
+    //   .subscribe((data) => {
+    //     let arr = data.map((item) => {
+    //       return <PoSelectOption>{ label: item.descricao, value: item.id };
+    //     })
+    //     this.selects.tipoChamado = arr;
+    //   })
   }
 
   private subtipoChamado(id: number) {

@@ -65,15 +65,15 @@ export class SubtipoChamadoAddComponent implements OnInit {
   }
 
   getTipoChamado() {
-    this.tipoChamadoService
-      .getTipoChamado()
-      .subscribe((data: any) => {
-        let arr: Array<any> = data.content;
-        arr = arr.map((item: any) => {
-          return <PoSelectOption>{ label: `${item.id} - ${item.descricao}`, value: item.id };
-        })
-        this.selects.tipoChamado = arr;
-      })
+    // this.tipoChamadoService
+    //   .getTipoChamado()
+    //   .subscribe((data: any) => {
+    //     let arr: Array<any> = data.content;
+    //     arr = arr.map((item: any) => {
+    //       return <PoSelectOption>{ label: `${item.id} - ${item.descricao}`, value: item.id };
+    //     })
+    //     this.selects.tipoChamado = arr;
+    //   })
   }
 
   createSubtipoChamado() {

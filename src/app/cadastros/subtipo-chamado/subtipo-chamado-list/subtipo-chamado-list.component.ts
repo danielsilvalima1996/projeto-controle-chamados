@@ -168,13 +168,13 @@ export class SubtipoChamadoListComponent implements OnInit {
   }
 
   private tipoChamadoList() {
-    this.tipoChamadoService
-      .findAll().subscribe((data) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.descricao, value: item.id }
-        })
-        this.selects.tipoChamado = arr;
-      })
+    // this.tipoChamadoService
+    //   .findAll().subscribe((data) => {
+    //     let arr = data.map((item) => {
+    //       return <PoSelectOption>{ label: item.descricao, value: item.id }
+    //     })
+    //     this.selects.tipoChamado = arr;
+    //   })
   }
 
   getSelected(event) {
