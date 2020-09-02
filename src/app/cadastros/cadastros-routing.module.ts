@@ -20,6 +20,8 @@ import { EmpresaEditComponent } from './empresa/empresa-edit/empresa-edit.compon
 import { EmpresaAddComponent } from './empresa/empresa-add/empresa-add.component';
 import { UserEditResolve } from './users/user-edit/user-edit.resolver';
 import { SubtipoChamadoEditResolve } from './subtipo-chamado/subtipo-chamado-edit/subtipo-chamado-edit.resolver';
+import { RegrasListComponent } from './regras/regras-list/regras-list.component';
+import { RegrasEditComponent } from './regras/regras-edit/regras-edit.component';
 
 
 const routes: Routes = [
@@ -49,16 +51,18 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'permission', children: [
-      { path: '', component: PermissionsListComponent },
-      { path: 'edit/:id', component: PermissionsEditComponent },
-      { path: 'add', component: PermissionsAddComponent }
+    path: 'regras', children: [
+      { path: '', component: RegrasListComponent },
+      { path: 'add', component: RegrasEditComponent },
+      { path: 'view/:id', component: RegrasEditComponent },
+      { path: 'edit/:id', component: RegrasEditComponent },
     ]
   },
   {
     path: 'tipo-chamado', children: [
       { path: '', component: TipoChamadoListComponent },
-      { path: 'add', component: TipoChamadoAddComponent },
+      { path: 'add', component: TipoChamadoEditComponent },
+      { path: 'view/:id', component: TipoChamadoEditComponent },
       { path: 'edit/:id', component: TipoChamadoEditComponent },
     ]
   },

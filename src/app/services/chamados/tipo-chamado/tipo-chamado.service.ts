@@ -10,14 +10,14 @@ import { Observable } from 'rxjs';
 
 export class TipoChamadoService {
 
-  private relativeLink = 'tipo-chamado'
+  private relativeLink = 'tipoChamado'
   private url = `${environment.url.apirest}/${this.relativeLink}`;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getTipoChamado(parameters?:any): Observable<TipoChamado> {
+  findAll(parameters?:any): Observable<TipoChamado> {
     return this.http.get(`${this.url}?${parameters}`) as Observable<TipoChamado> ;
   }
 
@@ -33,11 +33,7 @@ export class TipoChamadoService {
     return this.http.get(`${this.url}/${id}`) as Observable<TipoChamado>;
   }
 
-  findAll(): Observable<TipoChamado[]> {
-    return this.http.get(`${this.url}/active`) as Observable<TipoChamado[]>;
-  }
-
-  verificaDescricao(descricao: string): Observable<boolean> {
-    return this.http.get(`${this.url}/verificaDescricao/${descricao}`) as Observable<boolean>;
-  }
+  // verificaDescricao(descricao: string): Observable<boolean> {
+  //   return this.http.get(`${this.url}/verificaDescricao/${descricao}`) as Observable<boolean>;
+  // }
 }

@@ -23,6 +23,8 @@ import { EmpresaListComponent } from './empresa/empresa-list/empresa-list.compon
 import { EmpresaAddComponent } from './empresa/empresa-add/empresa-add.component';
 import { EmpresaEditComponent } from './empresa/empresa-edit/empresa-edit.component';
 import { SharedModule } from '../shared/shared.module';
+import { RegrasListComponent } from './regras/regras-list/regras-list.component';
+import { RegrasEditComponent } from './regras/regras-edit/regras-edit.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { SharedModule } from '../shared/shared.module';
     PermissionsEditComponent,
     EmpresaListComponent,
     EmpresaAddComponent,
-    EmpresaEditComponent
+    EmpresaEditComponent,
+    RegrasListComponent,
+    RegrasEditComponent
   ],
   imports: [
     CommonModule,

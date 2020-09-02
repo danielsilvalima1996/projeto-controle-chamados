@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       subItems: [
         { label: 'Empresas', shortLabel: 'Empresas', link: 'cadastros/empresa', icon: 'po-icon po-icon-document-filled' },
         { label: 'Usuários', shortLabel: 'Usuários', link: 'cadastros/user', icon: 'po-icon po-icon-users' },
-        { label: 'Permissões', shortLabel: 'Permissões', link: 'cadastros/permission', icon: 'po-icon po-icon-minus' },
+        { label: 'Regras', shortLabel: 'Regras', link: 'cadastros/regras', icon: 'po-icon po-icon-minus' },
         { label: 'Tipo Chamado', shortLabel: 'Tipo Chamado', link: 'cadastros/tipo-chamado', icon: 'po-icon po-icon-minus' },
         { label: 'SubTipo Chamado', shortLabel: 'SubTipo Chamado', link: 'cadastros/subtipo-chamado', icon: 'po-icon po-icon-minus' },
       ]
@@ -83,10 +83,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.loginService.getIsLogged$
       .subscribe((data) => {
+        console.log(data);
         if (data) {
           this.getProfile();
           this.logged = data;
-          console.log(data);
 
           // this.loginService.getUserInformation$
           //   .subscribe((data) => {

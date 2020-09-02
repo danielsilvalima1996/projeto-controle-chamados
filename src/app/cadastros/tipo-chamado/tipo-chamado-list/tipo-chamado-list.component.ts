@@ -17,13 +17,14 @@ export class TipoChamadoListComponent implements OnInit {
   page = {
     actions: <PoPageAction[]>[
       { label: 'Novo', url: 'tipo-chamado/add', icon: 'po-icon po-icon-plus-circle' },
-      { label: 'Editar', action: () => { this.editarTipoChamado() } }
+      { label: 'Editar', action: () => { this.editarTipoChamado() } },
+      { label: 'Visualizar', action: () => { this.viewTipoChamado() } }
     ],
 
     title: 'Tipo Chamado',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'Tipo Chamado' }
       ]
@@ -34,38 +35,31 @@ export class TipoChamadoListComponent implements OnInit {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '10%' },
       { property: 'descricao', label: 'Descrição', width: '35%' },
-      { property: 'created', label: 'Criado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modified', label: 'Modificado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'active', label: 'Ativo', width: '15%', type: 'boolean' }
+      { property: 'criado', label: 'Criado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modificado', label: 'Modificado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'ativo', label: 'Ativo', width: '15%', type: 'boolean' }
     ],
     items: [],
     height: 0,
     loading: false
   }
 
+  tipoChamadoForm: FormGroup = this.fb.group({
+    id: ['', []],
+    descricao: ['', []],
+    ativo: ['']
+  })
+
   selects = {
-    pesquisa: <PoSelectOption[]>[
-      { label: 'ID', value: 'id' },
-      { label: 'DESCRIÇÃO', value: 'descricao' },
-      { label: 'ATIVO', value: 'active' },
-    ],
-    filtro: <PoSelectOption[]>[
-      { label: 'SIM', value: 'true' },
-      { label: 'NÃO', value: 'false' }
+    ativoOptions: <Array<any>>[
+      { label: 'Ativo', value: true },
+      { label: 'Inativo', value: false },
+      { label: 'Todos', value: '' }
     ]
   }
 
-  tipoChamadoForm: FormGroup = this.fb.group({
-    filtro: ['', [Validators.required]],
-    pesquisa: ['']
-  })
-
-  constValue = {
-    selecionado: '',
-    input: <Boolean>true,
-    select: <Boolean>false,
-    number: <Boolean>false,
-  }
+  private itemSelecionado: string = '';
+  public loading: boolean;
 
   pagination: Pagination = {
     totalItems: 0,
@@ -85,77 +79,61 @@ export class TipoChamadoListComponent implements OnInit {
 
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
-    this.controls.pesquisa
-      .valueChanges.pipe(debounceTime(200))
-      .subscribe((data) => {
-        this.controls.filtro.reset();
-        this.tipoForm(data);
-      })
-    this.getTipoChamado(this.tipoChamadoForm.value);
+    this.getTipoChamado();
   }
 
   get controls() {
     return this.tipoChamadoForm.controls;
   }
 
-  tipoForm(tipo) {
-    switch (tipo) {
-      case 'id':
-        this.constValue.input = false;
-        this.constValue.select = false;
-        this.constValue.number = true;
-        break;
-      case 'descricao':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'active':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.constValue.number = false;
-        break;
-      default:
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-    }
-  }
 
-  getTipoChamado(form?) {
-    this.table.loading = true;
-    this.tipoChamadoService.getTipoChamado(this.utilService.getParameters(form))
+  getTipoChamado() {
+    this.loading = true;
+    let obj = {
+      id: this.controls.id.value,
+      descricao: this.controls.descricao.value,
+      ativo: this.controls.ativo.value
+    }
+    this.tipoChamadoService.findAll(this.utilService.getParameters(obj))
       .subscribe((data: any) => {
-        this.table.items = data.content
-        this.pagination.totalItems = data.totalElements;
-        this.pagination.itemsPerPage = data.size;
-        this.table.loading = false;
+        this.table.items = data
+        // this.pagination.totalItems = data.totalElements;
+        // this.pagination.itemsPerPage = data.size;
+        this.loading = false;
       })
   }
 
   getSelected(event) {
-    this.constValue.selecionado = event.id;
+    this.itemSelecionado = event.id;
 
   }
 
   getUnSelected() {
-    this.constValue.selecionado = ''
+    this.itemSelecionado = ''
 
   }
 
-  onPageChange(event: number) {
-    this.pagination.currentPage = event;
-    let busca: string = Object.assign({}, this.tipoChamadoForm.value, { page: this.pagination.currentPage });
-    this.getTipoChamado(busca);
-  }
+  // onPageChange(event: number) {
+  //   this.pagination.currentPage = event;
+  //   let busca: string = Object.assign({}, this.tipoChamadoForm.value, { page: this.pagination.currentPage });
+  //   this.getTipoChamado(busca);
+  // }
 
   private editarTipoChamado() {
-    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
+    if (this.itemSelecionado == null || this.itemSelecionado == '') {
       this.notificationService.warning('Selecione um Tipo de Chamado para editar!');
       return;
     } else {
-      this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route })
+      this.router.navigate(['edit', this.itemSelecionado], { relativeTo: this.route })
+    }
+  }
+
+  private viewTipoChamado() {
+    if (this.itemSelecionado == null || this.itemSelecionado == '') {
+      this.notificationService.warning('Selecione uma regra para visualizar!');
+      return;
+    } else {
+      this.router.navigate(['view', this.itemSelecionado], { relativeTo: this.route });
     }
   }
 

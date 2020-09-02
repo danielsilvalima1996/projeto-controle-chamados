@@ -1,0 +1,21 @@
+<po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
+
+    <form [formGroup]="regrasForm">
+
+        <div class="po-row">
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-4" [p-readonly]="disabledFields || disabledId"
+                p-label="Código" formControlName="id">
+            </po-input>
+            <po-input class="po-md-2" [p-readonly]="disabledFields" p-label="Descrição" p-required="true"
+                formControlName="descricao"></po-input>
+
+            <po-switch [p-disabled]="disabledFields" formControlName="ativo" p-label="Ativo" p-label-off="Inativo"
+                p-label-on="Ativo"> </po-switch>
+        </div>
+    </form>
+
+    <po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
+    </po-loading-overlay>
+
+
+</po-page-default>
