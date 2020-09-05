@@ -83,12 +83,14 @@ export class EmpresaListComponent implements OnInit {
     ]
   }
 
-  constValue = {
-    itemSelecionado: '',
-    input: <Boolean>true,
-    select: <Boolean>false,
-    number: <Boolean>false,
-  }
+  // constValue = {
+  //   itemSelecionado: '',
+  //   input: <Boolean>true,
+  //   select: <Boolean>false,
+  //   number: <Boolean>false,
+  // }
+  public itemSelecionado = '';
+  public loading: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -103,11 +105,11 @@ export class EmpresaListComponent implements OnInit {
 
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
-    this.controls.pesquisa.
-      valueChanges.subscribe((data) => {
-        this.tipoForm(data);
-        this.controls.filtro.reset();
-      })
+    // this.controls.pesquisa.
+    //   valueChanges.subscribe((data) => {
+    //     this.tipoForm(data);
+    //     this.controls.filtro.reset();
+    //   })
     this.getEmpresa(this.empresaform.value)
   }
 
@@ -115,90 +117,90 @@ export class EmpresaListComponent implements OnInit {
     return this.empresaform.controls
   }
 
-  tipoForm(tipo) {
-    switch (tipo) {
-      case 'id':
-        this.constValue.input = false;
-        this.constValue.select = false;
-        this.constValue.number = true;
-        break;
-      case 'nomeFantasia':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'razaoSocial':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'cnpj':
-        this.constValue.input = false;
-        this.constValue.select = false;
-        this.constValue.number = true;
-        break;
-      case 'logradouro':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'cep':
-        this.constValue.input = false;
-        this.constValue.select = false;
-        this.constValue.number = true;
-        break;
-      case 'bairro':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'localidade':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'uf':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'ativo':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.constValue.number = false;
-        break;
-      default:
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-    }
-  }
+  // tipoForm(tipo) {
+  //   switch (tipo) {
+  //     case 'id':
+  //       this.constValue.input = false;
+  //       this.constValue.select = false;
+  //       this.constValue.number = true;
+  //       break;
+  //     case 'nomeFantasia':
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+  //     case 'razaoSocial':
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+  //     case 'cnpj':
+  //       this.constValue.input = false;
+  //       this.constValue.select = false;
+  //       this.constValue.number = true;
+  //       break;
+  //     case 'logradouro':
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+  //     case 'cep':
+  //       this.constValue.input = false;
+  //       this.constValue.select = false;
+  //       this.constValue.number = true;
+  //       break;
+  //     case 'bairro':
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+  //     case 'localidade':
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+  //     case 'uf':
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+  //     case 'ativo':
+  //       this.constValue.input = false;
+  //       this.constValue.select = true;
+  //       this.constValue.number = false;
+  //       break;
+  //     default:
+  //       this.constValue.input = true;
+  //       this.constValue.select = false;
+  //       this.constValue.number = false;
+  //       break;
+  //   }
+  // }
 
   getSelected(event) {
-    this.constValue.itemSelecionado = event.id;
+    this.itemSelecionado = event.id;
   }
 
   getUnSelected() {
-    this.constValue.itemSelecionado = '';
+    this.itemSelecionado = '';
   }
 
 
   editarEmpresa() {
-    if (this.constValue.itemSelecionado == null || this.constValue.itemSelecionado == '') {
+    if (this.itemSelecionado == null || this.itemSelecionado == '') {
       this.notificationService.warning('Selecione uma Empresa para editar!');
       return;
     } else {
-      this.router.navigate(['edit', this.constValue.itemSelecionado], { relativeTo: this.route });
+      this.router.navigate(['edit', this.itemSelecionado], { relativeTo: this.route });
     }
   }
 
   private viewEmpresa() {
-    if (this.constValue.itemSelecionado == null || this.constValue.itemSelecionado == '') {
+    if (this.itemSelecionado == null || this.itemSelecionado == '') {
       this.notificationService.warning('Selecione uma Empresa para visualizar!');
       return;
     } else {
-      this.router.navigate(['view', this.constValue.itemSelecionado], { relativeTo: this.route });
+      this.router.navigate(['view', this.itemSelecionado], { relativeTo: this.route });
     }
   }
 
