@@ -15,8 +15,10 @@
     </form>
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height" p-hide-text-overflow="true"
     p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-checkbox="true" p-single-select="true"></po-table>
-    <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
+    <!-- <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
     (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
     [itemsPerPage]="pagination.itemsPerPage">
-</app-pagination>
+</app-pagination> -->
+<po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
+</po-loading-overlay>
 </po-page-default>

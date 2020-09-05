@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
+import { PoPageDefault, PoSelectOption, PoNotificationService, PoBreadcrumb, PoBreadcrumbItem, PoDialogService } from '@po-ui/ng-components';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { Empresa } from 'src/app/interfaces/empresa.model';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { debounceTime } from 'rxjs/operators';
+import { ViaCepService } from 'src/app/services/cadastros/via-cep/via-cep.service';
+import { ViaCep } from 'src/app/interfaces/via-cep.model';
 
 @Component({
   selector: 'app-empresa-edit',
@@ -13,103 +16,252 @@ import { Location } from '@angular/common';
   styleUrls: ['./empresa-edit.component.css']
 })
 export class EmpresaEditComponent implements OnInit {
-  page: PoPageDefault = {
-    title: 'Editar Empresa',
-    actions: [
-      { label: 'Salvar', action: () => { this.registrarEmpresa(this.editEmpresaForm.value) } },
-      { label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => { (this.location.back()) } },
-    ],
-    breadcrumb: {
-      items: [
-        { label: 'Dashboard' },
+  public page: PoPageDefault = {
+    title: '',
+    breadcrumb: <PoBreadcrumb>{
+      items: <PoBreadcrumbItem[]>[]
+    },
+    actions: []
+  }
+
+  estados: Array<PoSelectOption> = [
+    { label: "ACRE", value: "AC" },
+    { label: "ALAGOAS", value: "AL" },
+    { label: "AMAZONAS", value: "AM" },
+    { label: "AMAPA", value: "AP" },
+    { label: "BAHIA", value: "BA" },
+    { label: "CEARA", value: "CE" },
+    { label: "DISTRITO FEDERAL", value: "DF" },
+    { label: "ESPIRITO SANTO", value: "ES" },
+    { label: "GOIAS", value: "GO" },
+    { label: "MARANHAO", value: "MA" },
+    { label: "MINAS GERAIS", value: "MG" },
+    { label: "MATO GROSSO DO SUL", value: "MS" },
+    { label: "MATO GROSSO", value: "MT" },
+    { label: "PARA", value: "PA" },
+    { label: "PARAIBA", value: "PB" },
+    { label: "PERNAMBUCO", value: "PE" },
+    { label: "PIAUI", value: "PI" },
+    { label: "PARANA", value: "PR" },
+    { label: "RIO DE JANEIRO", value: "RJ" },
+    { label: "RIO GRANDE DO NORTE", value: "RN" },
+    { label: "RONDONIA", value: "RO" },
+    { label: "RORAIMA", value: "RR" },
+    { label: "RIO GRANDE DO SUL", value: "RS" },
+    { label: "SANTA CATARINA", value: "SC" },
+    { label: "SERGIPE", value: "SE" },
+    { label: "SAO PAULO", value: "SP" },
+    { label: "TOCANTINS", value: "TO" }
+  ];
+
+
+  public disabledId: boolean = false;
+  public disabledFields: boolean = false;
+  private id: string = '';
+  public loading: boolean;
+  public tipoTela: string;
+
+  empresaForm: FormGroup = this.fb.group({
+    id: ['', []],
+    cnpj: ['', [Validators.required]],
+    nomeFantasia: ['', [Validators.required]],
+    razaoSocial: ['', [Validators.required]],
+    cep: ['', [Validators.required]],
+    logradouro: ['', [Validators.required]],
+    bairro: ['', [Validators.required]],
+    localidade: ['', [Validators.required]],
+    uf: ['', [Validators.required]],
+    numero: ['', [Validators.required]],
+    ativo: ['', []],
+    criado: ['', []],
+    modificado: ['', []],
+    complemento: ['', []],
+    criadoPor: ['', []],
+    modificadoPor: ['', []]
+  });
+
+  constructor(
+    private fb: FormBuilder,
+    private location: Location,
+    private empresaService: EmpresaService,
+    private notificationService: PoNotificationService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: PoDialogService,
+    private viaCepService: ViaCepService
+  ) { }
+
+  ngOnInit() {
+    if (this.router.url.indexOf('add') != -1) {
+      this.tipoTela = 'add';
+      this.page.title = 'Adicionar Empresa';
+      this.disabledId = true;
+      this.page.breadcrumb.items = [
+        { label: 'Home' },
+        { label: 'Cadastros' },
+        { label: 'Empresa' },
+        { label: 'Adicionar Empresa' }
+      ],
+        this.page.actions = [
+          { label: 'Salvar', disabled: true, action: () => { this.registrarEmpresa(this.empresaForm.value) } },
+          { label: 'Cancelar', action: () => { this.dialogVoltar() } }
+        ];
+      this.empresaForm.valueChanges
+        .subscribe((_) => {
+          this.page.actions[0].disabled = this.empresaForm.invalid;
+        });
+
+      this.controls.cep.valueChanges
+        .pipe(debounceTime(250))
+        .subscribe((data: string) => {
+          if (data.length == 8) {
+            this.getCep(data);
+          }
+        })
+
+
+    } else if (this.router.url.indexOf('edit') != -1) {
+      this.tipoTela = 'edit';
+      this.page.title = 'Editar Empresa';
+      this.disabledId = true;
+      this.page.breadcrumb.items = [
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'Empresas' },
         { label: 'Editar Empresa' }
-      ]
+      ],
+        this.page.actions = [
+          { label: 'Salvar', disabled: true, action: () => { this.alterarEmpresa(this.empresaForm.value) } },
+          { label: 'Cancelar', action: () => { this.dialogVoltar() } }
+        ];
+
+      this.route.paramMap
+        .subscribe((paramMap: ParamMap) => {
+          this.id = paramMap.get('id');
+        })
+      this.getDetailById(this.id);
+      this.empresaForm.valueChanges
+        .subscribe((_) => {
+          this.page.actions[0].disabled = this.empresaForm.invalid;
+        });
+
+      this.controls.cep.valueChanges
+        .pipe(debounceTime(250))
+        .subscribe((data: string) => {
+          if (data.length == 8) {
+            this.getCep(data);
+          }
+        })
+
+    } else {
+      this.tipoTela = 'view';
+      this.page.title = 'Visualizar Empresa';
+      this.disabledId = true;
+      this.disabledFields = true;
+      this.page.breadcrumb.items = [
+        { label: 'Home' },
+        { label: 'Cadastros' },
+        { label: 'Empresa' },
+        { label: 'Visualizar Empresa' }
+      ],
+        this.page.actions = [
+          { label: 'Salvar', disabled: true },
+          { label: 'Cancelar', action: () => this.router.navigate(['cadastros/empresa/']) }
+        ];
+      this.route.paramMap
+        .subscribe((paramMap: ParamMap) => {
+          this.id = paramMap.get('id');
+        })
+      this.getDetailById(this.id);
     }
 
   }
 
-  constValue = {
-    isDisabled: <boolean>true,
-    id: ''
-  }
-
-  selects = {
-    active: <PoSelectOption[]>[
-      { label: 'ATIVO', value: 'true' },
-      { label: 'INATIVO', value: 'false' }
-    ]
-  }
-
-  editEmpresaForm: FormGroup = this.fb.group({
-    id: [''],
-    ativo: ['', [Validators.required]],
-    cnpj: [''],
-    nomeFantasia: ['',[Validators.required]],
-    razaoSocial: ['',[Validators.required]],
-    endereco: ['',[Validators.required]],
-    codigoTotvs: [''],
-    admin: ['',[Validators.required]],
-    telefone: ['',[Validators.required,Validators.maxLength(10)]],
-    celular: ['',[Validators.required, Validators.maxLength(11)]],
-    criado: ['', []],
-    modificado: ['', []],
-
-  })
-
-  constructor(
-    private location: Location,
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private empresaService: EmpresaService,
-    private notificationService: PoNotificationService,
-  ) { }
-
-  ngOnInit() {
-    this.editEmpresaForm.valueChanges.subscribe((_) => {
-      this.page.actions[0].disabled = this.editEmpresaForm.invalid
-    })
-
-    this.route.paramMap
-      .subscribe((params: ParamMap) => {
-        this.constValue.id = params.get('id')
-      })
-    this.findById(this.constValue.id)
-  }
-
   get controls() {
-    return this.editEmpresaForm.controls;
+    return this.empresaForm.controls;
   }
 
-
-  private findById(id) {
-    this.empresaService
-      .findById(id)
-      .subscribe((data) => {
-        data.criado = new Date(data.criado);
-        data.modificado = new Date(data.modificado);
-        this.editEmpresaForm.setValue(data);
-        data.ativo == true ? this.controls.ativo.setValue('true') : this.controls.ativo.setValue('false');
-      })
-  }
-
-
-  registrarEmpresa(empresa: Empresa) {
-    if (this.editEmpresaForm.invalid) {
+  registrarEmpresa(empresa) {
+    this.loading = true;
+    if (this.empresaForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');
       return;
     } else {
       this.empresaService
         .createEmpresa(empresa)
         .subscribe((data) => {
-          this.notificationService.success('Empresa atualizada com sucesso!');
+          this.notificationService.success('Empresa cadastrada com sucesso!');
+          this.loading = false;
           this.location.back();
         },
           (error: HttpErrorResponse) => {
             this.notificationService.error(error.error.meta.message);
+            this.loading = false;
           })
     }
   }
+
+  getDetailById(id) {
+    this.loading = true;
+    this.empresaService
+      .findById(id)
+      .subscribe((data) => {
+        data.criado = new Date(data.criado);
+        data.modificado = new Date(data.modificado);
+        this.empresaForm.setValue(data);
+        this.loading = false;
+      },
+        (error: HttpErrorResponse) => {
+          this.notificationService.error(`Empresa ${id} não encontrada`);
+          this.router.navigate(['cadastros/empresa/'])
+          this.loading = false;
+        })
+  }
+
+  alterarEmpresa(empresa: Empresa) {
+    this.loading = true;
+    if (this.empresaForm.invalid) {
+      this.notificationService.warning('Formulário Inválido!');
+      this.loading = false;
+      return;
+    } else {
+      this.empresaService
+        .alterEmpresa(empresa)
+        .subscribe((data) => {
+          this.notificationService.success('Empresa alterada com sucesso!');
+          this.router.navigate(['cadastros/empresa/']);
+          this.loading = false;
+        },
+          (error: HttpErrorResponse) => {
+            console.error(error['message'])
+            this.loading = false;
+          })
+    }
+  }
+
+  private dialogVoltar() {
+    this.dialog.confirm({
+      confirm: () => this.router.navigate(['cadastros/empresa/']),
+      title: 'Alerta',
+      message: 'Salve para não perder os dados. Deseja voltar a tela de listagem?'
+    })
+  }
+
+  getCep(cep: string) {
+    this.loading = true;
+    this.viaCepService.getCep(cep)
+      .subscribe((endereco: ViaCep) => {
+        console.log(endereco);
+        this.controls['bairro'].setValue(endereco.bairro);
+        this.controls['localidade'].setValue(endereco.localidade);
+        this.controls['uf'].setValue(endereco.uf);
+        this.controls['logradouro'].setValue(endereco.logradouro);
+        this.loading = false;
+      }, (error: HttpErrorResponse) => {
+        console.error(error);
+        this.loading = false;
+      });
+  }
+
 
 }

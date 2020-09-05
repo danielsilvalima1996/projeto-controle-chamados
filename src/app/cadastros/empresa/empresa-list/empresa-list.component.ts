@@ -17,7 +17,8 @@ export class EmpresaListComponent implements OnInit {
     title: 'Cadastro de Empresas',
     actions: [
       { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa/add' },
-      { label: 'Editar', action: () => { this.editarEmpresa() } }
+      { label: 'Editar', action: () => { this.editarEmpresa() } },
+      { label: 'Visualizar', action: () => { this.viewEmpresa() } }
     ],
     breadcrumb: {
       items: [
@@ -32,11 +33,19 @@ export class EmpresaListComponent implements OnInit {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '50px' },
       { property: 'cnpj', label: 'CNPJ', width: '150px' },
-      { property: 'razaoSocial', label: 'Razão Social', width: '250px' },
-      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '250px' },
-      { property: 'endereco', label: 'Endereço', width: '250px' },
+      { property: 'razaoSocial', label: 'Razão Social', width: '200px' },
+      { property: 'nomeFantasia', label: 'Nome Fantasia', width: '200px' },
+      { property: 'cep', label: 'Cep', width: '200px' },
+      { property: 'logradouro', label: 'Logradouro', width: '200px' },
+      { property: 'complemento', label: 'Complemento', width: '200px' },
+      { property: 'bairro', label: 'Bairro', width: '200px' },
+      { property: 'localidade', label: 'Localidade', width: '200px' },
+      { property: 'uf', label: 'UF', width: '200px' },
+      { property: 'numero', label: 'Número', width: '200px' },
       { property: 'criado', label: 'Criado ', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado ', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'criadoPor', label: 'Criado Por ', width: '200px' },
+      { property: 'modificadoPor', label: 'Modificado Por ', width: '200px' },
       { property: 'ativo', label: 'Ativo', width: '100px', type: 'boolean' }
     ],
     items: [],
@@ -61,10 +70,12 @@ export class EmpresaListComponent implements OnInit {
       { label: 'NOME FANTASIA', value: 'nomeFantasia' },
       { label: 'RAZÃO SOCIAL', value: 'razaoSocial' },
       { label: 'CNPJ', value: 'cnpj' },
-      { label: 'CONTATO', value: 'admin' },
-      { label: 'CODIGO TOTVS', value: 'codigoTotvs' },
-      { label: 'ATIVO', value: 'ativo' },
-
+      { label: 'CEP', value: 'cep' },
+      { label: 'LOGRADOURO', value: 'logradouro' },
+      { label: 'BAIRRO', value: 'bairro' },
+      { label: 'LOCALIDADE', value: 'localidade' },
+      { label: 'UF', value: 'uf' },
+      { label: 'ATIVO', value: 'ativo' }
     ],
     filtro: <PoSelectOption[]>[
       { label: 'SIM', value: 'true' },
@@ -126,15 +137,30 @@ export class EmpresaListComponent implements OnInit {
         this.constValue.select = false;
         this.constValue.number = true;
         break;
-      case 'admin':
+      case 'logradouro':
         this.constValue.input = true;
         this.constValue.select = false;
         this.constValue.number = false;
         break;
-      case 'codigoTotvs':
+      case 'cep':
         this.constValue.input = false;
         this.constValue.select = false;
         this.constValue.number = true;
+        break;
+      case 'bairro':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'localidade':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
+        break;
+      case 'uf':
+        this.constValue.input = true;
+        this.constValue.select = false;
+        this.constValue.number = false;
         break;
       case 'ativo':
         this.constValue.input = false;
@@ -167,21 +193,30 @@ export class EmpresaListComponent implements OnInit {
     }
   }
 
+  private viewEmpresa() {
+    if (this.constValue.itemSelecionado == null || this.constValue.itemSelecionado == '') {
+      this.notificationService.warning('Selecione uma Empresa para visualizar!');
+      return;
+    } else {
+      this.router.navigate(['view', this.constValue.itemSelecionado], { relativeTo: this.route });
+    }
+  }
+
   getEmpresa(form?) {
     this.table.loading = true;
     this.empresaService.getEmpresa(this.utilService.getParameters(form))
       .subscribe((data: any) => {
-        let value: Array<any> = data.content;
-        value = value.map((item: any) => {
-          item.cnpj = this.utilService.formatarCnpjCpf(item.cnpj);
-          item.telefone = this.utilService.mascaraDeTelefone2(item.telefone);
-          item.celular = this.utilService.mascaraDeTelefone2(item.celular)
-          return item;
-        })
+        let value: Array<any> = data;
+        // value = value.map((item: any) => {
+        //   item.cnpj = this.utilService.formatarCnpjCpf(item.cnpj);
+        //   item.telefone = this.utilService.mascaraDeTelefone2(item.telefone);
+        //   item.celular = this.utilService.mascaraDeTelefone2(item.celular)
+        //   return item;
+        // })
 
         this.table.items = value
-        this.pagination.totalItems = data.totalElements;
-        this.pagination.itemsPerPage = data.size;
+        // this.pagination.totalItems = data.totalElements;
+        // this.pagination.itemsPerPage = data.size;
         this.table.loading = false;
       })
 
