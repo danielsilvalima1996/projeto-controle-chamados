@@ -30,8 +30,7 @@ export class TipoChamadoEditComponent implements OnInit {
     criado: ['', []],
     modificado: ['', []],
     criadoPor: ['', []],
-    modificadoPor: ['', []],
-    idSubtipoChamado: ['', []]
+    modificadoPor: ['', []]
   })
 
   public disabledId: boolean = false;
