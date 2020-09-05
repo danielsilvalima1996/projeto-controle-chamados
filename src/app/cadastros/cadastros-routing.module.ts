@@ -35,8 +35,9 @@ const routes: Routes = [
   {
     path: 'empresa', children: [
       { path: '', component: EmpresaListComponent },
-      { path: ':action/:id', component: EmpresaEditComponent },
-      { path: 'add', component: EmpresaAddComponent }
+      { path: ':view/:id', component: EmpresaEditComponent },
+      { path: ':edit/:id', component: EmpresaEditComponent },
+      { path: 'add', component: EmpresaEditComponent }
 
     ]
   },
