@@ -3,11 +3,6 @@ export interface Empresa {
     cnpj: string;
     razaoSocial: string;
     nomeFantasia: string;
-    criado: Date;
-    modificado: Date;
-    criadoPor: Date;
-    modificadoPor: Date;
-    ativo: boolean;
     cep: string;
     logradouro: string;
     complemento: string;
@@ -15,5 +10,9 @@ export interface Empresa {
     localidade: string;
     uf: string;
     numero: string;
-    telefone: string;
+    criado: Date;
+    modificado: Date;
+    criadoPor: Date;
+    modificadoPor: Date;
+    ativo: boolean;
 }

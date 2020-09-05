@@ -4,5 +4,8 @@ export interface TipoChamado {
     descricao: string,
     criado: Date,
     modificado: Date,
-    ativo: Boolean
+    ativo: Boolean,
+    criadoPor: string,
+    modificadoPor: string,
+    idSubtipoChamado:string
 }
