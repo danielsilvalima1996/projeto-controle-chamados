@@ -3,8 +3,10 @@ import { TipoChamado } from './tipo-chamado.model';
 export interface SubtipoChamado {
     id: number,
     descricao: string,
-    created: Date,
-    modified: Date,
+    criado: Date,
+    modificado: Date,
     idTipoChamado: TipoChamado,
-    active: Boolean
+    ativo: Boolean,
+    modificadoPor: string,
+    criadoPor: string
 }

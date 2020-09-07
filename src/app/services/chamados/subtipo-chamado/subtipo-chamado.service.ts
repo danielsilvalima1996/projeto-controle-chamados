@@ -10,16 +10,16 @@ import { Pageable } from 'src/app/interfaces/pageable.model';
 })
 export class SubtipoChamadoService {
 
-  private relativeLink = 'subtipo-chamado'
+  private relativeLink = 'subtipoChamado'
   private url = `${environment.url.apirest}/${this.relativeLink}`;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  findSubtipoChamado(parameters?: any): Observable<Pageable<SubtipoChamado>> {
-    return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<SubtipoChamado>>;
- }
+  findSubtipoChamado(parameters?: any): Observable<SubtipoChamado> {
+    return this.http.get(`${this.url}?${parameters}`) as Observable<SubtipoChamado>;
+  }
 
   findById(id: number): Observable<SubtipoChamado> {
     return this.http.get(`${this.url}/${id}`) as Observable<SubtipoChamado>;

@@ -1,25 +1,20 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
-    <form [formGroup]="subtipoForm">
-        <div class="po-row">
-            <po-combo class="po-md-3" p-filter-mode="contains" p-label="Pesquisar por:" [p-options]="selects.pesquisa"
-            formControlName="pesquisa">
-        </po-combo>
-        <po-input *ngIf="constValue.input" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-input>
-        <po-number *ngIf="constValue.number" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-number>
-        <po-combo *ngIf="constValue.select" class="po-md-3" p-filter-mode="contains" p-label="Filtro"
-            [p-options]="selects.filtro" formControlName="filtro">
-        </po-combo>
-            <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="findSubtipoChamado(this.subtipoForm.value)">
-            </po-button>
-        </div>
+    <form [formGroup]="subtipoForm" class="po-row" (keyup.enter)="findSubtipoChamado(subtipoForm.value)">
+        <po-input class="po-sm-6 po-md-2 po-lg-2" p-label="Código" formControlName="id"></po-input>
+        <po-input class="po-sm-6 po-md-2 po-lg-2" p-label="Descrição" formControlName="descricao"></po-input>
+        <po-select class="po-sm-6 po-md-2 po-lg-2" p-label="Ativo" formControlName="ativo"
+        [p-options]="selects.ativo"></po-select>
+        <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="findSubtipoChamado(this.subtipoForm.value)">
+        </po-button>
     </form>
 
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
-        p-sort="true" p-striped="true" p-checkbox="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-single-select="true">
+        p-sort="true" p-striped="true" p-checkbox="true" (p-selected)="getSelected($event)"
+        (p-unselected)="getUnSelected()" p-single-select="true">
     </po-table>
-    
-    <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
+
+    <!-- <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
         (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
         [itemsPerPage]="pagination.itemsPerPage">
-    </app-pagination>
+    </app-pagination> -->
 </po-page-default>
