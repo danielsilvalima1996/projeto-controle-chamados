@@ -253,7 +253,7 @@ export class ChamadosAddComponent implements OnInit {
   private users(id: number) {
     this.userService
       .findAllEmpresa(id)
-      .subscribe((data) => {
+      .subscribe((data:any) => {
         if (data.length > 0) {
           let arr = data.map((item) => {
             return <PoSelectOption>{ label: item.fullName, value: item.id }
@@ -289,7 +289,7 @@ export class ChamadosAddComponent implements OnInit {
           user = data;
           empresaId = data.idEmpresa.id
         })
-      user.authorities = [];
+      // user.authorities = [];
       chamado = {
         idChamado: '',
         idEmpresa: { id: empresaId },
@@ -307,7 +307,7 @@ export class ChamadosAddComponent implements OnInit {
         solucaoChamado: this.controls.solucaoChamado.value
       }
     } else {
-      this.constValue.user.authorities = [];
+      // this.constValue.user.authorities = [];
       let horaAbertura;
       let horaFechamento;
       let tempoChamado;

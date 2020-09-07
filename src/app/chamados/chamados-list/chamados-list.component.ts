@@ -189,7 +189,7 @@ export class ChamadosListComponent implements OnInit {
 
   private userList() {
     this.userService.findAllUser()
-      .subscribe((data) => {
+      .subscribe((data:any) => {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: `Usuário: ${item.fullName} - Empresa: ${item.idEmpresa.nomeFantasia}`, value: item.id }
         })
@@ -325,7 +325,7 @@ export class ChamadosListComponent implements OnInit {
               } else if (data == 'subtipoChamado') {
                 obj[data] = item[data].descricao;
               } else if (data == 'idUsuario') {
-                obj[data] = item[data].fullName;
+                // obj[data] = item[data].fullName;
               } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-') {
                 obj[data] = this.utilService.formataData(item[data].toString());
               } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
@@ -369,7 +369,7 @@ export class ChamadosListComponent implements OnInit {
               } else if (data == 'subtipoChamado') {
                 obj[data] = item[data].descricao;
               } else if (data == 'idUsuario') {
-                obj[data] = item[data].fullName;
+                // obj[data] = item[data].fullName;
               } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-') {
                 obj[data] = this.utilService.formataData(item[data].toString());
               } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {

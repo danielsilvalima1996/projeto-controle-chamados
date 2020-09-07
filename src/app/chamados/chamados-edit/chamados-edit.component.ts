@@ -260,7 +260,7 @@ export class ChamadosEditComponent implements OnInit {
             } else if (data == 'subtipoChamado') {
               obj[data] = item[data].id;
             } else if (data == 'idUsuario') {
-              obj[data] = item[data].fullName;
+              // obj[data] = item[data].fullName;
               this.formAuxiliar.user = item[data];
             } else if (data == 'dataAbertura' && item[data].toString() != '-') {
               if (item[data] != null || item[data].length >= 10) {
@@ -295,7 +295,7 @@ export class ChamadosEditComponent implements OnInit {
               obj[data] = item[data].descricao;
               this.formAuxiliar.subtipoChamado = item[data];
             } else if (data == 'idUsuario') {
-              obj[data] = item[data].fullName;
+              // obj[data] = item[data].fullName;
               this.formAuxiliar.user = item[data];
             } else if (data == 'dataAbertura' || data == 'dataFechamento' && item[data].toString().indexOf('-') == 4) {
               obj[data] = this.utilService.formataData(item[data].toString());
@@ -341,7 +341,7 @@ export class ChamadosEditComponent implements OnInit {
 
   alterarChamado() {
     let chamado;
-    this.formAuxiliar.user.authorities = [];
+    // this.formAuxiliar.user.authorities = [];
 
     let dataFechamento;
     let horaFechamento;

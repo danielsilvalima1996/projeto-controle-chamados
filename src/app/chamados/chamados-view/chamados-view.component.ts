@@ -111,7 +111,7 @@ export class ChamadosViewComponent implements OnInit {
           } else if (data == 'subtipoChamado') {
             obj[data] = item[data].descricao;
           } else if (data == 'idUsuario') {
-            obj[data] = item[data].fullName;
+            // obj[data] = item[data].fullName;
           } else if ((data == 'dataAbertura' || data == 'dataFechamento') &&
             item[data] != '-' && item[data] != null) {
             if (item[data].length == 10 && item[data]) {
