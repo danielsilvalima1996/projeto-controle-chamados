@@ -11,15 +11,15 @@ import { TrocarSenha } from 'src/app/interfaces/trocarSenha.model';
 })
 export class UserService {
 
-  private relativeLink = '/user'
+  private relativeLink = '/usuario'
   private url = `${environment.url.apirest}${this.relativeLink}`;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getUser(parameters?: any): Observable<Pageable<User>> {
-    return this.http.get(`${this.url}?${parameters}`) as Observable<Pageable<User>>;
+  getUser(parameters?: any): Observable<User> {
+    return this.http.get(`${this.url}?${parameters}`) as Observable<User>;
   }
 
   addUser(obj: any) {

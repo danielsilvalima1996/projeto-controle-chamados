@@ -8,7 +8,8 @@ import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 import { Pagination } from 'src/app/interfaces/pagination.model';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { debounceTime } from 'rxjs/operators';
-
+import { HttpErrorResponse } from '@angular/common/http';
+import { RegrasService } from 'src/app/services/cadastros/regras/regras.service';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -19,7 +20,8 @@ export class UserListComponent implements OnInit {
   page = {
     actions: <PoPageAction[]>[
       { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'user/add' },
-      { label: 'Editar', action: () => { this.editarUsuario() } }
+      { label: 'Editar', action: () => { this.goToUsuario('edit') } },
+      { label: 'Visualizar', action: () => { this.goToUsuario('view') } }
     ],
 
     title: 'Cadastro de Usuários',
@@ -34,14 +36,14 @@ export class UserListComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      { property: 'id', label: 'ID', width: '10%' },
-      { property: 'fullName', label: 'Nome Completo', width: '15%' },
-      { property: 'userName', label: 'E-mail', width: '25%' },
-      { property: 'idEmpresa', label: 'Empresa', width: '10%' },
-      { property: 'permissions', label: 'Permissões', width: '10%' },
-      { property: 'created', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'modified', label: 'Modificado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'enabled', label: 'Ativo', width: '10%', type: 'boolean' }
+      { property: 'id', label: 'ID', width: '5%' },
+      { property: 'nomeCompleto', label: 'Nome Completo', width: '15%' },
+      { property: 'email', label: 'E-mail', width: '15%' },
+      { property: 'idEmpresa', label: 'Nome Fantasia', width: '15%' },
+      { property: 'idRegra', label: 'Regra', width: '15%' },
+      { property: 'criado', label: 'Criado ', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'criadoPor', label: 'Criado Por', width: '15%' },
+      { property: 'ativo', label: 'Ativo', width: '10%', type: 'boolean' }
     ],
     items: [],
     height: 0,
@@ -51,8 +53,13 @@ export class UserListComponent implements OnInit {
 
 
   userform: FormGroup = this.fb.group({
-    filtro: ['', [Validators.required]],
-    pesquisa: ['']
+    id: ['', []],
+    email: ['', []],
+    nomeCompleto: ['', []],
+    ativo: ['', []],
+    idRegra: ['', []],
+    idEmpresa: ['', []],
+    isTecnico: ['', []]
   })
 
   selects = {
@@ -63,12 +70,13 @@ export class UserListComponent implements OnInit {
       { label: 'ATIVO', value: 'enabled' },
       { label: 'EMPRESA', value: 'idEmpresa' },
     ],
-    ativo: <PoSelectOption[]>[
-      { label: 'SIM', value: 'true' },
-      { label: 'NÃO', value: 'false' }
+    ativoOptions: <Array<PoSelectOption>>[
+      { label: 'Ativo', value: true },
+      { label: 'Inativo', value: false },
+      { label: 'Todos', value: '' }
     ],
-    filtro: <PoSelectOption[]>[],
-    empresa: <PoSelectOption[]>[]
+    empresa: <PoSelectOption[]>[],
+    regra: <PoSelectOption[]>[]
   }
 
   pagination: Pagination = {
@@ -77,12 +85,8 @@ export class UserListComponent implements OnInit {
     currentPage: 1
   }
 
-  constValue = {
-    selecionado: '',
-    input: <boolean>true,
-    select: <boolean>false,
-    number: <boolean>false
-  }
+  public itemSelecionado = '';
+  public loading: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -91,67 +95,28 @@ export class UserListComponent implements OnInit {
     private route: ActivatedRoute,
     private utilService: UtilService,
     private notificationService: PoNotificationService,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    private regrasService:RegrasService
   ) { }
 
 
 
   ngOnInit() {
-    this.empresaList();
+    this.retornaEmpresas();
+    this.retornaRegras();
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
-    this.controls.pesquisa
-      .valueChanges.pipe(debounceTime(200))
-      .subscribe((data) => {
-        this.controls.filtro.reset();
-        this.tipoForm(data);
-      })
-    this.getUser(this.userform.value);
+    this.findAll(this.userform.value);
   }
 
   get controls() {
     return this.userform.controls;
   }
 
-  tipoForm(tipo) {
-    switch (tipo) {
-      case 'id':
-        this.constValue.input = false;
-        this.constValue.select = false;
-        this.constValue.number = true;
-        break;
-      case 'userName':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'fullName':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'enabled':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.selects.filtro = this.selects.ativo;
-        this.constValue.number = false;
-        break;
-      case 'idEmpresa':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.selects.filtro = this.selects.empresa;
-        this.constValue.number = false;
-        break;
-      default:
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-    }
-  }
 
-  private empresaList() {
+  private retornaEmpresas() {
     this.empresaService
-      .findAllAtivo().subscribe((data) => {
+      .getEmpresa("ativo=true")
+      .subscribe((data: any) => {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: item.nomeFantasia, value: item.id }
         })
@@ -159,20 +124,70 @@ export class UserListComponent implements OnInit {
       })
   }
 
-  getUser(parameters?: any) {
+  private retornaRegras() {
+    this.regrasService
+      .findAll("ativo=true")
+      .subscribe((data: any) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.descricao, value: item.id }
+        })
+        this.selects.regra = arr;
+      })
+  }
+
+  getSelected(event) {
+    this.itemSelecionado = event.id;
+
+  }
+
+  getUnSelected() {
+    this.itemSelecionado = ''
+  }
+
+
+  goToUsuario(tipoTela: string) {
+    switch (tipoTela) {
+      case 'edit':
+        if (this.itemSelecionado == null || this.itemSelecionado == '') {
+          this.notificationService.warning('Selecione um Usuário para editar!');
+          return;
+        } else {
+          this.router.navigate(['edit', this.itemSelecionado], { relativeTo: this.route });
+        }
+        break;
+      case 'view':
+        if (this.itemSelecionado == null || this.itemSelecionado == '') {
+          this.notificationService.warning('Selecione um Usuário para visualizar!');
+          return;
+        } else {
+          this.router.navigate(['view', this.itemSelecionado], { relativeTo: this.route });
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  // onPageChange(event: number) {
+  //   this.pagination.currentPage = event;
+  //   let busca: string = Object.assign({}, this.userform.value, { page: this.pagination.currentPage });
+  //   this.getUser(busca);
+  // }
+
+  public findAll(form?) {
     this.table.loading = true;
     this.userService
-      .getUser(this.utilService.getParameters(parameters))
-      .subscribe((data) => {
-        let arr: Array<any> = data.content.map((item) => {
+      .getUser(this.utilService.getParameters(form))
+      .subscribe((data: any) => {
+        let arr: Array<any> = data.map((item) => {
           let obj = {};
           Object.keys(item).map((data) => {
             if (item[data] == '' || item[data] == null) {
               obj[data] = '-';
             } else if (data == 'idEmpresa') {
               obj[data] = item[data].nomeFantasia;
-            } else if (data == 'permissions') {
-              obj[data] = item[data][0].description
+            } else if (data == 'idRegra') {
+              obj[data] = item[data].descricao
             } else {
               obj[data] = item[data];
             }
@@ -181,38 +196,13 @@ export class UserListComponent implements OnInit {
           return obj;
         })
         this.table.items = arr;
-        this.pagination.totalItems = data.totalElements;
-        this.pagination.itemsPerPage = data.size;
         this.table.loading = false;
-
       },
-        (error: ErrorSpringBoot) => {
-          this.notificationService.error(error.message);
-        })
-  }
-
-  getSelected(event) {
-    this.constValue.selecionado = event.id;
-
-  }
-
-  getUnSelected() {
-    this.constValue.selecionado = ''
-  }
-
-  editarUsuario() {
-    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
-      this.notificationService.warning('Selecione um Usuário para editar!');
-      return;
-    } else {
-      this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
-    }
-  }
-
-  onPageChange(event: number) {
-    this.pagination.currentPage = event;
-    let busca: string = Object.assign({}, this.userform.value, { page: this.pagination.currentPage });
-    this.getUser(busca);
-  }
+        (error: HttpErrorResponse) => {
+          console.log(error.error);
+          this.table.items = [];
+          this.loading = false;
+        });
+  };
 
 }

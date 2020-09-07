@@ -1,21 +1,59 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
-    <form [formGroup]="editUserForm">
-        <div class="po-row">
-            <po-input class="po-md-2" p-label="ID Usuário" p-readonly="true" formControlName="id"></po-input>
-            <po-input class="po-md-2" p-label="Nome Empresa" p-readonly="true" formControlName="idEmpresa"></po-input>
-            <po-email class="po-md-3" p-label="E-mail Usuário" p-readonly="true" formControlName="userName" (p-blur)="verificaUsername()">
-            </po-email>
-            <po-input class="po-md-3" p-label="Nome Usuário" formControlName="fullName">
-            </po-input>
-            <po-password class="po-md-2" p-label="Senha" p-error-pattern="Insira no mínimo 7 caracteres" 
-                formControlName="password"></po-password>
-            <po-combo class="po-md-3" p-placeholder="Regra" p-label="Regra" 
-                [p-options]="selects.permissoes" formControlName="permissions"></po-combo>
-            <po-combo class="po-md-3" p-placeholder="Ativo" p-label="Ativo" 
-                [p-options]="selects.ativoOptions" formControlName="enabled"></po-combo>
-        </div>
+    <form [formGroup]="userForm">
+        <po-divider p-label="Dados Cadastrais"></po-divider>
+        <!-- <div class="po-row"> -->
+            <div *ngIf="tipoTela != 'add'" class="po-md-2">
+                <po-avatar [p-src]="controls.avatar.value" p-size="md"></po-avatar>
+            </div>
+            <div class="po-mf-10">
+                <po-input *ngIf="tipoTela != 'add'" class="po-md-3" p-label="Código Usuário"
+                    [p-readonly]="disabledFields || disabledId" formControlName="id"></po-input>
+                <po-email class="po-md-3" p-label="E-mail Usuário" [p-readonly]="disabledFields"
+                    formControlName="email">
+                </po-email>
+                <po-password class="po-md-2" p-label="Senha" [p-readonly]="disabledFields"
+                    p-error-pattern="Insira no mínimo 7 caracteres" formControlName="senha"></po-password>
+                <po-input class="po-md-3" formControlName="nomeCompleto" [p-readonly]="disabledFields"
+                    p-label="Nome Completo"></po-input>
+
+                <po-select class="po-sm-6 po-md-3 po-lg-4" p-label="Empresa" [p-readonly]="disabledFields"
+                    [p-options]="selects.empresa" formControlName="idEmpresa"></po-select>
+                <po-select class="po-sm-6 po-md-3 po-lg-3" p-label="Regra" [p-readonly]="disabledFields"
+                    [p-options]="selects.regra" formControlName="idRegra"></po-select>
+
+                <po-divider class="po-md-12" p-label="Dados Contato"></po-divider>
+                <po-input class="po-md-3" [p-readonly]="disabledFields" formControlName="dddTelefone"
+                    p-label="DDD Telefone" p-mask="99">
+                </po-input>
+                <po-input class="po-md-3" [p-readonly]="disabledFields" formControlName="telefone" p-label="Telefone"
+                    p-mask="9999-9999">
+                </po-input>
+                <po-input class="po-md-3" [p-readonly]="disabledFields" formControlName="dddCelular"
+                    p-label="DDD Celular" p-mask="99">
+                </po-input>
+                <po-input class="po-md-3" [p-readonly]="disabledFields" formControlName="celular" p-label="Celular"
+                    p-mask="99999-9999">
+                </po-input>
+                <po-divider class="po-md-12" p-label="Informações do Usuário"></po-divider>
+                <po-switch class="po-md-3" [p-disabled]="disabledFields" formControlName="ativo" p-label="Ativo"
+                    p-label-off="Inativo" p-label-on="Ativo"> </po-switch>
+                <po-switch class="po-md-3" [p-disabled]="disabledFields" formControlName="isTecnico"
+                    p-label="É Técnico?" p-label-off="Não" p-label-on="Sim"> </po-switch>
+                <po-divider class="po-md-12" p-label=""></po-divider>
+                <div class="po-md-12">
+                    <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-3" [p-readonly]="disabledFields"
+                        p-format="dd/MM/yyyy" p-label="Criado" formControlName="criado"></po-datepicker>
+                    <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-3" [p-readonly]="disabledFields"
+                        p-format="dd/MM/yyyy" p-label="Modificado" formControlName="modificado"></po-datepicker>
+                    <po-input *ngIf="tipoTela != 'add'" class="po-md-3" p-label="Criado Por"
+                        [p-readonly]="disabledFields || disabledId" formControlName="criadoPor"></po-input>
+                    <po-input *ngIf="tipoTela != 'add'" class="po-md-3" p-label="Modificado Por"
+                        [p-readonly]="disabledFields || disabledId" formControlName="modificadoPor"></po-input>
+                </div>
+            </div>
+        <!-- </div> -->
     </form>
 </po-page-default>
 
-<po-loading-overlay *ngIf="constValue.loadingPage" p-screen-lock="true" p-text="Editando Usuário">
+<po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
 </po-loading-overlay>
