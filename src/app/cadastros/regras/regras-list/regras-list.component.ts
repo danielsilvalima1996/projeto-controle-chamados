@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoBreadcrumb, PoBreadcrumbItem, PoTableColumn, PoNotificationService } from '@po-ui/ng-components';
+import { PoPageDefault, PoBreadcrumb, PoBreadcrumbItem, PoTableColumn, PoNotificationService, PoSelectOption } from '@po-ui/ng-components';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RegrasService } from 'src/app/services/cadastros/regras/regras.service';
@@ -51,7 +51,7 @@ export class RegrasListComponent implements OnInit {
   })
 
   selects = {
-    ativoOptions: <Array<any>>[
+    ativoOptions: <Array<PoSelectOption>>[
       { label: 'Ativo', value: true },
       { label: 'Inativo', value: false },
       { label: 'Todos', value: '' }
