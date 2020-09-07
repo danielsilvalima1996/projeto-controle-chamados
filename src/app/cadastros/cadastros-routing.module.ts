@@ -44,11 +44,9 @@ const routes: Routes = [
   {
     path: 'user', children: [
       { path: '', component: UserListComponent },
-      {
-        path: ':action/:id', component: UserEditComponent,
-        resolve: { permissions: UserEditResolve }
-      },
-      { path: 'add', component: UserAddComponent }
+      { path: ':view/:id', component: UserEditComponent },
+      { path: ':edit/:id', component: UserEditComponent },
+      { path: 'add', component: UserEditComponent }
     ]
   },
   {
@@ -70,7 +68,8 @@ const routes: Routes = [
   {
     path: 'subtipo-chamado', children: [
       { path: '', component: SubtipoChamadoListComponent },
-      { path: 'add', component: SubtipoChamadoAddComponent },
+      { path: 'add', component: SubtipoChamadoEditComponent },
+      { path: 'view/:id', component: SubtipoChamadoEditComponent },
       {
         path: 'edit/:id', component: SubtipoChamadoEditComponent,
         resolve: { tipoChamado: SubtipoChamadoEditResolve }
