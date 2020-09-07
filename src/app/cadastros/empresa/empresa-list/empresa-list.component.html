@@ -1,24 +1,33 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
-    <!-- <form [formGroup]="empresaform">
-        <div class="po-row">
-            <po-combo class="po-md-3" p-filter-mode="contains" p-label="Pesquisar por:" [p-options]="selects.pesquisa"
-            formControlName="pesquisa">
-        </po-combo>
-        <po-input *ngIf="constValue.input" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-input>
-        <po-number *ngIf="constValue.number" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-number>
-        <po-combo *ngIf="constValue.select" class="po-md-3" p-filter-mode="contains" p-label="Filtro"
-            [p-options]="selects.filtro" formControlName="filtro">
-        </po-combo>
-            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-search" p-label="Buscar" (click)="getEmpresa(this.empresaform.value)">
-            </po-button>
-        </div>
-    </form> -->
-    <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height" p-hide-text-overflow="true"
-    p-sort="true" p-striped="true" (p-selected)="getSelected($event)" (p-unselected)="getUnSelected()" p-checkbox="true" p-single-select="true"></po-table>
-    <!-- <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
-    (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
-    [itemsPerPage]="pagination.itemsPerPage">
-</app-pagination> -->
-<po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
-</po-loading-overlay>
+    <po-accordion>
+        <po-accordion-item class="po-sm-12 po-md-12" p-label="Filtros">
+            <form [formGroup]="empresaform" class="po-row" (keyup.enter)="buscar(empresaform.value)">
+                <po-input class="po-sm-6 po-md-2 po-lg-1" p-label="Código" formControlName="id"></po-input>
+                <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="CPF / CNPJ" formControlName="cnpj"
+                    p-mask="99999999999999???"></po-input>
+                <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Razão Social" formControlName="razaoSocial">
+                </po-input>
+                <po-input class="po-sm-6 po-md-3 po-lg-3" p-label="Nome Fantasia" formControlName="nomeFantasia">
+                </po-input>
+                <po-select class="po-sm-6 po-md-3 po-lg-3" p-label="Ativo" formControlName="ativo"
+                    [p-options]="selects.ativoOptions"></po-select>
+                <po-input class="po-sm-6 po-md-3 po-lg-3" p-label="CEP" p-maxlength="8" formControlName="cep">
+                </po-input>
+                <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Logradouro" formControlName="logradouro"></po-input>
+                <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Bairro" formControlName="bairro"></po-input>
+                <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Cidade" formControlName="localidade"></po-input>
+                <po-select class="po-sm-6 po-md-3 po-lg-2" p-label="UF" [p-options]="selects.estados"
+                    formControlName="uf"></po-select>
+                <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Buscar"
+                    (click)="buscar(empresaform.value)"></po-button>
+            </form>
+        </po-accordion-item>
+    </po-accordion>
+
+    <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
+        p-hide-text-overflow="true" p-sort="true" p-striped="true" (p-selected)="getSelected($event)"
+        (p-unselected)="getUnSelected()" p-checkbox="true" p-single-select="true"></po-table>
+
+    <po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
+    </po-loading-overlay>
 </po-page-default>

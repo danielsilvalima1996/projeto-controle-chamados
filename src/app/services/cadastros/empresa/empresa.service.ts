@@ -18,8 +18,8 @@ export class EmpresaService {
     private http: HttpClient
   ) { }
 
-  getEmpresa(parameters?: any): Observable<Pageable<Empresa>> {
-    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Pageable<Empresa>>;
+  getEmpresa(parameters?: any): Observable<Empresa> {
+    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Empresa>;
   }
 
   createEmpresa(obj: any) {

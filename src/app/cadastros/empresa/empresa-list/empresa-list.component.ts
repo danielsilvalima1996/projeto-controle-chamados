@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Pagination } from 'src/app/interfaces/pagination.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-empresa-list',
@@ -17,8 +18,8 @@ export class EmpresaListComponent implements OnInit {
     title: 'Cadastro de Empresas',
     actions: [
       { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa/add' },
-      { label: 'Editar', action: () => { this.editarEmpresa() } },
-      { label: 'Visualizar', action: () => { this.viewEmpresa() } }
+      { label: 'Editar', action: () => { this.goToEmpresa('edit') } },
+      { label: 'Visualizar', action: () => { this.goToEmpresa('view') } }
     ],
     breadcrumb: {
       items: [
@@ -53,42 +54,56 @@ export class EmpresaListComponent implements OnInit {
     loading: false
   }
 
-  pagination: Pagination = {
-    totalItems: 0,
-    itemsPerPage: 30,
-    currentPage: 1
-  }
-
   empresaform: FormGroup = this.fb.group({
-    filtro: ['', []],
-    pesquisa: ['']
-  })
+    id: ['', []],
+    cnpj: ['', []],
+    razaoSocial: ['', []],
+    nomeFantasia: ['', []],
+    ativo: ['', []],
+    cep: ['', []],
+    logradouro: ['', []],
+    bairro: ['', []],
+    localidade: ['', []],
+    uf: ['', []]
+  });
 
   selects = {
-    pesquisa: <PoSelectOption[]>[
-      { label: 'ID', value: 'id' },
-      { label: 'NOME FANTASIA', value: 'nomeFantasia' },
-      { label: 'RAZÃO SOCIAL', value: 'razaoSocial' },
-      { label: 'CNPJ', value: 'cnpj' },
-      { label: 'CEP', value: 'cep' },
-      { label: 'LOGRADOURO', value: 'logradouro' },
-      { label: 'BAIRRO', value: 'bairro' },
-      { label: 'LOCALIDADE', value: 'localidade' },
-      { label: 'UF', value: 'uf' },
-      { label: 'ATIVO', value: 'ativo' }
+    ativoOptions: <Array<PoSelectOption>>[
+      { label: 'Ativo', value: true },
+      { label: 'Inativo', value: false },
+      { label: 'Todos', value: '' }
     ],
-    filtro: <PoSelectOption[]>[
-      { label: 'SIM', value: 'true' },
-      { label: 'NÃO', value: 'false' }
+    estados: <Array<PoSelectOption>>[
+      { label: "ACRE", value: "AC" },
+      { label: "ALAGOAS", value: "AL" },
+      { label: "AMAZONAS", value: "AM" },
+      { label: "AMAPA", value: "AP" },
+      { label: "BAHIA", value: "BA" },
+      { label: "CEARA", value: "CE" },
+      { label: "DISTRITO FEDERAL", value: "DF" },
+      { label: "ESPIRITO SANTO", value: "ES" },
+      { label: "GOIAS", value: "GO" },
+      { label: "MARANHAO", value: "MA" },
+      { label: "MINAS GERAIS", value: "MG" },
+      { label: "MATO GROSSO DO SUL", value: "MS" },
+      { label: "MATO GROSSO", value: "MT" },
+      { label: "PARA", value: "PA" },
+      { label: "PARAIBA", value: "PB" },
+      { label: "PERNAMBUCO", value: "PE" },
+      { label: "PIAUI", value: "PI" },
+      { label: "PARANA", value: "PR" },
+      { label: "RIO DE JANEIRO", value: "RJ" },
+      { label: "RIO GRANDE DO NORTE", value: "RN" },
+      { label: "RONDONIA", value: "RO" },
+      { label: "RORAIMA", value: "RR" },
+      { label: "RIO GRANDE DO SUL", value: "RS" },
+      { label: "SANTA CATARINA", value: "SC" },
+      { label: "SERGIPE", value: "SE" },
+      { label: "SAO PAULO", value: "SP" },
+      { label: "TOCANTINS", value: "TO" }
     ]
-  }
+  };
 
-  // constValue = {
-  //   itemSelecionado: '',
-  //   input: <Boolean>true,
-  //   select: <Boolean>false,
-  //   number: <Boolean>false,
-  // }
   public itemSelecionado = '';
   public loading: boolean;
 
@@ -104,78 +119,13 @@ export class EmpresaListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
-    // this.controls.pesquisa.
-    //   valueChanges.subscribe((data) => {
-    //     this.tipoForm(data);
-    //     this.controls.filtro.reset();
-    //   })
-    this.getEmpresa(this.empresaform.value)
+    this.table.height = this.utilService.calcularHeight(innerHeight, 0.6);
+    this.buscar(this.empresaform.value)
   }
 
   get controls() {
     return this.empresaform.controls
   }
-
-  // tipoForm(tipo) {
-  //   switch (tipo) {
-  //     case 'id':
-  //       this.constValue.input = false;
-  //       this.constValue.select = false;
-  //       this.constValue.number = true;
-  //       break;
-  //     case 'nomeFantasia':
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-  //     case 'razaoSocial':
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-  //     case 'cnpj':
-  //       this.constValue.input = false;
-  //       this.constValue.select = false;
-  //       this.constValue.number = true;
-  //       break;
-  //     case 'logradouro':
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-  //     case 'cep':
-  //       this.constValue.input = false;
-  //       this.constValue.select = false;
-  //       this.constValue.number = true;
-  //       break;
-  //     case 'bairro':
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-  //     case 'localidade':
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-  //     case 'uf':
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-  //     case 'ativo':
-  //       this.constValue.input = false;
-  //       this.constValue.select = true;
-  //       this.constValue.number = false;
-  //       break;
-  //     default:
-  //       this.constValue.input = true;
-  //       this.constValue.select = false;
-  //       this.constValue.number = false;
-  //       break;
-  //   }
-  // }
 
   getSelected(event) {
     this.itemSelecionado = event.id;
@@ -186,50 +136,62 @@ export class EmpresaListComponent implements OnInit {
   }
 
 
-  editarEmpresa() {
-    if (this.itemSelecionado == null || this.itemSelecionado == '') {
-      this.notificationService.warning('Selecione uma Empresa para editar!');
-      return;
-    } else {
-      this.router.navigate(['edit', this.itemSelecionado], { relativeTo: this.route });
+  goToEmpresa(tipoTela: string) {
+    switch (tipoTela) {
+      case 'edit':
+        if (this.itemSelecionado == null || this.itemSelecionado == '') {
+          this.notificationService.warning('Selecione uma Empresa para editar!');
+          return;
+        } else {
+          this.router.navigate(['edit', this.itemSelecionado], { relativeTo: this.route });
+        }
+        break;
+      case 'view':
+        if (this.itemSelecionado == null || this.itemSelecionado == '') {
+          this.notificationService.warning('Selecione uma Empresa para visualizar!');
+          return;
+        } else {
+          this.router.navigate(['view', this.itemSelecionado], { relativeTo: this.route });
+        }
+        break;
+      default:
+        break;
     }
   }
 
-  private viewEmpresa() {
-    if (this.itemSelecionado == null || this.itemSelecionado == '') {
-      this.notificationService.warning('Selecione uma Empresa para visualizar!');
-      return;
-    } else {
-      this.router.navigate(['view', this.itemSelecionado], { relativeTo: this.route });
-    }
-  }
 
-  getEmpresa(form?) {
-    this.table.loading = true;
-    this.empresaService.getEmpresa(this.utilService.getParameters(form))
+  public buscar(form?) {
+    this.loading = true;
+    this.empresaService
+      .getEmpresa(this.utilService.getParameters(form))
       .subscribe((data: any) => {
-        let value: Array<any> = data;
-        // value = value.map((item: any) => {
-        //   item.cnpj = this.utilService.formatarCnpjCpf(item.cnpj);
-        //   item.telefone = this.utilService.mascaraDeTelefone2(item.telefone);
-        //   item.celular = this.utilService.mascaraDeTelefone2(item.celular)
-        //   return item;
-        // })
-
-        this.table.items = value
-        // this.pagination.totalItems = data.totalElements;
-        // this.pagination.itemsPerPage = data.size;
-        this.table.loading = false;
-      })
-
-  }
-
-  onPageChange(event: number) {
-    this.pagination.currentPage = event;
-    let busca: string = Object.assign({}, this.empresaform.value, { page: this.pagination.currentPage });
-    this.getEmpresa(busca);
-  }
-
-
-
+        this.table.items = data
+          .map((item) => {
+            return {
+              ativo: item.ativo,
+              bairro: item.bairro,
+              cep: this.utilService.formatarCEP(item.cep),
+              cnpj: this.utilService.formatarCnpjCpf(item.cnpj),
+              complemento: item.complemento,
+              criado: item.criado,
+              criadoPor: item.criadoPor,
+              id: item.id,
+              localidade: item.localidade,
+              logradouro: item.logradouro,
+              modificado: item.modificado,
+              modificadoPor: item.modificadoPor,
+              nomeFantasia: item.nomeFantasia,
+              numero: item.numero,
+              razaoSocial: item.razaoSocial,
+              uf: item.uf
+            }
+          });
+        this.loading = false;
+      },
+        (error: HttpErrorResponse) => {
+          console.log(error.error);
+          this.loading = false;
+          this.table.items = [];
+        });
+  };
 }
