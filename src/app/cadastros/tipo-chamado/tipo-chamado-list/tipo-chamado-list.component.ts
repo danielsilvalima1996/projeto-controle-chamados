@@ -6,6 +6,7 @@ import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { Pagination } from 'src/app/interfaces/pagination.model';
 import { debounceTime } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-tipo-chamado-list',
@@ -34,10 +35,12 @@ export class TipoChamadoListComponent implements OnInit {
   table = {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'ID', width: '10%' },
-      { property: 'descricao', label: 'Descrição', width: '35%' },
+      { property: 'descricao', label: 'Descrição', width: '15%' },
       { property: 'criado', label: 'Criado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado ', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
-      { property: 'ativo', label: 'Ativo', width: '15%', type: 'boolean' }
+      { property: 'criadoPor', label: 'Criado Por', width: '15%' },
+      { property: 'modificadoPor', label: 'Modificado Por', width: '15%' },
+      { property: 'ativo', label: 'Ativo', width: '10%', type: 'boolean' }
     ],
     items: [],
     height: 0,
@@ -97,8 +100,9 @@ export class TipoChamadoListComponent implements OnInit {
     this.tipoChamadoService.findAll(this.utilService.getParameters(obj))
       .subscribe((data: any) => {
         this.table.items = data
-        // this.pagination.totalItems = data.totalElements;
-        // this.pagination.itemsPerPage = data.size;
+        this.loading = false;
+      }, (err: HttpErrorResponse) => {
+        console.error(err);
         this.loading = false;
       })
   }

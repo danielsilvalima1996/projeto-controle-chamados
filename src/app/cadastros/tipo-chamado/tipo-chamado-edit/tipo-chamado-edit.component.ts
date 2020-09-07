@@ -142,7 +142,7 @@ export class TipoChamadoEditComponent implements OnInit {
         this.loading = false;
       },
         (error: HttpErrorResponse) => {
-          this.notificationService.error(`Tipo Chamado ${id} não encontrada`);
+          this.notificationService.error(`Tipo Chamado ${id} não encontrado`);
           this.router.navigate(['cadastros/tipo-chamado/'])
           this.loading = false;
         })
