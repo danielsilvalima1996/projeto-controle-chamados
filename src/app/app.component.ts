@@ -44,11 +44,11 @@ export class AppComponent implements OnInit {
   profile: PoToolbarProfile;
 
   profileActions: Array<PoToolbarAction> = [
-    {
-      label: 'Trocar Senha',
-      icon: 'po-icon po-icon-change',
-      action: () => this.openModal()
-    },
+    // {
+    //   label: 'Trocar Senha',
+    //   icon: 'po-icon po-icon-change',
+    //   action: () => this.openModal()
+    // },
     {
       label: 'Sair',
       icon: 'po-icon po-icon-exit',
@@ -144,7 +144,7 @@ export class AppComponent implements OnInit {
   confirmeLogout() {
     this.dialogService.confirm({
       title: 'Sair',
-      message: 'Deseja Sair?',
+      message: 'Deseja realmente Sair?',
       confirm: () => { this.loginService.logout(); },
       cancel: () => { }
     });

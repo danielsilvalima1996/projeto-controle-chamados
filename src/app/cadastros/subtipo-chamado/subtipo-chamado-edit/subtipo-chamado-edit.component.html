@@ -5,7 +5,7 @@
         </po-input>
         <po-input class="po-md-3" [p-readonly]="disabledFields" p-label="Descição Tipo de Chamado"
             formControlName="descricao"></po-input>
-        <po-select formControlName="idTipoChamado" [p-readonly]="disabledFields" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
+        <po-select formControlName="idTipoChamado" [p-readonly]="disabledFields"  p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
             class="po-md-4"></po-select>
         <po-divider *ngIf="tipoTela != 'add'" class="po-md-12" p-label="Informações do Tipo Chamado"></po-divider>
         <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy"

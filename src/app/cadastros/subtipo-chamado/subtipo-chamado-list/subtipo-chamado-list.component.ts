@@ -66,6 +66,7 @@ export class SubtipoChamadoListComponent implements OnInit {
   }
 
   private itemSelecionado = '';
+  public loading: boolean;
 
   subtipoForm: FormGroup = this.fb.group({
     id: ['', []],
@@ -85,12 +86,6 @@ export class SubtipoChamadoListComponent implements OnInit {
 
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
-    // this.tipoChamadoList();
-    // this.controls.pesquisa
-    //   .valueChanges.subscribe((data) => {
-    //     this.tipoForm(data);
-    //     this.controls.filtro.reset();
-    //   })
     this.findSubtipoChamado(this.subtipoForm.value);
   }
 
@@ -99,7 +94,7 @@ export class SubtipoChamadoListComponent implements OnInit {
   }
 
   findSubtipoChamado(parameters?: any) {
-    this.table.loading = true;
+    this.loading = true;
     this.subtipoChamadoService
       .findSubtipoChamado(this.utilService.getParameters(parameters))
       .subscribe((data: any) => {
@@ -119,11 +114,12 @@ export class SubtipoChamadoListComponent implements OnInit {
           return obj;
         })
         this.table.items = arr;
-        this.table.loading = false;
+        this.loading = false;
 
       },
         (error: ErrorSpringBoot) => {
-          this.notificationService.error(error.message);
+          // this.notificationService.error(error.message);
+          this.loading = false;
         })
   }
 
