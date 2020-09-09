@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
-      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'user/add' },
+      { label: 'Novo', icon: 'po-icon po-icon-user-add', url: 'usuario/add' },
       { label: 'Editar', action: () => { this.goToUsuario('edit') } },
       { label: 'Visualizar', action: () => { this.goToUsuario('view') } }
     ],

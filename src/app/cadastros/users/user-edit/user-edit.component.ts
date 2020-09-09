@@ -55,7 +55,7 @@ export class UserEditComponent implements OnInit {
     ativo: [false, []],
     idRegra: ['', []],
     idEmpresa: [''],
-    isTecnico: [false, []],
+    // isTecnico: [false, []],
     criado: [''],
     modificado: [''],
     criadoPor: [''],
@@ -139,7 +139,7 @@ export class UserEditComponent implements OnInit {
       ],
         this.page.actions = [
           { label: 'Salvar', disabled: true },
-          { label: 'Cancelar', action: () => this.router.navigate(['cadastros/user/']) }
+          { label: 'Cancelar', action: () => this.router.navigate(['cadastros/usuario/']) }
         ];
       this.route.paramMap
         .subscribe((paramMap: ParamMap) => {
@@ -199,7 +199,7 @@ export class UserEditComponent implements OnInit {
           telefone: data.telefone,
           email: data.email,
           avatar: data.avatar,
-          isTecnico: data.isTecnico
+          // isTecnico: data.isTecnico
 
         }
         this.userForm.setValue(obj);
@@ -235,12 +235,12 @@ export class UserEditComponent implements OnInit {
         dddTelefone: this.userForm.controls.dddTelefone.value,
         celular: this.userForm.controls.celular.value,
         dddCelular: this.userForm.controls.dddCelular.value,
-        isTecnico: this.userForm.controls.isTecnico.value
+        // isTecnico: this.userForm.controls.isTecnico.value
       }
       this.userService.addUser(obj)
         .subscribe(() => {
           this.notificationService.success('Usuário Cadastrado com Sucesso!');
-          this.router.navigate(['cadastros/user/']);
+          this.router.navigate(['cadastros/usuario/']);
           this.loading = false;
         },
           (error: HttpErrorResponse) => {
@@ -284,7 +284,7 @@ export class UserEditComponent implements OnInit {
         .alterUser(obj)
         .subscribe((data) => {
           this.notificationService.success('Usuário alterado com sucesso!');
-          this.router.navigate(['cadastros/user/']);
+          this.router.navigate(['cadastros/usuario/']);
           this.loading = false;
         },
           (error: HttpErrorResponse) => {
@@ -296,7 +296,7 @@ export class UserEditComponent implements OnInit {
 
   private dialogVoltar() {
     this.dialog.confirm({
-      confirm: () => this.router.navigate(['cadastros/user/']),
+      confirm: () => this.router.navigate(['cadastros/usuario/']),
       title: 'Alerta',
       message: 'Salve para não perder os dados. Deseja voltar a tela de listagem?'
     })
