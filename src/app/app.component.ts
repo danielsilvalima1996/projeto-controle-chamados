@@ -24,9 +24,10 @@ export class AppComponent implements OnInit {
     {
       label: 'Cadastros', shortLabel: 'Cadastros', icon: 'po-icon po-icon-document-filled',
       subItems: [
-        { label: 'Empresas', shortLabel: 'Empresas', link: 'cadastros/empresa', icon: 'po-icon po-icon-document-filled' },
-        { label: 'Usuários', shortLabel: 'Usuários', link: 'cadastros/user', icon: 'po-icon po-icon-users' },
-        { label: 'Regras', shortLabel: 'Regras', link: 'cadastros/regras', icon: 'po-icon po-icon-minus' },
+        { label: 'Empresas', shortLabel: 'Empresas', link: 'cadastros/empresa', icon: 'po-icon po-icon po-icon-company' },
+        { label: 'Usuários', shortLabel: 'Usuários', link: 'cadastros/usuario', icon: 'po-icon po-icon-users' },
+        { label: 'Técnicos', shortLabel: 'Técnicos', link: 'cadastros/tecnico', icon: 'po-icon po-icon-document-filled' },
+        { label: 'Regras', shortLabel: 'Regras', link: 'cadastros/regra', icon: 'po-icon po-icon-minus' },
         { label: 'Tipo Chamado', shortLabel: 'Tipo Chamado', link: 'cadastros/tipo-chamado', icon: 'po-icon po-icon-minus' },
         { label: 'SubTipo Chamado', shortLabel: 'SubTipo Chamado', link: 'cadastros/subtipo-chamado', icon: 'po-icon po-icon-minus' },
       ]
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit {
     {
       label: 'Chamados', shortLabel: 'Chamados', icon: 'po-icon po-icon-touch', subItems: [
         { label: 'Externo', shortLabel: 'Externo', link: 'chamados/externo', icon: 'po-icon po-icon-minus' },
-        // { label: 'Interno', shortLabel: 'Interno', link: 'chamados/interno', icon: 'po-icon po-icon-minus' }
+        { label: 'Interno', shortLabel: 'Interno', link: 'chamados/interno', icon: 'po-icon po-icon-minus' }
       ]
     },
     // { label: 'Testing', shortLabel: 'Testing', icon: 'po-icon po-icon-list', link: 'testing' }
