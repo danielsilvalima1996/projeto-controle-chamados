@@ -1,0 +1,29 @@
+<po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
+
+    <form [formGroup]="tecnicosForm">
+        <po-divider p-label="Dados Cadastrais"></po-divider>
+        <div class="po-row">
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" [p-readonly]="disabledFields || disabledId"
+                p-label="Código" formControlName="id">
+            </po-input>
+            <po-select [p-disabled]="disabledFields" class="po-md-3" p-label='Usuário' formControlName="idUsuario"
+                [p-options]="selects.usuarios"></po-select>
+            <po-switch [p-disabled]="disabledEdit" formControlName="ativo" p-label="Ativo" p-label-off="Inativo"
+                p-label-on="Ativo"> </po-switch>
+            <po-divider *ngIf="tipoTela != 'add'" class="po-md-12" p-label="Informações do Técnico"></po-divider>
+            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy"
+                p-label="Criado" formControlName="criado"></po-datepicker>
+            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy"
+                p-label="Modificado" formControlName="modificado"></po-datepicker>
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Criado Por"
+                formControlName="criadoPor"></po-input>
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Modificado Por"
+                formControlName="modificadoPor"></po-input>
+        </div>
+    </form>
+
+    <po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
+    </po-loading-overlay>
+
+
+</po-page-default>
