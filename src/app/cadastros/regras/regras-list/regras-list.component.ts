@@ -23,7 +23,7 @@ export class RegrasListComponent implements OnInit {
       ]
     },
     actions: [
-      { label: 'Adicionar', url: 'cadastros/regras/add' },
+      { label: 'Adicionar', url: 'cadastros/regra/add' },
       { label: 'Editar', action: () => { this.editarRegras() } },
       { label: 'Visualizar', action: () => { this.viewRegras() } }
     ]

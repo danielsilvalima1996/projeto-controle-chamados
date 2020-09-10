@@ -1,6 +1,6 @@
 <po-page-default [p-title]="page.title" [p-actions]="page.actions" [p-breadcrumb]="page.breadcrumb">
 
-    <form [formGroup]="regrasForm">
+    <form [formGroup]="regraForm">
         <po-divider p-label="Dados Cadastrais"></po-divider>
         <div class="po-row">
             <po-input *ngIf="tipoTela != 'add'" class="po-md-2" [p-readonly]="disabledFields || disabledId"
@@ -21,6 +21,17 @@
                 formControlName="modificadoPor"></po-input>
         </div>
     </form>
+
+    <po-table
+        [p-columns]="table.columns"
+        [p-items]="table.items"
+        [p-selectable]="table.selectable"
+        p-sort="true"
+        p-striped="true"
+        (p-selected)="selectTable($event)"
+        (p-unselected)="unSelectTable($event)"
+        (p-all-selected)="allSelectTable()"
+        (p-all-unselected)="unAllSelectTable()"></po-table>
 
     <po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
     </po-loading-overlay>
