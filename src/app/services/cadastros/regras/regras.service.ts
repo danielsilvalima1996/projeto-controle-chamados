@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Regras } from 'src/app/interfaces/regra.model';
+import { Regra } from 'src/app/interfaces/regra.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,19 +16,19 @@ export class RegrasService {
     private http: HttpClient
   ) { }
 
-  findAll(parameters?: any): Observable<Array<Regras>> {
-     return this.http.get(`${this.url}?${parameters}`) as Observable<Array<Regras>>;
+  public findAll(parameters?: any): Observable<Array<Regra>> {
+    return this.http.get(`${this.url}?${parameters}`) as Observable<Array<Regra>>;
   }
 
-  findById(id: number): Observable<Regras> {
-    return this.http.get(`${this.url}/${id}`) as Observable<Regras>;
+  public findById(id: number): Observable<Regra> {
+    return this.http.get(`${this.url}/${id}`) as Observable<Regra>;
   }
 
-  createRegras(Regras: Regras) {
-    return this.http.post(`${this.url}`, Regras);
+  public createRegra(regra: Regra) {
+    return this.http.post(`${this.url}`, regra);
   }
 
-  alterRegras(Regras: Regras) {
-    return this.http.put(`${this.url}`, Regras);
+  public alterRegra(regra: Regra) {
+    return this.http.put(`${this.url}`, regra);
   }
 }
