@@ -233,12 +233,15 @@ export class RegrasEditComponent implements OnInit {
   }
 
   public selectTable(pagina: Pagina) {
-    this.paginasSelecionadas.push(pagina);
+    let duplicata = this.paginasSelecionadas.find(item => item == pagina);
+    if (!duplicata) {
+      this.paginasSelecionadas.push(pagina);
+    }
     console.log(this.paginasSelecionadas);
   }
 
   public unSelectTable(pagina: Pagina) {
-    this.paginasSelecionadas.filter(item => item != pagina);
+    this.paginasSelecionadas = this.paginasSelecionadas.filter(item => item != pagina);
   }
 
   public allSelectTable() {
