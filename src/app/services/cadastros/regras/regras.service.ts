@@ -24,8 +24,8 @@ export class RegrasService {
     return this.http.get(`${this.url}/${id}`) as Observable<Regra>;
   }
 
-  public createRegra(regra: Regra) {
-    return this.http.post(`${this.url}`, regra);
+  public createRegra(regra: Regra): Observable<Regra> {
+    return this.http.post(`${this.url}`, regra) as Observable<Regra>;
   }
 
   public alterRegra(regra: Regra) {
