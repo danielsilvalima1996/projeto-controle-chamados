@@ -1,9 +1,9 @@
-import { Page } from './page.model';
+import { Pagina } from './pagina.model';
 
 export interface Permission {
     id: number,
     description: string,
-    page: Array<Page>,
+    page: Array<Pagina>,
     created: Date,
     modified: Date,
     active: boolean,

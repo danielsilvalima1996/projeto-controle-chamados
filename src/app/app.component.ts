@@ -9,7 +9,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TrocarSenha } from './interfaces/trocarSenha.model';
 import { UserService } from './services/cadastros/users/user.service';
 import { ErrorSpringBoot } from './interfaces/ErrorSpringBoot.model';
-import { Page } from './interfaces/page.model';
 import { PermissionsService } from './services/cadastros/permissions/permissions.service';
 import { Permission } from './interfaces/permission.model';
 import { LoginRetorno } from 'src/app/interfaces/login.model';
@@ -178,7 +177,7 @@ export class AppComponent implements OnInit {
         })
   }
 
-  private criarMenu(menu: Array<Page>) {
+  private criarMenu(menu: Array<any>) {
     let menus: Array<any> = [];
     menu.map((item) => {
       //adicionar os items de primeiro nível

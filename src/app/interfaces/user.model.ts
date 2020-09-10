@@ -1,23 +1,23 @@
 import { Empresa } from './empresa.model';
 import { Permission } from './permission.model';
-import { Regras } from './regra.model';
+import { Regra } from './regra.model';
 
 export interface User {
     id: number;
     email: string;
-    senha:string;
-    nomeCompleto:string;
+    senha: string;
+    nomeCompleto: string;
     avatar: string;
     ativo: boolean;
-    idRegra:Regras;
-    idEmpresa:Empresa;
-    isTecnico:boolean;
+    idRegra: Regra;
+    idEmpresa: Empresa;
+    isTecnico: boolean;
     criado: Date;
-    modificado:Date;
+    modificado: Date;
     criadoPor: string;
-    modificadoPor:string;
+    modificadoPor: string;
     dddCelular: string;
-    celular:string;
+    celular: string;
     dddTelefone: string;
-    telefone:string
+    telefone: string
 }
