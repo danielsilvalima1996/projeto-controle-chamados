@@ -32,23 +32,20 @@ export class RegrasListComponent implements OnInit {
   table = {
     columns: <PoTableColumn[]>[
       { property: 'id', label: 'Código', width: '10%' },
-      { property: 'descricao', label: 'Descrição', width: '20%' },
+      { property: 'descricao', label: 'Descrição', width: '15%' },
       { property: 'criado', label: 'Criado', width: '10%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado', width: '15%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'criadoPor', label: 'Criado Por', width: '15%' },
       { property: 'modificadoPor', label: 'Modificado Por', width: '15%' },
-      { property: 'ativo', label: 'Ativo', width: '15%', type: 'boolean' }
+      { property: 'ativo', label: 'Ativo', width: '10%', type: 'boolean' },
+      { property: 'quantidadePagina', label: 'Qtd. Páginas', width: '10%' }
     ],
     items: [],
     height: 0,
     loading: false
   }
 
-  regrasForm: FormGroup = this.fb.group({
-    id: ['', []],
-    descricao: ['', []],
-    ativo: ['']
-  })
+  public regraForm: FormGroup;
 
   selects = {
     ativoOptions: <Array<PoSelectOption>>[
@@ -71,11 +68,16 @@ export class RegrasListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.regraForm = this.fb.group({
+      id: ['', []],
+      descricao: ['', []],
+      ativo: ['']
+    })
     this.getRegras();
   }
 
   get controls() {
-    return this.regrasForm.controls;
+    return this.regraForm.controls;
   }
 
   getSelected(event) {
@@ -88,13 +90,12 @@ export class RegrasListComponent implements OnInit {
 
   getRegras() {
     this.loading = true;
-    let obj = {
-      id: this.controls.id.value,
-      descricao: this.controls.descricao.value,
-      ativo: this.controls.ativo.value
-    }
-    this.regrasService.findAll(this.utilService.getParameters(obj))
+    this.regrasService.findAll(
+      this.utilService.getParameters(
+        this.regraForm.value
+      ))
       .subscribe((data) => {
+        data.forEach(item => item.quantidadePagina = item.idPagina.length);
         this.table.items = data;
         this.loading = false;
       },
