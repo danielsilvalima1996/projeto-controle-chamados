@@ -3,20 +3,21 @@ import { Analista } from './analista.model';
 import { TipoChamado } from './tipo-chamado.model';
 import { SubtipoChamado } from './subtipo-chamado.model';
 import { User } from './user.model';
+import { Tecnico } from './tecnico.model';
 
 export interface Chamados {
-    idChamado: number,
-    idEmpresa: Empresa,
-    idAnalista: Analista,
-    idUsuario: User,
-    dataAbertura: String,
-    horaAbertura: string,
-    dataFechamento: String,
-    horaFechamento: string,
-    tempoChamado: string,
-    codigoStatusChamado: number,
-    tipoChamado: TipoChamado,
-    subtipoChamado: SubtipoChamado,
-    descricaoChamado: string,
-    solucaoChamado: string,
+    id: number;
+    idUsuario: User;
+    idTecnico: Tecnico;
+    dataAbertura: Date;
+    dataFechamento: Date;
+    statusChamado: number;
+    idTipoChamado: TipoChamado;
+    idSubtipoChamado: SubtipoChamado;
+    descricao: string;
+    criado: Date;
+    modificado: Date;
+    criadoPor: string;
+    modificadoPor: string;
+    idComentarioChamado:Array<any>;
 }

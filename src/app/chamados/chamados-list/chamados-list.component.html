@@ -1,31 +1,44 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
 
-    <div class="po-row" [formGroup]="chamadosForm">
-        <po-combo class="po-md-3" p-label="Pesquisa por" p-filter-mode="contains" p-placeholder="Pesquisar por ..."
-        [p-options]="selects.pesquisa" formControlName="pesquisa"></po-combo>
-        <po-input *ngIf="constValue.input" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-input>
-        <po-number *ngIf="constValue.number" class="po-md-3" p-label="Filtro" formControlName="filtro"></po-number>
-        <po-combo *ngIf="constValue.select" class="po-md-3" p-label="Filtro" formControlName="filtro" p-filter-mode="contains" 
-        p-placeholder="Filtrar por ..." [p-options]="selects.filtro"></po-combo>
+    <po-accordion>
+        <po-accordion-item class="po-sm-12 po-md-12" p-label="Filtros">
+            <form [formGroup]="chamadosForm" class="po-row" (keyup.enter)="searchData(chamadosForm.value)">
+                <po-input class="po-sm-6 po-md-2 po-lg-2" p-label="Código Chamado" formControlName="id"></po-input>
+                <po-combo class="po-md-3" p-filter-mode="contains" p-label="Usuário" [p-disabled]="disabledField"
+                    [p-options]="selects.usuarios" formControlName="idUsuario">
+                </po-combo>
 
-        <po-button class="po-md-2 po-mt-4" p-label="Buscar" (click)="searchData()"></po-button>
-    </div>
-    <po-table 
-        [p-columns]="table.columns"
-        [p-items]="table.items"
-        [p-loading]="table.loading"
-        [p-height]="table.height"
-        p-sort="true"
-        p-striped="true"
-        (p-selected)="selectedTable($event)"
-        (p-unselected)="unSelectedTable($event)"
-        p-checkbox="true" p-single-select="true"
-        p-hide-text-overflow="true">
+                <po-combo *ngIf="!esconderCampo" class="po-md-3" p-label="Técnico" p-filter-mode="contains"
+                    [p-options]="selects.tecnico" formControlName="idTecnico"></po-combo>
+
+                <po-input class="po-sm-6 po-md-2 po-lg-4" p-label="Descrição Chamado" formControlName="descricao">
+                </po-input>
+
+                <po-combo class="po-md-3" p-filter-mode="contains" p-label="Tipo Chamado"
+                    [p-options]="selects.tipoChamado" formControlName="idTipoChamado">
+                </po-combo>
+                <po-combo class="po-md-3" p-label="Subtipo Chamado" p-filter-mode="contains"
+                    [p-options]="selects.subtipoChamado" formControlName="idSubtipoChamado"></po-combo>
+
+                <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Buscar"
+                    (click)="searchData(chamadosForm.value)"></po-button>
+
+                <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Limpar Filtros"
+                    (click)="limparFiltros()"></po-button>
+            </form>
+        </po-accordion-item>
+    </po-accordion>
+
+    <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
+        p-sort="true" p-striped="true" (p-selected)="selectedTable($event)" (p-unselected)="unSelectedTable($event)"
+        p-checkbox="true" p-single-select="true" p-hide-text-overflow="true">
     </po-table>
 
-    
-    <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
+
+    <!-- <app-pagination [disabled]="table.loading" [(currentPage)]="pagination.currentPage"
         (pageChanged)="onPageChange($event)" [(totalItems)]="pagination.totalItems"
         [itemsPerPage]="pagination.itemsPerPage">
-    </app-pagination>
+    </app-pagination> -->
+    <po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
+    </po-loading-overlay>
 </po-page-default>
