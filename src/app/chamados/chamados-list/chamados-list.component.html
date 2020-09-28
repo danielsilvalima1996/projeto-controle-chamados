@@ -2,7 +2,7 @@
 
     <po-accordion>
         <po-accordion-item class="po-sm-12 po-md-12" p-label="Filtros">
-            <form [formGroup]="chamadosForm" class="po-row" (keyup.enter)="searchData(chamadosForm.value)">
+            <form [formGroup]="chamadosForm" class="po-row" (keyup.enter)="searchData()">
                 <po-input class="po-sm-6 po-md-2 po-lg-2" p-label="Código Chamado" formControlName="id"></po-input>
                 <po-combo class="po-md-3" p-filter-mode="contains" p-label="Usuário" [p-disabled]="disabledField"
                     [p-options]="selects.usuarios" formControlName="idUsuario">
@@ -21,7 +21,7 @@
                     [p-options]="selects.subtipoChamado" formControlName="idSubtipoChamado"></po-combo>
 
                 <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Buscar"
-                    (click)="searchData(chamadosForm.value)"></po-button>
+                    (click)="searchData()"></po-button>
 
                 <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Limpar Filtros"
                     (click)="limparFiltros()"></po-button>
@@ -30,7 +30,7 @@
     </po-accordion>
 
     <po-table [p-columns]="table.columns" [p-items]="table.items" [p-loading]="table.loading" [p-height]="table.height"
-        p-sort="true" p-striped="true" (p-selected)="selectedTable($event)" (p-unselected)="unSelectedTable($event)"
+        p-sort="true" p-striped="true" (p-selected)="selectedTable($event)" (p-unselected)="unSelectedTable()"
         p-checkbox="true" p-single-select="true" p-hide-text-overflow="true">
     </po-table>
 
