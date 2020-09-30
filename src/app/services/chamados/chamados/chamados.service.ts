@@ -11,14 +11,14 @@ import { Chamados } from 'src/app/interfaces/chamados.model';
 
 export class ChamadosService {
 
-  private relativeLink = 'chamados';
+  private relativeLink = 'chamado';
 
   constructor(
     private http: HttpClient
   ) { }
 
-  findChamados(parameters?: any): Observable<Pageable<Chamados>> {
-    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Pageable<Chamados>>;
+  findChamados(parameters?: any): Observable<Chamados> {
+    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Chamados>;
   }
 
   findChamadosUser(idUsuario: number, parameters?: any): Observable<Pageable<Chamados>> {

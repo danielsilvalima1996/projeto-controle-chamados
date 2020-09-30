@@ -33,8 +33,8 @@ export class AppComponent implements OnInit {
     },
     {
       label: 'Chamados', shortLabel: 'Chamados', icon: 'po-icon po-icon-touch', subItems: [
-        { label: 'Externo', shortLabel: 'Externo', link: 'chamados/externo', icon: 'po-icon po-icon-minus' },
-        { label: 'Interno', shortLabel: 'Interno', link: 'chamados/interno', icon: 'po-icon po-icon-minus' }
+        { label: 'Acompanhar Usuário', shortLabel: 'Verificar', link: 'chamados/acompanhar-usuario', icon: 'po-icon po-icon-minus' },
+        { label: 'Acompanhar Técnico', shortLabel: 'Verificar', link: 'chamados/acompanhar-tecnico', icon: 'po-icon po-icon-minus' }
       ]
     },
     // { label: 'Testing', shortLabel: 'Testing', icon: 'po-icon po-icon-list', link: 'testing' }

@@ -5,14 +5,12 @@ import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
-import { Pagination } from 'src/app/interfaces/pagination.model';
 import { LoginService } from 'src/app/services/authentication/login/login.service';
-import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
-import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
-import { debounceTime } from 'rxjs/operators';
+import { TecnicosService } from 'src/app/services/cadastros/tecnicos/tecnicos.service';
+import { User } from 'src/app/interfaces/user.model';
 
 @Component({
   selector: 'app-chamados-list',
@@ -26,7 +24,7 @@ export class ChamadosListComponent implements OnInit {
     actions: [
       {
         label: 'Novo', icon: 'po-icon po-icon-plus-circle', action: () => {
-          let url = `chamados/${this.constValue.tipoChamado}/add`;
+          let url = `chamados/${this.tipoChamado}/add`;
           this.router.navigate([url]);
         }
       },
@@ -43,7 +41,7 @@ export class ChamadosListComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Lista de Chamados' }
       ]
     }
@@ -51,20 +49,19 @@ export class ChamadosListComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      { label: 'Id Chamado', property: 'idChamado', width: '150px' },
-      { label: 'Empresa', property: 'idEmpresa', width: '150px' },
-      { label: 'Analista', property: 'idAnalista', width: '150px' },
-      { label: 'Data Abertura', property: 'dataAbertura', width: '150px' },
-      { label: 'Hora Abertura', property: 'horaAbertura', width: '150px' },
-      { label: 'Data Fechamento', property: 'dataFechamento', width: '150px' },
-      { label: 'Hora Fechamento', property: 'horaFechamento', width: '150px' },
-      { label: 'Tempo Chamado', property: 'tempoChamado', width: '150px' },
-      { label: 'Status Chamado', property: 'codigoStatusChamado', width: '150px' },
-      { label: 'Tipo Chamado', property: 'tipoChamado', width: '150px' },
-      { label: 'Subtipo Chamado', property: 'subtipoChamado', width: '150px' },
-      { label: 'Usuario', property: 'idUsuario', width: '150px' },
-      { label: 'Descrição Chamado', property: 'descricaoChamado', width: '300px' },
-      { label: 'Solução Chamado', property: 'solucaoChamado', width: '300px' }
+      { label: 'Chamado', property: 'id', width: '100px' },
+      { label: 'Técnico', property: 'idTecnico', width: '200px' },
+      { label: 'Data Abertura', property: 'dataAbertura', width: '150px', type: 'date', format: 'dd/MM/yyyy' },
+      { label: 'Data Fechamento', property: 'dataFechamento', width: '150px', type: 'date', format: 'dd/MM/yyyy' },
+      { label: 'Status Chamado', property: 'statusChamado', width: '150px' },
+      { label: 'Tipo Chamado', property: 'idTipoChamado', width: '150px' },
+      { label: 'Subtipo Chamado', property: 'idSubtipoChamado', width: '150px' },
+      { label: 'Usuario', property: 'idUsuario', width: '200px' },
+      { label: 'Descrição', property: 'descricao', width: '300px' },
+      { property: 'criado', label: 'Criado', width: '100px', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modificado', label: 'Modificado', width: '150px', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'criadoPor', label: 'Criado Por', width: '200px' },
+      { property: 'modificadoPor', label: 'Modificado Por', width: '200px' },
     ],
     items: [],
     loading: <boolean>false,
@@ -72,40 +69,41 @@ export class ChamadosListComponent implements OnInit {
   }
 
   selects = {
-    pesquisa: <PoSelectOption[]>[],
-    filtro: <PoSelectOption[]>[],
-    analista: <PoSelectOption[]>[],
+    tecnico: <PoSelectOption[]>[],
     tipoChamado: <PoSelectOption[]>[],
     subtipoChamado: <PoSelectOption[]>[],
-    empresa: <PoSelectOption[]>[],
-    user: <PoSelectOption[]>[],
+    usuarios: <PoSelectOption[]>[],
     status: <PoSelectOption[]>[
-      { label: 'Aberto', value: 1 },
-      { label: 'Em Análise', value: 2 },
-      { label: 'Fechado', value: 3 },
-      { label: 'Indeferido', value: 4 }
+      { label: 'Aberto', value: 0 },
+      { label: 'Em Análise', value: 1 },
+      { label: 'Fechado', value: 2 },
+      { label: 'Indeferido', value: 3 }
     ],
   }
 
-  constValue = {
-    selecionado: '',
-    tipoChamado: '',
-    input: <boolean>true,
-    select: <boolean>false,
-    number: <boolean>false,
-    idUsuario: <number>null
-  }
+  public selecionado = ''
+  public tipoChamado = ''
+  public idUsuario = 0
 
-  pagination: Pagination = {
-    itemsPerPage: 30,
-    totalItems: 0,
-    currentPage: 1
-  }
+  // pagination: Pagination = {
+  //   itemsPerPage: 30,
+  //   totalItems: 0,
+  //   currentPage: 1
+  // }
 
   chamadosForm: FormGroup = this.fb.group({
-    pesquisa: ['', []],
-    filtro: ['', []],
+    id: ['', []],
+    idUsuario: ['', []],
+    statusChamado: ['', []],
+    idTipoChamado: ['', []],
+    idSubtipoChamado: ['', []],
+    idTecnico: ['', []],
+    descricao: ['', []],
   })
+
+  public loading: boolean;
+  public disabledField = false;
+  public esconderCampo = false;
 
   constructor(
     private router: Router,
@@ -115,51 +113,48 @@ export class ChamadosListComponent implements OnInit {
     private route: ActivatedRoute,
     private notificationService: PoNotificationService,
     private loginService: LoginService,
-    private analistaService: AnalistaService,
     private subtipoChamadoService: SubtipoChamadoService,
     private tipoChamadoService: TipoChamadoService,
-    private empresaService: EmpresaService,
-    private userService: UserService
+    private usuariosService: UserService,
+    private tecnicosService: TecnicosService
   ) { }
 
   ngOnInit() {
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
-    this.analista();
-    this.subtipoChamadoList();
-    this.tipoChamadoList();
-    this.empresaList();
-    this.userList();
-    this.loginService.getUserInformation$.subscribe((data) => {
-      this.constValue.idUsuario = data.id;
+    this.retornaUsuarios();
+    this.retornaTecnicos();
+    this.retornaTipoChamado();
+    this.retornaSubtipoChamado();
+
+    let arr: Array<User> = this.route.snapshot.data['usuarios'];
+    arr.map((item) => {
+      this.selects.usuarios.push(<PoSelectOption>{ label: item.nomeCompleto, value: item.id })
     })
-    this.tipoChamados();
-    this.controls.pesquisa
-      .valueChanges.pipe(debounceTime(200))
-      .subscribe((data) => {
-        this.inputSelect(data);
-        this.controls.filtro.reset();
-      })
-    this.findChamados();
+
+    if (this.router.url.toString().indexOf('acompanhar-usuario') != -1) {
+      this.tipoChamado = 'acompanhar-usuario';
+      this.loginService.getUserInformation$
+        .subscribe((data) => {
+          this.controls.idUsuario.setValue(data.id)
+          this.idUsuario = data.id;
+          this.disabledField = true;
+          this.esconderCampo = true;
+        })
+    } else {
+      this.tipoChamado = 'acompanhar-tecnico';
+    }
+
+    this.searchData();
   }
 
   get controls() {
     return this.chamadosForm.controls;
   }
 
-  private analista() {
-    this.analistaService
-      .findAllAtivo()
-      .subscribe((data) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.nome, value: item.id.toString() }
-        })
-        this.selects.analista = arr;
-      })
-  }
-
-  private subtipoChamadoList() {
+  private retornaSubtipoChamado() {
     this.subtipoChamadoService
-      .findAll().subscribe((data) => {
+      .findSubtipoChamado()
+      .subscribe((data: any) => {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: item.descricao, value: item.id }
         })
@@ -167,137 +162,43 @@ export class ChamadosListComponent implements OnInit {
       })
   }
 
-  private tipoChamadoList() {
-    // this.tipoChamadoService
-    //   .findAll().subscribe((data) => {
-    //     let arr = data.map((item) => {
-    //       return <PoSelectOption>{ label: item.descricao, value: item.id }
-    //     })
-    //     this.selects.tipoChamado = arr;
-    //   })
-  }
-
-  private empresaList() {
-    this.empresaService
-      .findAllAtivo().subscribe((data) => {
+  private retornaTecnicos() {
+    this.tecnicosService.getTecnico('ativo=true')
+      .subscribe((data: any) => {
         let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.nomeFantasia, value: item.id }
+          return <PoSelectOption>{ label: item.idUsuario.nomeCompleto, value: item.id };
         })
-        this.selects.empresa = arr;
+        this.selects.tecnico = arr;
       })
   }
 
-  private userList() {
-    this.userService.findAllUser()
-      .subscribe((data:any) => {
+  private retornaTipoChamado() {
+    this.tipoChamadoService.findAll('ativo=true')
+      .subscribe((data: any) => {
         let arr = data.map((item) => {
-          return <PoSelectOption>{ label: `Usuário: ${item.fullName} - Empresa: ${item.idEmpresa.nomeFantasia}`, value: item.id }
+          return <PoSelectOption>{ label: item.descricao, value: item.id };
         })
-        this.selects.user = arr;
+        this.selects.tipoChamado = arr;
       })
   }
 
-  private inputSelect(data) {
-    switch (data) {
-      case 'idChamado':
-        this.constValue.input = false;
-        this.constValue.select = false;
-        this.constValue.number = true;
-        break;
-      case 'idAnalista':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.selects.filtro = this.selects.analista;
-        this.constValue.number = false;
-        break;
-      case 'codigoStatusChamado':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.selects.filtro = this.selects.status;
-        this.constValue.number = false;
-        break;
-      case 'descricaoChamado':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'solucaoChamado':
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-      case 'idSubtipoChamado':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.selects.filtro = this.selects.subtipoChamado;
-        this.constValue.number = false;
-        break;
-      case 'idTipoChamado':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.selects.filtro = this.selects.tipoChamado;
-        this.constValue.number = false;
-        break;
-      case 'idEmpresa':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.selects.filtro = this.selects.empresa;
-        this.constValue.number = false;
-        break;
-      case 'idUsuario':
-        this.constValue.input = false;
-        this.constValue.select = true;
-        this.selects.filtro = this.selects.user;
-        this.constValue.number = false;
-        break;
-      default:
-        this.constValue.input = true;
-        this.constValue.select = false;
-        this.constValue.number = false;
-        break;
-    }
-  }
-
-  private tipoChamados() {
-    if (this.router.url.toString().indexOf('externo') != -1) {
-      this.constValue.tipoChamado = 'externo';
-      this.selects.pesquisa = [
-        { label: 'ID CHAMADO', value: 'idChamado' },
-        { label: 'ANALISTA', value: 'idAnalista' },
-        { label: 'STATUS', value: 'codigoStatusChamado' },
-        { label: 'DESCRIÇÃO', value: 'descricaoChamado' },
-        { label: 'SOLUÇÃO CHAMADO', value: 'solucaoChamado' },
-        { label: 'SUBTIPO CHAMADO', value: 'idSubtipoChamado' },
-        { label: 'TIPO CHAMADO', value: 'idTipoChamado' }
-      ]
-      this.selects.pesquisa.sort((a, b) => {
-        return a.label < b.label ? -1 : a.label > b.label ? 1 : 0;
+  private retornaUsuarios() {
+    this.usuariosService
+      .getUser("ativo=true")
+      .subscribe((data: any) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: `${item.nomeCompleto}`, value: item.id }
+        })
+        this.selects.usuarios = arr;
       })
-    } else {
-      this.constValue.tipoChamado = 'interno';
-      this.selects.pesquisa = [
-        { label: 'ID CHAMADO', value: 'idChamado' },
-        { label: 'ANALISTA', value: 'idAnalista' },
-        { label: 'STATUS', value: 'codigoStatusChamado' },
-        { label: 'DESCRIÇÃO', value: 'descricaoChamado' },
-        { label: 'SOLUÇÃO CHAMADO', value: 'solucaoChamado' },
-        { label: 'EMPRESA', value: 'idEmpresa' },
-        { label: 'USUÁRIO', value: 'idUsuario' },
-        { label: 'SUBTIPO CHAMADO', value: 'idSubtipoChamado' },
-        { label: 'TIPO CHAMADO', value: 'idTipoChamado' }
-      ]
-      this.selects.pesquisa.sort((a, b) => {
-        return a.label < b.label ? -1 : a.label > b.label ? 1 : 0;
-      })
-    }
   }
 
   selectedTable(event) {
-    this.constValue.selecionado = event.idChamado;
+    this.selecionado = event.id;
   }
 
-  unSelectedTable(event) {
-    this.constValue.selecionado = '';
+  unSelectedTable() {
+    this.selecionado = '';
   }
 
   searchData() {
@@ -306,28 +207,25 @@ export class ChamadosListComponent implements OnInit {
 
   findChamados(parameters?: any) {
     this.table.loading = true;
-    if (this.constValue.tipoChamado == 'externo') {
+    if (this.tipoChamado === 'acompanhar-usuario') {
       this.chamadosService
-        .findChamadosUser(this.constValue.idUsuario, parameters)
-        .subscribe((data) => {
-          let arr: Array<any> = data.content.map((item) => {
+        .findChamados(parameters)
+        .subscribe((data: any) => {
+          let arr: Array<any> = data.map((item) => {
             let obj = {};
             Object.keys(item).map((data) => {
-              if (item[data] == '' || item[data] == null) {
-                obj[data] = '-';
-              } else if (data == 'idEmpresa') {
-                obj[data] = item[data].nomeFantasia;
-                item.idEmpresa.nomeFantasia
-              } else if (data == 'idAnalista') {
+              if (data == 'idAnalista') {
                 obj[data] = item[data].nome;
-              } else if (data == 'tipoChamado') {
+              } else if (data == 'idTecnico') {
+                obj[data] = item[data].idUsuario.nomeCompleto;
+              } else if (data == 'idTipoChamado') {
                 obj[data] = item[data].descricao;
-              } else if (data == 'subtipoChamado') {
+              } else if (data == 'idSubtipoChamado') {
                 obj[data] = item[data].descricao;
               } else if (data == 'idUsuario') {
                 // obj[data] = item[data].fullName;
-              } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-') {
-                obj[data] = this.utilService.formataData(item[data].toString());
+              } else if (data == 'dataAbertura' || data == 'dataFechamento') {
+                obj[data] = new Date(item[data])
               } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
                 if (item[data] != null || item[data].length >= 4) {
                   let hhMM: string = item[data];
@@ -342,8 +240,8 @@ export class ChamadosListComponent implements OnInit {
             })
             return obj;
           })
-          this.pagination.totalItems = data.totalElements;
-          this.pagination.itemsPerPage = data.size;
+          // this.pagination.totalItems = data.totalElements;
+          // this.pagination.itemsPerPage = data.size;
           this.table.loading = false;
           this.table.items = arr;
         },
@@ -351,48 +249,57 @@ export class ChamadosListComponent implements OnInit {
             this.notificationService.error(error.message);
           })
     } else {
+      this.tipoChamado = 'acompanhar-tecnico';
       this.chamadosService
         .findChamados(parameters)
-        .subscribe((data) => {
-          let arr: Array<any> = data.content.map((item) => {
-            let obj = {};
-            Object.keys(item).map((data) => {
-              if (item[data] == '' || item[data] == null) {
-                obj[data] = '-';
-              } else if (data == 'idEmpresa') {
-                obj[data] = item[data].nomeFantasia;
-                item.idEmpresa.nomeFantasia
-              } else if (data == 'idAnalista') {
-                obj[data] = item[data].nome;
-              } else if (data == 'tipoChamado') {
-                obj[data] = item[data].descricao;
-              } else if (data == 'subtipoChamado') {
-                obj[data] = item[data].descricao;
-              } else if (data == 'idUsuario') {
-                // obj[data] = item[data].fullName;
-              } else if ((data == 'dataAbertura' || data == 'dataFechamento') && item[data].toString() != '-') {
-                obj[data] = this.utilService.formataData(item[data].toString());
-              } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
-                if (item[data] != null || item[data].length >= 4) {
-                  let hhMM: string = item[data];
-                  obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+        .subscribe((data: any) => {
+          console.log(data);
+
+          let arr: Array<any> = data
+            .map((item) => {
+              let obj = {};
+              Object.keys(item).map((data) => {
+                // if (item[data] == '' || item[data] == null) {
+                //   obj[data] = '-';
+                // }
+                // else if (data == 'idEmpresa') {
+                //   obj[data] = item[data].nomeFantasia;
+                //   item.idEmpresa.nomeFantasia
+                // }
+                if (data == 'idAnalista') {
+                  obj[data] = item[data].nome;
+                } else if (data == 'idTecnico') {
+                  obj[data] = item[data].idUsuario.nomeCompleto;
+                } else if (data == 'idTipoChamado') {
+                  obj[data] = item[data].descricao;
+                } else if (data == 'idSubtipoChamado') {
+                  obj[data] = item[data].descricao;
+                } else if (data == 'idUsuario') {
+                  obj[data] = item[data].nomeCompleto;
+                } else if (data == 'dataAbertura' || data == 'dataFechamento' && item[data] != null) {
+                  obj[data] = new Date(item[data])
+                } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
+                  if (item[data] != null || item[data].length >= 4) {
+                    let hhMM: string = item[data];
+                    obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+                  } else {
+                    obj[data] = item[data];
+                  }
                 } else {
                   obj[data] = item[data];
                 }
-              } else {
-                obj[data] = item[data];
-              }
 
+              })
+              return obj;
             })
-            return obj;
-          })
-          this.pagination.totalItems = data.totalElements;
-          this.pagination.itemsPerPage = data.size;
+          // this.pagination.totalItems = data.totalElements;
+          // this.pagination.itemsPerPage = data.size;
           this.table.loading = false;
           this.table.items = arr;
         },
           (error: ErrorSpringBoot) => {
             this.notificationService.error(error.message);
+            this.table.loading = false;
           })
     }
 
@@ -400,28 +307,35 @@ export class ChamadosListComponent implements OnInit {
   }
 
   private visualizarChamado() {
-    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
+    if (this.selecionado == null || this.selecionado == '') {
       this.notificationService.warning('Selecione um chamado para visualizar!');
       return;
     } else {
-      this.router.navigate(['view', this.constValue.selecionado], { relativeTo: this.route });
+      this.router.navigate(['view', this.selecionado], { relativeTo: this.route });
     }
   }
 
   private editarChamado() {
-    if (this.constValue.selecionado == null || this.constValue.selecionado == '') {
+    if (this.selecionado == null || this.selecionado == '') {
       this.notificationService.warning('Selecione um chamado para editar!');
       return;
     } else {
-      this.router.navigate(['edit', this.constValue.selecionado], { relativeTo: this.route });
+      this.router.navigate(['edit', this.selecionado], { relativeTo: this.route });
     }
 
   }
 
-  onPageChange(event: number) {
-    this.pagination.currentPage = event;
-    let busca: string = Object.assign({}, this.chamadosForm.value, { page: this.pagination.currentPage });
-    this.findChamados(busca);
+  // onPageChange(event: number) {
+  //   this.pagination.currentPage = event;
+  //   let busca: string = Object.assign({}, this.chamadosForm.value, { page: this.pagination.currentPage });
+  //   this.findChamados(busca);
+  // }
+
+  limparFiltros() {
+    this.chamadosForm.reset();
+    if (this.tipoChamado === 'acompanhar-usuario') {
+      this.controls.idUsuario.setValue(this.idUsuario);
+    }
   }
 
 }

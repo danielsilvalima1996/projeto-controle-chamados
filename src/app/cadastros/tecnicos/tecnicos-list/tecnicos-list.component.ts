@@ -132,7 +132,7 @@ export class TecnicosListComponent implements OnInit {
       .getUser("ativo=true")
       .subscribe((data: any) => {
         let arr = data.map((item) => {
-          return <PoSelectOption>{ label: `${item.id} - ${item.nomeCompleto }`, value: item.id }
+          return <PoSelectOption>{ label: `${item.nomeCompleto }`, value: item.id }
         })
         this.selects.usuarios = arr;
       })
