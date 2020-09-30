@@ -3,35 +3,40 @@
     <form [formGroup]="regraForm">
         <po-divider p-label="Dados Cadastrais"></po-divider>
         <div class="po-row">
-            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" [p-readonly]="disabledFields || disabledId"
-                p-label="Código" formControlName="id">
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" [p-readonly]="disabledFields || disabledId" p-label="Código" formControlName="id">
             </po-input>
-            <po-input class="po-md-2" [p-readonly]="disabledFields" p-label="Descrição" p-required="true"
-                formControlName="descricao"></po-input>
-            <po-switch [p-disabled]="disabledFields" formControlName="ativo" p-label="Ativo" p-label-off="Inativo"
-                p-label-on="Ativo"> </po-switch>
+            <po-input class="po-md-2" [p-readonly]="disabledFields" p-label="Descrição" p-required="true" formControlName="descricao"></po-input>
+            <po-switch [p-disabled]="disabledFields" formControlName="ativo" p-label="Ativo" p-label-off="Inativo" p-label-on="Ativo"> </po-switch>
             <po-divider *ngIf="tipoTela != 'add'" class="po-md-12" p-label="Informações da Regra"></po-divider>
-            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy"
-                p-label="Criado" formControlName="criado"></po-datepicker>
-            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy"
-                p-label="Modificado" formControlName="modificado"></po-datepicker>
-            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Criado Por"
-                formControlName="criadoPor"></po-input>
-            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Modificado Por"
-                formControlName="modificadoPor"></po-input>
+            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy" p-label="Criado" formControlName="criado"></po-datepicker>
+            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy" p-label="Modificado" formControlName="modificado"></po-datepicker>
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Criado Por" formControlName="criadoPor"></po-input>
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Modificado Por" formControlName="modificadoPor"></po-input>
         </div>
     </form>
 
-    <po-table
-        [p-columns]="table.columns"
-        [p-items]="table.items"
-        [p-selectable]="table.selectable"
-        p-sort="true"
-        p-striped="true"
-        (p-selected)="selectTable($event)"
-        (p-unselected)="unSelectTable($event)"
-        (p-all-selected)="allSelectTable()"
-        (p-all-unselected)="unAllSelectTable()"></po-table>
+    <table class="table text-center po-table-main-container po-table .po-table-wrapper ">
+        <thead>
+            <tr class="altura-linha">
+                <th class="text-center po-table-header">Código</th>
+                <th class="text-center po-table-header">Link</th>
+                <th class="text-center po-table-header">Nome Página</th>
+                <th *ngIf="tipoTela != 'view'" class="text-center po-table-header">Selecionar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of table.items" class="po-table-row po-table-striped po-table-group-row">
+                <td class="text-center padding-v">{{item.id}}</td>
+                <td class="text-center padding-v">{{item.link}}</td>
+                <td class="text-center padding-v">{{item.label}}</td>
+                <td *ngIf="tipoTela != 'view'" class="text-center padding-v">
+                    <po-switch (p-change)="selectTable(item)" p-label="" p-label-off="Desmarcado" p-label-on="Marcado" [(ngModel)]="item.isSelecionado">
+                    </po-switch>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 
     <po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
     </po-loading-overlay>
