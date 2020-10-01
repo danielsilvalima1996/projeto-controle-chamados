@@ -10,5 +10,6 @@ export interface Pagina {
     criadoPor: string,
     modificadoPor: string,
     parent: number,
-    quantidadePagina?: number
+    quantidadePagina?: number,
+    isSelecionado?: boolean
 }

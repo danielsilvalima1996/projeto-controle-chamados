@@ -1,0 +1,11 @@
+.padding-v {
+    padding: 0.25rem;
+}
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #fbfbfb;
+}

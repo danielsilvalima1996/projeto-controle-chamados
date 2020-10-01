@@ -137,9 +137,6 @@ export class RegrasEditComponent implements OnInit {
       .subscribe((data) => {
         data.criado = new Date(data.criado);
         data.modificado = new Date(data.modificado);
-        data.idPagina.forEach((item) => {
-          this.selectTable(item);
-        });
         this.paginasSelecionadas = data.idPagina;
         if (this.tipoTela != 'view') {
           this.findAllPagina();
@@ -150,6 +147,7 @@ export class RegrasEditComponent implements OnInit {
               item.link = pai.link + item.link;
             }
           })
+          this.paginasSelecionadas.sort((a, b) => a.id - b.id)
           this.table.items = this.paginasSelecionadas;
         }
         delete data.idPagina;
@@ -168,12 +166,23 @@ export class RegrasEditComponent implements OnInit {
       findAllPagina()
       .subscribe((data) => {
         data.forEach((item => {
+          item.isSelecionado = false;
           if (item.parent != 0) {
             let pai = data.find(parent => parent.id == item.parent)
             item.link = `${pai.link}${item.link}`
           }
         }))
         this.table.items = data;
+        if (this.tipoTela == 'edit') {
+          this.paginasSelecionadas.forEach((item) => {
+            this.table.items.map((table) => {
+              if (table.id == item.id) {
+                table.isSelecionado = true;
+              }
+            });
+            console.log(item, this.table.items);
+          });
+        }
       },
         (error: HttpErrorResponse) => {
           console.log(error.message);
@@ -192,7 +201,7 @@ export class RegrasEditComponent implements OnInit {
         .alterRegra(regra)
         .subscribe((data) => {
           this.notificationService.success('Regra alterada com sucesso!');
-          this.router.navigate(['cadastros/regras/']);
+          this.router.navigate(['cadastros/regra/']);
           this.loading = false;
         },
           (error: HttpErrorResponse) => {
@@ -233,15 +242,24 @@ export class RegrasEditComponent implements OnInit {
   }
 
   public selectTable(pagina: Pagina) {
-    let duplicata = this.paginasSelecionadas.find(item => item == pagina);
-    if (!duplicata) {
-      this.paginasSelecionadas.push(pagina);
+    console.log(pagina);
+    if (pagina.isSelecionado) {
+      // let duplicata = this.paginasSelecionadas.find(item => item == pagina);
+      // if (!duplicata) {
+      //   let pai = this.paginasSelecionadas.find(item => item.id == pagina.parent);
+      //   if (!pai) {
+      //     let linha = this.table.items.find(pai => pai.id == pagina.parent);
+      //     linha.isSelecionado = true;
+      //     this.paginasSelecionadas.push(linha);
+      //   }
+        this.paginasSelecionadas.push(pagina);
+      // }
+    } else {
+      // let item = this.table.items.find(item => item.id == pagina.id);
+      // item.isSelecionado = false;
+      this.paginasSelecionadas = this.paginasSelecionadas.filter(item => item.id != pagina.id);
     }
     console.log(this.paginasSelecionadas);
-  }
-
-  public unSelectTable(pagina: Pagina) {
-    this.paginasSelecionadas = this.paginasSelecionadas.filter(item => item != pagina);
   }
 
   public allSelectTable() {
