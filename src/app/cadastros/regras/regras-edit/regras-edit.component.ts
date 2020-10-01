@@ -141,13 +141,6 @@ export class RegrasEditComponent implements OnInit {
         if (this.tipoTela != 'view') {
           this.findAllPagina();
         } else {
-          this.paginasSelecionadas.map((item) => {
-            if (item.parent != 0) {
-              let pai = this.paginasSelecionadas.find(pai => pai.id == item.id);
-              item.link = pai.link + item.link;
-            }
-          })
-          this.paginasSelecionadas.sort((a, b) => a.id - b.id)
           this.table.items = this.paginasSelecionadas;
         }
         delete data.idPagina;
@@ -165,13 +158,7 @@ export class RegrasEditComponent implements OnInit {
     this.paginaService.
       findAllPagina()
       .subscribe((data) => {
-        data.forEach((item => {
-          item.isSelecionado = false;
-          if (item.parent != 0) {
-            let pai = data.find(parent => parent.id == item.parent)
-            item.link = `${pai.link}${item.link}`
-          }
-        }))
+        data.forEach(item => item.isSelecionado = false);
         this.table.items = data;
         if (this.tipoTela == 'edit') {
           this.paginasSelecionadas.forEach((item) => {
@@ -244,22 +231,10 @@ export class RegrasEditComponent implements OnInit {
   public selectTable(pagina: Pagina) {
     console.log(pagina);
     if (pagina.isSelecionado) {
-      // let duplicata = this.paginasSelecionadas.find(item => item == pagina);
-      // if (!duplicata) {
-      //   let pai = this.paginasSelecionadas.find(item => item.id == pagina.parent);
-      //   if (!pai) {
-      //     let linha = this.table.items.find(pai => pai.id == pagina.parent);
-      //     linha.isSelecionado = true;
-      //     this.paginasSelecionadas.push(linha);
-      //   }
-        this.paginasSelecionadas.push(pagina);
-      // }
+      this.paginasSelecionadas.push(pagina);
     } else {
-      // let item = this.table.items.find(item => item.id == pagina.id);
-      // item.isSelecionado = false;
       this.paginasSelecionadas = this.paginasSelecionadas.filter(item => item.id != pagina.id);
     }
-    console.log(this.paginasSelecionadas);
   }
 
   public allSelectTable() {
