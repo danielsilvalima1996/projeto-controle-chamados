@@ -23,7 +23,7 @@ import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.servi
 export class ChamadosAddComponent implements OnInit {
 
   page: PoPageDefault = {
-    title: '',
+    title: 'Adicionar Chamado',
     actions: [
       {
         label: 'Registrar', action: () => {
@@ -38,17 +38,18 @@ export class ChamadosAddComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Chamados' }
+        { label: 'Chamados' },
+        { label: 'Adicionar' }
       ]
     }
   }
 
   selects = {
     tipoChamado: <PoSelectOption[]>[],
-    subtipoChamado: <PoSelectOption[]>[],
+    subtipoChamado: <any[]>[],
     analistas: <PoSelectOption[]>[],
     empresas: <PoSelectOption[]>[],
-    users: <PoSelectOption[]>[],
+    usuarios: <PoSelectOption[]>[],
     status: <PoSelectOption[]>[
       { label: 'Aberto', value: 1 },
       { label: 'Em Análise', value: 2 },
@@ -64,36 +65,43 @@ export class ChamadosAddComponent implements OnInit {
     dataAtual: ''
   }
 
-  chamadosFormInterno: FormGroup = this.fb.group({
-    idEmpresa: ['', []],
-    idAnalista: ['', []],
-    idUsuario: ['', []],
-    dataAbertura: ['', [Validators.required]],
-    horaAbertura: ['', [Validators.required]],
-    dataFechamento: ['', []],
-    horaFechamento: ['', []],
-    tempoChamado: ['', []],
-    codigoStatusChamado: ['', []],
-    tipoChamado: ['', [Validators.required]],
-    subtipoChamado: ['', [Validators.required]],
-    descricaoChamado: ['', [Validators.required]],
-    solucaoChamado: ['', []]
-  })
+  // chamadosFormInterno: FormGroup = this.fb.group({
+  //   idEmpresa: ['', []],
+  //   idAnalista: ['', []],
+  //   idUsuario: ['', []],
+  //   dataAbertura: ['', [Validators.required]],
+  //   horaAbertura: ['', [Validators.required]],
+  //   dataFechamento: ['', []],
+  //   horaFechamento: ['', []],
+  //   tempoChamado: ['', []],
+  //   codigoStatusChamado: ['', []],
+  //   tipoChamado: ['', [Validators.required]],
+  //   subtipoChamado: ['', [Validators.required]],
+  //   descricaoChamado: ['', [Validators.required]],
+  //   solucaoChamado: ['', []]
+  // })
 
-  chamadosFormExterno: FormGroup = this.fb.group({
-    idEmpresa: ['', []],
-    idAnalista: ['', []],
-    idUsuario: ['', []],
-    dataAbertura: ['', [Validators.required]],
-    horaAbertura: ['', [Validators.required]],
-    dataFechamento: ['', []],
-    horaFechamento: ['', []],
-    tempoChamado: ['', []],
-    codigoStatusChamado: ['', []],
-    tipoChamado: ['', [Validators.required]],
-    subtipoChamado: ['', [Validators.required]],
-    descricaoChamado: ['', [Validators.required]],
-    solucaoChamado: ['', []]
+  // chamadosFormExterno: FormGroup = this.fb.group({
+  //   idEmpresa: ['', []],
+  //   idAnalista: ['', []],
+  //   idUsuario: ['', []],
+  //   dataAbertura: ['', [Validators.required]],
+  //   horaAbertura: ['', [Validators.required]],
+  //   dataFechamento: ['', []],
+  //   horaFechamento: ['', []],
+  //   tempoChamado: ['', []],
+  //   codigoStatusChamado: ['', []],
+  //   tipoChamado: ['', [Validators.required]],
+  //   subtipoChamado: ['', [Validators.required]],
+  //   descricaoChamado: ['', [Validators.required]],
+  //   solucaoChamado: ['', []]
+  // })
+
+  chamadosForm: FormGroup = this.fb.group({
+    descricao: ['', [Validators.required]],
+    idSubtipoChamado: ['', [Validators.required]],
+    idTipoChamado: ['', [Validators.required]],
+    idUsuario: ['', [Validators.required]]
   })
 
   constructor(
@@ -109,102 +117,156 @@ export class ChamadosAddComponent implements OnInit {
     private loginService: LoginService,
     private analistaService: AnalistaService,
     private userService: UserService,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    private usuariosService: UserService,
   ) { }
 
   ngOnInit() {
-    this.constValue.dataAtual = this.utilService.dataAtual();
-    this.externoInterno();
-    this.analistas();
-    this.empresas();
-    this.tipoTela(this.constValue.tipoChamado);
-    this.controls.dataAbertura.setValue(this.utilService.dataAtual());
-    this.controls.horaAbertura.setValue(this.utilService.horaAtual());
-    this.tipoChamado();
-    this.chamadosFormInterno
+    // this.constValue.dataAtual = this.utilService.dataAtual();
+    // this.externoInterno();
+    // this.analistas();
+    // this.empresas();
+    // this.tipoTela(this.constValue.tipoChamado);
+    // this.controls.dataAbertura.setValue(this.utilService.dataAtual());
+    // this.controls.horaAbertura.setValue(this.utilService.horaAtual());
+    // this.tipoChamado();
+
+    this.retornaUsuarios();
+    this.retornaTipoChamado();
+    this.retornaSubtipoChamado();
+    // this.chamadosFormInterno
+    //   .valueChanges
+    //   .subscribe((_) => {
+    //     this.page.actions[0].disabled = this.chamadosFormInterno.invalid;
+    //   })
+    // this.chamadosFormExterno
+    //   .valueChanges
+    //   .subscribe((_) => {
+    //     this.page.actions[0].disabled = this.chamadosFormExterno.invalid;
+
+    //   })
+    this.chamadosForm
       .valueChanges
       .subscribe((_) => {
-        this.page.actions[0].disabled = this.chamadosFormInterno.invalid;
-      })
-    this.chamadosFormExterno
-      .valueChanges
-      .subscribe((_) => {
-        this.page.actions[0].disabled = this.chamadosFormExterno.invalid;
+        this.page.actions[0].disabled = this.chamadosForm.invalid;
 
       })
-    this.controls.tipoChamado
+    this.controls.idTipoChamado
       .valueChanges.subscribe((data) => {
-        if (data == undefined || data == '') {
-          this.selects.subtipoChamado = [];
+        console.log(data);
+
+        if (data === undefined || data === '' || data === null) {
+          this.controls.idSubtipoChamado.setValue([])
           return;
         } else {
-          this.subtipoChamado(data);
-        }
-      })
-    this.controls.idEmpresa
-      .valueChanges.subscribe((data) => {
-        if (data == undefined || data == '') {
-          this.selects.users = [];
-          return;
-        } else {
-          this.users(data);
+          const tipoChamado = this.selects.subtipoChamado.filter((item) => item.idTipoChamado === data)
+          this.selects.subtipoChamado = tipoChamado;
+          console.log(this.selects.subtipoChamado);
+
         }
       })
 
-    this.controls.dataFechamento
-      .valueChanges.subscribe((data) => {
-        if (data == null || data == '') {
-          this.controls.horaFechamento.setValue(null);
-        } else {
-          this.controls.horaFechamento.setValue(this.utilService.horaAtual());
-          this.controls.codigoStatusChamado.setValue(3);
-        }
-      })
 
-    this.controls.idUsuario
-      .valueChanges.subscribe((data) => {
-        this.userById(data);
-      })
+    // this.controls.idEmpresa
+    //   .valueChanges.subscribe((data) => {
+    //     if (data == undefined || data == '') {
+    //       this.selects.users = [];
+    //       return;
+    //     } else {
+    //       this.users(data);
+    //     }
+    //   })
+
+    // this.controls.dataFechamento
+    //   .valueChanges.subscribe((data) => {
+    //     if (data == null || data == '') {
+    //       this.controls.horaFechamento.setValue(null);
+    //     } else {
+    //       this.controls.horaFechamento.setValue(this.utilService.horaAtual());
+    //       this.controls.codigoStatusChamado.setValue(3);
+    //     }
+    //   })
+
+    // this.controls.idUsuario
+    //   .valueChanges.subscribe((data) => {
+    //     this.userById(data);
+    //   })
   }
 
   get controls() {
-    if (this.constValue.tipoChamado == 'externo') {
-      return this.chamadosFormExterno.controls;
-    } else {
-      return this.chamadosFormInterno.controls;
-    }
+    // if (this.constValue.tipoChamado == 'externo') {
+    return this.chamadosForm.controls;
+    // } else {
+    // return this.chamadosFormInterno.controls;
+    // }
   }
 
-  private externoInterno() {
-    if (this.router.url.toString().indexOf('externo') != -1) {
-      this.constValue.tipoChamado = 'externo';
-      this.controls.codigoStatusChamado.setValue(1);
-    } else {
-      this.constValue.tipoChamado = 'interno';
-    }
+  private retornaSubtipoChamado() {
+    this.subtipoChamadoService
+      .findSubtipoChamado()
+      .subscribe((data: any) => {
+        let arr = data.map((item) => {
+          return <any>{ label: item.descricao, value: item.id, idTipoChamado: item.idTipoChamado.id }
+        })
+        this.selects.subtipoChamado = arr;
+      })
   }
 
-  private tipoTela(tipoChamado) {
-    let item: PoBreadcrumbItem[] = [];
-    if (tipoChamado == 'externo') {
-      this.constValue.visibilidade = false;
-      this.page.title = 'Adicionar Chamado Externo';
-      item = [
-        { label: 'Externo' },
-        { label: 'Adicionar' }
-      ]
-    } else {
-      this.constValue.visibilidade = true;
-      this.page.title = 'Adicionar Chamado Interno';
-      item = [
-        { label: 'Interno' },
-        { label: 'Adicionar' }
-      ]
-    }
-    item.map((item) => {
-      this.page.breadcrumb.items.push(item);
-    })
+
+  private retornaTipoChamado() {
+    this.tipoChamadoService.findAll('ativo=true')
+      .subscribe((data: any) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.descricao, value: item.id };
+        })
+        this.selects.tipoChamado = arr;
+        console.log(this.selects.tipoChamado);
+
+      })
   }
+
+  private retornaUsuarios() {
+    this.usuariosService
+      .getUser("ativo=true")
+      .subscribe((data: any) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: `${item.nomeCompleto}`, value: item.id }
+        })
+        this.selects.usuarios = arr;
+      })
+  }
+
+  // private externoInterno() {
+  //   if (this.router.url.toString().indexOf('externo') != -1) {
+  //     this.constValue.tipoChamado = 'externo';
+  //     this.controls.codigoStatusChamado.setValue(1);
+  //   } else {
+  //     this.constValue.tipoChamado = 'interno';
+  //   }
+  // }
+
+
+  // private tipoTela(tipoChamado) {
+  //   let item: PoBreadcrumbItem[] = [];
+  //   if (tipoChamado == 'externo') {
+  //     this.constValue.visibilidade = false;
+  //     this.page.title = 'Adicionar Chamado Externo';
+  //     item = [
+  //       { label: 'Externo' },
+  //       { label: 'Adicionar' }
+  //     ]
+  //   } else {
+  //     this.constValue.visibilidade = true;
+  //     this.page.title = 'Adicionar Chamado Interno';
+  //     item = [
+  //       { label: 'Interno' },
+  //       { label: 'Adicionar' }
+  //     ]
+  //   }
+  //   item.map((item) => {
+  //     this.page.breadcrumb.items.push(item);
+  //   })
+  // }
 
   private tipoChamado() {
     // this.tipoChamadoService
@@ -217,120 +279,133 @@ export class ChamadosAddComponent implements OnInit {
     //   })
   }
 
-  private subtipoChamado(id: number) {
-    this.subtipoChamadoService
-      .findAllByTipo(id)
-      .subscribe((data) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.descricao, value: item.id }
-        })
-        this.selects.subtipoChamado = arr;
-      })
-  }
+  // private subtipoChamado(id: number) {
+  //   this.subtipoChamadoService
+  //     .findAllByTipo(id)
+  //     .subscribe((data) => {
+  //       let arr = data.map((item) => {
+  //         return <PoSelectOption>{ label: item.descricao, value: item.id }
+  //       })
+  //       this.selects.subtipoChamado = arr;
+  //     })
+  // }
 
-  private analistas() {
-    this.analistaService
-      .findAllAtivo()
-      .subscribe((data) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.nome, value: item.id }
-        })
-        this.selects.analistas = arr;
-      })
-  }
+  // private analistas() {
+  //   this.analistaService
+  //     .findAllAtivo()
+  //     .subscribe((data) => {
+  //       let arr = data.map((item) => {
+  //         return <PoSelectOption>{ label: item.nome, value: item.id }
+  //       })
+  //       this.selects.analistas = arr;
+  //     })
+  // }
 
-  private empresas() {
-    this.empresaService
-      .findAllAtivo()
-      .subscribe((data) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.nomeFantasia, value: item.id }
-        })
-        this.selects.empresas = arr;
-      })
-  }
+  // private empresas() {
+  //   this.empresaService
+  //     .findAllAtivo()
+  //     .subscribe((data) => {
+  //       let arr = data.map((item) => {
+  //         return <PoSelectOption>{ label: item.nomeFantasia, value: item.id }
+  //       })
+  //       this.selects.empresas = arr;
+  //     })
+  // }
 
-  private users(id: number) {
-    this.userService
-      .findAllEmpresa(id)
-      .subscribe((data:any) => {
-        if (data.length > 0) {
-          let arr = data.map((item) => {
-            return <PoSelectOption>{ label: item.fullName, value: item.id }
-          })
-          this.selects.users = arr;
-        }
-      })
-  }
+  // private users(id: number) {
+  //   this.userService
+  //     .findAllEmpresa(id)
+  //     .subscribe((data: any) => {
+  //       if (data.length > 0) {
+  //         let arr = data.map((item) => {
+  //           return <PoSelectOption>{ label: item.fullName, value: item.id }
+  //         })
+  //         this.selects.users = arr;
+  //       }
+  //     })
+  // }
 
-  private userById(id: number) {
-    this.userService
-      .findById(id)
-      .subscribe((data) => {
-        this.constValue.user = data;
-      })
-  }
+  // private userById(id: number) {
+  //   this.userService
+  //     .findById(id)
+  //     .subscribe((data) => {
+  //       this.constValue.user = data;
+  //     })
+  // }
 
   registrarChamado() {
     let chamado;
-    let user: User;
-    if (this.constValue.tipoChamado == 'externo') {
-      // let dataFechamento: string;
-      let empresaId: number
-      this.controls.idAnalista.value == '' || this.controls.idAnalista.value == null ?
-        this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
-      this.controls.codigoStatusChamado.value == '' || this.controls.codigoStatusChamado.value == '' ?
-        this.controls.codigoStatusChamado.setValue(1) :
-        this.controls.codigoStatusChamado.setValue(this.controls.codigoStatusChamado.value);
+    // let user: User;
+    // if (this.constValue.tipoChamado == 'externo') {
+    //   // let dataFechamento: string;
+    //   let empresaId: number
+    //   this.controls.idAnalista.value == '' || this.controls.idAnalista.value == null ?
+    //     this.controls.idAnalista.setValue(1) : this.controls.idAnalista.setValue(this.controls.idAnalista.value);
+    //   this.controls.codigoStatusChamado.value == '' || this.controls.codigoStatusChamado.value == '' ?
+    //     this.controls.codigoStatusChamado.setValue(1) :
+    //     this.controls.codigoStatusChamado.setValue(this.controls.codigoStatusChamado.value);
 
-      this.loginService
-        .getUserInformation$
-        .subscribe((data: any) => {
-          user = data;
-          empresaId = data.idEmpresa.id
-        })
-      // user.authorities = [];
-      chamado = {
-        idChamado: '',
-        idEmpresa: { id: empresaId },
-        idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
-        idUsuario: user,
-        dataAbertura: this.controls.dataAbertura.value,
-        horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g, ''),
-        dataFechamento: this.controls.dataFechamento.value,
-        horaFechamento: this.controls.horaFechamento.value.replace(/[^0-9]/g, ''),
-        tempoChamado: this.controls.tempoChamado.value.replace(/[^0-9]/g, ''),
-        codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
-        tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
-        subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
-        descricaoChamado: this.controls.descricaoChamado.value,
-        solucaoChamado: this.controls.solucaoChamado.value
+    //   this.loginService
+    //     .getUserInformation$
+    //     .subscribe((data: any) => {
+    //       user = data;
+    //       empresaId = data.idEmpresa.id
+    //     })
+    // user.authorities = [];
+    chamado = {
+      descricao: this.controls.descricao.value,
+      idSubtipoChamado: {
+        id: this.controls.idSubtipoChamado.value
+      },
+      idTipoChamado: {
+        id: this.controls.idTipoChamado.value
+      },
+      idUsuario: {
+        id: this.controls.idUsuario.value
       }
-    } else {
-      // this.constValue.user.authorities = [];
-      let horaAbertura;
-      let horaFechamento;
-      let tempoChamado;
-      this.controls.horaAbertura.value == null ? horaAbertura = '' : horaAbertura = this.controls.horaAbertura.value.replace(/[^0-9]/g, '');
-      this.controls.horaFechamento.value == null ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
-      this.controls.tempoChamado.value == null ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
-      chamado = {
-        idChamado: '',
-        idEmpresa: { id: this.controls.idEmpresa.value },
-        idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
-        idUsuario: this.constValue.user,
-        dataAbertura: this.controls.dataAbertura.value,
-        horaAbertura: horaAbertura,
-        dataFechamento: this.controls.dataFechamento.value,
-        horaFechamento: horaFechamento,
-        tempoChamado: tempoChamado,
-        codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
-        tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
-        subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
-        descricaoChamado: this.controls.descricaoChamado.value,
-        solucaoChamado: this.controls.solucaoChamado.value
-      }
+
+      // idChamado: '',
+      // idEmpresa: { id: empresaId },
+      // idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
+      // idUsuario: user,
+      // dataAbertura: this.controls.dataAbertura.value,
+      // horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g, ''),
+      // dataFechamento: this.controls.dataFechamento.value,
+      // horaFechamento: this.controls.horaFechamento.value.replace(/[^0-9]/g, ''),
+      // tempoChamado: this.controls.tempoChamado.value.replace(/[^0-9]/g, ''),
+      // codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
+      // tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
+      // subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
+      // descricaoChamado: this.controls.descricaoChamado.value,
+      // solucaoChamado: this.controls.solucaoChamado.value
     }
+    // } 
+
+    // else {
+    //   // this.constValue.user.authorities = [];
+    //   let horaAbertura;
+    //   let horaFechamento;
+    //   let tempoChamado;
+    //   this.controls.horaAbertura.value == null ? horaAbertura = '' : horaAbertura = this.controls.horaAbertura.value.replace(/[^0-9]/g, '');
+    //   this.controls.horaFechamento.value == null ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
+    //   this.controls.tempoChamado.value == null ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
+    //   chamado = {
+    //     idChamado: '',
+    //     idEmpresa: { id: this.controls.idEmpresa.value },
+    //     idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
+    //     idUsuario: this.constValue.user,
+    //     dataAbertura: this.controls.dataAbertura.value,
+    //     horaAbertura: horaAbertura,
+    //     dataFechamento: this.controls.dataFechamento.value,
+    //     horaFechamento: horaFechamento,
+    //     tempoChamado: tempoChamado,
+    //     codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
+    //     tipoChamado: { id: parseInt(this.controls.tipoChamado.value, 10) },
+    //     subtipoChamado: { id: parseInt(this.controls.subtipoChamado.value, 10) },
+    //     descricaoChamado: this.controls.descricaoChamado.value,
+    //     solucaoChamado: this.controls.solucaoChamado.value
+    //   }
+    // }
 
     this.chamadosService
       .createChamado(chamado)

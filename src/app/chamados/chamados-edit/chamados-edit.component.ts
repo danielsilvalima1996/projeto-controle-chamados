@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoBreadcrumbItem, PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
+import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService, PoTagType } from '@po-ui/ng-components';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,11 +23,12 @@ import { debounceTime } from 'rxjs/operators';
 export class ChamadosEditComponent implements OnInit {
 
   page: PoPageDefault = {
-    title: '',
+    title: 'Editar Chamado',
     actions: [
       {
         label: 'Salvar', action: () => this.alterarChamado()
-      },
+      }
+      ,
       {
         label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
           this.location.back();
@@ -41,379 +42,255 @@ export class ChamadosEditComponent implements OnInit {
     }
   }
 
-  selects = {
-    tipoChamado: <PoSelectOption[]>[],
-    subtipoChamado: <PoSelectOption[]>[],
-    analistas: <PoSelectOption[]>[],
-    status: <PoSelectOption[]>[
-      { label: 'Aberto', value: 1 },
-      { label: 'Em Análise', value: 2 },
-      { label: 'Fechado', value: 3 },
-      { label: 'Indeferido', value: 4 }
-    ]
-  }
-
   constValue = {
     tipoChamado: '',
     id: <number>0
   }
 
-  formAuxiliar = {
-    empresa: <Empresa>null,
-    analista: <Analista>null,
-    user: <User>null,
-    tipoChamado: <TipoChamado>null,
-    subtipoChamado: <SubtipoChamado>null,
-    codigoStatusChamado: <number>null
+  public tag = {
+    color: '',
+    label: 'Status',
+    type: <PoTagType>'',
+    value: '',
   }
 
-  chamadosFormInterno: FormGroup = this.fb.group({
-    idChamado: ['', []],
-    idEmpresa: ['', []],
-    idAnalista: ['', [Validators.required]],
-    idUsuario: ['', []],
+  chamadosFormEdit: FormGroup = this.fb.group({
+    criado: ['', []],
+    criadoPor: ['', []],
     dataAbertura: ['', []],
-    horaAbertura: ['', []],
     dataFechamento: ['', []],
-    horaFechamento: ['', []],
-    tempoChamado: ['', []],
-    codigoStatusChamado: ['', [Validators.required]],
-    tipoChamado: ['', [Validators.required]],
-    subtipoChamado: ['', [Validators.required]],
-    descricaoChamado: ['', [Validators.required]],
-    solucaoChamado: ['', []]
+    descricao: ['', []],
+    id: ['', []],
+    idComentarioChamado: ['', []],
+    idSubtipoChamado: ['', []],
+    idTecnico: ['', []],
+    idTipoChamado: ['', []],
+    modificado: ['', []],
+    modificadoPor: ['', []],
+    statusChamado: ['', []]
   })
 
-  chamadosFormExterno: FormGroup = this.fb.group({
-    idChamado: ['', []],
-    idEmpresa: ['', []],
-    idAnalista: ['', []],
-    idUsuario: ['', []],
-    dataAbertura: ['', []],
-    horaAbertura: ['', []],
-    dataFechamento: ['', []],
-    horaFechamento: ['', []],
-    tempoChamado: ['', []],
-    codigoStatusChamado: ['', []],
-    tipoChamado: ['', []],
-    subtipoChamado: ['', []],
-    descricaoChamado: ['', [Validators.required]],
-    solucaoChamado: ['', []]
-  })
+  table = {
+    columns: <PoTableColumn[]>[
+      { property: 'id', label: 'ID', width: '5%' },
+      { property: 'comentario', label: 'Descrição Comentário', width: '25%' },
+      { property: 'criado', label: 'Criado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modificado', label: 'Modificado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'criadoPor', label: 'Criado Por', width: '14%' },
+      { property: 'modificadoPor', label: 'Modificado Por', width: '14%' },
+      { property: 'idUsuario', label: 'Usuário', width: '18%' }
+    ],
+    items: [],
+    height: 0,
+    loading: false
+  }
+
+  public usuario: any
 
   constructor(
     private location: Location,
-    private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private chamadosService: ChamadosService,
     private utilService: UtilService,
-    private analistaService: AnalistaService,
     private notificationService: PoNotificationService,
-    private subtipoChamadoService: SubtipoChamadoService,
-    private tipoChamadoService: TipoChamadoService
+    private router: Router
   ) { }
 
   ngOnInit() {
-    let arr: Array<SubtipoChamado> = this.route.snapshot.data.subtipo;
-    if (arr != null) {
-      this.selects.subtipoChamado = arr.map((data) => {
-        return <PoSelectOption>{ label: data.descricao, value: data.id }
-      })
-    }
     this.route.paramMap
       .subscribe((paramMap: ParamMap) => {
         this.constValue.id = parseInt(paramMap.get('id'), 10);
       })
-
-    if (this.router.url.toString().indexOf('externo') != -1) {
-      this.constValue.tipoChamado = 'externo';
-      this.findById(this.constValue.id);
-      this.chamadosFormExterno
-        .valueChanges
-        .subscribe((_) => {
-          this.page.actions[0].disabled = this.chamadosFormExterno.invalid;
-        })
-    } else {
-
-      this.constValue.tipoChamado = 'interno';
-      this.tipoChamadoList();
-      this.chamadosFormInterno
-        .valueChanges
-        .subscribe((_) => {
-          this.page.actions[0].disabled = this.chamadosFormInterno.invalid;
-        })
-      this.controls.tipoChamado
-        .valueChanges.subscribe((data) => {
-          this.controls.subtipoChamado.reset();
-          this.selects.subtipoChamado = [];
-          if (data == null) {
-            return;
-          } else {
-            this.subtipoChamado(data);
-          }
-
-        })
-      this.controls.dataFechamento
-        .valueChanges.subscribe((data) => {
-          if (data == null || data == '' || data == undefined) {
-            return;
-          } else {
-            this.controls.horaFechamento.setValue(this.utilService.horaAtual());
-            this.controls.codigoStatusChamado.setValue(3);
-          }
-        })
-      this.controls.codigoStatusChamado
-        .valueChanges.pipe(debounceTime(250)).subscribe((data) => {
-          if (data != 3) {
-            this.controls.dataFechamento.reset();
-            this.controls.horaFechamento.reset();
-            this.controls.tempoChamado.reset();
-            this.controls.dataFechamento.clearValidators();
-          } else {
-            this.controls.horaFechamento.setValue(this.utilService.horaAtual());
-            this.controls.dataFechamento.setValidators([Validators.required, Validators.minLength(8)]);
-          }
-        })
-      this.tipoChamado(this.constValue.tipoChamado);
-      this.analistas();
-      this.findById(this.constValue.id);
-      this.controls.subtipoChamado.setValue(this.controls.subtipoChamado.value);
-    }
+    this.findById(this.constValue.id);
+    // this.tipoChamado()
   }
 
   get controls() {
-    if (this.constValue.tipoChamado == 'externo') {
-      return this.chamadosFormExterno.controls;
-    } else {
-      return this.chamadosFormInterno.controls;
-    }
+    return this.chamadosFormEdit.controls
   }
 
-  private tipoChamadoList() {
-    // this.tipoChamadoService
-    //   .findAll()
-    //   .subscribe((data) => {
-    //     let arr = data.map((item) => {
-    //       return <PoSelectOption>{ label: item.descricao, value: item.id };
-    //     })
-    //     this.selects.tipoChamado = arr;
-    //   })
-  }
-
-  private subtipoChamado(id: number) {
-    this.subtipoChamadoService
-      .findAllByTipo(id)
-      .subscribe((data) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.descricao, value: item.id }
-        })
-        this.selects.subtipoChamado = arr;
-      })
-  }
-
-  private analistas() {
-    this.analistaService
-      .findAllAtivo()
-      .subscribe((data) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.nome, value: item.id }
-        })
-        this.selects.analistas = arr;
-      })
-  }
-
-  private tipoChamado(tipoChamado) {
-    let item: PoBreadcrumbItem[] = [];
-    if (tipoChamado == 'externo') {
-      this.page.title = 'Editar Chamado Externo';
-      item = [
-        { label: 'Externo' },
-        { label: 'Editar' }
-      ]
-    } else {
-      this.page.title = 'Editar Chamado Interno';
-      item = [
-        { label: 'Interno' },
-        { label: 'Editar' }
-      ]
-    }
-    item.map((item) => {
-      this.page.breadcrumb.items.push(item);
-    })
-  }
+  // private tipoChamado() {
+  //   let item: PoBreadcrumbItem[] = [];
+  //   if (this.router.url.toString().indexOf('externo') != -1) {
+  //     this.page.title = 'Visualizar Chamado Externo';
+  //     item = [
+  //       { label: 'Externo' },
+  //       { label: 'Visualizar' }
+  //     ]
+  //   } else {
+  //     this.page.title = 'Visualizar Chamado Interno';
+  //     item = [
+  //       { label: 'Interno' },
+  //       { label: 'Visualizar' }
+  //     ]
+  //   }
+  //   item.map((item) => {
+  //     this.page.breadcrumb.items.push(item);
+  //   })
+  // }
 
   private findById(id: number) {
     this.chamadosService
       .findById(id)
       .subscribe((item) => {
+
+        this.usuario = item.idUsuario
+
+        this.table.items = item.idComentarioChamado
+          .map((item) => {
+            return {
+              id: item.id,
+              comentario: item.comentario,
+              criado: item.criado,
+              criadoPor: item.criadoPor,
+              modificado: item.modificado,
+              modificadoPor: item.modificadoPor,
+              idUsuario: item.idUsuario.nomeCompleto
+            }
+          });
+
         let obj = {};
         Object.keys(item).map((data) => {
-          if (this.constValue.tipoChamado == 'interno') {
-            if (data == 'idEmpresa') {
-              obj[data] = item[data].nomeFantasia;
-              this.formAuxiliar.empresa = item[data];
-            } else if (data == 'idAnalista') {
-              obj[data] = item[data].id;
-            } else if (data == 'tipoChamado') {
-              obj[data] = item[data].id;
-            } else if (data == 'subtipoChamado') {
-              obj[data] = item[data].id;
-            } else if (data == 'idUsuario') {
-              // obj[data] = item[data].fullName;
-              this.formAuxiliar.user = item[data];
-            } else if (data == 'dataAbertura' && item[data].toString() != '-') {
-              if (item[data] != null || item[data].length >= 10) {
-                obj[data] = this.utilService.formataData(item[data].toString());
-              } else {
-                obj[data] = item[data];
-              }
-            } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
-              //se true, ele formata para tempo, se falta joga o valor que veio do banco
-              if (item[data] != null || item[data].length >= 4) {
-                let hhMM: string = item[data];
-                obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
-              } else {
-                obj[data] = item[data];
-              }
-            } else if (data == 'codigoStatusChamado') {
-              obj[data] = item[data];
-            } else {
-              obj[data] = item[data];
+          if (item[data] == '') {
+            obj[data] = '-';
+          } else if (data == 'idEmpresa') {
+            obj[data] = item[data].nomeFantasia;
+          } else if (data == 'idTecnico') {
+            obj[data] = item[data].idUsuario.nomeCompleto;
+          } else if (data == 'idTipoChamado') {
+            obj[data] = item[data].descricao;
+          } else if (data == 'idSubtipoChamado') {
+            obj[data] = item[data].descricao;
+          } else if (data == 'idUsuario') {
+            // obj[data] = item[data].fullName;
+          } else if (data == 'dataAbertura' || data == 'dataFechamento') {
+            obj[data] = new Date(item[data])
+          } else if (data === 'criado') {
+            obj[data] = new Date(item[data])
+          } else if (data === 'modificado') {
+            obj[data] = new Date(item[data])
+          } else if (data == 'statusChamado') {
+            switch (item[data]) {
+              case 1:
+                this.tag.color = 'color-08';
+                this.tag.type = PoTagType.Warning;
+                this.tag.value = 'Em Aberto';
+                obj[data] = 'Em Aberto';
+                break;
+              case 2:
+                this.tag.color = 'color-03';
+                this.tag.type = PoTagType.Info;
+                this.tag.value = 'Em Análise';
+                obj[data] = 'Em Análise';
+                break;
+              case 3:
+                this.tag.color = 'color-11';
+                this.tag.type = PoTagType.Success;
+                this.tag.value = 'Fechado';
+                obj[data] = 'Fechado';
+                break;
+              case 4:
+                this.tag.color = 'color-07';
+                this.tag.type = PoTagType.Danger;
+                this.tag.value = 'Indeferido';
+                obj[data] = 'Indeferido';
+                break;
+              default:
+                this.tag.color = 'color-01';
+                this.tag.type = PoTagType.Info;
+                this.tag.value = 'Sem Dados';
+                obj[data] = 'Sem Dados';
+                break;
             }
-          } else { // externo
-            if (data == 'idEmpresa') {
-              obj[data] = item[data].nomeFantasia;
-              this.formAuxiliar.empresa = item[data];
-            } else if (data == 'idAnalista') {
-              obj[data] = item[data].nome;
-              this.formAuxiliar.analista = item[data];
-            } else if (data == 'tipoChamado') {
-              obj[data] = item[data].descricao;
-              this.formAuxiliar.tipoChamado = item[data];
-            } else if (data == 'subtipoChamado') {
-              obj[data] = item[data].descricao;
-              this.formAuxiliar.subtipoChamado = item[data];
-            } else if (data == 'idUsuario') {
-              // obj[data] = item[data].fullName;
-              this.formAuxiliar.user = item[data];
-            } else if (data == 'dataAbertura' || data == 'dataFechamento' && item[data].toString().indexOf('-') == 4) {
-              obj[data] = this.utilService.formataData(item[data].toString());
-            } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
-              //se true, ele formata para tempo, se falta joga o valor que veio do banco
-              if (item[data] != null || item[data].length >= 4) {
-                let hhMM: string = item[data];
-                obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
-              } else {
-                obj[data] = item[data];
-              }
-            } else if (data == 'codigoStatusChamado') {
-              switch (item[data]) {
-                case 1:
-                  obj[data] = 'Aberto';
-                  this.formAuxiliar.codigoStatusChamado = item[data];
-                  break;
-                case 2:
-                  obj[data] = 'Em Análise';
-                  this.formAuxiliar.codigoStatusChamado = item[data];
-                  break;
-                case 3:
-                  obj[data] = 'Fechado';
-                  this.formAuxiliar.codigoStatusChamado = item[data];
-                  break;
-                case 4:
-                  obj[data] = 'Indeferido';
-                  this.formAuxiliar.codigoStatusChamado = item[data];
-                  break;
-                  obj[data] = item[data];
-                default:
-                  break;
-              }
-            } else {
-              obj[data] = item[data];
-            }
+          } else {
+            obj[data] = item[data];
           }
         })
-        this.chamadosFormExterno.setValue(obj);
-        this.chamadosFormInterno.setValue(obj);
+        this.chamadosFormEdit.setValue(obj);
       })
   }
 
   alterarChamado() {
-    let chamado;
+    // let chamado;
     // this.formAuxiliar.user.authorities = [];
 
-    let dataFechamento;
-    let horaFechamento;
-    let tempoChamado;
+    // let dataFechamento;
+    // let horaFechamento;
+    // let tempoChamado;
 
-    this.controls.horaFechamento.value == '' || this.controls.horaFechamento.value == null || this.controls.horaFechamento.value == undefined
-      ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
-    this.controls.tempoChamado.value == '' || this.controls.tempoChamado.value == null || this.controls.tempoChamado.value == undefined
-      ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
+    // this.controls.horaFechamento.value == '' || this.controls.horaFechamento.value == null || this.controls.horaFechamento.value == undefined
+    //   ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
+    // this.controls.tempoChamado.value == '' || this.controls.tempoChamado.value == null || this.controls.tempoChamado.value == undefined
+    //   ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
 
-    if (this.controls.dataFechamento.value == null) {
-      dataFechamento = '';
-    } else if (this.controls.dataFechamento.value.toString().indexOf('/') == 2) {
-      dataFechamento = this.utilService.multiFormataData(this.controls.dataFechamento.value, 'yyyy-mm-dd');
-    } else if (this.controls.dataFechamento.value.toString().indexOf('-') == 4) {
-      dataFechamento = this.controls.dataFechamento.value;
-    } else {
-      dataFechamento = '';
+    // if (this.controls.dataFechamento.value == null) {
+    //   dataFechamento = '';
+    // } else if (this.controls.dataFechamento.value.toString().indexOf('/') == 2) {
+    //   dataFechamento = this.utilService.multiFormataData(this.controls.dataFechamento.value, 'yyyy-mm-dd');
+    // } else if (this.controls.dataFechamento.value.toString().indexOf('-') == 4) {
+    //   dataFechamento = this.controls.dataFechamento.value;
+    // } else {
+    //   dataFechamento = '';
+    // }
+
+    // if (this.constValue.tipoChamado == 'externo') {
+    const chamado = {
+      idChamado: this.controls.id.value,
+      idUsuario: this.usuario
+      // idEmpresa: this.formAuxiliar.empresa,
+      // idAnalista: this.formAuxiliar.analista,
+      // idUsuario: this.formAuxiliar.user,
+      // dataAbertura: this.utilService.multiFormataData(this.controls.dataAbertura.value, 'yyyy-mm-dd'),
+      // horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g, ''),
+      // dataFechamento: dataFechamento,
+      // horaFechamento: horaFechamento,
+      // tempoChamado: tempoChamado,
+      // codigoStatusChamado: this.formAuxiliar.codigoStatusChamado,
+      // tipoChamado: this.formAuxiliar.tipoChamado,
+      // subtipoChamado: this.formAuxiliar.subtipoChamado,
+      // descricaoChamado: this.controls.descricaoChamado.value,
+      // solucaoChamado: this.controls.solucaoChamado.value
     }
+    console.log(chamado);
+    
+    // } 
 
-    if (this.constValue.tipoChamado == 'externo') {
-      chamado = {
-        idChamado: this.controls.idChamado.value,
-        idEmpresa: this.formAuxiliar.empresa,
-        idAnalista: this.formAuxiliar.analista,
-        idUsuario: this.formAuxiliar.user,
-        dataAbertura: this.utilService.multiFormataData(this.controls.dataAbertura.value, 'yyyy-mm-dd'),
-        horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g, ''),
-        dataFechamento: dataFechamento,
-        horaFechamento: horaFechamento,
-        tempoChamado: tempoChamado,
-        codigoStatusChamado: this.formAuxiliar.codigoStatusChamado,
-        tipoChamado: this.formAuxiliar.tipoChamado,
-        subtipoChamado: this.formAuxiliar.subtipoChamado,
-        descricaoChamado: this.controls.descricaoChamado.value,
-        solucaoChamado: this.controls.solucaoChamado.value
-      }
-    } else {
-      let horaAbertura;
-      let horaFechamento;
-      let tempoChamado;
-      this.controls.horaAbertura.value == null ? horaAbertura = '' : horaAbertura = this.controls.horaAbertura.value.replace(/[^0-9]/g, '');
-      this.controls.horaFechamento.value == null ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
-      this.controls.tempoChamado.value == null ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
-      if (this.controls.dataFechamento)
-        chamado = {
-          idChamado: this.controls.idChamado.value,
-          idEmpresa: this.formAuxiliar.empresa,
-          idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
-          idUsuario: this.formAuxiliar.user,
-          dataAbertura: this.utilService.multiFormataData(this.controls.dataAbertura.value, 'yyyy-mm-dd'),
-          horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g, ''),
-          dataFechamento: dataFechamento,
-          horaFechamento: horaFechamento,
-          tempoChamado: tempoChamado,
-          codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
-          tipoChamado: { id: this.controls.tipoChamado.value },
-          subtipoChamado: { id: this.controls.tipoChamado.value },
-          descricaoChamado: this.controls.descricaoChamado.value,
-          solucaoChamado: this.controls.solucaoChamado.value
-        }
-    }
-
-    this.chamadosService
-      .alterChamado(chamado)
-      .subscribe((data) => {
-        this.notificationService.success('Chamado editado com sucesso!');
-        this.location.back();
-      },
-        (error: any) => {
-          this.notificationService.error(error.error.error);
-          return;
-        })
+    // else {
+    //   let horaAbertura;
+    //   let horaFechamento;
+    //   let tempoChamado;
+    //   this.controls.horaAbertura.value == null ? horaAbertura = '' : horaAbertura = this.controls.horaAbertura.value.replace(/[^0-9]/g, '');
+    //   this.controls.horaFechamento.value == null ? horaFechamento = '' : horaFechamento = this.controls.horaFechamento.value.replace(/[^0-9]/g, '');
+    //   this.controls.tempoChamado.value == null ? tempoChamado = '' : tempoChamado = this.controls.tempoChamado.value.replace(/[^0-9]/g, '');
+    //   if (this.controls.dataFechamento)
+    //     chamado = {
+    //       idChamado: this.controls.idChamado.value,
+    //       idEmpresa: this.formAuxiliar.empresa,
+    //       idAnalista: { id: parseInt(this.controls.idAnalista.value, 10) },
+    //       idUsuario: this.formAuxiliar.user,
+    //       dataAbertura: this.utilService.multiFormataData(this.controls.dataAbertura.value, 'yyyy-mm-dd'),
+    //       horaAbertura: this.controls.horaAbertura.value.replace(/[^0-9]/g, ''),
+    //       dataFechamento: dataFechamento,
+    //       horaFechamento: horaFechamento,
+    //       tempoChamado: tempoChamado,
+    //       codigoStatusChamado: parseInt(this.controls.codigoStatusChamado.value, 10),
+    //       tipoChamado: { id: this.controls.tipoChamado.value },
+    //       subtipoChamado: { id: this.controls.tipoChamado.value },
+    //       descricaoChamado: this.controls.descricaoChamado.value,
+    //       solucaoChamado: this.controls.solucaoChamado.value
+    //     }
   }
+
+  //   this.chamadosService
+  // .alterChamado(chamado)
+  // .subscribe((data) => {
+  //   this.notificationService.success('Chamado editado com sucesso!');
+  //   this.location.back();
+  // },
+  //   (error: any) => {
+  //     this.notificationService.error(error.error.error);
+  //     return;
+  //   })
+  //}
 }

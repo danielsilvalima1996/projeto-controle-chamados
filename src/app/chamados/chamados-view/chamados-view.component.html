@@ -1,33 +1,42 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
     <form [formGroup]="chamadosFormView" class="po-row">
-        <po-input class="po-md-4" p-label="Empresa" p-readonly="true" formControlName="idEmpresa">
+        <po-tag class="po-sm-6 po-md-3 po-lg-2" [p-color]="tag.color" p-icon="true" [p-label]="tag.label"
+            [p-type]="tag.type" [p-value]="tag.value"></po-tag>
+        <po-input class="po-md-2" p-label="Código" p-readonly="true" formControlName="id">
         </po-input>
-        <po-input class="po-md-4" p-label="Analista" p-readonly="true" formControlName="idAnalista">
+        <po-input class="po-md-4" p-label="Técnico" p-readonly="true" formControlName="idTecnico">
         </po-input>
-        <po-input class="po-md-4" p-label="Usuário" p-readonly="true" formControlName="idUsuario">
+        <po-datepicker class="po-md-2" p-label="Data Abertura" p-readonly="true" formControlName="dataAbertura">
+        </po-datepicker>
+        <po-datepicker class="po-md-2" p-label="Data Fechamento" p-readonly="true" formControlName="dataFechamento">
+        </po-datepicker>
+        <po-divider class="po-md-12" p-label=""></po-divider>
+        <po-input class="po-md-3" p-label="Tipo Chamado" p-readonly="true" formControlName="idTipoChamado"></po-input>
+        <po-input class="po-md-3" p-label="Subtipo Chamado" p-readonly="true" formControlName="idSubtipoChamado">
         </po-input>
-        <po-input class="po-md-2" p-label="Data Abertura" p-readonly="true" formControlName="dataAbertura">
-        </po-input>
-        <po-input class="po-md-2" p-mask="99:99" p-label="Hora Abertura" p-readonly="true"
-            formControlName="horaAbertura"></po-input>
-        <po-input class="po-md-2" p-label="Data Fechamento" p-readonly="true" formControlName="dataFechamento">
-        </po-input>
-        <po-input class="po-md-2" p-mask="99:99" p-label="Hora Fechamento" p-readonly="true"
-            formControlName="horaFechamento"></po-input>
-        <po-input class="po-md-2" p-mask="99:59" p-label="Tempo" p-readonly="true" formControlName="tempoChamado">
-        </po-input>
-        <po-input class="po-md-2" p-label="Status" p-readonly="true" formControlName="codigoStatusChamado">
-        </po-input>
-        <po-input class="po-md-3" p-label="Tipo Chamado" p-readonly="true" formControlName="tipoChamado"></po-input>
-        <po-input class="po-md-3" p-label="Subtipo Chamado" p-readonly="true" formControlName="subtipoChamado">
-        </po-input>
+
         <div class="po-row">
-            <po-textarea class="po-md-6" p-label="Descricão Chamado" p-rows="4" p-readonly="true"
-                formControlName="descricaoChamado">
+            <po-textarea class="po-md-12" p-label="Descricão Chamado" p-rows="4" p-readonly="true"
+                formControlName="descricao">
             </po-textarea>
-            <po-textarea class="po-md-6" p-label="Solucão Chamado" p-rows="4" p-readonly="true"
-                formControlName="solucaoChamado">
-            </po-textarea>
+        </div>
+        <po-divider class="po-md-12" p-label=""></po-divider>
+        <div class="po-md-12">
+            <po-table [p-columns]="table.columns" [p-items]="table.items" [p-height]="table.height"
+            p-sort="true" p-striped="true">
+        </po-table>
+        </div>
+
+        <po-divider class="po-md-12 po-mt-1" p-label="Informações do Chamado"></po-divider>
+        <div class="po-md-12">
+            <po-datepicker class="po-md-3" p-format="dd/MM/yyyy"
+                p-label="Criado" formControlName="criado"></po-datepicker>
+            <po-datepicker class="po-md-3" p-format="dd/MM/yyyy"
+                p-label="Modificado" formControlName="modificado"></po-datepicker>
+            <po-input class="po-md-3" p-label="Criado Por"
+                 formControlName="criadoPor"></po-input>
+            <po-input class="po-md-3" p-label="Modificado Por"
+                 formControlName="modificadoPor"></po-input>
         </div>
     </form>
 </po-page-default>

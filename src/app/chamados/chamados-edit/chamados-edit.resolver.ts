@@ -10,6 +10,6 @@ export class ChamadosEditResolve implements Resolve<Observable<any>>{
 
     constructor(private subtipoChamadoService: SubtipoChamadoService) { }
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Observable<Observable<any>> | Promise<Observable<any>> {
-        return this.subtipoChamadoService.findAll();
+        return this.subtipoChamadoService.findSubtipoChamado();
     }
 }

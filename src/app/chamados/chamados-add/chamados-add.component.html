@@ -1,5 +1,5 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
-    <form *ngIf="constValue.tipoChamado == 'interno'" [formGroup]="chamadosFormInterno" class="po-row">
+    <!-- <form *ngIf="constValue.tipoChamado == 'interno'" [formGroup]="chamadosFormInterno" class="po-row">
         <po-combo *ngIf="constValue.visibilidade" class="po-md-4" p-label="Empresa" p-filter-mode="contains"
             p-placeholder="Nome Fantasia" [p-options]="selects.empresas" formControlName="idEmpresa">
         </po-combo>
@@ -70,6 +70,24 @@
             </po-textarea>
             <po-textarea *ngIf="constValue.visibilidade" class="po-md-6" p-label="Solucão Chamado" p-rows="4"
                 formControlName="solucaoChamado">
+            </po-textarea>
+        </div>
+    </form> -->
+
+    <form [formGroup]="chamadosForm" class="po-row">
+
+        <po-combo class="po-md-4" p-filter-mode="contains" p-label="Usuário"
+            [p-options]="selects.usuarios" formControlName="idUsuario">
+        </po-combo>
+
+        <po-combo class="po-md-4" p-filter-mode="contains" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
+            formControlName="idTipoChamado">
+        </po-combo>
+        <po-combo class="po-md-4" p-label="Subtipo Chamado" p-filter-mode="contains"
+            [p-options]="selects.subtipoChamado" formControlName="idSubtipoChamado"></po-combo>
+
+        <div class="po-row">
+            <po-textarea class="po-md-12" p-label="Descricão Chamado" p-rows="4" formControlName="descricao">
             </po-textarea>
         </div>
     </form>

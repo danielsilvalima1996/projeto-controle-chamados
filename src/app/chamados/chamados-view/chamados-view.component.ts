@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoNotificationService, PoBreadcrumbItem } from '@po-ui/ng-components';
+import { PoPageDefault, PoNotificationService, PoBreadcrumbItem, PoTagType, PoTableColumn } from '@po-ui/ng-components';
 import { Location } from '@angular/common';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -14,7 +14,7 @@ import { UtilService } from 'src/app/services/utils/util-service/util.service';
 export class ChamadosViewComponent implements OnInit {
 
   page: PoPageDefault = {
-    title: '',
+    title: 'Visualizar Chamado',
     actions: [
       {
         label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
@@ -34,22 +34,43 @@ export class ChamadosViewComponent implements OnInit {
     id: <number>0
   }
 
+  public tag = {
+    color: '',
+    label: 'Status',
+    type: <PoTagType>'',
+    value: '',
+  }
+
   chamadosFormView: FormGroup = this.fb.group({
-    idChamado: ['', []],
-    idEmpresa: ['', []],
-    idAnalista: ['', []],
-    idUsuario: ['', []],
+    criado: ['', []],
+    criadoPor: ['', []],
     dataAbertura: ['', []],
-    horaAbertura: ['', []],
     dataFechamento: ['', []],
-    horaFechamento: ['', []],
-    tempoChamado: ['', []],
-    codigoStatusChamado: ['', []],
-    tipoChamado: ['', []],
-    subtipoChamado: ['', []],
-    descricaoChamado: ['', []],
-    solucaoChamado: ['', []]
+    descricao: ['', []],
+    id: ['', []],
+    idComentarioChamado: ['', []],
+    idSubtipoChamado: ['', []],
+    idTecnico: ['', []],
+    idTipoChamado: ['', []],
+    modificado: ['', []],
+    modificadoPor: ['', []],
+    statusChamado: ['', []]
   })
+
+  table = {
+    columns: <PoTableColumn[]>[
+      { property: 'id', label: 'ID', width: '5%' },
+      { property: 'comentario', label: 'Descrição Comentário', width: '25%' },
+      { property: 'criado', label: 'Criado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'modificado', label: 'Modificado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
+      { property: 'criadoPor', label: 'Criado Por', width: '14%' },
+      { property: 'modificadoPor', label: 'Modificado Por', width: '14%' },
+      { property: 'idUsuario', label: 'Usuário', width: '18%' }
+    ],
+    items: [],
+    height: 0,
+    loading: false
+  }
 
   constructor(
     private location: Location,
@@ -67,78 +88,101 @@ export class ChamadosViewComponent implements OnInit {
         this.constValue.id = parseInt(paramMap.get('id'), 10);
       })
     this.findById(this.constValue.id);
-    this.tipoChamado()
+    // this.tipoChamado()
   }
 
   get controls() {
     return this.chamadosFormView.controls
   }
 
-  private tipoChamado() {
-    let item: PoBreadcrumbItem[] = [];
-    if (this.router.url.toString().indexOf('externo') != -1) {
-      this.page.title = 'Visualizar Chamado Externo';
-      item = [
-        { label: 'Externo' },
-        { label: 'Visualizar' }
-      ]
-    } else {
-      this.page.title = 'Visualizar Chamado Interno';
-      item = [
-        { label: 'Interno' },
-        { label: 'Visualizar' }
-      ]
-    }
-    item.map((item) => {
-      this.page.breadcrumb.items.push(item);
-    })
-  }
+  // private tipoChamado() {
+  //   let item: PoBreadcrumbItem[] = [];
+  //   if (this.router.url.toString().indexOf('externo') != -1) {
+  //     this.page.title = 'Visualizar Chamado Externo';
+  //     item = [
+  //       { label: 'Externo' },
+  //       { label: 'Visualizar' }
+  //     ]
+  //   } else {
+  //     this.page.title = 'Visualizar Chamado Interno';
+  //     item = [
+  //       { label: 'Interno' },
+  //       { label: 'Visualizar' }
+  //     ]
+  //   }
+  //   item.map((item) => {
+  //     this.page.breadcrumb.items.push(item);
+  //   })
+  // }
 
   private findById(id: number) {
     this.chamadosService
       .findById(id)
       .subscribe((item) => {
+
+        this.table.items = item.idComentarioChamado
+        .map((item) => {
+          return {
+            id: item.id,
+            comentario: item.comentario,
+            criado: item.criado,
+            criadoPor: item.criadoPor,
+            modificado: item.modificado,
+            modificadoPor: item.modificadoPor,
+            idUsuario: item.idUsuario.nomeCompleto
+          }
+        });
+
         let obj = {};
         Object.keys(item).map((data) => {
           if (item[data] == '') {
             obj[data] = '-';
           } else if (data == 'idEmpresa') {
             obj[data] = item[data].nomeFantasia;
-          } else if (data == 'idAnalista') {
-            obj[data] = item[data].nome;
-          } else if (data == 'tipoChamado') {
+          } else if (data == 'idTecnico') {
+            obj[data] = item[data].idUsuario.nomeCompleto;
+          } else if (data == 'idTipoChamado') {
             obj[data] = item[data].descricao;
-          } else if (data == 'subtipoChamado') {
+          } else if (data == 'idSubtipoChamado') {
             obj[data] = item[data].descricao;
           } else if (data == 'idUsuario') {
             // obj[data] = item[data].fullName;
-          } else if ((data == 'dataAbertura' || data == 'dataFechamento') &&
-            item[data] != '-' && item[data] != null) {
-            if (item[data].length == 10 && item[data]) {
-              obj[data] = this.utilService.multiFormataData(item[data].toString(), 'dd/mm/yyyy');
-            } else {
-              obj[data] = item[data];
-            }
-          } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
-            if (item[data] != null || item[data].length >= 4) {
-              let hhMM: string = item[data];
-              obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
-            }
-          } else if (data == 'codigoStatusChamado') {
+          } else if (data == 'dataAbertura' || data == 'dataFechamento') {
+            obj[data] = new Date(item[data])
+          } else if (data === 'criado') {
+            obj[data] = new Date(item[data])
+          } else if (data === 'modificado') {
+            obj[data] = new Date(item[data])
+          } else if (data == 'statusChamado') {
             switch (item[data]) {
               case 1:
+                this.tag.color = 'color-08';
+                this.tag.type = PoTagType.Warning;
+                this.tag.value = 'Em Aberto';
                 obj[data] = 'Em Aberto';
                 break;
               case 2:
+                this.tag.color = 'color-03';
+                this.tag.type = PoTagType.Info;
+                this.tag.value = 'Em Análise';
                 obj[data] = 'Em Análise';
                 break;
               case 3:
+                this.tag.color = 'color-11';
+                this.tag.type = PoTagType.Success;
+                this.tag.value = 'Fechado';
                 obj[data] = 'Fechado';
                 break;
               case 4:
+                this.tag.color = 'color-07';
+                this.tag.type = PoTagType.Danger;
+                this.tag.value = 'Indeferido';
                 obj[data] = 'Indeferido';
                 break;
               default:
+                this.tag.color = 'color-01';
+                this.tag.type = PoTagType.Info;
+                this.tag.value = 'Sem Dados';
                 obj[data] = 'Sem Dados';
                 break;
             }

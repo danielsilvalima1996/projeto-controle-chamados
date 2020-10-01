@@ -151,6 +151,16 @@ export class ChamadosListComponent implements OnInit {
     return this.chamadosForm.controls;
   }
 
+  private retornaTecnicos() {
+    this.tecnicosService.getTecnico('ativo=true')
+      .subscribe((data: any) => {
+        let arr = data.map((item) => {
+          return <PoSelectOption>{ label: item.idUsuario.nomeCompleto, value: item.id };
+        })
+        this.selects.tecnico = arr;
+      })
+  }
+
   private retornaSubtipoChamado() {
     this.subtipoChamadoService
       .findSubtipoChamado()
@@ -162,15 +172,6 @@ export class ChamadosListComponent implements OnInit {
       })
   }
 
-  private retornaTecnicos() {
-    this.tecnicosService.getTecnico('ativo=true')
-      .subscribe((data: any) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.idUsuario.nomeCompleto, value: item.id };
-        })
-        this.selects.tecnico = arr;
-      })
-  }
 
   private retornaTipoChamado() {
     this.tipoChamadoService.findAll('ativo=true')
@@ -195,6 +196,8 @@ export class ChamadosListComponent implements OnInit {
 
   selectedTable(event) {
     this.selecionado = event.id;
+    console.log(this.selecionado);
+    
   }
 
   unSelectedTable() {
@@ -207,101 +210,122 @@ export class ChamadosListComponent implements OnInit {
 
   findChamados(parameters?: any) {
     this.table.loading = true;
-    if (this.tipoChamado === 'acompanhar-usuario') {
-      this.chamadosService
-        .findChamados(parameters)
-        .subscribe((data: any) => {
-          let arr: Array<any> = data.map((item) => {
-            let obj = {};
-            Object.keys(item).map((data) => {
-              if (data == 'idAnalista') {
-                obj[data] = item[data].nome;
-              } else if (data == 'idTecnico') {
-                obj[data] = item[data].idUsuario.nomeCompleto;
-              } else if (data == 'idTipoChamado') {
-                obj[data] = item[data].descricao;
-              } else if (data == 'idSubtipoChamado') {
-                obj[data] = item[data].descricao;
-              } else if (data == 'idUsuario') {
-                // obj[data] = item[data].fullName;
-              } else if (data == 'dataAbertura' || data == 'dataFechamento') {
-                obj[data] = new Date(item[data])
-              } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
-                if (item[data] != null || item[data].length >= 4) {
-                  let hhMM: string = item[data];
-                  obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
-                } else {
-                  obj[data] = item[data];
-                }
-              } else {
-                obj[data] = item[data];
-              }
+    this.chamadosService
+      .findChamados(parameters)
+      .subscribe((data: any) => {
+        console.log(data);
 
-            })
-            return obj;
-          })
-          // this.pagination.totalItems = data.totalElements;
-          // this.pagination.itemsPerPage = data.size;
-          this.table.loading = false;
-          this.table.items = arr;
-        },
-          (error: ErrorSpringBoot) => {
-            this.notificationService.error(error.message);
-          })
-    } else {
-      this.tipoChamado = 'acompanhar-tecnico';
-      this.chamadosService
-        .findChamados(parameters)
-        .subscribe((data: any) => {
-          console.log(data);
+        this.table.items = data
+          .map((item) => {
+            return {
+              id: item.id,
+              // idTecnico: item.idTecnico.idUsuario.nomeCompleto,
+              dataAbertura: item.dataAbertura,
+              dataFechamento: item.dataFechamento,
+              statusChamado: item.statusChamado,
+              idTipoChamado: item.idTipoChamado.descricao,
+              idSubtipoChamado: item.idSubtipoChamado.descricao,
+              idUsuario: item.idUsuario.nomeCompleto,
+              descricao: item.descricao,
+              criado: item.criado,
+              criadoPor: item.criadoPor,
+              modificado: item.modificado,
+              modificadoPor: item.modificadoPor
+            }
+          });
 
-          let arr: Array<any> = data
-            .map((item) => {
-              let obj = {};
-              Object.keys(item).map((data) => {
-                // if (item[data] == '' || item[data] == null) {
-                //   obj[data] = '-';
-                // }
-                // else if (data == 'idEmpresa') {
-                //   obj[data] = item[data].nomeFantasia;
-                //   item.idEmpresa.nomeFantasia
-                // }
-                if (data == 'idAnalista') {
-                  obj[data] = item[data].nome;
-                } else if (data == 'idTecnico') {
-                  obj[data] = item[data].idUsuario.nomeCompleto;
-                } else if (data == 'idTipoChamado') {
-                  obj[data] = item[data].descricao;
-                } else if (data == 'idSubtipoChamado') {
-                  obj[data] = item[data].descricao;
-                } else if (data == 'idUsuario') {
-                  obj[data] = item[data].nomeCompleto;
-                } else if (data == 'dataAbertura' || data == 'dataFechamento' && item[data] != null) {
-                  obj[data] = new Date(item[data])
-                } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
-                  if (item[data] != null || item[data].length >= 4) {
-                    let hhMM: string = item[data];
-                    obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
-                  } else {
-                    obj[data] = item[data];
-                  }
-                } else {
-                  obj[data] = item[data];
-                }
+        // let arr: Array<any> = data.map((item) => {
+        //   let obj = {};
+        //   Object.keys(item)
+        //     .map((data) => {
+        //       if (data == 'idAnalista') {
+        //         obj[data] = item[data].nome;
+        //       } else if (data == 'idTecnico') {
+        //         obj[data] = item[data].idUsuario.nomeCompleto;
+        //       } else if (data == 'idTipoChamado') {
+        //         obj[data] = item[data].descricao;
+        //       } else if (data == 'idSubtipoChamado') {
+        //         obj[data] = item[data].descricao;
+        //       } else if (data == 'idUsuario') {
+        //         obj[data] = item[data].nomeCompleto;
+        //       } else if (data == 'dataAbertura' || data == 'dataFechamento') {
+        //         obj[data] = new Date(item[data])
+        //       } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
+        //         if (item[data] != null || item[data].length >= 4) {
+        //           let hhMM: string = item[data];
+        //           obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+        //         } else {
+        //           obj[data] = item[data];
+        //         }
+        //       } else {
+        //         obj[data] = item[data];
+        //       }
 
-              })
-              return obj;
-            })
-          // this.pagination.totalItems = data.totalElements;
-          // this.pagination.itemsPerPage = data.size;
-          this.table.loading = false;
-          this.table.items = arr;
-        },
-          (error: ErrorSpringBoot) => {
-            this.notificationService.error(error.message);
-            this.table.loading = false;
-          })
-    }
+        //     })
+        //   return obj;
+        // })
+        // this.pagination.totalItems = data.totalElements;
+        // this.pagination.itemsPerPage = data.size;
+        this.table.loading = false;
+        // this.table.items = arr;
+      },
+        (error: ErrorSpringBoot) => {
+          this.notificationService.error(error.message);
+        })
+    // else {
+    //   this.tipoChamado = 'acompanhar-tecnico';
+    //   this.chamadosService
+    //     .findChamados(parameters)
+    //     .subscribe((data: any) => {
+    //       console.log(data);
+
+    //       let arr: Array<any> = data
+    //         .map((item) => {
+    //           let obj = {};
+    //           Object.keys(item).map((data) => {
+    //             // if (item[data] == '' || item[data] == null) {
+    //             //   obj[data] = '-';
+    //             // }
+    //             // else if (data == 'idEmpresa') {
+    //             //   obj[data] = item[data].nomeFantasia;
+    //             //   item.idEmpresa.nomeFantasia
+    //             // }
+    //             if (data == 'idAnalista') {
+    //               obj[data] = item[data].nome;
+    //             } else if (data == 'idTecnico') {
+    //               obj[data] = item[data].idUsuario.nomeCompleto;
+    //             } else if (data == 'idTipoChamado') {
+    //               obj[data] = item[data].descricao;
+    //             } else if (data == 'idSubtipoChamado') {
+    //               obj[data] = item[data].descricao;
+    //             } else if (data == 'idUsuario') {
+    //               obj[data] = item[data].nomeCompleto;
+    //             } else if (data == 'dataAbertura' || data == 'dataFechamento' && item[data] != null) {
+    //               obj[data] = new Date(item[data])
+    //             } else if (data == 'tempoChamado' || data == 'horaAbertura' || data == 'horaFechamento') {
+    //               if (item[data] != null || item[data].length >= 4) {
+    //                 let hhMM: string = item[data];
+    //                 obj[data] = `${hhMM.substr(0, 2)}:${hhMM.substr(2, 2)}`;
+    //               } else {
+    //                 obj[data] = item[data];
+    //               }
+    //             } else {
+    //               obj[data] = item[data];
+    //             }
+
+    //           })
+    //           return obj;
+    //         })
+    //       // this.pagination.totalItems = data.totalElements;
+    //       // this.pagination.itemsPerPage = data.size;
+    //       this.table.loading = false;
+    //       this.table.items = arr;
+    //     },
+    //       (error: ErrorSpringBoot) => {
+    //         this.notificationService.error(error.message);
+    //         this.table.loading = false;
+    //       })
+    // }
 
 
   }
