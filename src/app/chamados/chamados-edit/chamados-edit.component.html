@@ -20,11 +20,25 @@
                 formControlName="descricao">
             </po-textarea>
         </div>
+        <div class="po-row">
+            <po-divider class="po-md-8 po-mt-1" p-label="Lista de Comentários do Chamado"></po-divider>
+            <po-button class="po-mt-4 po-md-4" [p-icon]="tipoChamado.icon" [p-label]="tipoChamado.label" [p-type]="tipoChamado.tipo"
+            (click)="mostraComentarioChamado()">
+        </po-button>
+        </div>
         <po-divider class="po-md-12" p-label=""></po-divider>
         <div class="po-md-12">
             <po-table [p-columns]="table.columns" [p-items]="table.items" [p-height]="table.height"
             p-sort="true" p-striped="true">
         </po-table>
+        </div>
+        <div *ngIf="ocultarValue == true " class="po-row">
+            <po-textarea class="po-md-8" p-label="Descricão Comentário Chamado" p-rows="2"
+                [(ngModel)]="comentarioChamado" [ngModelOptions]="{standalone: true}">
+            </po-textarea>
+            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-ok" p-label="Confirmar"
+            (click)="addComentario()">
+        </po-button>
         </div>
 
         <po-divider class="po-md-12 po-mt-1" p-label="Informações do Chamado"></po-divider>

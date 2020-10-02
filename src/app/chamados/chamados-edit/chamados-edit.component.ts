@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService, PoTagType } from '@po-ui/ng-components';
+import { PoPageDefault, PoTableColumn, PoSelectOption, PoNotificationService, PoTagType, PoBreadcrumbItem } from '@po-ui/ng-components';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +14,7 @@ import { SubtipoChamado } from 'src/app/interfaces/subtipo-chamado.model';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 import { debounceTime } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-chamados-edit',
@@ -24,17 +25,7 @@ export class ChamadosEditComponent implements OnInit {
 
   page: PoPageDefault = {
     title: 'Editar Chamado',
-    actions: [
-      {
-        label: 'Salvar', action: () => this.alterarChamado()
-      }
-      ,
-      {
-        label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
-          this.location.back();
-        }
-      }
-    ],
+    actions: [],
     breadcrumb: {
       items: [
         { label: 'Chamados' }
@@ -52,6 +43,12 @@ export class ChamadosEditComponent implements OnInit {
     label: 'Status',
     type: <PoTagType>'',
     value: '',
+  }
+
+  public tipoChamado = {
+    label: 'Inserir Comentário',
+    icon: 'po-icon-plus',
+    tipo: 'default'
   }
 
   chamadosFormEdit: FormGroup = this.fb.group({
@@ -86,6 +83,11 @@ export class ChamadosEditComponent implements OnInit {
   }
 
   public usuario: any
+  public idTipoChamado: any;
+  public idSubTipoChamado: any;
+  public ocultarValue: boolean = false
+
+  public comentarioChamado: any
 
   constructor(
     private location: Location,
@@ -103,39 +105,71 @@ export class ChamadosEditComponent implements OnInit {
         this.constValue.id = parseInt(paramMap.get('id'), 10);
       })
     this.findById(this.constValue.id);
-    // this.tipoChamado()
+    this.routeChamado()
   }
 
   get controls() {
     return this.chamadosFormEdit.controls
   }
 
-  // private tipoChamado() {
-  //   let item: PoBreadcrumbItem[] = [];
-  //   if (this.router.url.toString().indexOf('externo') != -1) {
-  //     this.page.title = 'Visualizar Chamado Externo';
-  //     item = [
-  //       { label: 'Externo' },
-  //       { label: 'Visualizar' }
-  //     ]
-  //   } else {
-  //     this.page.title = 'Visualizar Chamado Interno';
-  //     item = [
-  //       { label: 'Interno' },
-  //       { label: 'Visualizar' }
-  //     ]
-  //   }
-  //   item.map((item) => {
-  //     this.page.breadcrumb.items.push(item);
-  //   })
-  // }
+  private routeChamado() {
+    let item: PoBreadcrumbItem[] = [];
+    if (this.router.url.toString().indexOf('acompanhar-usuario') != -1) {
+      this.page.title = 'Editar Chamado';
+      this.page.actions = [
+        {
+          label: 'Salvar Inteiração', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
+        },
+        {
+          label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
+            this.location.back();
+          }
+        }
+      ]
+      item = [
+        { label: 'Usuário' },
+        { label: 'Editar' }
+      ]
+    } else {
+      this.page.title = 'Editar Chamado';
+      this.page.actions = [
+        {
+          label: 'Salvar Inteiração', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
+        },
+        {
+          label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
+            this.location.back();
+          }
+        },
+        {
+          label: 'Fechar Chamado', icon: 'po-icon po-icon-close', action: () => {
+            this.location.back();
+          }
+        },
+        {
+          label: 'Indeferir Chamado', icon: 'po-icon po-icon-warning', action: () => {
+            this.location.back();
+          }
+        }
+      ]
+      item = [
+        { label: 'Técnico' },
+        { label: 'Editar' }
+      ]
+    }
+    item.map((item) => {
+      this.page.breadcrumb.items.push(item);
+    })
+  }
 
   private findById(id: number) {
     this.chamadosService
       .findById(id)
       .subscribe((item) => {
 
-        this.usuario = item.idUsuario
+        this.usuario = item.idUsuario;
+        this.idTipoChamado = item.idTipoChamado;
+        this.idSubTipoChamado = item.idSubtipoChamado;
 
         this.table.items = item.idComentarioChamado
           .map((item) => {
@@ -237,7 +271,18 @@ export class ChamadosEditComponent implements OnInit {
     // if (this.constValue.tipoChamado == 'externo') {
     const chamado = {
       idChamado: this.controls.id.value,
-      idUsuario: this.usuario
+      idUsuario: this.usuario,
+      dataAbertura: this.controls.dataAbertura.value,
+      dataFechamento: this.controls.dataFechamento.value,
+      statusChamado: this.controls.statusChamado.value,
+      idTipoChamado: this.idTipoChamado,
+      idSubtipoChamado: this.idSubTipoChamado,
+      idTecnico: { id: 1 },
+      descricao: this.controls.descricao.value,
+      criado: this.controls.criado.value,
+      modificado: this.controls.modificado.value,
+      criadoPor: this.controls.criadoPor.value,
+      modificadoPor: this.controls.modificadoPor.value
       // idEmpresa: this.formAuxiliar.empresa,
       // idAnalista: this.formAuxiliar.analista,
       // idUsuario: this.formAuxiliar.user,
@@ -253,7 +298,7 @@ export class ChamadosEditComponent implements OnInit {
       // solucaoChamado: this.controls.solucaoChamado.value
     }
     console.log(chamado);
-    
+
     // } 
 
     // else {
@@ -280,17 +325,52 @@ export class ChamadosEditComponent implements OnInit {
     //       descricaoChamado: this.controls.descricaoChamado.value,
     //       solucaoChamado: this.controls.solucaoChamado.value
     //     }
+
+    this.chamadosService
+  .alterChamado(chamado)
+  .subscribe((data) => {
+    this.notificationService.success('Chamado editado com sucesso!');
+    this.location.back();
+  },
+    (error: any) => {
+      this.notificationService.error(error.error.error);
+      return;
+    })
   }
 
-  //   this.chamadosService
-  // .alterChamado(chamado)
-  // .subscribe((data) => {
-  //   this.notificationService.success('Chamado editado com sucesso!');
-  //   this.location.back();
-  // },
-  //   (error: any) => {
-  //     this.notificationService.error(error.error.error);
-  //     return;
-  //   })
-  //}
+  mostraComentarioChamado() {
+    this.ocultarValue = !this.ocultarValue;
+    if (this.ocultarValue == true) {
+      this.tipoChamado.label = 'Ocultar comentário';
+      this.tipoChamado.icon = 'po-icon-close';
+      this.tipoChamado.tipo = 'danger';
+    } else {
+      this.tipoChamado.label = 'Inserir comentário';
+      this.tipoChamado.icon = 'po-icon-plus';
+      this.tipoChamado.tipo = 'default'
+    }
+  }
+
+
+  addComentario() {
+    const comentario = {
+      comentario: this.comentarioChamado,
+      idChamado: {
+        id: this.controls.id.value
+      },
+      idUsuario: {
+        id: this.usuario.id
+      }
+    }
+
+    this.chamadosService.createComentario(comentario)
+      .subscribe((data) => {
+        this.comentarioChamado = '';
+        this.findById(this.constValue.id);
+        this.notificationService.success(`Comentário com o ${data.id} inserido com sucesso`)
+      }, (err: HttpErrorResponse) => {
+        console.log(err);
+      })
+
+  }
 }
