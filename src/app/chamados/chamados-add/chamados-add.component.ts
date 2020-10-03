@@ -65,6 +65,8 @@ export class ChamadosAddComponent implements OnInit {
     dataAtual: ''
   }
 
+  public disabledField = false;
+
   // chamadosFormInterno: FormGroup = this.fb.group({
   //   idEmpresa: ['', []],
   //   idAnalista: ['', []],
@@ -131,7 +133,21 @@ export class ChamadosAddComponent implements OnInit {
     // this.controls.horaAbertura.setValue(this.utilService.horaAtual());
     // this.tipoChamado();
 
-    this.retornaUsuarios();
+    let arr: Array<User> = this.route.snapshot.data['usuarios'];
+    arr.map((item) => {
+      this.selects.usuarios.push(<PoSelectOption>{ label: item.nomeCompleto, value: item.id });
+      console.log(this.selects.usuarios);
+    })
+
+    if (this.router.url.toString().indexOf('acompanhar-usuario') != -1) {
+      this.loginService.getUserInformation$
+        .subscribe((data) => {
+          this.controls.idUsuario.setValue(data.id)
+          this.disabledField = true;
+        })
+    } 
+
+
     this.retornaTipoChamado();
     this.retornaSubtipoChamado();
     // this.chamadosFormInterno
@@ -165,6 +181,8 @@ export class ChamadosAddComponent implements OnInit {
 
         }
       })
+
+
 
 
     // this.controls.idEmpresa
