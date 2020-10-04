@@ -162,16 +162,16 @@ export class ChamadosViewComponent implements OnInit {
                 obj[data] = 'Em Aberto';
                 break;
               case 2:
-                this.tag.color = 'color-03';
-                this.tag.type = PoTagType.Info;
-                this.tag.value = 'Em Análise';
-                obj[data] = 'Em Análise';
-                break;
-              case 3:
                 this.tag.color = 'color-11';
-                this.tag.type = PoTagType.Success;
+                this.tag.type = PoTagType.Info;
                 this.tag.value = 'Fechado';
                 obj[data] = 'Fechado';
+                break;
+              case 3:
+                this.tag.color = 'color-03';
+                this.tag.type = PoTagType.Success;
+                this.tag.value = 'Indeferido';
+                obj[data] = 'Indeferido';
                 break;
               case 4:
                 this.tag.color = 'color-07';

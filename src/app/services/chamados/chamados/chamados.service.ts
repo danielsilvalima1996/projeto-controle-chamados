@@ -33,8 +33,20 @@ export class ChamadosService {
     return this.http.post(`${environment.url.apirest}/${this.relativeLink}`, chamados) as Observable<any>;
   }
 
-  alterChamado(chamados: Chamados): Observable<Chamados> {
-    return this.http.put(`${environment.url.apirest}/${this.relativeLink}`, chamados) as Observable<Chamados>;
+  alterChamado(chamados: any): Observable<any> {
+    return this.http.put(`${environment.url.apirest}/${this.relativeLink}`, chamados) as Observable<any>;
+  }
+
+  createComentario(comentario: any): Observable<any> {
+    return this.http.post(`${environment.url.apirest}/comentarioChamado`, comentario) as Observable<any>;
+  }
+
+  finalizarChamado(comentario: any): Observable<any> {
+    return this.http.put(`${environment.url.apirest}/${this.relativeLink}/finaliza`, comentario) as Observable<any>;
+  }
+
+  indefereChamado(comentario: any): Observable<any> {
+    return this.http.put(`${environment.url.apirest}/${this.relativeLink}/indefere`, comentario) as Observable<any>;
   }
 
   //implementar depois kk

@@ -77,7 +77,7 @@
     <form [formGroup]="chamadosForm" class="po-row">
 
         <po-combo class="po-md-4" p-filter-mode="contains" p-label="Usuário"
-            [p-options]="selects.usuarios" formControlName="idUsuario">
+          [p-disabled]="disabledField"  [p-options]="selects.usuarios" formControlName="idUsuario">
         </po-combo>
 
         <po-combo class="po-md-4" p-filter-mode="contains" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"

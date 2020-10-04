@@ -4,39 +4,60 @@
             [p-type]="tag.type" [p-value]="tag.value"></po-tag>
         <po-input class="po-md-2" p-label="Código" p-readonly="true" formControlName="id">
         </po-input>
-        <po-input class="po-md-4" p-label="Técnico" p-readonly="true" formControlName="idTecnico">
-        </po-input>
+        <!-- <po-input class="po-md-4" p-label="Técnico" p-readonly="true" formControlName="idTecnico">
+        </po-input> -->
+        <po-combo class="po-md-4" p-label="Técnico" p-filter-mode="contains"
+        [p-options]="selects.tecnico" formControlName="idTecnico"></po-combo>
         <po-datepicker class="po-md-2" p-label="Data Abertura" p-readonly="true" formControlName="dataAbertura">
         </po-datepicker>
         <po-datepicker class="po-md-2" p-label="Data Fechamento" p-readonly="true" formControlName="dataFechamento">
         </po-datepicker>
         <po-divider class="po-md-12" p-label=""></po-divider>
-        <po-input class="po-md-3" p-label="Tipo Chamado" p-readonly="true" formControlName="idTipoChamado"></po-input>
-        <po-input class="po-md-3" p-label="Subtipo Chamado" p-readonly="true" formControlName="idSubtipoChamado">
-        </po-input>
+        <!-- <po-input class="po-md-3" p-label="Tipo Chamado" p-readonly="true" formControlName="idTipoChamado"></po-input>
+        <po-input class="po-md-3" p-label="Subtipo Chamado" p-readonly="true" formControlName="idSubtipoChamado">       </po-input> -->
+        <po-combo class="po-md-4" [p-disabled]="disabledUser" p-filter-mode="contains" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
+            formControlName="idTipoChamado">
+        </po-combo>
+        <po-combo class="po-md-4" [p-disabled]="disabledUser" p-label="Subtipo Chamado" p-filter-mode="contains"
+            [p-options]="selects.subtipoChamado" formControlName="idSubtipoChamado"></po-combo>
+
 
         <div class="po-row">
             <po-textarea class="po-md-12" p-label="Descricão Chamado" p-rows="4" p-readonly="true"
                 formControlName="descricao">
             </po-textarea>
         </div>
+        <div class="po-row">
+            <po-divider class="po-md-8 po-mt-1" p-label="Lista de Comentários do Chamado"></po-divider>
+            <po-button class="po-mt-4 po-md-4" [p-icon]="tipoChamado.icon" [p-label]="tipoChamado.label"
+                [p-type]="tipoChamado.tipo" (click)="mostraComentarioChamado()">
+            </po-button>
+        </div>
         <po-divider class="po-md-12" p-label=""></po-divider>
         <div class="po-md-12">
-            <po-table [p-columns]="table.columns" [p-items]="table.items" [p-height]="table.height"
-            p-sort="true" p-striped="true">
-        </po-table>
+            <po-table [p-columns]="table.columns" [p-items]="table.items" [p-height]="table.height" p-sort="true"
+                p-striped="true">
+            </po-table>
+        </div>
+        <div *ngIf="ocultarValue == true " class="po-row">
+            <po-textarea class="po-md-8" p-label="Descricão Comentário Chamado" p-rows="2"
+                [(ngModel)]="comentarioChamado" [ngModelOptions]="{standalone: true}">
+            </po-textarea>
+            <po-button class="po-mt-4 po-md-2" p-icon="po-icon-ok" p-label="Confirmar" (click)="addComentario()">
+            </po-button>
         </div>
 
         <po-divider class="po-md-12 po-mt-1" p-label="Informações do Chamado"></po-divider>
         <div class="po-md-12">
-            <po-datepicker class="po-md-3" p-format="dd/MM/yyyy"
-                p-label="Criado" formControlName="criado"></po-datepicker>
-            <po-datepicker class="po-md-3" p-format="dd/MM/yyyy"
-                p-label="Modificado" formControlName="modificado"></po-datepicker>
-            <po-input class="po-md-3" p-label="Criado Por"
-                 formControlName="criadoPor"></po-input>
-            <po-input class="po-md-3" p-label="Modificado Por"
-                 formControlName="modificadoPor"></po-input>
+            <po-datepicker class="po-md-3" p-format="dd/MM/yyyy" p-label="Criado" formControlName="criado">
+            </po-datepicker>
+            <po-datepicker class="po-md-3" p-format="dd/MM/yyyy" p-label="Modificado" formControlName="modificado">
+            </po-datepicker>
+            <po-input class="po-md-3" p-label="Criado Por" formControlName="criadoPor"></po-input>
+            <po-input class="po-md-3" p-label="Modificado Por" formControlName="modificadoPor"></po-input>
         </div>
     </form>
 </po-page-default>
+
+<po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">
+</po-loading-overlay>

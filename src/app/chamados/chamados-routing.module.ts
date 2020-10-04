@@ -6,6 +6,8 @@ import { ChamadosAddComponent } from './chamados-add/chamados-add.component';
 import { ChamadosViewComponent } from './chamados-view/chamados-view.component';
 import { ChamadosEditResolve } from './chamados-edit/chamados-edit.resolver';
 import { UsuariosResolve } from './chamados-list/usuarios.resolver';
+import { TipoChamadoResolve } from './chamados-edit/tipoChamado.resolver';
+import { TecnicosResolve } from './chamados-edit/tecnicos.resolver';
 
 
 const routes: Routes = [
@@ -18,12 +20,21 @@ const routes: Routes = [
           usuarios: UsuariosResolve
         }
       },
-      { path: 'add', component: ChamadosAddComponent },
+      {
+        path: 'add', component: ChamadosAddComponent,
+        resolve: {
+          usuarios: UsuariosResolve
+        }
+      },
       { path: 'view/:id', component: ChamadosViewComponent },
       {
         path: 'edit/:id',
         component: ChamadosEditComponent,
-        resolve: { subtipo: ChamadosEditResolve }
+        resolve: {
+          subtipo: ChamadosEditResolve,
+          tipoChamado: TipoChamadoResolve,
+          tecnico:TecnicosResolve
+        }
       }
     ]
   },
@@ -35,9 +46,27 @@ const routes: Routes = [
           usuarios: UsuariosResolve
         }
       },
-      { path: 'add', component: ChamadosAddComponent },
-      { path: 'view/:id', component: ChamadosViewComponent },
-      { path: 'edit/:id', component: ChamadosEditComponent }
+      {
+        path: 'add', component: ChamadosAddComponent,
+        resolve: {
+          usuarios: UsuariosResolve
+        }
+      },
+      {
+        path: 'view/:id', component: ChamadosViewComponent,
+        resolve: {
+          usuarios: UsuariosResolve
+        }
+      },
+      {
+        path: 'edit/:id', component: ChamadosEditComponent,
+        resolve: {
+          subtipo: ChamadosEditResolve,
+          tipoChamado: TipoChamadoResolve,
+          usuarios: UsuariosResolve,
+          tecnico:TecnicosResolve
+        }
+      }
     ]
   }
 ];
