@@ -20,23 +20,23 @@ import { LoginRetorno } from 'src/app/interfaces/login.model';
 export class AppComponent implements OnInit {
 
   public menus: Array<PoMenuItem> = [
-    {
-      label: 'Cadastros', shortLabel: 'Cadastros', icon: 'po-icon po-icon-document-filled',
-      subItems: [
-        { label: 'Empresas', shortLabel: 'Empresas', link: 'cadastros/empresa', icon: 'po-icon po-icon po-icon-company' },
-        { label: 'Usuários', shortLabel: 'Usuários', link: 'cadastros/usuario', icon: 'po-icon po-icon-users' },
-        { label: 'Técnicos', shortLabel: 'Técnicos', link: 'cadastros/tecnico', icon: 'po-icon po-icon-document-filled' },
-        { label: 'Regras', shortLabel: 'Regras', link: 'cadastros/regra', icon: 'po-icon po-icon-minus' },
-        { label: 'Tipo Chamado', shortLabel: 'Tipo Chamado', link: 'cadastros/tipo-chamado', icon: 'po-icon po-icon-minus' },
-        { label: 'SubTipo Chamado', shortLabel: 'SubTipo Chamado', link: 'cadastros/subtipo-chamado', icon: 'po-icon po-icon-minus' },
-      ]
-    },
-    {
-      label: 'Chamados', shortLabel: 'Chamados', icon: 'po-icon po-icon-touch', subItems: [
-        { label: 'Acompanhar Usuário', shortLabel: 'Verificar', link: 'chamados/acompanhar-usuario', icon: 'po-icon po-icon-minus' },
-        { label: 'Acompanhar Técnico', shortLabel: 'Verificar', link: 'chamados/acompanhar-tecnico', icon: 'po-icon po-icon-minus' }
-      ]
-    },
+    // {
+    //   label: 'Cadastros', shortLabel: 'Cadastros', icon: 'po-icon po-icon-document-filled',
+    //   subItems: [
+    //     { label: 'Empresas', shortLabel: 'Empresas', link: 'cadastros/empresa', icon: 'po-icon po-icon po-icon-company' },
+    //     { label: 'Usuários', shortLabel: 'Usuários', link: 'cadastros/usuario', icon: 'po-icon po-icon-users' },
+    //     { label: 'Técnicos', shortLabel: 'Técnicos', link: 'cadastros/tecnico', icon: 'po-icon po-icon-document-filled' },
+    //     { label: 'Regras', shortLabel: 'Regras', link: 'cadastros/regra', icon: 'po-icon po-icon-minus' },
+    //     { label: 'Tipo Chamado', shortLabel: 'Tipo Chamado', link: 'cadastros/tipo-chamado', icon: 'po-icon po-icon-minus' },
+    //     { label: 'SubTipo Chamado', shortLabel: 'SubTipo Chamado', link: 'cadastros/subtipo-chamado', icon: 'po-icon po-icon-minus' },
+    //   ]
+    // },
+    // {
+    //   label: 'Chamados', shortLabel: 'Chamados', icon: 'po-icon po-icon-touch', subItems: [
+    //     { label: 'Acompanhar Usuário', shortLabel: 'Verificar', link: 'chamados/acompanhar-usuario', icon: 'po-icon po-icon-minus' },
+    //     { label: 'Acompanhar Técnico', shortLabel: 'Verificar', link: 'chamados/acompanhar-tecnico', icon: 'po-icon po-icon-minus' }
+    //   ]
+    // },
     // { label: 'Testing', shortLabel: 'Testing', icon: 'po-icon po-icon-list', link: 'testing' }
     // { label: '', shortLabel: '', link: '', icon: '' },
   ];
@@ -87,16 +87,10 @@ export class AppComponent implements OnInit {
           this.getProfile();
           this.logged = data;
 
-          // this.loginService.getUserInformation$
-          //   .subscribe((data) => {
-          //     if (data.permissions.length < 1) {
-          //       return;
-          //     } else {
-          //       this.permissionsService.findById(data.permissions[0].id).subscribe((data) => {
-          //         this.criarMenu(data.page);
-          //       })
-          //     }
-          //   })
+          this.loginService.getUserInformation$
+            .subscribe((data) => {
+              this.menus = data.menu;
+            })
         } else {
           this.logged = data;
           this.router.navigate(['login']);
@@ -177,44 +171,4 @@ export class AppComponent implements OnInit {
         })
   }
 
-  private criarMenu(menu: Array<any>) {
-    let menus: Array<any> = [];
-    menu.map((item) => {
-      //adicionar os items de primeiro nível
-      if (item.parent == 0) {
-        item['subItems'] = [];
-        menus.push(item);
-      } else { // adicionar os filhos de zero
-        menus.filter((data) => {
-          if (item.parent == data.id) {
-            item.link = data.link + item.link;
-            return data['subItems'].push(item);
-          }
-        })
-      }
-    })
-    menus = this.sortMenu(menus);
-    this.menus = menus;
-  }
-
-  private sortMenu(arr) {
-
-    arr.sort((a, b) => {
-      if (a.label < b.label) {
-        return -1;
-      } else if (a.label > b.label) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-
-    for (let item of arr) {
-      if ('subItems' in item) {
-        item.subItems = this.sortMenu(item.subItems);
-      }
-    };
-
-    return arr;
-  }
 }
