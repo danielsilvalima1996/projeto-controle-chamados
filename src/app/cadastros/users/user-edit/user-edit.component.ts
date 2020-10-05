@@ -209,13 +209,6 @@ export class UserEditComponent implements OnInit {
   createUser() {
     this.loading = true;
 
-    // let password: string = '';
-    // if (this.userForm.controls.password.value == null || this.userForm.controls.password.value == '') {
-    //   password = "";
-    // } else {
-    //   password = this.userForm.controls.password.value;
-    // }
-
     if (this.userForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');
       return;
@@ -263,12 +256,13 @@ export class UserEditComponent implements OnInit {
         email: this.userForm.controls.email.value,
         senha: this.userForm.controls.senha.value,
         nomeCompleto: this.userForm.controls.nomeCompleto.value,
+        avatar:this.userForm.controls.avatar.value,
         ativo: this.userForm.controls.ativo.value,
         idRegra: {
           id: this.userForm.controls.idRegra.value
         },
         idEmpresa: {
-          id: this.userForm.controls.idRegra.value
+          id: this.userForm.controls.idEmpresa.value
         },
         criado: this.userForm.controls.criado.value,
         modificado: this.userForm.controls.modificado.value,
@@ -277,9 +271,10 @@ export class UserEditComponent implements OnInit {
         telefone: this.userForm.controls.telefone.value,
         dddTelefone: this.userForm.controls.dddTelefone.value,
         celular: this.userForm.controls.celular.value,
-        dddCelular: this.userForm.controls.dddCelular.value,
-        isTecnico: this.userForm.controls.isTecnico.value
+        dddCelular: this.userForm.controls.dddCelular.value
       }
+      console.log(obj);
+      
       this.userService
         .alterUser(obj)
         .subscribe((data) => {
