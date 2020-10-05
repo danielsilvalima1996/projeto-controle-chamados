@@ -49,20 +49,20 @@ export class UserEditComponent implements OnInit {
   userForm: FormGroup = this.fb.group({
     id: [''],
     email: ['', [Validators.email]],
-    senha: [''],
+    senha: ['', [Validators.required]],
     nomeCompleto: ['', [Validators.required]],
     avatar: ['', []],
-    ativo: [false, []],
-    idRegra: ['', []],
-    idEmpresa: [''],
+    ativo: ['', []],
+    idRegra: ['', [Validators.required]],
+    idEmpresa: ['', [Validators.required]],
     // isTecnico: [false, []],
     criado: [''],
     modificado: [''],
     criadoPor: [''],
     modificadoPor: [''],
-    celular: [''],
+    celular: ['', Validators.required, Validators.minLength(9)],
     telefone: [''],
-    dddCelular: [''],
+    dddCelular: ['', Validators.required],
     dddTelefone: ['']
   })
 
@@ -256,7 +256,7 @@ export class UserEditComponent implements OnInit {
         email: this.userForm.controls.email.value,
         senha: this.userForm.controls.senha.value,
         nomeCompleto: this.userForm.controls.nomeCompleto.value,
-        avatar:this.userForm.controls.avatar.value,
+        avatar: this.userForm.controls.avatar.value,
         ativo: this.userForm.controls.ativo.value,
         idRegra: {
           id: this.userForm.controls.idRegra.value
@@ -274,7 +274,7 @@ export class UserEditComponent implements OnInit {
         dddCelular: this.userForm.controls.dddCelular.value
       }
       console.log(obj);
-      
+
       this.userService
         .alterUser(obj)
         .subscribe((data) => {

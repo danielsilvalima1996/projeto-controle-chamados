@@ -148,8 +148,16 @@ export class EmpresaEditComponent implements OnInit {
       this.controls.cep.valueChanges
         .pipe(debounceTime(250))
         .subscribe((data: string) => {
+          console.log(data);
+          
           if (data.length == 8) {
             this.getCep(data);
+          } else if (data === undefined || data === '') {
+            this.controls.logradouro.setValue('');
+            this.controls.numero.setValue('');
+            this.controls.bairro.setValue('');
+            this.controls.localidade.setValue('');
+            this.controls.uf.setValue('');
           }
         })
 

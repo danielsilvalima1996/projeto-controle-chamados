@@ -36,10 +36,10 @@ export class EmpresaAddComponent implements OnInit {
   public tipoTela: string;
 
   empresaForm: FormGroup = this.fb.group({
-    cnpj: ['', [Validators.required]],
+    cnpj: ['', [Validators.required, Validators.minLength(14)]],
     nomeFantasia: ['', [Validators.required]],
     razaoSocial: ['', [Validators.required]],
-    cep: ['', [Validators.required]],
+    cep: ['', [Validators.required, Validators.minLength(8)]],
     logradouro: ['', [Validators.required]],
     bairro: ['', [Validators.required]],
     localidade: ['', [Validators.required]],
@@ -59,10 +59,6 @@ export class EmpresaAddComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.empresaForm.
-    //   valueChanges.subscribe((data) => {
-    //     this.page.actions[0].disabled = this.empresaForm.invalid;
-    //   })
     if (this.router.url.indexOf('add') != -1) {
       this.tipoTela = 'add';
       this.page.title = 'Adicionar Empresa';
@@ -145,6 +141,7 @@ export class EmpresaAddComponent implements OnInit {
           this.location.back();
         },
           (error: HttpErrorResponse) => {
+            this.loading = false;
             this.notificationService.error(error.error.meta.message);
           })
     }
@@ -155,8 +152,6 @@ export class EmpresaAddComponent implements OnInit {
     this.empresaService
       .findById(id)
       .subscribe((data) => {
-        // data.criado = new Date(data.criado);
-        // data.modificado = new Date(data.modificado);
         this.empresaForm.setValue(data);
         this.loading = false;
       },
