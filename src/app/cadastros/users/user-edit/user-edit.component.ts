@@ -60,9 +60,9 @@ export class UserEditComponent implements OnInit {
     modificado: [''],
     criadoPor: [''],
     modificadoPor: [''],
-    celular: ['', Validators.required, Validators.minLength(9)],
+    celular: [''],
     telefone: [''],
-    dddCelular: ['', Validators.required],
+    dddCelular: [''],
     dddTelefone: ['']
   })
 
@@ -264,10 +264,6 @@ export class UserEditComponent implements OnInit {
         idEmpresa: {
           id: this.userForm.controls.idEmpresa.value
         },
-        criado: this.userForm.controls.criado.value,
-        modificado: this.userForm.controls.modificado.value,
-        criadoPor: this.userForm.controls.criadoPor.value,
-        modificadoPor: this.userForm.controls.modificadoPor.value,
         telefone: this.userForm.controls.telefone.value,
         dddTelefone: this.userForm.controls.dddTelefone.value,
         celular: this.userForm.controls.celular.value,
