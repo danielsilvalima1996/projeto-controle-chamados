@@ -222,7 +222,7 @@ export class UserEditComponent implements OnInit {
           id: this.userForm.controls.idRegra.value
         },
         idEmpresa: {
-          id: this.userForm.controls.idRegra.value
+          id: this.userForm.controls.idEmpresa.value
         },
         telefone: this.userForm.controls.telefone.value,
         dddTelefone: this.userForm.controls.dddTelefone.value,
