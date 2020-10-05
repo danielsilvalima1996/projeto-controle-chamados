@@ -139,9 +139,6 @@ export class ChamadosEditComponent implements OnInit {
       this.selects.tecnico.push(<PoSelectOption>{ label: item.idUsuario.nomeCompleto, value: item.id })
     })
 
-
-    // this.retornaTipoChamado();
-    // this.retornaSubtipoChamado();
   }
 
 
@@ -157,7 +154,7 @@ export class ChamadosEditComponent implements OnInit {
       this.disabledUser = true;
       this.page.actions = [
         {
-          label: 'Salvar Inteiração', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
+          label: 'Salvar', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
         },
         {
           label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
@@ -173,7 +170,7 @@ export class ChamadosEditComponent implements OnInit {
       this.page.title = 'Editar Chamado';
       this.page.actions = [
         {
-          label: 'Salvar Inteiração', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
+          label: 'Salvar', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
         },
         {
           label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
@@ -252,7 +249,7 @@ export class ChamadosEditComponent implements OnInit {
           } else if (data === 'modificado') {
             obj[data] = new Date(item[data])
           } else if (data == 'statusChamado') {
-            switch (item[data]) {
+            switch (item[data]) {              
               case 0:
                 this.tag.color = 'color-01';
                 this.tag.type = PoTagType.Info;

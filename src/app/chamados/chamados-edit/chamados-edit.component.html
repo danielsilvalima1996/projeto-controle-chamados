@@ -4,8 +4,7 @@
             [p-type]="tag.type" [p-value]="tag.value"></po-tag>
         <po-input class="po-md-2" p-label="Código" p-readonly="true" formControlName="id">
         </po-input>
-        <!-- <po-input class="po-md-4" p-label="Técnico" p-readonly="true" formControlName="idTecnico">
-        </po-input> -->
+
         <po-combo class="po-md-4" p-label="Técnico" p-filter-mode="contains"
         [p-options]="selects.tecnico" formControlName="idTecnico"></po-combo>
         <po-datepicker class="po-md-2" p-label="Data Abertura" p-readonly="true" formControlName="dataAbertura">
@@ -13,12 +12,10 @@
         <po-datepicker class="po-md-2" p-label="Data Fechamento" p-readonly="true" formControlName="dataFechamento">
         </po-datepicker>
         <po-divider class="po-md-12" p-label=""></po-divider>
-        <!-- <po-input class="po-md-3" p-label="Tipo Chamado" p-readonly="true" formControlName="idTipoChamado"></po-input>
-        <po-input class="po-md-3" p-label="Subtipo Chamado" p-readonly="true" formControlName="idSubtipoChamado">       </po-input> -->
-        <po-combo class="po-md-4" [p-disabled]="disabledUser" p-filter-mode="contains" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
+        <po-combo class="po-md-6" [p-disabled]="disabledUser" p-filter-mode="contains" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
             formControlName="idTipoChamado">
         </po-combo>
-        <po-combo class="po-md-4" [p-disabled]="disabledUser" p-label="Subtipo Chamado" p-filter-mode="contains"
+        <po-combo class="po-md-6" [p-disabled]="disabledUser" p-label="Subtipo Chamado" p-filter-mode="contains"
             [p-options]="selects.subtipoChamado" formControlName="idSubtipoChamado"></po-combo>
 
 
