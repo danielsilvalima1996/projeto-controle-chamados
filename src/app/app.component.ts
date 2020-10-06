@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
   trocarForm: FormGroup = this.fb.group({
     senhaAtual: ['', [Validators.required, Validators.minLength(6)]],
     confirmeSenha: ['', [Validators.required, Validators.minLength(6)]],
-    Senhanova: ['', [Validators.required, Validators.minLength(6)]]
+    senhaNova: ['', [Validators.required, Validators.minLength(6)]]
   })
 
   @ViewChild('trocarSenha', { static: true }) trocarSenha: PoModalComponent;
@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
     this.trocarForm
       .valueChanges
       .subscribe((_) => {
-        if ((this.controls.nova.value === this.controls.confirme.value) && this.trocarForm.valid) {
+        if ((this.controls.senhaNova.value === this.controls.confirmeSenha.value) && this.trocarForm.valid) {
           this.primaryAction.disabled = false;
         } else {
           this.primaryAction.disabled = true;
@@ -132,7 +132,7 @@ export class AppComponent implements OnInit {
 
   trocarSenhaFn() {
     this.loading = true;
-    let senhas = {
+    let senhas: TrocarSenha = {
       senhaAtual: this.controls.senhaAtual.value,
       senhaNova: this.controls.senhaNova.value
     }
