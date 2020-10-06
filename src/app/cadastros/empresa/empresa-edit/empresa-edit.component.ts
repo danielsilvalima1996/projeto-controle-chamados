@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoSelectOption, PoNotificationService, PoBreadcrumb, PoBreadcrumbItem, PoDialogService } from '@po-ui/ng-components';
+import { PoPageDefault, PoSelectOption, PoNotificationService, PoBreadcrumb, PoBreadcrumbItem, PoDialogService, PoNotification } from '@po-ui/ng-components';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
@@ -9,7 +9,7 @@ import { Location } from '@angular/common';
 import { debounceTime } from 'rxjs/operators';
 import { ViaCepService } from 'src/app/services/cadastros/via-cep/via-cep.service';
 import { ViaCep } from 'src/app/interfaces/via-cep.model';
-
+const { cnpj } = require('cpf-cnpj-validator');
 @Component({
   selector: 'app-empresa-edit',
   templateUrl: './empresa-edit.component.html',
@@ -77,7 +77,8 @@ export class EmpresaEditComponent implements OnInit {
     modificado: ['', []],
     complemento: ['', []],
     criadoPor: ['', []],
-    modificadoPor: ['', []]
+    modificadoPor: ['', []],
+    isValid: [false, [Validators.required]]
   });
 
   constructor(
@@ -117,8 +118,30 @@ export class EmpresaEditComponent implements OnInit {
           if (data.length == 8) {
             this.getCep(data);
           }
-        })
+        });
 
+      this.controls['cnpj'].valueChanges
+        .subscribe((data) => {
+          if (data.length === 14) {
+            let result = cnpj.isValid(data);
+            const poNotification: PoNotification = {
+              message: result === false ? 'Insira um CNPJ válido' : 'CNPJ válido',
+              duration: 2000
+            }
+            if (result === false) {
+              this.page.actions[0].disabled = true;
+              this.controls['cnpj'].setValue('');
+              this.controls['isValid'].setValue(false);
+              this.notificationService.warning(poNotification);
+            } else if (result === true) {
+              this.page.actions[0].disabled = false;
+              this.controls['isValid'].setValue(true);
+              this.notificationService.success(poNotification);
+            }
+          } else {
+            this.controls['isValid'].setValue(false);
+          }
+        })
 
     } else if (this.router.url.indexOf('edit') != -1) {
       this.tipoTela = 'edit';
@@ -149,7 +172,7 @@ export class EmpresaEditComponent implements OnInit {
         .pipe(debounceTime(250))
         .subscribe((data: string) => {
           console.log(data);
-          
+
           if (data.length == 8) {
             this.getCep(data);
           } else if (data === undefined || data === '') {
