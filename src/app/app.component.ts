@@ -19,36 +19,16 @@ import { LoginRetorno } from 'src/app/interfaces/login.model';
 })
 export class AppComponent implements OnInit {
 
-  public menus: Array<PoMenuItem> = [
-    // {
-    //   label: 'Cadastros', shortLabel: 'Cadastros', icon: 'po-icon po-icon-document-filled',
-    //   subItems: [
-    //     { label: 'Empresas', shortLabel: 'Empresas', link: 'cadastros/empresa', icon: 'po-icon po-icon po-icon-company' },
-    //     { label: 'Usuários', shortLabel: 'Usuários', link: 'cadastros/usuario', icon: 'po-icon po-icon-users' },
-    //     { label: 'Técnicos', shortLabel: 'Técnicos', link: 'cadastros/tecnico', icon: 'po-icon po-icon-document-filled' },
-    //     { label: 'Regras', shortLabel: 'Regras', link: 'cadastros/regra', icon: 'po-icon po-icon-minus' },
-    //     { label: 'Tipo Chamado', shortLabel: 'Tipo Chamado', link: 'cadastros/tipo-chamado', icon: 'po-icon po-icon-minus' },
-    //     { label: 'SubTipo Chamado', shortLabel: 'SubTipo Chamado', link: 'cadastros/subtipo-chamado', icon: 'po-icon po-icon-minus' },
-    //   ]
-    // },
-    // {
-    //   label: 'Chamados', shortLabel: 'Chamados', icon: 'po-icon po-icon-touch', subItems: [
-    //     { label: 'Acompanhar Usuário', shortLabel: 'Verificar', link: 'chamados/acompanhar-usuario', icon: 'po-icon po-icon-minus' },
-    //     { label: 'Acompanhar Técnico', shortLabel: 'Verificar', link: 'chamados/acompanhar-tecnico', icon: 'po-icon po-icon-minus' }
-    //   ]
-    // },
-    // { label: 'Testing', shortLabel: 'Testing', icon: 'po-icon po-icon-list', link: 'testing' }
-    // { label: '', shortLabel: '', link: '', icon: '' },
-  ];
+  public menus: Array<PoMenuItem> = [];
 
   profile: PoToolbarProfile;
 
   profileActions: Array<PoToolbarAction> = [
-    // {
-    //   label: 'Trocar Senha',
-    //   icon: 'po-icon po-icon-change',
-    //   action: () => this.openModal()
-    // },
+    {
+      label: 'Trocar Senha',
+      icon: 'po-icon po-icon-change',
+      action: () => this.openModal()
+    },
     {
       label: 'Sair',
       icon: 'po-icon po-icon-exit',
@@ -63,9 +43,9 @@ export class AppComponent implements OnInit {
   loading: boolean = false;
 
   trocarForm: FormGroup = this.fb.group({
-    atual: ['', [Validators.required, Validators.minLength(8)]],
-    confirme: ['', [Validators.required, Validators.minLength(8)]],
-    nova: ['', [Validators.required, Validators.minLength(8)]]
+    senhaAtual: ['', [Validators.required, Validators.minLength(6)]],
+    confirmeSenha: ['', [Validators.required, Validators.minLength(6)]],
+    Senhanova: ['', [Validators.required, Validators.minLength(6)]]
   })
 
   @ViewChild('trocarSenha', { static: true }) trocarSenha: PoModalComponent;
@@ -152,10 +132,9 @@ export class AppComponent implements OnInit {
 
   trocarSenhaFn() {
     this.loading = true;
-    let senhas: TrocarSenha = {
-      id: this.idUser,
-      atual: this.controls.atual.value,
-      nova: this.controls.nova.value
+    let senhas = {
+      senhaAtual: this.controls.senhaAtual.value,
+      senhaNova: this.controls.senhaNova.value
     }
     this.userService
       .trocarSenha(senhas)

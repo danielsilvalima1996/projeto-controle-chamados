@@ -1,5 +1,4 @@
 export interface TrocarSenha {
-    id: number,
-    atual: string,
-    nova: string
+   senhaAtual: string,
+    senhaNova: string
 }
