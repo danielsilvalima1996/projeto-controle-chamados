@@ -14,12 +14,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class RegrasListComponent implements OnInit {
 
   public page: PoPageDefault = {
-    title: 'Regras',
+    title: 'Regra',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Regras' }
+        { label: 'Regra' }
       ]
     },
     actions: [

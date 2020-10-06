@@ -22,7 +22,7 @@ export class SubtipoChamadoAddComponent implements OnInit {
     title: 'Adicionar SubTipo de Chamado',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'SubTipo Chamado' },
         { label: 'Adicionar SubTipo de Chamado' },

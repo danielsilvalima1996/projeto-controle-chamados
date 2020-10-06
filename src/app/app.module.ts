@@ -7,13 +7,13 @@ import { PoModule, PoToolbarModule, PoModalModule, PoFieldModule, PoLoadingModul
 import { RouterModule } from '@angular/router';
 import { CadastrosModule } from './cadastros/cadastros.module';
 import { ChamadosModule } from './chamados/chamados.module';
-import { DashboardModule } from './dashboard/dashboard.module';
 import { LoginModule } from './login/login.module';
 import { TestingModule } from './testing/testing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { InterceptorService } from './services/authentication/interceptor/interceptor.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeModule } from './home/home.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -31,7 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PoLoadingModule,
     CadastrosModule,
     ChamadosModule,
-    DashboardModule,
+    HomeModule,
     LoginModule,
     TestingModule,
     PoModule,

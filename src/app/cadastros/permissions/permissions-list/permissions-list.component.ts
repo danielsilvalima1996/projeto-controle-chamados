@@ -19,7 +19,7 @@ export class PermissionsListComponent implements OnInit {
     breadcrumb:
     {
       items: [
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'Permissões' }
       ]

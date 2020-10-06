@@ -2,8 +2,14 @@
     <po-toolbar *ngIf="logged" p-title="Portal Controle de Chamados" [p-profile]="profile"
         [p-profile-actions]="profileActions"></po-toolbar>
 
-    <po-menu *ngIf="logged" p-filter [p-menus]="menus" p-logo="assets/img/sua-logo-aqui.jpg"
-        p-short-logo="assets/img/sua-logo-aqui-branco.png"></po-menu>
+    <po-menu *ngIf="logged" p-filter [p-menus]="menus"  p-short-logo="assets/img/logo-branco.png" >
+        <div *p-menu-header-template class="po-p-2 po-font-title sample-menu-header-text-color font-color">
+            <p>Bem Vindo,</p>
+            <p>
+                <b> {{profile.title}} </b>
+            </p>
+        </div>
+    </po-menu>
     <router-outlet></router-outlet>
 
 </div>

@@ -80,16 +80,11 @@ export class ChamadosAddComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private utilService: UtilService,
     private tipoChamadoService: TipoChamadoService,
     private subtipoChamadoService: SubtipoChamadoService,
     private chamadosService: ChamadosService,
     private notificationService: PoNotificationService,
-    private loginService: LoginService,
-    private analistaService: AnalistaService,
-    private userService: UserService,
-    private empresaService: EmpresaService,
-    private usuariosService: UserService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit() {
@@ -146,8 +141,6 @@ export class ChamadosAddComponent implements OnInit {
           return <any>{ label: item.descricao, value: item.id, idTipoChamado: item.idTipoChamado.id }
         })
         this.selects.subtipoChamado = arr;
-        console.log(this.selects.subtipoChamado);
-
       })
   }
 
@@ -160,7 +153,6 @@ export class ChamadosAddComponent implements OnInit {
           return <PoSelectOption>{ label: item.descricao, value: item.id };
         })
         this.selects.tipoChamado = arr;
-        console.log(this.selects.tipoChamado);
 
       })
   }

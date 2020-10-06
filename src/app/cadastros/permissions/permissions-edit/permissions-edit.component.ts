@@ -22,7 +22,7 @@ export class PermissionsEditComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'Permissões' },
         { label: 'Editar Permissões' }

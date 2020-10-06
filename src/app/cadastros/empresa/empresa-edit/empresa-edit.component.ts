@@ -127,7 +127,7 @@ export class EmpresaEditComponent implements OnInit {
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Empresas' },
+        { label: 'Empresa' },
         { label: 'Editar Empresa' }
       ],
         this.page.actions = [

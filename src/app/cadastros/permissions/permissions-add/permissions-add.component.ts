@@ -21,7 +21,7 @@ export class PermissionsAddComponent implements OnInit {
     title: 'Adicionar Permissões',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'Permissões' },
         { label: 'Adicionar Permissões' },

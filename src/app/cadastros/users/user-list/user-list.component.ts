@@ -24,12 +24,12 @@ export class UserListComponent implements OnInit {
       { label: 'Visualizar', action: () => { this.goToUsuario('view') } }
     ],
 
-    title: 'Cadastro de Usuários',
+    title: 'Usuário',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Usuários' }
+        { label: 'Usuário' }
       ]
     }
   }

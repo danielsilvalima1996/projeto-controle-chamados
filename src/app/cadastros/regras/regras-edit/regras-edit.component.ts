@@ -70,7 +70,7 @@ export class RegrasEditComponent implements OnInit {
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Regras' },
+        { label: 'Regra' },
         { label: 'Adicionar Regra' }
       ],
         this.page.actions = [
@@ -89,7 +89,7 @@ export class RegrasEditComponent implements OnInit {
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Regras' },
+        { label: 'Regra' },
         { label: 'Editar Regra' }
       ],
         this.page.actions = [

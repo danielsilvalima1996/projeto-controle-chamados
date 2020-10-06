@@ -15,12 +15,12 @@ import { UserService } from 'src/app/services/cadastros/users/user.service';
 export class TecnicosListComponent implements OnInit {
 
   public page: PoPageDefault = {
-    title: 'Técnicos',
+    title: 'Técnico',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Técnicos' }
+        { label: 'Técnico' }
       ]
     },
     actions: [

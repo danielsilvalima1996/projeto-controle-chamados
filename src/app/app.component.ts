@@ -138,7 +138,7 @@ export class AppComponent implements OnInit {
   confirmeLogout() {
     this.dialogService.confirm({
       title: 'Sair',
-      message: 'Deseja realmente Sair?',
+      message: 'Deseja realmente sair?',
       confirm: () => { this.loginService.logout(); },
       cancel: () => { }
     });

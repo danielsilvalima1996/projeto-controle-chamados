@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.loginService
       .getIsLogged$.subscribe((data) => {
         if (data) {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['home']);
         }
       })
   }

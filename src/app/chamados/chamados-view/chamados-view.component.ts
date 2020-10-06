@@ -88,7 +88,26 @@ export class ChamadosViewComponent implements OnInit {
         this.constValue.id = parseInt(paramMap.get('id'), 10);
       })
     this.findById(this.constValue.id);
+    this.routeChamado();
     // this.tipoChamado()
+  }
+
+  private routeChamado() {
+    let item: PoBreadcrumbItem[] = [];
+    if (this.router.url.toString().indexOf('acompanhar-usuario') != -1) {
+      item = [
+        { label: 'Usuário' },
+        { label: 'Visualizar' }
+      ]
+    } else {
+      item = [
+        { label: 'Técnico' },
+        { label: 'Visualizar' }
+      ]
+    }
+    item.map((item) => {
+      this.page.breadcrumb.items.push(item);
+    })
   }
 
   get controls() {

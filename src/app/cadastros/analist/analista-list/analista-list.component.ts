@@ -22,7 +22,7 @@ export class AnalistaListComponent implements OnInit {
     title: 'Cadastro de Analistas',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'Analistas' }
       ]

@@ -21,7 +21,7 @@ export class TipoChamadoAddComponent implements OnInit {
     title: 'Adicionar Tipo de Chamado',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'Tipos Chamado' },
         { label: 'Adicionar Tipo de Chamado' },

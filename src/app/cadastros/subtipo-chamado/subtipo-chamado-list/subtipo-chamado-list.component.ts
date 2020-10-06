@@ -19,7 +19,7 @@ export class SubtipoChamadoListComponent implements OnInit {
     title: 'SubTipo Chamado',
     breadcrumb: {
       items: [
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
         { label: 'SubTipo Chamado' },
       ]

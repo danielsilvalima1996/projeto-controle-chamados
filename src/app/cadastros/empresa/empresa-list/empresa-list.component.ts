@@ -15,7 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class EmpresaListComponent implements OnInit {
 
   page: PoPageDefault = {
-    title: 'Cadastro de Empresas',
+    title: 'Empresa',
     actions: [
       { label: 'Novo', icon: 'po-icon po-icon-company', url: 'empresa/add' },
       { label: 'Editar', action: () => { this.goToEmpresa('edit') } },
@@ -23,9 +23,9 @@ export class EmpresaListComponent implements OnInit {
     ],
     breadcrumb: {
       items: [
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Empresas' }
+        { label: 'Empresa' }
       ]
     }
   }

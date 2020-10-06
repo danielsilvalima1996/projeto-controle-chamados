@@ -23,9 +23,9 @@ export class UserAddComponent implements OnInit {
     title: 'Adicionar Usuários',
     breadcrumb: <PoBreadcrumb>{
       items: <PoBreadcrumbItem[]>[
-        { label: 'Dashboard' },
+        { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Usuários' },
+        { label: 'Usuário' },
         { label: 'Adicionar Usuário' },
       ]
     },

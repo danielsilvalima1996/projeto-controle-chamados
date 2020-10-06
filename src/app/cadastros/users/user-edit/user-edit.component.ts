@@ -89,7 +89,7 @@ export class UserEditComponent implements OnInit {
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Usuários' },
+        { label: 'Usuário' },
         { label: 'Adicionar Usuário' }
       ],
         this.page.actions = [
@@ -108,7 +108,7 @@ export class UserEditComponent implements OnInit {
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Usuários' },
+        { label: 'Usuário' },
         { label: 'Editar Usuário' }
       ],
         this.page.actions = [
@@ -134,7 +134,7 @@ export class UserEditComponent implements OnInit {
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Usuários' },
+        { label: 'Usuário' },
         { label: 'Visualizar Usuário' }
       ],
         this.page.actions = [
