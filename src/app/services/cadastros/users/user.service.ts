@@ -36,7 +36,7 @@ export class UserService {
   }
 
   trocarSenha(senhas: TrocarSenha) {
-    return this.http.post(`${this.url}/trocarSenha`, senhas);
+    return this.http.put(`${this.url}/trocarSenha`, senhas);
   }
 
   findAllEmpresa(id: number): Observable<User[]> {
