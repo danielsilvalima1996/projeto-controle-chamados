@@ -249,18 +249,19 @@ export class ChamadosEditComponent implements OnInit {
           } else if (data === 'modificado') {
             obj[data] = new Date(item[data])
           } else if (data == 'statusChamado') {
-            switch (item[data]) {              
+            console.log(item[data]);
+            switch (item[data]) {
               case 0:
-                this.tag.color = 'color-01';
-                this.tag.type = PoTagType.Info;
-                this.tag.value = 'Sem Dados';
-                obj[data] = 'Sem Dados';
-                break;
-              case 1:
                 this.tag.color = 'color-08';
                 this.tag.type = PoTagType.Warning;
                 this.tag.value = 'Em Aberto';
                 obj[data] = 'Em Aberto';
+                break;
+              case 1:
+                this.tag.color = 'color-01';
+                this.tag.type = PoTagType.Warning;
+                this.tag.value = 'Em Análise';
+                obj[data] = 'Em Análise';
                 break;
               case 2:
                 this.tag.color = 'color-11';
@@ -269,14 +270,8 @@ export class ChamadosEditComponent implements OnInit {
                 obj[data] = 'Fechado';
                 break;
               case 3:
-                this.tag.color = 'color-03';
-                this.tag.type = PoTagType.Success;
-                this.tag.value = 'Indeferido';
-                obj[data] = 'Indeferido';
-                break;
-              case 4:
                 this.tag.color = 'color-07';
-                this.tag.type = PoTagType.Danger;
+                this.tag.type = PoTagType.Success;
                 this.tag.value = 'Indeferido';
                 obj[data] = 'Indeferido';
                 break;

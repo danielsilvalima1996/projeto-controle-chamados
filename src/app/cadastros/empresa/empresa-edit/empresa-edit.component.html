@@ -28,18 +28,20 @@
             </po-input>
             <po-select class="po-md-3" [p-readonly]="disabledFields" formControlName="uf" p-required="true" p-label="UF"
                 [p-options]="estados"></po-select>
+            <!-- <po-combo class="po-md-2" [p-disabled]="disabledFields" p-placeholder="UF" p-label="UF" [p-options]="estados"
+                formControlName="uf"></po-combo> -->
             <po-divider class="po-md-12" p-label="Informações da empresa"></po-divider>
             <po-switch class="po-md-3" [p-disabled]="disabledFields" formControlName="ativo" p-label="Ativo"
                 p-label-off="Inativo" p-label-on="Ativo"> </po-switch>
 
-            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" [p-readonly]="disabledFields" p-format="dd/MM/yyyy"
+            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy"
                 p-label="Criado" formControlName="criado"></po-datepicker>
-            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" [p-readonly]="disabledFields" p-format="dd/MM/yyyy"
+            <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy"
                 p-label="Modificado" formControlName="modificado"></po-datepicker>
             <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-label="Criado Por"
-                [p-readonly]="disabledFields || disabledId" formControlName="criadoPor"></po-input>
+                p-readonly="true" formControlName="criadoPor"></po-input>
             <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-label="Modificado Por"
-                [p-readonly]="disabledFields || disabledId" formControlName="modificadoPor"></po-input>
+                p-readonly="true" formControlName="modificadoPor"></po-input>
         </div>
     </form>
     <po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando">

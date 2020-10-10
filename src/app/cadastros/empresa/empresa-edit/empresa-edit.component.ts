@@ -171,10 +171,11 @@ export class EmpresaEditComponent implements OnInit {
       this.controls.cep.valueChanges
         .pipe(debounceTime(250))
         .subscribe((data: string) => {
-          console.log(data);
+          console.log("data =>", data);
 
           if (data.length == 8) {
             this.getCep(data);
+            
           } else if (data === undefined || data === '') {
             this.controls.logradouro.setValue('');
             this.controls.numero.setValue('');
@@ -236,7 +237,8 @@ export class EmpresaEditComponent implements OnInit {
     this.loading = true;
     this.empresaService
       .findById(id)
-      .subscribe((data) => {
+      .subscribe((data: any) => {
+        data.isValid = '';
         data.criado = new Date(data.criado);
         data.modificado = new Date(data.modificado);
         this.empresaForm.setValue(data);
