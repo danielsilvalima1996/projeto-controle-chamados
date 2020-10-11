@@ -1,9 +1,12 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
     <form [formGroup]="chamadosForm" class="po-row">
 
-        <po-combo class="po-md-4" p-filter-mode="contains" p-label="Usuário"
+        <po-combo *ngIf="showUser" class="po-md-4" p-filter-mode="contains" p-label="Usuário"
           [p-disabled]="disabledField"  [p-options]="selects.usuarios" formControlName="idUsuario">
         </po-combo>
+        
+        <po-combo *ngIf="showTecnico" class="po-md-4" p-label="Técnico" p-filter-mode="contains"
+        [p-options]="selects.tecnico" formControlName="idTecnico"></po-combo>
 
         <po-combo class="po-md-4" p-filter-mode="contains" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
             formControlName="idTipoChamado">

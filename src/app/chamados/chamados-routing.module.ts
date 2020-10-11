@@ -23,7 +23,8 @@ const routes: Routes = [
       {
         path: 'add', component: ChamadosAddComponent,
         resolve: {
-          usuarios: UsuariosResolve
+          usuarios: UsuariosResolve,
+          tecnico:TecnicosResolve
         }
       },
       { path: 'view/:id', component: ChamadosViewComponent },
@@ -49,7 +50,8 @@ const routes: Routes = [
       {
         path: 'add', component: ChamadosAddComponent,
         resolve: {
-          usuarios: UsuariosResolve
+          usuarios: UsuariosResolve,
+          tecnico:TecnicosResolve
         }
       },
       {

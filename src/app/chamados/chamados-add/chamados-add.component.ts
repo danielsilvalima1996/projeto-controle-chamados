@@ -14,6 +14,7 @@ import { LoginService } from 'src/app/services/authentication/login/login.servic
 import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
+import { Tecnico } from 'src/app/interfaces/tecnico.model';
 
 @Component({
   selector: 'app-chamados-add',
@@ -47,7 +48,7 @@ export class ChamadosAddComponent implements OnInit {
   selects = {
     tipoChamado: <PoSelectOption[]>[],
     subtipoChamado: <any[]>[],
-    analistas: <PoSelectOption[]>[],
+    tecnico: <PoSelectOption[]>[],
     empresas: <PoSelectOption[]>[],
     usuarios: <PoSelectOption[]>[],
     status: <PoSelectOption[]>[
@@ -67,12 +68,15 @@ export class ChamadosAddComponent implements OnInit {
 
   public disabledField = false;
   public disabledSubtipoChamado = false;
+  public showUser = false;
+  public showTecnico = false;
 
   chamadosForm: FormGroup = this.fb.group({
     descricao: ['', [Validators.required]],
     idSubtipoChamado: ['', [Validators.required]],
     idTipoChamado: ['', [Validators.required]],
-    idUsuario: ['', [Validators.required]]
+    idUsuario: ['', [Validators.required]],
+    idTecnico: ['']
   })
 
   constructor(
@@ -92,6 +96,11 @@ export class ChamadosAddComponent implements OnInit {
     let arr: Array<User> = this.route.snapshot.data['usuarios'];
     arr.map((item) => {
       this.selects.usuarios.push(<PoSelectOption>{ label: item.nomeCompleto, value: item.id });
+    });
+
+    let tecnicos: Array<Tecnico> = this.route.snapshot.data['tecnico'];
+    tecnicos.map((item) => {
+      this.selects.tecnico.push(<PoSelectOption>{ label: item.idUsuario.nomeCompleto, value: item.id })
     })
 
     if (this.router.url.toString().indexOf('acompanhar-usuario') != -1) {
@@ -99,7 +108,10 @@ export class ChamadosAddComponent implements OnInit {
         .subscribe((data) => {
           this.controls.idUsuario.setValue(data.id)
           this.disabledField = true;
-        })
+        });
+    } else {
+      this.showUser = true;
+      this.showTecnico = true;
     }
 
 
