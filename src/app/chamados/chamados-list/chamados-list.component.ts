@@ -49,11 +49,19 @@ export class ChamadosListComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
+      {
+        property: 'statusChamado', label: '-', type: 'subtitle', width: '40px', subtitles: [
+          { value: 0, color: 'color-08', label: 'Em Aberto', content: '' },
+          { value: 1, color: 'color-01', label: 'Em Análise', content: '' },
+          { value: 2, color: 'color-11', label: 'Fechado', content: '' },
+          { value: 3, color: 'color-07', label: 'Indeferido', content: '' },
+        ]
+      },
       { label: 'Chamado', property: 'id', width: '100px' },
       { label: 'Técnico', property: 'idTecnico', width: '200px' },
       { label: 'Data Abertura', property: 'dataAbertura', width: '150px', type: 'date', format: 'dd/MM/yyyy' },
       { label: 'Data Fechamento', property: 'dataFechamento', width: '150px', type: 'date', format: 'dd/MM/yyyy' },
-      { label: 'Status Chamado', property: 'statusChamado', width: '150px' },
+      // { label: 'Status Chamado', property: 'statusChamado', width: '150px' },
       { label: 'Tipo Chamado', property: 'idTipoChamado', width: '150px' },
       { label: 'Subtipo Chamado', property: 'idSubtipoChamado', width: '150px' },
       { label: 'Usuario', property: 'idUsuario', width: '200px' },
@@ -81,7 +89,7 @@ export class ChamadosListComponent implements OnInit {
     ],
   }
 
-  public selecionado = ''
+  public selecionado
   public tipoChamado = ''
   public idUsuario = 0
 
@@ -189,15 +197,14 @@ export class ChamadosListComponent implements OnInit {
       .subscribe((data: any) => {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: `${item.nomeCompleto}`, value: item.id }
-        })
+        });
         this.selects.usuarios = arr;
       })
   }
 
   selectedTable(event) {
-    this.selecionado = event.id;
+    this.selecionado = event;
     console.log(this.selecionado);
-
   }
 
   unSelectedTable() {
@@ -209,12 +216,10 @@ export class ChamadosListComponent implements OnInit {
   }
 
   findChamados(parameters?: any) {
-    this.table.loading = true;
+    this.loading = true;
     this.chamadosService
       .findChamados(parameters)
       .subscribe((data: any) => {
-        console.log(data);
-
         this.table.items = data
           .map((item) => {
             return {
@@ -222,7 +227,7 @@ export class ChamadosListComponent implements OnInit {
               idTecnico: item.idTecnico === null ? '' : item.idTecnico.idUsuario.nomeCompleto,
               dataAbertura: item.dataAbertura,
               dataFechamento: item.dataFechamento,
-              statusChamado: item.statusChamado === 1 ? 'Em Aberto' : item.statusChamado === 2 ? 'Fechado' : item.statusChamado === 3 ? 'Indeferido' : 'Sem Dados' ,
+              statusChamado: item.statusChamado,
               idTipoChamado: item.idTipoChamado.descricao,
               idSubtipoChamado: item.idSubtipoChamado.descricao,
               idUsuario: item.idUsuario.nomeCompleto,
@@ -233,10 +238,12 @@ export class ChamadosListComponent implements OnInit {
               modificadoPor: item.modificadoPor
             }
           });
-        this.table.loading = false;
+        this.loading = false;
       },
         (error: ErrorSpringBoot) => {
           this.notificationService.error(error.message);
+          this.loading = false;
+          this.table.items = [];
         })
   }
 
@@ -245,7 +252,7 @@ export class ChamadosListComponent implements OnInit {
       this.notificationService.warning('Selecione um chamado para visualizar!');
       return;
     } else {
-      this.router.navigate(['view', this.selecionado], { relativeTo: this.route });
+      this.router.navigate(['view', this.selecionado.id], { relativeTo: this.route });
     }
   }
 
@@ -253,8 +260,14 @@ export class ChamadosListComponent implements OnInit {
     if (this.selecionado == null || this.selecionado == '') {
       this.notificationService.warning('Selecione um chamado para editar!');
       return;
+    } else if (this.selecionado.statusChamado === 2) {
+      this.notificationService.information('O registro selecionado está fechado e não pode ser editado');
+      return;
+    } else if (this.selecionado.statusChamado === 3) {
+      this.notificationService.information('O registro selecionado está indeferido e não pode ser editado');
+      return;
     } else {
-      this.router.navigate(['edit', this.selecionado], { relativeTo: this.route });
+      this.router.navigate(['edit', this.selecionado.id], { relativeTo: this.route });
     }
 
   }
