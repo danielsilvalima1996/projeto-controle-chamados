@@ -26,7 +26,16 @@ export class ChamadosEditComponent implements OnInit {
 
   page: PoPageDefault = {
     title: 'Editar Chamado',
-    actions: [],
+    actions: [
+      {
+        label: 'Salvar', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
+      },
+      {
+        label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
+          this.location.back();
+        }
+      }
+    ],
     breadcrumb: {
       items: [
         { label: 'Chamados' }
@@ -97,12 +106,13 @@ export class ChamadosEditComponent implements OnInit {
 
   public comentarioChamado: any;
   public disabledUser = false;
+  public tipoTela = '';
 
-  public criadoOriginal
-  public modificadoOriginal
-  public dataAberturaOriginal
-  public dataFechamentoOriginal
-  public statusOriginal
+  public criadoOriginal;
+  public modificadoOriginal;
+  public dataAberturaOriginal;
+  public dataFechamentoOriginal;
+  public statusOriginal;
 
   constructor(
     private location: Location,
@@ -150,44 +160,15 @@ export class ChamadosEditComponent implements OnInit {
   private routeChamado() {
     let item: PoBreadcrumbItem[] = [];
     if (this.router.url.toString().indexOf('acompanhar-usuario') != -1) {
-      this.page.title = 'Editar Chamado';
+      this.tipoTela = 'acompanhar-usuario';
       this.disabledUser = true;
-      this.page.actions = [
-        {
-          label: 'Salvar', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
-        },
-        {
-          label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
-            this.location.back();
-          }
-        }
-      ]
       item = [
         { label: 'Usuário' },
         { label: 'Editar' }
       ]
     } else {
-      this.page.title = 'Editar Chamado';
-      this.page.actions = [
-        {
-          label: 'Salvar', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
-        },
-        {
-          label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
-            this.location.back();
-          }
-        },
-            {
-              label: 'Fechar Chamado', icon: 'po-icon po-icon-close', action: () => {
-                this.finalizaChamado();
-              }
-            },
-            {
-              label: 'Indeferir Chamado', icon: 'po-icon po-icon-warning', action: () => {
-                this.indefereChamado();
-              }
-            }
-      ]
+      this.tipoTela = 'acompanhar-tecnico';
+
       item = [
         { label: 'Técnico' },
         { label: 'Editar' }
@@ -230,21 +211,29 @@ export class ChamadosEditComponent implements OnInit {
 
         console.log(item.statusChamado);
 
-        // if (item.statusChamado === 0 || item.statusChamado === 1) {
+        if (item.statusChamado === 0 || item.statusChamado === 1 && this.tipoTela === 'acompanhar-tecnico') {
 
-        //   this.page.actions.push(
-        //     {
-        //       label: 'Fechar Chamado', icon: 'po-icon po-icon-close', action: () => {
-        //         this.finalizaChamado();
-        //       }
-        //     },
-        //     {
-        //       label: 'Indeferir Chamado', icon: 'po-icon po-icon-warning', action: () => {
-        //         this.indefereChamado();
-        //       }
-        //     })
-
-        // }
+          this.page.actions = [
+            {
+              label: 'Salvar', action: () => this.alterarChamado(), icon: 'po-icon po-icon-ok'
+            },
+            {
+              label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
+                this.location.back();
+              }
+            },
+            {
+              label: 'Fechar Chamado', icon: 'po-icon po-icon-close', action: () => {
+                this.finalizaChamado();
+              }
+            },
+            {
+              label: 'Indeferir Chamado', icon: 'po-icon po-icon-warning', action: () => {
+                this.indefereChamado();
+              }
+            }
+          ]
+        }
 
         let status
 

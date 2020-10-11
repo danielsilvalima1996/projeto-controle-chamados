@@ -183,6 +183,9 @@ export class ChamadosAddComponent implements OnInit {
       },
       idUsuario: {
         id: this.controls.idUsuario.value
+      },
+      idTecnico: {
+        id: this.controls.idTecnico.value
       }
     }
     this.chamadosService
