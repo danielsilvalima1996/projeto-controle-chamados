@@ -46,12 +46,12 @@
 
         <po-divider class="po-md-12 po-mt-1" p-label="Informações do Chamado"></po-divider>
         <div class="po-md-12">
-            <po-datepicker class="po-md-3" p-format="dd/MM/yyyy" p-label="Criado" formControlName="criado">
+            <po-datepicker class="po-md-3" p-readonly="true" p-format="dd/MM/yyyy" p-label="Criado" formControlName="criado">
             </po-datepicker>
-            <po-datepicker class="po-md-3" p-format="dd/MM/yyyy" p-label="Modificado" formControlName="modificado">
+            <po-datepicker class="po-md-3" p-readonly="true" p-format="dd/MM/yyyy" p-label="Modificado" formControlName="modificado">
             </po-datepicker>
-            <po-input class="po-md-3" p-label="Criado Por" formControlName="criadoPor"></po-input>
-            <po-input class="po-md-3" p-label="Modificado Por" formControlName="modificadoPor"></po-input>
+            <po-input class="po-md-3" p-readonly="true" p-label="Criado Por" formControlName="criadoPor"></po-input>
+            <po-input class="po-md-3" p-readonly="true" p-label="Modificado Por" formControlName="modificadoPor"></po-input>
         </div>
     </form>
 </po-page-default>

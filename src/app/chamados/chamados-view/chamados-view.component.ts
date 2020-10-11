@@ -59,13 +59,13 @@ export class ChamadosViewComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      { property: 'id', label: 'ID', width: '5%' },
+      // { property: 'id', label: 'ID', width: '5%' },
       { property: 'comentario', label: 'Descrição Comentário', width: '25%' },
       { property: 'criado', label: 'Criado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'criadoPor', label: 'Criado Por', width: '14%' },
       { property: 'modificadoPor', label: 'Modificado Por', width: '14%' },
-      { property: 'idUsuario', label: 'Usuário', width: '18%' }
+      { property: 'idUsuario', label: 'Usuário', width: '23%' }
     ],
     items: [],
     height: 0,
@@ -152,64 +152,56 @@ export class ChamadosViewComponent implements OnInit {
           }
         });
 
-        let obj = {};
-        Object.keys(item).map((data) => {
-          if (item[data] == '') {
-            obj[data] = '-';
-          } else if (data == 'idEmpresa') {
-            obj[data] = item[data].nomeFantasia;
-          } else if (data == 'idTecnico') {
-            obj[data] = item[data].idUsuario.nomeCompleto;
-          } else if (data == 'idTipoChamado') {
-            obj[data] = item[data].descricao;
-          } else if (data == 'idSubtipoChamado') {
-            obj[data] = item[data].descricao;
-          } else if (data == 'idUsuario') {
-            // obj[data] = item[data].fullName;
-          } else if (data == 'dataAbertura' || data == 'dataFechamento') {
-            obj[data] = new Date(item[data])
-          } else if (data === 'criado') {
-            obj[data] = new Date(item[data])
-          } else if (data === 'modificado') {
-            obj[data] = new Date(item[data])
-          } else if (data == 'statusChamado') {
-            switch (item[data]) {
-              case 1:
-                this.tag.color = 'color-08';
-                this.tag.type = PoTagType.Warning;
-                this.tag.value = 'Em Aberto';
-                obj[data] = 'Em Aberto';
-                break;
-              case 2:
-                this.tag.color = 'color-11';
-                this.tag.type = PoTagType.Info;
-                this.tag.value = 'Fechado';
-                obj[data] = 'Fechado';
-                break;
-              case 3:
-                this.tag.color = 'color-03';
-                this.tag.type = PoTagType.Success;
-                this.tag.value = 'Indeferido';
-                obj[data] = 'Indeferido';
-                break;
-              case 4:
-                this.tag.color = 'color-07';
-                this.tag.type = PoTagType.Danger;
-                this.tag.value = 'Indeferido';
-                obj[data] = 'Indeferido';
-                break;
-              default:
-                this.tag.color = 'color-01';
-                this.tag.type = PoTagType.Info;
-                this.tag.value = 'Sem Dados';
-                obj[data] = 'Sem Dados';
-                break;
-            }
-          } else {
-            obj[data] = item[data];
-          }
-        })
-        this.chamadosFormView.setValue(obj);
+        console.log(item.statusChamado);
+
+        let status
+
+        switch (item.statusChamado) {
+          case 0:
+            this.tag.color = 'color-08';
+            this.tag.type = PoTagType.Warning;
+            this.tag.value = 'Em Aberto';
+            status = 'Em Aberto';
+            break;
+          case 1:
+            this.tag.color = 'color-01';
+            this.tag.type = PoTagType.Warning;
+            this.tag.value = 'Em Análise';
+            status = 'Em Análise';
+            break;
+          case 2:
+            this.tag.color = 'color-11';
+            this.tag.type = PoTagType.Info;
+            this.tag.value = 'Fechado';
+            status = 'Fechado';
+            break;
+          case 3:
+            this.tag.color = 'color-07';
+            this.tag.type = PoTagType.Success;
+            this.tag.value = 'Indeferido';
+            status = 'Indeferido';
+            break;
+          default:
+            break;
+        }
+
+      const form = {
+        criado: new Date(item.criado),
+        criadoPor: item.criadoPor,
+        dataAbertura: new Date(item.dataAbertura),
+        dataFechamento: item.dataFechamento === null ? '' : new Date(item.dataFechamento),
+        descricao: item.descricao,
+        id: item.id,
+        idSubtipoChamado: item.idSubtipoChamado.descricao,
+        idTecnico: item.idTecnico === null ? '' : item.idTecnico.idUsuario.nomeCompleto,
+        idTipoChamado: item.idTipoChamado.descricao,
+        modificado: new Date(item.modificado),
+        modificadoPor: item.modificadoPor,
+        idComentarioChamado:item.idComentarioChamado,
+        statusChamado: status
+      };
+
+      this.chamadosFormView.setValue(form);
       })
   }
 }

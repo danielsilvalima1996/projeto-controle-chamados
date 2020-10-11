@@ -47,7 +47,7 @@ export class ChamadosEditComponent implements OnInit {
 
   public tag = {
     color: '',
-    label: 'Status',
+    label: 'Status Chamado',
     type: <PoTagType>'',
     value: '',
   }
@@ -67,7 +67,7 @@ export class ChamadosEditComponent implements OnInit {
     id: ['', []],
     idComentarioChamado: ['', []],
     idSubtipoChamado: ['', []],
-    idTecnico: ['', []],
+    idTecnico: ['', [Validators.required]],
     idTipoChamado: ['', []],
     modificado: ['', []],
     modificadoPor: ['', []],
@@ -76,13 +76,13 @@ export class ChamadosEditComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      { property: 'id', label: 'ID', width: '5%' },
-      { property: 'comentario', label: 'Descrição Comentário', width: '25%' },
+      // { property: 'id', label: 'ID', width: '5%' },
+      { property: 'comentario', label: 'Descrição Comentário', width: '28%' },
       { property: 'criado', label: 'Criado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'criadoPor', label: 'Criado Por', width: '14%' },
       { property: 'modificadoPor', label: 'Modificado Por', width: '14%' },
-      { property: 'idUsuario', label: 'Usuário', width: '18%' }
+      { property: 'idUsuario', label: 'Usuário', width: '20%' }
     ],
     items: [],
     height: 0,
@@ -177,16 +177,16 @@ export class ChamadosEditComponent implements OnInit {
             this.location.back();
           }
         },
-        {
-          label: 'Fechar Chamado', icon: 'po-icon po-icon-close', action: () => {
-            this.finalizaChamado();
-          }
-        },
-        {
-          label: 'Indeferir Chamado', icon: 'po-icon po-icon-warning', action: () => {
-            this.indefereChamado();
-          }
-        }
+            {
+              label: 'Fechar Chamado', icon: 'po-icon po-icon-close', action: () => {
+                this.finalizaChamado();
+              }
+            },
+            {
+              label: 'Indeferir Chamado', icon: 'po-icon po-icon-warning', action: () => {
+                this.indefereChamado();
+              }
+            }
       ]
       item = [
         { label: 'Técnico' },
@@ -228,61 +228,72 @@ export class ChamadosEditComponent implements OnInit {
             }
           });
 
-        let obj = {};
-        Object.keys(item).map((data) => {
-          if (item[data] == '' || item[data] == null) {
-            obj[data] = '-';
-          } else if (data == 'idEmpresa') {
-            obj[data] = item[data].nomeFantasia;
-          } else if (data == 'idTecnico') {
-            obj[data] = item[data].idUsuario.id;
-          } else if (data == 'idTipoChamado') {
-            obj[data] = item[data].id;
-          } else if (data == 'idSubtipoChamado') {
-            obj[data] = item[data].id;
-          } else if (data == 'idUsuario') {
-            // obj[data] = item[data].fullName;
-          } else if (data == 'dataAbertura' || data == 'dataFechamento') {
-            obj[data] = new Date(item[data])
-          } else if (data === 'criado') {
-            obj[data] = new Date(item[data])
-          } else if (data === 'modificado') {
-            obj[data] = new Date(item[data])
-          } else if (data == 'statusChamado') {
-            console.log(item[data]);
-            switch (item[data]) {
-              case 0:
-                this.tag.color = 'color-08';
-                this.tag.type = PoTagType.Warning;
-                this.tag.value = 'Em Aberto';
-                obj[data] = 'Em Aberto';
-                break;
-              case 1:
-                this.tag.color = 'color-01';
-                this.tag.type = PoTagType.Warning;
-                this.tag.value = 'Em Análise';
-                obj[data] = 'Em Análise';
-                break;
-              case 2:
-                this.tag.color = 'color-11';
-                this.tag.type = PoTagType.Info;
-                this.tag.value = 'Fechado';
-                obj[data] = 'Fechado';
-                break;
-              case 3:
-                this.tag.color = 'color-07';
-                this.tag.type = PoTagType.Success;
-                this.tag.value = 'Indeferido';
-                obj[data] = 'Indeferido';
-                break;
-              default:
-                break;
-            }
-          } else {
-            obj[data] = item[data];
-          }
-        })
-        this.chamadosFormEdit.setValue(obj);
+        console.log(item.statusChamado);
+
+        // if (item.statusChamado === 0 || item.statusChamado === 1) {
+
+        //   this.page.actions.push(
+        //     {
+        //       label: 'Fechar Chamado', icon: 'po-icon po-icon-close', action: () => {
+        //         this.finalizaChamado();
+        //       }
+        //     },
+        //     {
+        //       label: 'Indeferir Chamado', icon: 'po-icon po-icon-warning', action: () => {
+        //         this.indefereChamado();
+        //       }
+        //     })
+
+        // }
+
+        let status
+
+        switch (item.statusChamado) {
+          case 0:
+            this.tag.color = 'color-08';
+            this.tag.type = PoTagType.Warning;
+            this.tag.value = 'Em Aberto';
+            status = 'Em Aberto';
+            break;
+          case 1:
+            this.tag.color = 'color-01';
+            this.tag.type = PoTagType.Warning;
+            this.tag.value = 'Em Análise';
+            status = 'Em Análise';
+            break;
+          case 2:
+            this.tag.color = 'color-11';
+            this.tag.type = PoTagType.Info;
+            this.tag.value = 'Fechado';
+            status = 'Fechado';
+            break;
+          case 3:
+            this.tag.color = 'color-07';
+            this.tag.type = PoTagType.Success;
+            this.tag.value = 'Indeferido';
+            status = 'Indeferido';
+            break;
+          default:
+            break;
+        }
+
+        const form = {
+          criado: new Date(item.criado),
+          criadoPor: item.criadoPor,
+          dataAbertura: new Date(item.dataAbertura),
+          dataFechamento: item.dataFechamento === null ? '' : new Date(item.dataFechamento),
+          descricao: item.descricao,
+          id: item.id,
+          idSubtipoChamado: item.idSubtipoChamado.id,
+          idTecnico: item.idTecnico === null ? '' : item.idTecnico.idUsuario.id,
+          idTipoChamado: item.idTipoChamado.id,
+          modificado: new Date(item.modificado),
+          modificadoPor: item.modificadoPor,
+          idComentarioChamado: item.idComentarioChamado,
+          statusChamado: status
+        };
+
+        this.chamadosFormEdit.setValue(form);
         this.loading = false;
       }, (err: HttpErrorResponse) => {
         console.log(err);
