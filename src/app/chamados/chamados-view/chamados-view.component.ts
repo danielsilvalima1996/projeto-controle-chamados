@@ -18,7 +18,7 @@ export class ChamadosViewComponent implements OnInit {
     actions: [
       {
         label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
-          this.location.back();
+          this.router.navigate([`chamados/${this.tipoTela}`])
         }
       }
     ],
@@ -59,7 +59,6 @@ export class ChamadosViewComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      // { property: 'id', label: 'ID', width: '5%' },
       { property: 'comentario', label: 'Descrição Comentário', width: '25%' },
       { property: 'criado', label: 'Criado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
@@ -72,13 +71,13 @@ export class ChamadosViewComponent implements OnInit {
     loading: false
   }
 
+  public tipoTela = '';
+
   constructor(
     private location: Location,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private chamadosService: ChamadosService,
-    private utilService: UtilService,
-    private notificationService: PoNotificationService,
     private router: Router
   ) { }
 
@@ -89,17 +88,18 @@ export class ChamadosViewComponent implements OnInit {
       })
     this.findById(this.constValue.id);
     this.routeChamado();
-    // this.tipoChamado()
   }
 
   private routeChamado() {
     let item: PoBreadcrumbItem[] = [];
     if (this.router.url.toString().indexOf('acompanhar-usuario') != -1) {
+      this.tipoTela = 'acompanhar-usuario';
       item = [
         { label: 'Usuário' },
         { label: 'Visualizar' }
       ]
     } else {
+      this.tipoTela = 'acompanhar-tecnico';
       item = [
         { label: 'Técnico' },
         { label: 'Visualizar' }
@@ -114,70 +114,51 @@ export class ChamadosViewComponent implements OnInit {
     return this.chamadosFormView.controls
   }
 
-  // private tipoChamado() {
-  //   let item: PoBreadcrumbItem[] = [];
-  //   if (this.router.url.toString().indexOf('externo') != -1) {
-  //     this.page.title = 'Visualizar Chamado Externo';
-  //     item = [
-  //       { label: 'Externo' },
-  //       { label: 'Visualizar' }
-  //     ]
-  //   } else {
-  //     this.page.title = 'Visualizar Chamado Interno';
-  //     item = [
-  //       { label: 'Interno' },
-  //       { label: 'Visualizar' }
-  //     ]
-  //   }
-  //   item.map((item) => {
-  //     this.page.breadcrumb.items.push(item);
-  //   })
-  // }
-
   private findById(id: number) {
     this.chamadosService
       .findById(id)
       .subscribe((item) => {
 
         this.table.items = item.idComentarioChamado
-        .map((item) => {
-          return {
-            id: item.id,
-            comentario: item.comentario,
-            criado: item.criado,
-            criadoPor: item.criadoPor,
-            modificado: item.modificado,
-            modificadoPor: item.modificadoPor,
-            idUsuario: item.idUsuario.nomeCompleto
-          }
-        });
+          .map((item) => {
+            return {
+              id: item.id,
+              comentario: item.comentario,
+              criado: item.criado,
+              criadoPor: item.criadoPor,
+              modificado: item.modificado,
+              modificadoPor: item.modificadoPor,
+              idUsuario: item.idUsuario.nomeCompleto
+            }
+          });
 
         console.log(item.statusChamado);
 
         let status
 
         switch (item.statusChamado) {
+
           case 0:
             this.tag.color = 'color-08';
-            this.tag.type = PoTagType.Warning;
+            // this.tag.type = PoTagType.Warning;
             this.tag.value = 'Em Aberto';
             status = 'Em Aberto';
             break;
           case 1:
             this.tag.color = 'color-01';
-            this.tag.type = PoTagType.Warning;
+            // this.tag.type = PoTagType.Warning;
             this.tag.value = 'Em Análise';
             status = 'Em Análise';
             break;
           case 2:
             this.tag.color = 'color-11';
-            this.tag.type = PoTagType.Info;
+            // this.tag.type = PoTagType.Info;
             this.tag.value = 'Fechado';
             status = 'Fechado';
             break;
           case 3:
             this.tag.color = 'color-07';
-            this.tag.type = PoTagType.Success;
+            // this.tag.type = PoTagType.Success;
             this.tag.value = 'Indeferido';
             status = 'Indeferido';
             break;
@@ -185,23 +166,23 @@ export class ChamadosViewComponent implements OnInit {
             break;
         }
 
-      const form = {
-        criado: new Date(item.criado),
-        criadoPor: item.criadoPor,
-        dataAbertura: new Date(item.dataAbertura),
-        dataFechamento: item.dataFechamento === null ? '' : new Date(item.dataFechamento),
-        descricao: item.descricao,
-        id: item.id,
-        idSubtipoChamado: item.idSubtipoChamado.descricao,
-        idTecnico: item.idTecnico === null ? '' : item.idTecnico.idUsuario.nomeCompleto,
-        idTipoChamado: item.idTipoChamado.descricao,
-        modificado: new Date(item.modificado),
-        modificadoPor: item.modificadoPor,
-        idComentarioChamado:item.idComentarioChamado,
-        statusChamado: status
-      };
+        const form = {
+          criado: new Date(item.criado),
+          criadoPor: item.criadoPor,
+          dataAbertura: new Date(item.dataAbertura),
+          dataFechamento: item.dataFechamento === null ? '' : new Date(item.dataFechamento),
+          descricao: item.descricao,
+          id: item.id,
+          idSubtipoChamado: item.idSubtipoChamado.descricao,
+          idTecnico: item.idTecnico === null ? '' : item.idTecnico.idUsuario.nomeCompleto,
+          idTipoChamado: item.idTipoChamado.descricao,
+          modificado: new Date(item.modificado),
+          modificadoPor: item.modificadoPor,
+          idComentarioChamado: item.idComentarioChamado,
+          statusChamado: status
+        };
 
-      this.chamadosFormView.setValue(form);
+        this.chamadosFormView.setValue(form);
       })
   }
 }

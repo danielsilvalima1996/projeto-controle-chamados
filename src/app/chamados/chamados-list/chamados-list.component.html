@@ -18,7 +18,7 @@
                     [p-options]="selects.tipoChamado" formControlName="idTipoChamado">
                 </po-combo>
                 <po-combo class="po-md-3" p-label="Subtipo Chamado" p-filter-mode="contains"
-                    [p-options]="selects.subtipoChamado" formControlName="idSubtipoChamado"></po-combo>
+                    [p-options]="selects.subtipoChamado" [p-disabled]="disabledSubtipoChamado" formControlName="idSubtipoChamado"></po-combo>
 
                 <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Buscar"
                     (click)="searchData()"></po-button>

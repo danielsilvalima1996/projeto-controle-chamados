@@ -15,7 +15,7 @@
         <po-combo class="po-md-6" [p-disabled]="disabledUser" p-filter-mode="contains" p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
             formControlName="idTipoChamado">
         </po-combo>
-        <po-combo class="po-md-6" [p-disabled]="disabledUser" p-label="Subtipo Chamado" p-filter-mode="contains"
+        <po-combo class="po-md-6" [p-disabled]="disabledUser || disabledSubtipoChamado" p-label="Subtipo Chamado" p-filter-mode="contains"
             [p-options]="selects.subtipoChamado" formControlName="idSubtipoChamado"></po-combo>
 
 

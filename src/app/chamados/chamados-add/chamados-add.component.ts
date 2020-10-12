@@ -70,6 +70,7 @@ export class ChamadosAddComponent implements OnInit {
   public disabledSubtipoChamado = false;
   public showUser = false;
   public showTecnico = false;
+  public tipoTela = '';
 
   chamadosForm: FormGroup = this.fb.group({
     descricao: ['', [Validators.required]],
@@ -88,28 +89,38 @@ export class ChamadosAddComponent implements OnInit {
     private subtipoChamadoService: SubtipoChamadoService,
     private chamadosService: ChamadosService,
     private notificationService: PoNotificationService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private utilService: UtilService
   ) { }
 
   ngOnInit() {
 
-    let arr: Array<User> = this.route.snapshot.data['usuarios'];
+    const arr: Array<User> = this.route.snapshot.data['usuarios'];
+
     arr.map((item) => {
       this.selects.usuarios.push(<PoSelectOption>{ label: item.nomeCompleto, value: item.id });
     });
 
-    let tecnicos: Array<Tecnico> = this.route.snapshot.data['tecnico'];
+    this.selects.usuarios = this.utilService.sortListas(this.selects.usuarios);
+
+
+    const tecnicos: Array<Tecnico> = this.route.snapshot.data['tecnico'];
     tecnicos.map((item) => {
       this.selects.tecnico.push(<PoSelectOption>{ label: item.idUsuario.nomeCompleto, value: item.id })
     })
 
+    this.selects.tecnico = this.utilService.sortListas(this.selects.tecnico);
+
+
     if (this.router.url.toString().indexOf('acompanhar-usuario') != -1) {
+      this.tipoTela = 'acompanhar-usuario';
       this.loginService.getUserInformation$
         .subscribe((data) => {
           this.controls.idUsuario.setValue(data.id)
           this.disabledField = true;
         });
     } else {
+      this.tipoTela = 'acompanhar-tecnico';
       this.showUser = true;
       this.showTecnico = true;
     }
@@ -137,7 +148,7 @@ export class ChamadosAddComponent implements OnInit {
           this.selects.subtipoChamado = tipoChamado;
           this.disabledSubtipoChamado = false;
         }
-      })
+      });
   }
 
   get controls() {
@@ -152,7 +163,7 @@ export class ChamadosAddComponent implements OnInit {
         let arr = data.map((item) => {
           return <any>{ label: item.descricao, value: item.id, idTipoChamado: item.idTipoChamado.id }
         })
-        this.selects.subtipoChamado = arr;
+        this.selects.subtipoChamado = this.utilService.sortListas(arr);
       })
   }
 
@@ -164,7 +175,7 @@ export class ChamadosAddComponent implements OnInit {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: item.descricao, value: item.id };
         })
-        this.selects.tipoChamado = arr;
+        this.selects.tipoChamado = this.utilService.sortListas(arr);
 
       })
   }
@@ -173,19 +184,34 @@ export class ChamadosAddComponent implements OnInit {
 
   registrarChamado() {
     let chamado;
-    chamado = {
-      descricao: this.controls.descricao.value,
-      idSubtipoChamado: {
-        id: this.controls.idSubtipoChamado.value
-      },
-      idTipoChamado: {
-        id: this.controls.idTipoChamado.value
-      },
-      idUsuario: {
-        id: this.controls.idUsuario.value
-      },
-      idTecnico: {
-        id: this.controls.idTecnico.value
+    if (this.tipoTela === 'acompanhar-tecnico') {
+      chamado = {
+        descricao: this.controls.descricao.value,
+        idSubtipoChamado: {
+          id: this.controls.idSubtipoChamado.value
+        },
+        idTipoChamado: {
+          id: this.controls.idTipoChamado.value
+        },
+        idUsuario: {
+          id: this.controls.idUsuario.value
+        },
+        idTecnico: {
+          id: this.controls.idTecnico.value
+        }
+      }
+    } else {
+      chamado = {
+        descricao: this.controls.descricao.value,
+        idSubtipoChamado: {
+          id: this.controls.idSubtipoChamado.value
+        },
+        idTipoChamado: {
+          id: this.controls.idTipoChamado.value
+        },
+        idUsuario: {
+          id: this.controls.idUsuario.value
+        }
       }
     }
     this.chamadosService
@@ -193,7 +219,7 @@ export class ChamadosAddComponent implements OnInit {
       .subscribe((data) => {
 
         this.notificationService.success('Chamado aberto com sucesso!');
-        this.location.back();
+        this.router.navigate([`chamados/${this.tipoTela}/view`, data.id]);
       },
         (error: any) => {
           this.notificationService.error(error.error.error);

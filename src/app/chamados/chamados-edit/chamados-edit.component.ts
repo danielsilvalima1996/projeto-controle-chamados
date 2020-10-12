@@ -5,17 +5,11 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
 import { UtilService } from 'src/app/services/utils/util-service/util.service';
-import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
-import { User } from 'src/app/interfaces/user.model';
-import { Empresa } from 'src/app/interfaces/empresa.model';
-import { Analista } from 'src/app/interfaces/analista.model';
 import { TipoChamado } from 'src/app/interfaces/tipo-chamado.model';
 import { SubtipoChamado } from 'src/app/interfaces/subtipo-chamado.model';
-import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
-import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
-import { debounceTime } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Tecnico } from 'src/app/interfaces/tecnico.model';
+import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
 
 @Component({
   selector: 'app-chamados-edit',
@@ -32,7 +26,7 @@ export class ChamadosEditComponent implements OnInit {
       },
       {
         label: 'Voltar', icon: 'po-icon po-icon-arrow-left', action: () => {
-          this.location.back();
+          this.router.navigate([`/chamados/${this.tipoTela}`])
         }
       }
     ],
@@ -85,7 +79,6 @@ export class ChamadosEditComponent implements OnInit {
 
   table = {
     columns: <PoTableColumn[]>[
-      // { property: 'id', label: 'ID', width: '5%' },
       { property: 'comentario', label: 'Descrição Comentário', width: '28%' },
       { property: 'criado', label: 'Criado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
       { property: 'modificado', label: 'Modificado ', width: '12%', type: 'date', format: 'dd/MM/yyyy' },
@@ -107,6 +100,7 @@ export class ChamadosEditComponent implements OnInit {
   public comentarioChamado: any;
   public disabledUser = false;
   public tipoTela = '';
+  public disabledSubtipoChamado = false
 
   public criadoOriginal;
   public modificadoOriginal;
@@ -122,8 +116,7 @@ export class ChamadosEditComponent implements OnInit {
     private utilService: UtilService,
     private notificationService: PoNotificationService,
     private router: Router,
-    private tipoChamadoService: TipoChamadoService,
-    private subtipoChamadoService: SubtipoChamadoService,
+    private subtipoChamadoService: SubtipoChamadoService
   ) { }
 
   ngOnInit() {
@@ -139,18 +132,37 @@ export class ChamadosEditComponent implements OnInit {
       this.selects.tipoChamado.push(<PoSelectOption>{ label: item.descricao, value: item.id })
     })
 
+    this.selects.tipoChamado = this.utilService.sortListas(this.selects.tipoChamado);
+
     let array: Array<SubtipoChamado> = this.route.snapshot.data['subtipo'];
     array.map((item) => {
       this.selects.subtipoChamado.push(<PoSelectOption>{ label: item.descricao, value: item.id })
     })
+
+    this.selects.subtipoChamado = this.utilService.sortListas(this.selects.subtipoChamado);
 
     let tecnicos: Array<Tecnico> = this.route.snapshot.data['tecnico'];
     tecnicos.map((item) => {
       this.selects.tecnico.push(<PoSelectOption>{ label: item.idUsuario.nomeCompleto, value: item.id })
     })
 
-  }
+    this.selects.tecnico = this.utilService.sortListas(this.selects.tecnico);
 
+    this.controls.idTipoChamado
+      .valueChanges.subscribe((data) => {
+        if (data === undefined || data === '' || data === null) {
+          this.selects.subtipoChamado = [];
+          this.controls.idSubtipoChamado.setValue(undefined);
+          this.retornaSubtipoChamado();
+          this.disabledSubtipoChamado = true;
+        } else {
+          const tipoChamado = this.selects.subtipoChamado.filter(item => item.idTipoChamado === data);
+          this.selects.subtipoChamado = tipoChamado;
+          this.disabledSubtipoChamado = false;
+        }
+      });
+
+  }
 
 
   get controls() {
@@ -178,6 +190,19 @@ export class ChamadosEditComponent implements OnInit {
       this.page.breadcrumb.items.push(item);
     })
   }
+
+  private retornaSubtipoChamado() {
+    this.subtipoChamadoService
+      .findSubtipoChamado('ativo=true')
+      .subscribe((data: any) => {
+        console.log(data);
+        let arr = data.map((item) => {
+          return <any>{ label: item.descricao, value: item.id, idTipoChamado: item.idTipoChamado.id }
+        })
+        this.selects.subtipoChamado = this.utilService.sortListas(arr);
+      })
+  }
+
 
   private findById(id: number) {
     this.loading = true;
@@ -240,25 +265,25 @@ export class ChamadosEditComponent implements OnInit {
         switch (item.statusChamado) {
           case 0:
             this.tag.color = 'color-08';
-            this.tag.type = PoTagType.Warning;
+            // this.tag.type = PoTagType.Warning;
             this.tag.value = 'Em Aberto';
             status = 'Em Aberto';
             break;
           case 1:
             this.tag.color = 'color-01';
-            this.tag.type = PoTagType.Warning;
+            // this.tag.type = PoTagType.Warning;
             this.tag.value = 'Em Análise';
             status = 'Em Análise';
             break;
           case 2:
             this.tag.color = 'color-11';
-            this.tag.type = PoTagType.Info;
+            // this.tag.type = PoTagType.Info;
             this.tag.value = 'Fechado';
             status = 'Fechado';
             break;
           case 3:
             this.tag.color = 'color-07';
-            this.tag.type = PoTagType.Success;
+            // this.tag.type = PoTagType.Success;
             this.tag.value = 'Indeferido';
             status = 'Indeferido';
             break;
@@ -291,126 +316,115 @@ export class ChamadosEditComponent implements OnInit {
       })
   }
 
-  private retornaSubtipoChamado() {
-    this.subtipoChamadoService
-      .findSubtipoChamado()
-      .subscribe((data: any) => {
-        let arr = data.map((item) => {
-          return <any>{ label: item.descricao, value: item.id, idTipoChamado: item.idTipoChamado.id }
-        })
-        this.selects.subtipoChamado = arr;
-      })
-  }
-
-
-  private retornaTipoChamado() {
-    this.tipoChamadoService.findAll('ativo=true')
-      .subscribe((data: any) => {
-        let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.descricao, value: item.id };
-        })
-        this.selects.tipoChamado = arr;
-        console.log(this.selects.tipoChamado);
-
-      })
-  }
 
   alterarChamado() {
-    this.loading = true;
-    const chamado = {
-      id: this.controls.id.value,
-      idUsuario: this.usuario,
-      dataAbertura: this.dataAberturaOriginal,
-      dataFechamento: this.dataFechamentoOriginal,
-      statusChamado: this.statusOriginal,
-      idTipoChamado: this.idTipoChamado,
-      idSubtipoChamado: this.idSubTipoChamado,
-      idTecnico: { id: this.controls.idTecnico.value },
-      descricao: this.controls.descricao.value,
-      criado: this.criadoOriginal,
-      modificado: this.modificadoOriginal,
-      criadoPor: this.controls.criadoPor.value,
-      modificadoPor: this.controls.modificadoPor.value
-    }
-    console.log(chamado);
-    this.chamadosService
-      .alterChamado(chamado)
-      .subscribe((data) => {
-        this.notificationService.success(`Chamado com o ${data.id} editado com sucesso`);
-        this.location.back();
-        this.loading = false;
-      },
-        (error: any) => {
-          this.notificationService.error(error.error.error);
+    if (this.controls.idTecnico.value === '') {
+      this.notificationService.warning('Por favor selecione um técnico para executar essa ação')
+    } else {
+      this.loading = true;
+      const chamado = {
+        id: this.controls.id.value,
+        idUsuario: this.usuario,
+        dataAbertura: this.dataAberturaOriginal,
+        dataFechamento: this.dataFechamentoOriginal,
+        statusChamado: this.statusOriginal,
+        idTipoChamado: { id: this.controls.idTipoChamado.value },
+        idSubtipoChamado: { id: this.controls.idSubtipoChamado.value },
+        idTecnico: { id: this.controls.idTecnico.value },
+        descricao: this.controls.descricao.value,
+        criado: this.criadoOriginal,
+        modificado: this.modificadoOriginal,
+        criadoPor: this.controls.criadoPor.value,
+        modificadoPor: this.controls.modificadoPor.value
+      }
+      console.log(chamado);
+      this.chamadosService
+        .alterChamado(chamado)
+        .subscribe((data) => {
+          this.notificationService.success(`Chamado com o ${data.id} editado com sucesso`);
+          this.router.navigate([`chamados/${this.tipoTela}/view`, data.id]);
           this.loading = false;
-          return;
-        })
+        },
+          (error: any) => {
+            this.notificationService.error(error.error.error);
+            this.loading = false;
+            return;
+          })
+    }
   }
 
   indefereChamado() {
-    this.loading = true;
-    const chamado = {
-      id: this.controls.id.value,
-      idUsuario: this.usuario,
-      dataAbertura: this.dataAberturaOriginal,
-      dataFechamento: this.dataFechamentoOriginal,
-      statusChamado: this.statusOriginal,
-      idTipoChamado: this.idTipoChamado,
-      idSubtipoChamado: this.idSubTipoChamado,
-      idTecnico: { id: this.controls.idTecnico.value },
-      descricao: this.controls.descricao.value,
-      criado: this.criadoOriginal,
-      modificado: this.modificadoOriginal,
-      criadoPor: this.controls.criadoPor.value,
-      modificadoPor: this.controls.modificadoPor.value
-    }
-    console.log(chamado);
+    if (this.controls.idTecnico.value === '') {
+      this.notificationService.warning('Por favor selecione um técnico para executar essa ação')
+    } else {
+      this.loading = true;
+      const chamado = {
+        id: this.controls.id.value,
+        idUsuario: this.usuario,
+        dataAbertura: this.dataAberturaOriginal,
+        dataFechamento: this.dataFechamentoOriginal,
+        statusChamado: this.statusOriginal,
+        idTipoChamado: { id: this.controls.idTipoChamado.value },
+        idSubtipoChamado: { id: this.controls.idSubtipoChamado.value },
+        idTecnico: { id: this.controls.idTecnico.value },
+        descricao: this.controls.descricao.value,
+        criado: this.criadoOriginal,
+        modificado: this.modificadoOriginal,
+        criadoPor: this.controls.criadoPor.value,
+        modificadoPor: this.controls.modificadoPor.value
+      }
+      console.log(chamado);
 
-    this.chamadosService
-      .indefereChamado(chamado)
-      .subscribe((data) => {
-        this.notificationService.success(`Chamado com o ${data.id} indeferido com sucesso`);
-        this.location.back();
-        this.loading = false;
-      },
-        (error: any) => {
-          this.notificationService.error(error.error.error);
+      this.chamadosService
+        .indefereChamado(chamado)
+        .subscribe((data) => {
+          this.notificationService.success(`Chamado com o ${data.id} indeferido com sucesso`);
+          this.router.navigate([`chamados/${this.tipoTela}/view`, data.id]);
           this.loading = false;
-          return;
-        })
+        },
+          (error: any) => {
+            this.notificationService.error(error.error.error);
+            this.loading = false;
+            return;
+          })
+    }
   }
 
   finalizaChamado() {
-    this.loading = true;
-    const chamado = {
-      id: this.controls.id.value,
-      idUsuario: this.usuario,
-      dataAbertura: this.dataAberturaOriginal,
-      dataFechamento: this.dataFechamentoOriginal,
-      statusChamado: this.statusOriginal,
-      idTipoChamado: this.idTipoChamado,
-      idSubtipoChamado: this.idSubTipoChamado,
-      idTecnico: { id: this.controls.idTecnico.value },
-      descricao: this.controls.descricao.value,
-      criado: this.criadoOriginal,
-      modificado: this.modificadoOriginal,
-      criadoPor: this.controls.criadoPor.value,
-      modificadoPor: this.controls.modificadoPor.value
-    }
-    console.log(chamado);
+    if (this.controls.idTecnico.value === '') {
+      this.notificationService.warning('Por favor selecione um técnico para executar essa ação')
+    } else {
+      this.loading = true;
+      const chamado = {
+        id: this.controls.id.value,
+        idUsuario: this.usuario,
+        dataAbertura: this.dataAberturaOriginal,
+        dataFechamento: this.dataFechamentoOriginal,
+        statusChamado: this.statusOriginal,
+        idTipoChamado: this.idTipoChamado,
+        idSubtipoChamado: this.idSubTipoChamado,
+        idTecnico: { id: this.controls.idTecnico.value },
+        descricao: this.controls.descricao.value,
+        criado: this.criadoOriginal,
+        modificado: this.modificadoOriginal,
+        criadoPor: this.controls.criadoPor.value,
+        modificadoPor: this.controls.modificadoPor.value
+      }
+      console.log(chamado);
 
-    this.chamadosService
-      .finalizarChamado(chamado)
-      .subscribe((data) => {
-        this.notificationService.success(`Chamado com o ${data.id} fechado com sucesso`);
-        this.location.back();
-        this.loading = false;
-      },
-        (error: any) => {
-          this.notificationService.error(error.error.error);
+      this.chamadosService
+        .finalizarChamado(chamado)
+        .subscribe((data) => {
+          this.notificationService.success(`Chamado com o ${data.id} fechado com sucesso`);
+          this.router.navigate([`chamados/${this.tipoTela}/view`, data.id]);
           this.loading = false;
-          return;
-        })
+        },
+          (error: any) => {
+            this.notificationService.error(error.error.error);
+            this.loading = false;
+            return;
+          })
+    }
   }
 
   mostraComentarioChamado() {

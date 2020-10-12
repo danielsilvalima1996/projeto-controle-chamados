@@ -79,7 +79,7 @@ export class ChamadosListComponent implements OnInit {
   selects = {
     tecnico: <PoSelectOption[]>[],
     tipoChamado: <PoSelectOption[]>[],
-    subtipoChamado: <PoSelectOption[]>[],
+    subtipoChamado: <any[]>[],
     usuarios: <PoSelectOption[]>[],
     status: <PoSelectOption[]>[
       { label: 'Aberto', value: 0 },
@@ -112,7 +112,8 @@ export class ChamadosListComponent implements OnInit {
   public loading: boolean;
   public disabledField = false;
   public esconderCampo = false;
-
+  public disabledSubtipoChamado = true;
+  
   constructor(
     private router: Router,
     private chamadosService: ChamadosService,
@@ -152,6 +153,21 @@ export class ChamadosListComponent implements OnInit {
       this.tipoChamado = 'acompanhar-tecnico';
     }
 
+
+    this.controls.idTipoChamado
+    .valueChanges.subscribe((data) => {
+      if (data === undefined || data === '' || data === null) {
+        this.selects.subtipoChamado = [];
+        this.controls.idSubtipoChamado.setValue(undefined);
+        this.retornaSubtipoChamado();
+        this.disabledSubtipoChamado = true;
+      } else {
+        const tipoChamado = this.selects.subtipoChamado.filter(item => item.idTipoChamado === data);
+        this.selects.subtipoChamado = tipoChamado;
+        this.disabledSubtipoChamado = false;
+      }
+    });
+
     this.searchData();
   }
 
@@ -165,18 +181,18 @@ export class ChamadosListComponent implements OnInit {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: item.idUsuario.nomeCompleto, value: item.id };
         })
-        this.selects.tecnico = arr;
+        this.selects.tecnico = this.utilService.sortListas(arr);;
       })
   }
 
   private retornaSubtipoChamado() {
     this.subtipoChamadoService
-      .findSubtipoChamado()
+      .findSubtipoChamado('ativo=true')
       .subscribe((data: any) => {
         let arr = data.map((item) => {
-          return <PoSelectOption>{ label: item.descricao, value: item.id }
+          return <any>{ label: item.descricao, value: item.id, idTipoChamado: item.idTipoChamado.id }
         })
-        this.selects.subtipoChamado = arr;
+        this.selects.subtipoChamado = this.utilService.sortListas(arr);
       })
   }
 
@@ -187,7 +203,8 @@ export class ChamadosListComponent implements OnInit {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: item.descricao, value: item.id };
         })
-        this.selects.tipoChamado = arr;
+        this.selects.tipoChamado = this.utilService.sortListas(arr);
+
       })
   }
 
@@ -198,7 +215,7 @@ export class ChamadosListComponent implements OnInit {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: `${item.nomeCompleto}`, value: item.id }
         });
-        this.selects.usuarios = arr;
+        this.selects.usuarios = this.utilService.sortListas(arr);
       })
   }
 
