@@ -98,11 +98,12 @@ export class TipoChamadoListComponent implements OnInit {
       ativo: this.controls.ativo.value
     }
     this.tipoChamadoService.findAll(this.utilService.getParameters(obj))
-      .subscribe((data: any) => {
-        this.table.items = data
+      .subscribe((data) => {
+        this.table.items = data;
         this.loading = false;
       }, (err: HttpErrorResponse) => {
         console.error(err);
+        this.table.items = [];
         this.loading = false;
       })
   }
