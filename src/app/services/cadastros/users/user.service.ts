@@ -18,8 +18,8 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  getUser(parameters?: any): Observable<User> {
-    return this.http.get(`${this.url}?${parameters}`) as Observable<User>;
+  getUser(parameters?: any): Observable<Array<User>> {
+    return this.http.get(`${this.url}?${parameters}`) as Observable<Array<User>>;
   }
 
   addUser(obj: any) {

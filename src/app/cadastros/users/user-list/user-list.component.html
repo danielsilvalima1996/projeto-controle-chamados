@@ -2,18 +2,16 @@
     <po-accordion>
         <po-accordion-item class="po-sm-12 po-md-12" p-label="Filtros">
             <form [formGroup]="userform" class="po-row" (keyup.enter)="findAll(userform.value)">
-                <po-input class="po-sm-6 po-md-2 po-lg-1" p-label="Código" formControlName="id" p-mask="999999" ></po-input>
-                <po-input class="po-sm-6 po-md-3 po-lg-3" p-label="E-mail" formControlName="email"></po-input>
-                <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Nome Completo" formControlName="nomeCompleto">
+                <po-input class="po-sm-6 po-md-2 po-lg-1" p-label="Código" p-clean="true" formControlName="id" p-mask="999999" ></po-input>
+                <po-input class="po-sm-6 po-md-3 po-lg-3" p-label="E-mail" p-clean="true" formControlName="email"></po-input>
+                <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Nome Completo" p-clean="true" formControlName="nomeCompleto">
                 </po-input>
                 <po-select class="po-sm-6 po-md-3 po-lg-2" p-label="Ativo" formControlName="ativo"
                     [p-options]="selects.ativoOptions"></po-select>
-                <po-combo class="po-sm-6 po-md-3 po-lg-4" p-label="Empresa" p-filter-mode="contains"  p-sort="true" [p-options]="selects.empresa"
+                <po-combo class="po-sm-6 po-md-3 po-lg-4" p-label="Empresa" p-clean="true" p-filter-mode="contains"  p-sort="true" [p-options]="selects.empresa"
                     formControlName="idEmpresa"></po-combo>
-                <po-combo class="po-sm-6 po-md-3 po-lg-2" p-label="Regra" p-filter-mode="contains"  p-sort="true" [p-options]="selects.regra"
+                <po-combo class="po-sm-6 po-md-3 po-lg-2" p-label="Regra" p-clean="true" p-filter-mode="contains"  p-sort="true" [p-options]="selects.regra"
                     formControlName="idRegra"></po-combo>
-                <po-select class="po-sm-6 po-md-3 po-lg-2" p-label="É Técnico?" formControlName="isTecnico"
-                    [p-options]="selects.ativoOptions"></po-select>
                 <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Buscar" (click)="findAll(userform.value)">
                 </po-button>
             </form>

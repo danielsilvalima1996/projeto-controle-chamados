@@ -11,7 +11,6 @@ export interface User {
     ativo: boolean;
     idRegra: Regra;
     idEmpresa: Empresa;
-    isTecnico: boolean;
     criado: Date;
     modificado: Date;
     criadoPor: string;

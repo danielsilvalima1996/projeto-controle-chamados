@@ -1,15 +1,13 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoSelectOption, PoTableColumn, PoTableAction, PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoNotificationService } from '@po-ui/ng-components';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from 'src/app/services/cadastros/users/user.service';
-import { UtilService } from 'src/app/services/utils/util-service/util.service';
-import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
+import { PoBreadcrumb, PoBreadcrumbItem, PoNotificationService, PoPageAction, PoSelectOption, PoTableColumn } from '@po-ui/ng-components';
 import { Pagination } from 'src/app/interfaces/pagination.model';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
-import { debounceTime } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
 import { RegrasService } from 'src/app/services/cadastros/regras/regras.service';
+import { UserService } from 'src/app/services/cadastros/users/user.service';
+import { UtilService } from 'src/app/services/utils/util-service/util.service';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -47,20 +45,11 @@ export class UserListComponent implements OnInit {
     ],
     items: [],
     height: 0,
-    loading: false
   }
 
 
 
-  userform: FormGroup = this.fb.group({
-    id: ['', []],
-    email: ['', []],
-    nomeCompleto: ['', []],
-    ativo: ['', []],
-    idRegra: ['', []],
-    idEmpresa: ['', []],
-    isTecnico: ['', []]
-  })
+  public userform: FormGroup;
 
   selects = {
     pesquisa: <PoSelectOption[]>[
@@ -105,6 +94,14 @@ export class UserListComponent implements OnInit {
     this.retornaEmpresas();
     this.retornaRegras();
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.5);
+    this.userform = this.fb.group({
+      id: ['', []],
+      email: ['', []],
+      nomeCompleto: ['', []],
+      ativo: ['', []],
+      idRegra: ['', []],
+      idEmpresa: ['', []]
+    })
     this.findAll(this.userform.value);
   }
 
@@ -175,28 +172,40 @@ export class UserListComponent implements OnInit {
   // }
 
   public findAll(form?) {
-    this.table.loading = true;
+    this.loading = true;
     this.userService
       .getUser(this.utilService.getParameters(form))
-      .subscribe((data: any) => {
-        let arr: Array<any> = data.map((item) => {
-          let obj = {};
-          Object.keys(item).map((data) => {
-            if (item[data] == '' || item[data] == null) {
-              obj[data] = '-';
-            } else if (data == 'idEmpresa') {
-              obj[data] = item[data].nomeFantasia;
-            } else if (data == 'idRegra') {
-              obj[data] = item[data].descricao
-            } else {
-              obj[data] = item[data];
-            }
+      .subscribe((data) => {
+        // let arr: Array<any> = data.map((item) => {
+        //   let obj = {};
+        //   Object.keys(item).map((data) => {
+        //     if (item[data] == '' || item[data] == null) {
+        //       obj[data] = '-';
+        //     } else if (data == 'idEmpresa') {
+        //       obj[data] = item[data].nomeFantasia;
+        //     } else if (data == 'idRegra') {
+        //       obj[data] = item[data].descricao
+        //     } else {
+        //       obj[data] = item[data];
+        //     }
 
-          })
-          return obj;
+        //   })
+        //   return obj;
+        // })
+        // this.table.items = arr;
+        this.table.items = data.map(item => {
+          return {
+            id: item.id,
+            nomeCompleto: item.nomeCompleto,
+            email: item.email,
+            idEmpresa: item.idEmpresa.nomeFantasia,
+            idRegra: item.idRegra.descricao,
+            criado: item.criado,
+            criadoPor: item.criadoPor,
+            ativo: item.ativo
+          }
         })
-        this.table.items = arr;
-        this.table.loading = false;
+        this.loading = false;
       },
         (error: HttpErrorResponse) => {
           console.log(error.error);

@@ -55,7 +55,6 @@ export class UserEditComponent implements OnInit {
     ativo: ['', []],
     idRegra: ['', [Validators.required]],
     idEmpresa: ['', [Validators.required]],
-    // isTecnico: [false, []],
     criado: [''],
     modificado: [''],
     criadoPor: [''],
@@ -199,8 +198,6 @@ export class UserEditComponent implements OnInit {
           telefone: data.telefone,
           email: data.email,
           avatar: data.avatar,
-          // isTecnico: data.isTecnico
-
         }
         this.userForm.setValue(obj);
       })
@@ -228,7 +225,6 @@ export class UserEditComponent implements OnInit {
         dddTelefone: this.userForm.controls.dddTelefone.value,
         celular: this.userForm.controls.celular.value,
         dddCelular: this.userForm.controls.dddCelular.value,
-        // isTecnico: this.userForm.controls.isTecnico.value
       }
       this.userService.addUser(obj)
         .subscribe(() => {
