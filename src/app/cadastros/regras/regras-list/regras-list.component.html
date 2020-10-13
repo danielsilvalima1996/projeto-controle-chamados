@@ -3,8 +3,8 @@
     <form (keyup.enter)="getRegras()" [formGroup]="regraForm">
 
     <div class="po-row">
-        <po-decimal class="po-md-2" p-label='Código' p-clean="true" p-decimals-length="0" formControlName="id"></po-decimal>
-        <po-input class="po-md-3" p-label='Descrição' p-clean="true" formControlName="descricao"></po-input>
+        <po-input class="po-md-2" p-label="Código" p-clean="true" p-mask="9999999999" formControlName="id"></po-input>
+        <po-input class="po-md-3" p-label="Descrição" p-clean="true" formControlName="descricao"></po-input>
         <po-select class="po-md-2" p-label="Ativo" formControlName="ativo" [p-options]="selects.ativoOptions" ></po-select>
         <po-button class="po-md-2 po-mt-4" p-label="Buscar" p-icon="po-icon-search" (click)="getRegras()"></po-button>
 

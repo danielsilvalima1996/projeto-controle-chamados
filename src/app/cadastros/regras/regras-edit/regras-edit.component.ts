@@ -139,7 +139,7 @@ export class RegrasEditComponent implements OnInit {
       .subscribe((data) => {
         data.criado = new Date(data.criado);
         data.modificado = new Date(data.modificado);
-        this.paginasSelecionadas = data.idPagina;
+        this.paginasSelecionadas = data.idPagina.sort((a, b) => a.id - b.id);
         if (this.tipoTela != 'view') {
           this.findAllPagina();
         } else {

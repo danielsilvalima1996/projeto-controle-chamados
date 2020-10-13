@@ -101,6 +101,7 @@ export class RegrasListComponent implements OnInit {
       },
         (error: HttpErrorResponse) => {
           console.log(error.error);
+          this.table.items = [];
           this.loading = false;
         })
   }
