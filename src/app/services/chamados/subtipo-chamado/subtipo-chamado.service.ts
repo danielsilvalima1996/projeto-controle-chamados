@@ -17,8 +17,8 @@ export class SubtipoChamadoService {
     private http: HttpClient
   ) { }
 
-  findSubtipoChamado(parameters?: any): Observable<SubtipoChamado> {
-    return this.http.get(`${this.url}?${parameters}`) as Observable<SubtipoChamado>;
+  findSubtipoChamado(parameters?: any): Observable<Array<SubtipoChamado>> {
+    return this.http.get(`${this.url}?${parameters}`) as Observable<Array<SubtipoChamado>>;
   }
 
   findById(id: number): Observable<SubtipoChamado> {

@@ -17,8 +17,8 @@ export class TipoChamadoService {
     private http: HttpClient
   ) { }
 
-  findAll(parameters?:any): Observable<TipoChamado> {
-    return this.http.get(`${this.url}?${parameters}`) as Observable<TipoChamado> ;
+  findAll(parameters?:any): Observable<Array<TipoChamado>> {
+    return this.http.get(`${this.url}?${parameters}`) as Observable<Array<TipoChamado>> ;
   }
 
   createTipoChamado(tipoChamado: any) {
