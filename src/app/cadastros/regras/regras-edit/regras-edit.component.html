@@ -10,27 +10,34 @@
             <po-divider *ngIf="tipoTela != 'add'" class="po-md-12" p-label="Informações da Regra"></po-divider>
             <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy" p-label="Criado" formControlName="criado"></po-datepicker>
             <po-datepicker *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-format="dd/MM/yyyy" p-label="Modificado" formControlName="modificado"></po-datepicker>
-            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Criado Por" formControlName="criadoPor"></po-input>
-            <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-readonly="true" p-label="Modificado Por" formControlName="modificadoPor"></po-input>
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-3" p-readonly="true" p-label="Criado Por" formControlName="criadoPor"></po-input>
+            <po-input *ngIf="tipoTela != 'add'" class="po-md-3" p-readonly="true" p-label="Modificado Por" formControlName="modificadoPor"></po-input>
         </div>
     </form>
+
+    <po-divider></po-divider>
+
+    <div class="po-row">
+        <div class="po-md-9"></div>
+        <po-switch *ngIf="tipoTela != 'view'" class="po-md-3" (p-change)="selectAll($event)" p-label-off="Desmarcadas" p-label-on="Marcadas" [(ngModel)]="todasSelecionadas"></po-switch>
+    </div>
 
     <table class="table text-center po-table-main-container po-table .po-table-wrapper ">
         <thead>
             <tr class="altura-linha">
-                <th class="text-center po-table-header">Código</th>
-                <th class="text-center po-table-header">Link</th>
-                <th class="text-center po-table-header">Nome Página</th>
-                <th *ngIf="tipoTela != 'view'" class="text-center po-table-header">Selecionar</th>
+                <th class="text-center po-table-header po-md-3">Código</th>
+                <th class="text-center po-table-header po-md-3">Link</th>
+                <th class="text-center po-table-header po-md-3">Nome Página</th>
+                <th *ngIf="tipoTela != 'view'" class="text-center po-table-header po-md-3">Selecionar</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of table.items" class="po-table-row po-table-striped po-table-group-row">
-                <td class="text-center padding-v">{{item.id}}</td>
-                <td class="text-center padding-v">{{item.link}}</td>
-                <td class="text-center padding-v">{{item.label}}</td>
-                <td *ngIf="tipoTela != 'view'" class="text-center padding-v">
-                    <po-switch (p-change)="selectTable(item)" p-label="" p-label-off="Desmarcado" p-label-on="Marcado" [(ngModel)]="item.isSelecionado">
+                <td class="text-center padding-v po-md-3">{{item.id}}</td>
+                <td class="text-center padding-v po-md-3">{{item.link}}</td>
+                <td class="text-center padding-v po-md-3">{{item.label}}</td>
+                <td *ngIf="tipoTela != 'view'" class="text-center padding-v po-md-3">
+                    <po-switch (p-change)="selectTable(item)" p-label="" p-label-off="Desmarcada" p-label-on="Marcada" [(ngModel)]="item.isSelecionado">
                     </po-switch>
                 </td>
             </tr>

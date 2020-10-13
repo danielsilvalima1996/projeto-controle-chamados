@@ -52,6 +52,8 @@ export class RegrasEditComponent implements OnInit {
     selectable: <boolean>true
   }
 
+  public todasSelecionadas: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -167,9 +169,9 @@ export class RegrasEditComponent implements OnInit {
                 table.isSelecionado = true;
               }
             });
-            console.log(item, this.table.items);
           });
         }
+        this.todasSelecionadas = this.paginasSelecionadas.length == this.table.items.length ? true : false;
       },
         (error: HttpErrorResponse) => {
           console.log(error.message);
@@ -229,20 +231,23 @@ export class RegrasEditComponent implements OnInit {
   }
 
   public selectTable(pagina: Pagina) {
-    console.log(pagina);
-    if (pagina.isSelecionado) {
+    let nova = this.paginasSelecionadas.filter(item => item == pagina);
+    if (nova.length == 0) {
       this.paginasSelecionadas.push(pagina);
-    } else {
-      this.paginasSelecionadas = this.paginasSelecionadas.filter(item => item.id != pagina.id);
     }
+
+    this.todasSelecionadas = this.paginasSelecionadas.length == this.table.items.length ? true : false;
   }
 
-  public allSelectTable() {
-    this.paginasSelecionadas = this.table.items;
-  }
-
-  public unAllSelectTable() {
-    this.paginasSelecionadas = [];
+  public selectAll(event) {
+    this.todasSelecionadas = event;
+    if (event) {
+      this.paginasSelecionadas = this.table.items;
+      this.table.items.map(item => item.isSelecionado = true);
+    } else {
+      this.paginasSelecionadas = [];
+      this.table.items.map(item => item.isSelecionado = false);
+    }
   }
 
 }
