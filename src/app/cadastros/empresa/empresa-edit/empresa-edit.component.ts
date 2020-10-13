@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PoPageDefault, PoSelectOption, PoNotificationService, PoBreadcrumb, PoBreadcrumbItem, PoDialogService, PoNotification } from '@po-ui/ng-components';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -78,7 +78,7 @@ export class EmpresaEditComponent implements OnInit {
     complemento: ['', []],
     criadoPor: ['', []],
     modificadoPor: ['', []],
-    isValid: [false, [Validators.required]]
+    isValid: [false, []]
   });
 
   constructor(
@@ -92,11 +92,12 @@ export class EmpresaEditComponent implements OnInit {
     private viaCepService: ViaCepService
   ) { }
 
+
   ngOnInit() {
     if (this.router.url.indexOf('add') != -1) {
       this.tipoTela = 'add';
       this.page.title = 'Adicionar Empresa';
-      this.disabledId = true;
+      this.disabledId = false;
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
@@ -164,7 +165,7 @@ export class EmpresaEditComponent implements OnInit {
         })
       this.getDetailById(this.id);
       this.empresaForm.valueChanges
-        .subscribe((_) => {
+        .subscribe((data) => {
           this.page.actions[0].disabled = this.empresaForm.invalid;
         });
 
@@ -175,7 +176,7 @@ export class EmpresaEditComponent implements OnInit {
 
           if (data.length == 8) {
             this.getCep(data);
-            
+
           } else if (data === undefined || data === '') {
             this.controls.logradouro.setValue('');
             this.controls.numero.setValue('');
@@ -221,10 +222,10 @@ export class EmpresaEditComponent implements OnInit {
     } else {
       this.empresaService
         .createEmpresa(empresa)
-        .subscribe((data) => {
+        .subscribe((data: any) => {
           this.notificationService.success('Empresa cadastrada com sucesso!');
           this.loading = false;
-          this.location.back();
+          this.router.navigate(['cadastros/empresa/view', data.id]);
         },
           (error: HttpErrorResponse) => {
             this.notificationService.error(error.error.meta.message);
@@ -285,6 +286,7 @@ export class EmpresaEditComponent implements OnInit {
     this.viaCepService.getCep(cep)
       .subscribe((endereco: ViaCep) => {
         console.log(endereco);
+        document.getElementById("numero").focus();
         this.controls['bairro'].setValue(endereco.bairro);
         this.controls['localidade'].setValue(endereco.localidade);
         this.controls['uf'].setValue(endereco.uf);

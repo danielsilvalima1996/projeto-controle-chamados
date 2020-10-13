@@ -2,22 +2,23 @@
     <po-accordion>
         <po-accordion-item class="po-sm-12 po-md-12" p-label="Filtros">
             <form [formGroup]="empresaform" class="po-row" (keyup.enter)="buscar(empresaform.value)">
-                <po-input class="po-sm-6 po-md-2 po-lg-1" p-label="Código" formControlName="id"></po-input>
+                <po-input class="po-sm-6 po-md-2 po-lg-2" p-label="Código" formControlName="id"></po-input>
                 <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="CNPJ" formControlName="cnpj"
                     p-mask="99999999999999???"></po-input>
                 <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Razão Social" formControlName="razaoSocial">
                 </po-input>
-                <po-input class="po-sm-6 po-md-3 po-lg-3" p-label="Nome Fantasia" formControlName="nomeFantasia">
+                <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Nome Fantasia" formControlName="nomeFantasia">
                 </po-input>
-                <po-select class="po-sm-6 po-md-3 po-lg-3" p-label="Ativo" formControlName="ativo"
+                <po-select class="po-sm-6 po-md-3 po-lg-2" p-label="Ativo" formControlName="ativo"
                     [p-options]="selects.ativoOptions"></po-select>
-                <po-input class="po-sm-6 po-md-3 po-lg-3" p-label="CEP" p-maxlength="8" formControlName="cep">
+                <div class="po-sm-6 po-md-3 po-lg-2"> </div>
+                <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="CEP" p-maxlength="8" formControlName="cep">
                 </po-input>
                 <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Logradouro" formControlName="logradouro"></po-input>
                 <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Bairro" formControlName="bairro"></po-input>
                 <po-input class="po-sm-6 po-md-3 po-lg-2" p-label="Cidade" formControlName="localidade"></po-input>
-                <po-select class="po-sm-6 po-md-3 po-lg-2" p-label="UF" [p-options]="selects.estados"
-                    formControlName="uf"></po-select>
+                <po-combo class="po-sm-6 po-md-3 po-lg-2" p-label="UF" [p-options]="selects.estados"
+                    formControlName="uf" p-clean="true" p-filter-mode="contains" ></po-combo>
                 <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Buscar"
                     (click)="buscar(empresaform.value)"></po-button>
             </form>
