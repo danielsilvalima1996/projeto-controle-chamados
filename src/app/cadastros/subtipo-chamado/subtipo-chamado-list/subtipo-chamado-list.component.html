@@ -1,7 +1,6 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
     <form [formGroup]="subtipoForm" class="po-row" (keyup.enter)="findSubtipoChamado(subtipoForm.value)">
-        <!-- <po-input class="po-sm-6 po-md-2 po-lg-2" p-clean="true" p-label="Código" formControlName="id"></po-input> -->
-        <po-decimal class="po-md-2" p-label='Código' p-clean="true" p-decimals-length="0" formControlName="id"></po-decimal>
+        <po-input class="po-md-2" p-label="Código" p-clean="true" p-mask="9999999999" formControlName="id"></po-input>
         <po-input class="po-sm-6 po-md-2 po-lg-2" p-clean="true" p-label="Descrição" formControlName="descricao"></po-input>
         <po-select class="po-sm-6 po-md-2 po-lg-2" p-label="Ativo" formControlName="ativo" [p-options]="selects.ativo">
         </po-select>

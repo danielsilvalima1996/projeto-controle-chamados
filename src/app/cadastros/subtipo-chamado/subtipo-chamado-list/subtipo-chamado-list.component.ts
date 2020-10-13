@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 import { Pagination } from 'src/app/interfaces/pagination.model';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
+import { SubtipoChamado } from 'src/app/interfaces/subtipo-chamado.model';
 
 @Component({
   selector: 'app-subtipo-chamado-list',
@@ -97,28 +98,41 @@ export class SubtipoChamadoListComponent implements OnInit {
     this.loading = true;
     this.subtipoChamadoService
       .findSubtipoChamado(this.utilService.getParameters(parameters))
-      .subscribe((data: any) => {
+      .subscribe((data) => {
         this.table.items = data;
-        let arr: Array<any> = data.map((item) => {
-          let obj = {};
-          Object.keys(item).map((data) => {
-            if (item[data] == '' || item[data] == null) {
-              obj[data] = '-';
-            } else if (data == 'idTipoChamado') {
-              obj[data] = item[data].descricao;
-            } else {
-              obj[data] = item[data];
-            }
+        // let arr: Array<any> = data.map((item) => {
+        //   let obj = {};
+        //   Object.keys(item).map((data) => {
+        //     if (item[data] == '' || item[data] == null) {
+        //       obj[data] = '-';
+        //     } else if (data == 'idTipoChamado') {
+        //       obj[data] = item[data].descricao;
+        //     } else {
+        //       obj[data] = item[data];
+        //     }
 
-          })
-          return obj;
+        //   })
+        //   return obj;
+        // })
+        // this.table.items = arr;
+        this.table.items = data.map(item => {
+          return {
+            id: item.id,
+            descricao: item.descricao,
+            idTipoChamado: item.idTipoChamado.descricao,
+            criado: item.criado,
+            modificado: item.modificado,
+            criadoPor: item.criadoPor,
+            modificadoPor: item.modificadoPor,
+            ativo: item.ativo,
+          }
         })
-        this.table.items = arr;
         this.loading = false;
 
       },
         (error: ErrorSpringBoot) => {
           // this.notificationService.error(error.message);
+          this.table.items = [];
           this.loading = false;
         })
   }
