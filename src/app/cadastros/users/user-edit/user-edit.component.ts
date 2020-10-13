@@ -227,9 +227,9 @@ export class UserEditComponent implements OnInit {
         dddCelular: this.userForm.controls.dddCelular.value,
       }
       this.userService.addUser(obj)
-        .subscribe(() => {
+        .subscribe((data: any) => {
           this.notificationService.success('Usuário Cadastrado com Sucesso!');
-          this.router.navigate(['cadastros/usuario/']);
+          this.router.navigate(['cadastros/usuario/view', data.id]);
           this.loading = false;
         },
           (error: HttpErrorResponse) => {

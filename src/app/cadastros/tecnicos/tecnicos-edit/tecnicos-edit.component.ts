@@ -59,13 +59,13 @@ export class TecnicosEditComponent implements OnInit {
     this.retornaUsuarios();
     if (this.router.url.indexOf('add') != -1) {
       this.tipoTela = 'add';
-      this.page.title = 'Adicionar Tecnicos';
+      this.page.title = 'Adicionar Técnico';
       this.disabledId = true;
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Tecnicos' },
-        { label: 'Adicionar Tecnicos' }
+        { label: 'Técnico' },
+        { label: 'Adicionar Técnico' }
       ],
         this.page.actions = [
           { label: 'Salvar', disabled: true, action: () => { this.cadastrarTecnicos(this.tecnicosForm.value) } },
@@ -77,15 +77,15 @@ export class TecnicosEditComponent implements OnInit {
         });
     } else if (this.router.url.indexOf('edit') != -1) {
       this.tipoTela = 'edit';
-      this.page.title = 'Editar Tecnicos';
+      this.page.title = 'Editar Técnico';
       this.disabledId = true;
       this.disabledFields = true;
       this.disabledEdit = false;
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Tecnicos' },
-        { label: 'Editar Tecnicos' }
+        { label: 'Técnico' },
+        { label: 'Editar Técnico' }
       ],
         this.page.actions = [
           { label: 'Salvar', disabled: true, action: () => { this.alterTecnicos() } },
@@ -103,15 +103,15 @@ export class TecnicosEditComponent implements OnInit {
         });
     } else {
       this.tipoTela = 'view';
-      this.page.title = 'Visualizar Tecnicos';
+      this.page.title = 'Visualizar Técnico';
       this.disabledId = true;
       this.disabledFields = true;
       this.disabledEdit = true;
       this.page.breadcrumb.items = [
         { label: 'Home' },
         { label: 'Cadastros' },
-        { label: 'Tecnicos' },
-        { label: 'Visualizar Tecnicos' }
+        { label: 'Técnico' },
+        { label: 'Visualizar Técnico' }
       ],
         this.page.actions = [
           { label: 'Salvar', disabled: true },
@@ -139,8 +139,8 @@ export class TecnicosEditComponent implements OnInit {
           criadoPor: data.criadoPor,
           modificadoPor: data.modificadoPor,
           ativo: data.ativo
-      };
-      this.tecnicosForm.setValue(obj);
+        };
+        this.tecnicosForm.setValue(obj);
         this.loading = false;
       },
         (error: HttpErrorResponse) => {
@@ -187,9 +187,9 @@ export class TecnicosEditComponent implements OnInit {
       }
       this.tecnicoService
         .addTecnico(obj)
-        .subscribe((data) => {
+        .subscribe((data: any) => {
           this.notificationService.success('Técnico cadastrado com sucesso!');
-          this.router.navigate(['cadastros/tecnico/']);
+          this.router.navigate(['cadastros/tecnico/view', data.id]);
           this.loading = false;
         },
           (error: HttpErrorResponse) => {
@@ -204,7 +204,7 @@ export class TecnicosEditComponent implements OnInit {
       .getUser("ativo=true")
       .subscribe((data: any) => {
         let arr = data.map((item) => {
-          return <PoSelectOption>{ label: `${item.id} - ${item.nomeCompleto}`, value: item.id }
+          return <PoSelectOption>{ label: item.nomeCompleto, value: item.id }
         })
         this.selects.usuarios = arr;
       })

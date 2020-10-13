@@ -178,9 +178,9 @@ export class TipoChamadoEditComponent implements OnInit {
     } else {
       this.tipoChamadoService
         .createTipoChamado(tipoChamado)
-        .subscribe((data) => {
+        .subscribe((data: any) => {
           this.notificationService.success('Tipo Chamado cadastrado com sucesso!');
-          this.router.navigate(['cadastros/tipo-chamado/']);
+          this.router.navigate(['cadastros/tipo-chamado/view', data.id]);
           this.loading = false;
         },
           (error: HttpErrorResponse) => {

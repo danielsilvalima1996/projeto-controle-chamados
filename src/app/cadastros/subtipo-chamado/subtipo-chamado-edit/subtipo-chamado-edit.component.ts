@@ -211,7 +211,7 @@ export class SubtipoChamadoEditComponent implements OnInit {
       return;
     } else {
       let subtipo = {
-        id:this.controls.id.value,
+        id: this.controls.id.value,
         descricao: this.controls.descricao.value,
         ativo: this.controls.ativo.value,
         idTipoChamado: { id: this.controls.idTipoChamado.value }
@@ -244,9 +244,9 @@ export class SubtipoChamadoEditComponent implements OnInit {
       }
       this.subTipoChamadoService
         .createSubtipoChamado(subtipo)
-        .subscribe((data) => {
+        .subscribe((data: any) => {
           this.notificationService.success('Subtipo Chamado cadastrado com sucesso!');
-          this.router.navigate(['cadastros/subtipo-chamado/']);
+          this.router.navigate(['cadastros/subtipo-chamado/view', data.id]);
           this.loading = false;
         },
           (error: HttpErrorResponse) => {
