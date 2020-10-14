@@ -134,7 +134,7 @@ export class TecnicosListComponent implements OnInit {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: `${item.nomeCompleto }`, value: item.id }
         })
-        this.selects.usuarios = arr;
+        this.selects.usuarios = this.utilService.sortListas(arr);
       })
   }
 

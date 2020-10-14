@@ -4,7 +4,7 @@
 
         <div class="po-row">
             <po-input class="po-md-2" p-label="Código" p-clean="true" p-mask="9999999999" formControlName="id"></po-input>
-            <po-select class="po-md-3" p-label='Usuário' formControlName="idUsuario" [p-options]="selects.usuarios"></po-select>
+            <po-combo p-filter-mode="contains" class="po-md-3" p-label='Usuário' formControlName="idUsuario" [p-options]="selects.usuarios"></po-combo>
             <po-select class="po-md-2" p-label="Ativo" formControlName="ativo" [p-options]="selects.ativoOptions"></po-select>
             <po-button class="po-md-2 po-mt-4" p-label="Buscar" p-icon="po-icon-search" (click)="getTecnicos()"></po-button>
 

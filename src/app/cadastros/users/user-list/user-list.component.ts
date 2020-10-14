@@ -117,7 +117,7 @@ export class UserListComponent implements OnInit {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: item.nomeFantasia, value: item.id }
         })
-        this.selects.empresa = arr;
+        this.selects.empresa = this.utilService.sortListas(arr);
       })
   }
 
@@ -128,7 +128,7 @@ export class UserListComponent implements OnInit {
         let arr = data.map((item) => {
           return <PoSelectOption>{ label: item.descricao, value: item.id }
         })
-        this.selects.regra = arr;
+        this.selects.regra = this.utilService.sortListas(arr);
       })
   }
 
