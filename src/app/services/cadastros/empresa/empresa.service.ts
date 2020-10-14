@@ -18,12 +18,12 @@ export class EmpresaService {
     private http: HttpClient
   ) { }
 
-  getEmpresa(parameters?: any): Observable<Empresa> {
-    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Empresa>;
+  getEmpresa(parameters?: any): Observable<Array<Empresa>> {
+    return this.http.get(`${environment.url.apirest}/${this.relativeLink}?${parameters}`) as Observable<Array<Empresa>>;
   }
 
-  createEmpresa(obj: any) {
-    return this.http.post(`${this.url}`, obj);
+  createEmpresa(obj: any): Observable<Empresa> {
+    return this.http.post(`${this.url}`, obj) as Observable<Empresa>;
   }
 
   findById(id: number): Observable<Empresa> {

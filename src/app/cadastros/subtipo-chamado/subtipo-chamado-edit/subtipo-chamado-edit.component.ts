@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { PoSelectOption, PoPageDefault, PoNotificationService, PoDialogService, PoBreadcrumb, PoBreadcrumbItem } from '@po-ui/ng-components';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { PoBreadcrumb, PoBreadcrumbItem, PoDialogService, PoNotificationService, PoPageDefault, PoSelectOption } from '@po-ui/ng-components';
 import { SubtipoChamado } from 'src/app/interfaces/subtipo-chamado.model';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
-import { TipoChamado } from 'src/app/interfaces/tipo-chamado.model';
-import { HttpErrorResponse } from '@angular/common/http';
+import { UtilService } from 'src/app/services/utils/util-service/util.service';
 
 @Component({
   selector: 'app-subtipo-chamado-edit',
@@ -47,13 +47,13 @@ export class SubtipoChamadoEditComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private location: Location,
     private subTipoChamadoService: SubtipoChamadoService,
     private notificationService: PoNotificationService,
     private route: ActivatedRoute,
     private router: Router,
     private dialog: PoDialogService,
-    private tipoChamadoService: TipoChamadoService
+    private tipoChamadoService: TipoChamadoService,
+    private utilService: UtilService
   ) { }
 
   ngOnInit() {
@@ -177,11 +177,11 @@ export class SubtipoChamadoEditComponent implements OnInit {
 
   getTipoChamado() {
     this.tipoChamadoService.findAll('ativo=true')
-      .subscribe((data: any) => {
-        let arr = data.map((item) => {
+      .subscribe((data) => {
+        this.selects.tipoChamado = data.map((item) => {
           return <PoSelectOption>{ label: item.descricao, value: item.id };
         })
-        this.selects.tipoChamado = arr;
+        this.selects.tipoChamado = this.utilService.sortListas(this.selects.tipoChamado);
       })
   }
 

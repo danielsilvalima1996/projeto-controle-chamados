@@ -16,8 +16,8 @@ export class TecnicosService {
     private http: HttpClient
   ) { }
 
-  getTecnico(parameters?: any): Observable<Tecnico> {
-    return this.http.get(`${this.url}?${parameters}`) as Observable<Tecnico>;
+  getTecnico(parameters?: any): Observable<Array<Tecnico>> {
+    return this.http.get(`${this.url}?${parameters}`) as Observable<Array<Tecnico>>;
   }
 
   findById(id: number): Observable<Tecnico> {

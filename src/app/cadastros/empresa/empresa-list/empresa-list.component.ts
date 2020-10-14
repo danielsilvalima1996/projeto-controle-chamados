@@ -164,32 +164,32 @@ export class EmpresaListComponent implements OnInit {
     this.loading = true;
     this.empresaService
       .getEmpresa(this.utilService.getParameters(form))
-      .subscribe((data: any) => {
+      .subscribe((data) => {
         this.table.items = data
           .map((item) => {
-            return {
-              ativo: item.ativo,
-              bairro: item.bairro,
-              cep: this.utilService.formatarCEP(item.cep),
-              cnpj: this.utilService.formatarCnpjCpf(item.cnpj),
-              complemento: item.complemento,
-              criado: item.criado,
-              criadoPor: item.criadoPor,
-              id: item.id,
-              localidade: item.localidade,
-              logradouro: item.logradouro,
-              modificado: item.modificado,
-              modificadoPor: item.modificadoPor,
-              nomeFantasia: item.nomeFantasia,
-              numero: item.numero,
-              razaoSocial: item.razaoSocial,
-              uf: item.uf
-            }
-          });
+          return {
+            ativo: item.ativo,
+            bairro: item.bairro,
+            cep: this.utilService.formatarCEP(item.cep),
+            cnpj: this.utilService.formatarCnpjCpf(item.cnpj),
+            complemento: item.complemento,
+            criado: item.criado,
+            criadoPor: item.criadoPor,
+            id: item.id,
+            localidade: item.localidade,
+            logradouro: item.logradouro,
+            modificado: item.modificado,
+            modificadoPor: item.modificadoPor,
+            nomeFantasia: item.nomeFantasia,
+            numero: item.numero,
+            razaoSocial: item.razaoSocial,
+            uf: item.uf
+          }
+        });
         this.loading = false;
       },
         (error: HttpErrorResponse) => {
-          console.log(error.error);
+          console.log(error.message);
           this.loading = false;
           this.table.items = [];
         });

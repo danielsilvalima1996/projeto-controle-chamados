@@ -222,7 +222,7 @@ export class EmpresaEditComponent implements OnInit {
     } else {
       this.empresaService
         .createEmpresa(empresa)
-        .subscribe((data: any) => {
+        .subscribe((data) => {
           this.notificationService.success('Empresa cadastrada com sucesso!');
           this.loading = false;
           this.router.navigate(['cadastros/empresa/view', data.id]);
@@ -238,8 +238,8 @@ export class EmpresaEditComponent implements OnInit {
     this.loading = true;
     this.empresaService
       .findById(id)
-      .subscribe((data: any) => {
-        data.isValid = '';
+      .subscribe((data) => {
+        data.isValid = false;
         data.criado = new Date(data.criado);
         data.modificado = new Date(data.modificado);
         this.empresaForm.setValue(data);
