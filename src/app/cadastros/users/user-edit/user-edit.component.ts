@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Location } from '@angular/common';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { UserService } from 'src/app/services/cadastros/users/user.service';
-import { PoSelectOption, PoNotificationService, PoPageDefault, PoBreadcrumb, PoBreadcrumbItem, PoDialogService } from '@po-ui/ng-components';
-import { PermissionsService } from 'src/app/services/cadastros/permissions/permissions.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Permission } from 'src/app/interfaces/permission.model';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { PoBreadcrumb, PoBreadcrumbItem, PoDialogService, PoNotificationService, PoPageDefault, PoSelectOption } from '@po-ui/ng-components';
 import { User } from 'src/app/interfaces/user.model';
-import { RegrasService } from 'src/app/services/cadastros/regras/regras.service';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
+import { RegrasService } from 'src/app/services/cadastros/regras/regras.service';
+import { UserService } from 'src/app/services/cadastros/users/user.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -29,8 +26,8 @@ export class UserEditComponent implements OnInit {
 
   selects = {
     ativoOptions: <PoSelectOption[]>[
-      { label: 'ATIVA', value: 'true' },
-      { label: 'INATIVA', value: 'false' }
+      { label: 'ATIVO', value: 'true' },
+      { label: 'INATIVO', value: 'false' }
     ],
     permissoes: <PoSelectOption[]>[],
     empresa: <PoSelectOption[]>[],
@@ -46,27 +43,9 @@ export class UserEditComponent implements OnInit {
   public authorities: [];
   public empresa = []
 
-  userForm: FormGroup = this.fb.group({
-    id: [''],
-    email: ['', [Validators.email]],
-    senha: ['', [Validators.required]],
-    nomeCompleto: ['', [Validators.required]],
-    avatar: ['', []],
-    ativo: ['', []],
-    idRegra: ['', [Validators.required]],
-    idEmpresa: ['', [Validators.required]],
-    criado: [''],
-    modificado: [''],
-    criadoPor: [''],
-    modificadoPor: [''],
-    celular: [''],
-    telefone: [''],
-    dddCelular: [''],
-    dddTelefone: ['']
-  })
+  userForm: FormGroup;
 
   constructor(
-    private location: Location,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private userService: UserService,
@@ -81,6 +60,25 @@ export class UserEditComponent implements OnInit {
   ngOnInit() {
     this.retornaEmpresas();
     this.retornaRegras();
+
+    this.userForm = this.fb.group({
+      id: [''],
+      email: ['', [Validators.email]],
+      senha: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(12)]],
+      nomeCompleto: ['', [Validators.required]],
+      avatar: ['', []],
+      ativo: ['', []],
+      idRegra: ['', [Validators.required]],
+      idEmpresa: ['', [Validators.required]],
+      criado: [''],
+      modificado: [''],
+      criadoPor: [''],
+      modificadoPor: [''],
+      celular: [''],
+      telefone: [''],
+      dddCelular: [''],
+      dddTelefone: ['']
+    })
     if (this.router.url.indexOf('add') != -1) {
       this.tipoTela = 'add';
       this.page.title = 'Adicionar Usuário';
@@ -120,10 +118,31 @@ export class UserEditComponent implements OnInit {
           this.id = paramMap.get('id');
         });
       this.findById(this.id);
+
+      this.userForm = this.fb.group({
+        id: [''],
+        email: ['', [Validators.email]],
+        senha: ['', []],
+        nomeCompleto: ['', [Validators.required]],
+        avatar: ['', []],
+        ativo: ['', []],
+        idRegra: ['', [Validators.required]],
+        idEmpresa: ['', [Validators.required]],
+        criado: [''],
+        modificado: [''],
+        criadoPor: [''],
+        modificadoPor: [''],
+        celular: [''],
+        telefone: [''],
+        dddCelular: [''],
+        dddTelefone: ['']
+      })
+
       this.userForm.valueChanges
         .subscribe((_) => {
           this.page.actions[0].disabled = this.userForm.invalid;
         });
+
 
     } else {
       this.tipoTela = 'view';
