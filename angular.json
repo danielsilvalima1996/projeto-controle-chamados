@@ -122,5 +122,8 @@
       }
     }
   },
-  "defaultProject": "projeto-controle-chamados"
+  "defaultProject": "projeto-controle-chamados",
+  "cli": {
+    "analytics": "1c4f0dcf-2498-419c-823f-d83f5d5bda22"
+  }
 }

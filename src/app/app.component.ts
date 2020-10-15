@@ -12,6 +12,7 @@ import { ErrorSpringBoot } from './interfaces/ErrorSpringBoot.model';
 import { PermissionsService } from './services/cadastros/permissions/permissions.service';
 import { Permission } from './interfaces/permission.model';
 import { LoginRetorno } from 'src/app/interfaces/login.model';
+import { MenupouiService } from './services/menupoui-service/menupoui.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -57,10 +58,12 @@ export class AppComponent implements OnInit {
     private notificationService: PoNotificationService,
     private fb: FormBuilder,
     private userService: UserService,
-    private permissionsService: PermissionsService
+    private menupouiService: MenupouiService
   ) { }
 
   ngOnInit() {
+    this.menupouiService.getMenu().subscribe(data => this.menus = data);
+    
     this.loginService.getIsLogged$
       .subscribe((data) => {
         if (data) {

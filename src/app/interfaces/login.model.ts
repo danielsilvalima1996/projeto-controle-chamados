@@ -1,12 +1,14 @@
 import { PoMenuItem } from '@po-ui/ng-components';
+import { Regra } from './regra.model';
 
 export interface LoginRetorno {
-    avatar: string;
-    id: number;
-    email: string;
-    token: string;
-    nomeCompleto: string;
+    token: string,
+    id: number,
+    avatar: string,
+    email: string,
+    nomeCompleto: string,
     ativo: boolean,
+    regra: Regra,
     menu: Array<PoMenuItem>
 }
 
