@@ -1,5 +1,5 @@
-import { Component, OnInit, ErrorHandler } from '@angular/core';
-import { PoPageDefault, PoBreadcrumbItem, PoSelectOption, PoNotification, PoNotificationService } from '@po-ui/ng-components';
+import { Component, OnInit } from '@angular/core';
+import { PoPageDefault, PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -7,13 +7,8 @@ import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado/subtipo-chamado.service';
 import { ChamadosService } from 'src/app/services/chamados/chamados/chamados.service';
-import { identifierModuleUrl } from '@angular/compiler';
-import { User } from 'src/app/interfaces/user.model';
-import { LoginRetorno } from 'src/app/interfaces/login.model';
+import { Usuario } from 'src/app/interfaces/usuario.model';
 import { LoginService } from 'src/app/services/authentication/login/login.service';
-import { AnalistaService } from 'src/app/services/cadastros/analista/analista.service';
-import { UserService } from 'src/app/services/cadastros/users/user.service';
-import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { Tecnico } from 'src/app/interfaces/tecnico.model';
 
 @Component({
@@ -62,7 +57,7 @@ export class ChamadosAddComponent implements OnInit {
   constValue = {
     tipoChamado: '',
     visibilidade: <boolean>false,
-    user: <User>{},
+    user: <Usuario>{},
     dataAtual: ''
   }
 
@@ -95,7 +90,7 @@ export class ChamadosAddComponent implements OnInit {
 
   ngOnInit() {
 
-    const arr: Array<User> = this.route.snapshot.data['usuarios'];
+    const arr: Array<Usuario> = this.route.snapshot.data['usuarios'];
 
     arr.map((item) => {
       this.selects.usuarios.push(<PoSelectOption>{ label: item.nomeCompleto, value: item.id });
@@ -197,7 +192,7 @@ export class ChamadosAddComponent implements OnInit {
           id: this.controls.idUsuario.value
         },
         idTecnico: {
-          id: this.controls.idTecnico.value
+          id: this.controls.idTecnico.value != null ? this.controls.idTecnico.value : null
         }
       }
     } else {

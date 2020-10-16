@@ -1,13 +1,11 @@
-import { Empresa } from './empresa.model';
-import { Analista } from './analista.model';
 import { TipoChamado } from './tipo-chamado.model';
 import { SubtipoChamado } from './subtipo-chamado.model';
-import { User } from './user.model';
+import { Usuario } from './usuario.model';
 import { Tecnico } from './tecnico.model';
 
 export interface Chamados {
     id: number;
-    idUsuario: User;
+    idUsuario: Usuario;
     idTecnico: Tecnico;
     dataAbertura: Date;
     dataFechamento: Date;

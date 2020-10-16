@@ -1,19 +1,19 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { PoBreadcrumb, PoBreadcrumbItem, PoDialogService, PoNotificationService, PoPageDefault, PoSelectOption } from '@po-ui/ng-components';
-import { User } from 'src/app/interfaces/user.model';
-import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
-import { RegrasService } from 'src/app/services/cadastros/regras/regras.service';
+import { PoPageDefault, PoBreadcrumb, PoBreadcrumbItem, PoSelectOption, PoNotificationService, PoDialogService } from '@po-ui/ng-components';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { UserService } from 'src/app/services/cadastros/users/user.service';
+import { RegrasService } from 'src/app/services/cadastros/regras/regras.service';
+import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Usuario } from 'src/app/interfaces/usuario.model';
 
 @Component({
-  selector: 'app-user-edit',
-  templateUrl: './user-edit.component.html',
-  styleUrls: ['./user-edit.component.css']
+  selector: 'app-usuario-edit',
+  templateUrl: './usuario-edit.component.html',
+  styleUrls: ['./usuario-edit.component.css']
 })
-export class UserEditComponent implements OnInit {
+export class UsuarioEditComponent implements OnInit {
 
   public page: PoPageDefault = {
     title: '',
@@ -64,7 +64,7 @@ export class UserEditComponent implements OnInit {
     this.userForm = this.fb.group({
       id: [''],
       email: ['', [Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(12)]],
+      senha: ['', [Validators.minLength(6), Validators.maxLength(12)]],
       nomeCompleto: ['', [Validators.required]],
       avatar: ['', []],
       ativo: ['', []],
@@ -97,6 +97,8 @@ export class UserEditComponent implements OnInit {
         .subscribe((_) => {
           this.page.actions[0].disabled = this.userForm.invalid;
         });
+
+      this.controls["senha"].setValidators([Validators.required, Validators.minLength(6), Validators.maxLength(12)]);
 
     } else if (this.router.url.indexOf('edit') != -1) {
       this.tipoTela = 'edit';
@@ -259,7 +261,7 @@ export class UserEditComponent implements OnInit {
     }
   }
 
-  alterarUser(usuario: User) {
+  alterarUser(usuario: Usuario) {
     this.loading = true;
     if (this.userForm.invalid) {
       this.notificationService.warning('Formulário Inválido!');

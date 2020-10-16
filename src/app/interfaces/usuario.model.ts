@@ -1,8 +1,7 @@
 import { Empresa } from './empresa.model';
-import { Permission } from './permission.model';
 import { Regra } from './regra.model';
 
-export interface User {
+export interface Usuario {
     id: number;
     email: string;
     senha: string;

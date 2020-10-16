@@ -57,16 +57,6 @@ export class SubtipoChamadoEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.route.paramMap.subscribe((param: ParamMap) => {
-    //   this.getSubtipoChamado(parseInt(param.get('id'), 10));
-    // })
-    // let arr: Array<TipoChamado> = this.route.snapshot.data['tipoChamado'];
-    // arr.map((item) => {
-    //   this.selects.tipoChamado.push(<PoSelectOption>{ label: item.descricao, value: item.id })
-    // })
-    // this.subTipoChamadoEditForm.valueChanges.subscribe((_) => {
-    //   this.page.actions[0].disabled = this.subTipoChamadoEditForm.invalid;
-    // })
     if (this.router.url.indexOf('add') != -1) {
       this.tipoTela = 'add';
       this.page.title = 'Adicionar SubTipo Chamado';
@@ -138,42 +128,6 @@ export class SubtipoChamadoEditComponent implements OnInit {
   get controls() {
     return this.subTipoChamadoForm.controls;
   }
-
-  // private getSubtipoChamado(id: number) {
-  //   this.subTipoChamadoService
-  //     .findById(id)
-  //     .subscribe((data) => {
-  //       let obj = {
-  //         // id: data.id,
-  //         // descricao: data.descricao,
-  //         // active: data.active,
-  //         // idTipoChamado: data.id,
-  //         // created: data.created.toString().substr(0, 10),
-  //         // modified: data.modified.toString().substr(0, 10)
-  //       }
-  //       this.subTipoChamadoForm.setValue(Object.assign({}, obj));
-  //     })
-  // }
-
-  // private saveSubTipoChamado() {
-  //   let subtipo = {
-  //     id: this.controls.id.value,
-  //     descricao: this.controls.descricao.value,
-  //     active: this.controls.active.value,
-  //     created: this.controls.created.value,
-  //     modified: this.controls.modified.value,
-  //     idTipoChamado: { id: this.controls.idTipoChamado.value }
-  //   }
-  //   this.subTipoChamadoService
-  //     .alterSubTipoChamado(subtipo)
-  //     .subscribe((data) => {
-  //       this.notificationService.success('SubTipo de Chamado alterado com sucesso!');
-  //       this.location.back();
-  //     },
-  //       (error: any) => {
-  //         this.notificationService.error('Erro ao salvar SubTipoChamado!');
-  //       })
-  // }
 
   getTipoChamado() {
     this.tipoChamadoService.findAll('ativo=true')

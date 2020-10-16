@@ -10,7 +10,7 @@ import { SubtipoChamadoService } from 'src/app/services/chamados/subtipo-chamado
 import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 import { TecnicosService } from 'src/app/services/cadastros/tecnicos/tecnicos.service';
-import { User } from 'src/app/interfaces/user.model';
+import { Usuario } from 'src/app/interfaces/usuario.model';
 
 @Component({
   selector: 'app-chamados-list',
@@ -135,7 +135,7 @@ export class ChamadosListComponent implements OnInit {
     this.retornaTipoChamado();
     this.retornaSubtipoChamado();
 
-    let arr: Array<User> = this.route.snapshot.data['usuarios'];
+    let arr: Array<Usuario> = this.route.snapshot.data['usuarios'];
     arr.map((item) => {
       this.selects.usuarios.push(<PoSelectOption>{ label: item.nomeCompleto, value: item.id })
     })

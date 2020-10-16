@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { PoNotificationService } from '@po-ui/ng-components';
 import { ErrorSpringBoot } from 'src/app/interfaces/ErrorSpringBoot.model';
 import { LoginRetorno } from 'src/app/interfaces/login.model';
-import { User } from 'src/app/interfaces/user.model';
 
 @Component({
   selector: 'app-login',
@@ -65,9 +64,9 @@ export class LoginComponent implements OnInit {
           this.loginService.setIsLogged$(true);
         },
           (error: ErrorSpringBoot) => {
-            console.log(error)
+            console.error(error.message);
             this.loginService.setIsLogged$(false);
-            this.notificationService.error('Acesso Negado!');
+            // this.notificationService.error('Acesso Negado!');
             this.constValue.loading = false;
           })
     }

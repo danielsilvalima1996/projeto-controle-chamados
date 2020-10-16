@@ -1,19 +1,20 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PoBreadcrumb, PoBreadcrumbItem, PoNotificationService, PoPageAction, PoSelectOption, PoTableColumn } from '@po-ui/ng-components';
+import { HttpErrorResponse } from '@angular/common/http';
+import { PoPageAction, PoBreadcrumb, PoBreadcrumbItem, PoTableColumn, PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Pagination } from 'src/app/interfaces/pagination.model';
+import { UserService } from 'src/app/services/cadastros/users/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { UtilService } from 'src/app/services/utils/util-service/util.service';
 import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
 import { RegrasService } from 'src/app/services/cadastros/regras/regras.service';
-import { UserService } from 'src/app/services/cadastros/users/user.service';
-import { UtilService } from 'src/app/services/utils/util-service/util.service';
+
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  selector: 'app-usuario-list',
+  templateUrl: './usuario-list.component.html',
+  styleUrls: ['./usuario-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UsuarioListComponent implements OnInit {
 
   page = {
     actions: <PoPageAction[]>[
@@ -208,7 +209,7 @@ export class UserListComponent implements OnInit {
         this.loading = false;
       },
         (error: HttpErrorResponse) => {
-          console.log(error.error);
+          console.log(error.message);
           this.table.items = [];
           this.loading = false;
         });

@@ -11,8 +11,8 @@ import { TecnicosEditComponent } from './tecnicos/tecnicos-edit/tecnicos-edit.co
 import { TecnicosListComponent } from './tecnicos/tecnicos-list/tecnicos-list.component';
 import { TipoChamadoEditComponent } from './tipo-chamado/tipo-chamado-edit/tipo-chamado-edit.component';
 import { TipoChamadoListComponent } from './tipo-chamado/tipo-chamado-list/tipo-chamado-list.component';
-import { UserEditComponent } from './users/user-edit/user-edit.component';
-import { UserListComponent } from './users/user-list/user-list.component';
+import { UsuarioListComponent } from './usuario/usuario-list/usuario-list.component';
+import { UsuarioEditComponent } from './usuario/usuario-edit/usuario-edit.component';
 
 
 const routes: Routes = [
@@ -35,10 +35,10 @@ const routes: Routes = [
   },
   {
     path: 'usuario', children: [
-      { path: '', component: UserListComponent },
-      { path: ':view/:id', component: UserEditComponent },
-      { path: ':edit/:id', component: UserEditComponent },
-      { path: 'add', component: UserEditComponent }
+      { path: '', component: UsuarioListComponent },
+      { path: ':view/:id', component: UsuarioEditComponent },
+      { path: ':edit/:id', component: UsuarioEditComponent },
+      { path: 'add', component: UsuarioEditComponent }
     ]
   },
   {

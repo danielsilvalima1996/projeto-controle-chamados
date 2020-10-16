@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { LoginRetorno } from 'src/app/interfaces/login.model';
-import { User } from 'src/app/interfaces/user.model';
 import { Router } from '@angular/router';
 import { AccountCredentials } from 'src/app/interfaces/accountCredentials.model';
 

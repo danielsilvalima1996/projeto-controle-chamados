@@ -2,15 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { PoMenuItem, PoToolbarProfile, PoToolbarAction, PoDialogService, PoModalComponent, PoModalAction, PoNotificationService } from '@po-ui/ng-components';
 import { LoginService } from './services/authentication/login/login.service';
-import { User, } from './interfaces/user.model';
-import { Profile } from 'selenium-webdriver/firefox';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TrocarSenha } from './interfaces/trocarSenha.model';
 import { UserService } from './services/cadastros/users/user.service';
 import { ErrorSpringBoot } from './interfaces/ErrorSpringBoot.model';
-import { PermissionsService } from './services/cadastros/permissions/permissions.service';
-import { Permission } from './interfaces/permission.model';
 import { LoginRetorno } from 'src/app/interfaces/login.model';
 import { MenupouiService } from './services/menupoui-service/menupoui.service';
 @Component({
@@ -105,7 +101,6 @@ export class AppComponent implements OnInit {
   };
 
   getProfile() {
-    let user: User;
     this.loginService.getUserInformation$
       .subscribe((data: LoginRetorno) => {
         let profile = {
@@ -141,7 +136,7 @@ export class AppComponent implements OnInit {
     }
     this.userService
       .trocarSenha(senhas)
-      .subscribe((data) => {
+      .subscribe(() => {
         this.notificationService.success('Senha alterada com sucesso!');
         this.loading = false;
         this.trocarForm.reset();

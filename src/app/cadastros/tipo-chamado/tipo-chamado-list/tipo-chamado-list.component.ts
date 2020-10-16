@@ -102,7 +102,7 @@ export class TipoChamadoListComponent implements OnInit {
         this.table.items = data;
         this.loading = false;
       }, (err: HttpErrorResponse) => {
-        console.error(err);
+        console.error(err.message);
         this.table.items = [];
         this.loading = false;
       })
