@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { PoPageDefault, PoSelectOption, PoNotificationService, PoBreadcrumb, PoBreadcrumbItem, PoDialogService, PoNotification } from '@po-ui/ng-components';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
-import { Empresa } from 'src/app/interfaces/empresa.model';
-import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { PoBreadcrumb, PoBreadcrumbItem, PoDialogService, PoInputComponent, PoNotification, PoNotificationService, PoPageDefault, PoSelectOption } from '@po-ui/ng-components';
 import { debounceTime } from 'rxjs/operators';
-import { ViaCepService } from 'src/app/services/cadastros/via-cep/via-cep.service';
+import { Empresa } from 'src/app/interfaces/empresa.model';
 import { ViaCep } from 'src/app/interfaces/via-cep.model';
+import { EmpresaService } from 'src/app/services/cadastros/empresa/empresa.service';
+import { ViaCepService } from 'src/app/services/cadastros/via-cep/via-cep.service';
 const { cnpj } = require('cpf-cnpj-validator');
 @Component({
   selector: 'app-empresa-edit',
@@ -80,6 +80,8 @@ export class EmpresaEditComponent implements OnInit {
     modificadoPor: ['', []],
     isValid: [false, []]
   });
+
+  @ViewChild('numeroInput', { static: true }) numeroInput: PoInputComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -176,7 +178,6 @@ export class EmpresaEditComponent implements OnInit {
 
           if (data.length == 8) {
             this.getCep(data);
-
           } else if (data === undefined || data === '') {
             this.controls.logradouro.setValue('');
             this.controls.numero.setValue('');
@@ -281,22 +282,21 @@ export class EmpresaEditComponent implements OnInit {
     })
   }
 
-  getCep(cep: string) {
+  public getCep(cep: string) {
     this.loading = true;
     this.viaCepService.getCep(cep)
       .subscribe((endereco: ViaCep) => {
         console.log(endereco);
-        document.getElementById("numero").focus();
         this.controls['bairro'].setValue(endereco.bairro);
         this.controls['localidade'].setValue(endereco.localidade);
         this.controls['uf'].setValue(endereco.uf);
         this.controls['logradouro'].setValue(endereco.logradouro);
+        this.numeroInput.focus();
         this.loading = false;
       }, (error: HttpErrorResponse) => {
         console.error(error);
         this.loading = false;
       });
   }
-
 
 }

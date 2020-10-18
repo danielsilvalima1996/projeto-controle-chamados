@@ -24,7 +24,7 @@
                 [p-options]="estados"></po-select>
             <po-input class="po-md-3" [p-readonly]="disabledFields" p-label="Logradouro" formControlName="logradouro">
             </po-input>
-            <po-input  id="numero" class="po-md-2" [p-readonly]="disabledFields" formControlName="numero" p-label="Numero"
+            <po-input #numeroInput class="po-md-2" [p-readonly]="disabledFields" formControlName="numero" p-label="Numero"
                 [p-readonly]="disabledFields" p-mask="99999"></po-input>
 
             <!-- <input class="po-mt-3" id="numero" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" matInput type="text" placeholder="Número" formControlName="numero" required autocomplete="nothing" [errorStateMatcher]="errorMatcher"
