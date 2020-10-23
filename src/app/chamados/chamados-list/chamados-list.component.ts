@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/cadastros/users/user.service';
 import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 import { TecnicosService } from 'src/app/services/cadastros/tecnicos/tecnicos.service';
 import { Usuario } from 'src/app/interfaces/usuario.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-chamados-list',
@@ -257,8 +258,8 @@ export class ChamadosListComponent implements OnInit {
           });
         this.loading = false;
       },
-        (error: ErrorSpringBoot) => {
-          this.notificationService.error(error.message);
+        (error: HttpErrorResponse) => {
+          console.log(error.message);
           this.loading = false;
           this.table.items = [];
         })
