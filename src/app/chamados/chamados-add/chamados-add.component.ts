@@ -69,10 +69,10 @@ export class ChamadosAddComponent implements OnInit {
 
   chamadosForm: FormGroup = this.fb.group({
     descricao: ['', [Validators.required]],
-    idSubtipoChamado: ['', [Validators.required]],
-    idTipoChamado: ['', [Validators.required]],
-    idUsuario: ['', [Validators.required]],
-    idTecnico: ['']
+    idSubtipoChamado: [null, [Validators.required]],
+    idTipoChamado: [null, [Validators.required]],
+    idUsuario: [null, [Validators.required]],
+    idTecnico: [null]
   })
 
   constructor(
@@ -191,9 +191,7 @@ export class ChamadosAddComponent implements OnInit {
         idUsuario: {
           id: this.controls.idUsuario.value
         },
-        idTecnico: {
-          id: this.controls.idTecnico.value != null ? this.controls.idTecnico.value : null
-        }
+        idTecnico: this.controls.idTecnico.value != null ? { id: this.controls.idTecnico.value } : null
       }
     } else {
       chamado = {
