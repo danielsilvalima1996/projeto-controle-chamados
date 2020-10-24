@@ -6,34 +6,29 @@
             <po-input *ngIf="tipoTela != 'add'" class="po-md-3" p-label="Código"
                 [p-readonly]="disabledFields || disabledId" formControlName="id"></po-input>
             <po-input class="po-0000md-3" formControlName="cnpj" p-label="CNPJ" [p-readonly]="disabledFields || disabledId"
-                p-mask="99.999.999/9999-99"></po-input>
+                p-mask="99.999.999/9999-99" p-maxlength="14" ></po-input>
             <po-input class="po-md-3" formControlName="razaoSocial" [p-readonly]="disabledFields || disabledId"
-                p-label="Razão Social"></po-input>
+                p-label="Razão Social" p-maxlength="100" ></po-input>
             <po-input class="po-md-3" formControlName="nomeFantasia" [p-readonly]="disabledFields"
-                p-label="Nome Fantasia">
+                p-label="Nome Fantasia" p-maxlength="100" >
             </po-input>
             <po-divider class="po-md-12" p-label="Dados endereço"></po-divider>
             <po-input class="po-md-3" [p-readonly]="disabledFields" formControlName="cep" p-label="CEP"
-                p-mask="99999-999">
+                p-mask="99999-999" p-maxlength="8">
             </po-input>
-            <po-input class="po-md-3" [p-readonly]="disabledFields" formControlName="bairro" p-label="Bairro">
+            <po-input class="po-md-3" p-maxlength="100" [p-readonly]="disabledFields" formControlName="bairro" p-label="Bairro">
             </po-input>
-            <po-input class="po-md-3" [p-readonly]="disabledFields" formControlName="localidade" p-label="Município">
+            <po-input class="po-md-3" p-maxlength="50" [p-readonly]="disabledFields" formControlName="localidade" p-label="Município">
             </po-input>
             <po-select class="po-md-3" [p-readonly]="disabledFields" formControlName="uf" p-required="true" p-label="UF"
                 [p-options]="estados"></po-select>
-            <po-input class="po-md-3" [p-readonly]="disabledFields" p-label="Logradouro" formControlName="logradouro">
+            <po-input class="po-md-3" p-maxlength="100" [p-readonly]="disabledFields" p-label="Logradouro" formControlName="logradouro">
             </po-input>
             <po-input #numeroInput class="po-md-2" [p-readonly]="disabledFields" formControlName="numero" p-label="Numero"
                 [p-readonly]="disabledFields" p-mask="99999"></po-input>
 
-            <!-- <input class="po-mt-3" id="numero" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" matInput type="text" placeholder="Número" formControlName="numero" required autocomplete="nothing" [errorStateMatcher]="errorMatcher"
-            #numero min="1" mask="99999"> -->
-
             <po-input class="po-md-3" [p-readonly]="disabledFields" formControlName="complemento" p-label="Complemento">
             </po-input>
-            <!-- <po-combo class="po-md-2" [p-disabled]="disabledFields" p-placeholder="UF" p-label="UF" [p-options]="estados"
-                formControlName="uf"></po-combo> -->
             <po-divider class="po-md-12" p-label="Informações da empresa"></po-divider>
             <po-switch class="po-md-3" [p-disabled]="disabledFields" formControlName="ativo" p-label="Ativo"
                 p-label-off="Inativo" p-label-on="Ativo"> </po-switch>

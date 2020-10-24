@@ -3,7 +3,7 @@
         <po-divider class="po-md-12" p-label=""></po-divider>
         <po-input *ngIf="tipoTela != 'add'" class="po-md-2" p-label="Código" p-readonly="true" formControlName="id">
         </po-input>
-        <po-input class="po-md-3" [p-readonly]="disabledFields" p-label="Descição Tipo de Chamado"
+        <po-input class="po-md-3" p-maxlength="50" [p-readonly]="disabledFields" p-label="Descição Tipo de Chamado"
             formControlName="descricao"></po-input>
         <po-select formControlName="idTipoChamado" [p-readonly]="disabledFields"  p-label="Tipo Chamado" [p-options]="selects.tipoChamado"
             class="po-md-4"></po-select>

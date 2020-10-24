@@ -8,7 +8,7 @@
             <div class="po-mf-10">
                 <po-input *ngIf="tipoTela != 'add'" class="po-md-3" p-label="Código Usuário"
                     [p-readonly]="disabledFields || disabledId" formControlName="id"></po-input>
-                <po-email class="po-md-3" p-label="E-mail Usuário" [p-readonly]="disabledFields"
+                <po-email class="po-md-3" p-maxlength="255" p-label="E-mail Usuário" [p-readonly]="disabledFields"
                     formControlName="email">
                 </po-email>
                 <po-password class="po-md-2" p-label="Senha" [p-readonly]="disabledFields"
