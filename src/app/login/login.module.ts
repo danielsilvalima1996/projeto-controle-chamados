@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login/login.component';
-import { PoFieldModule, PoPageModule, PoButtonModule, PoLoadingModule } from '@po-ui/ng-components';
+import { PoFieldModule, PoPageModule, PoButtonModule, PoLoadingModule,PoContainerModule } from '@po-ui/ng-components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -17,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     PoButtonModule,
-    PoLoadingModule
+    PoLoadingModule,
+    PoContainerModule
   ]
 })
 export class LoginModule { }

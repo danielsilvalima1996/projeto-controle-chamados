@@ -177,23 +177,6 @@ export class UsuarioListComponent implements OnInit {
     this.userService
       .getUser(this.utilService.getParameters(form))
       .subscribe((data) => {
-        // let arr: Array<any> = data.map((item) => {
-        //   let obj = {};
-        //   Object.keys(item).map((data) => {
-        //     if (item[data] == '' || item[data] == null) {
-        //       obj[data] = '-';
-        //     } else if (data == 'idEmpresa') {
-        //       obj[data] = item[data].nomeFantasia;
-        //     } else if (data == 'idRegra') {
-        //       obj[data] = item[data].descricao
-        //     } else {
-        //       obj[data] = item[data];
-        //     }
-
-        //   })
-        //   return obj;
-        // })
-        // this.table.items = arr;
         this.table.items = data.map(item => {
           return {
             id: item.id,

@@ -1,10 +1,15 @@
-<div class="form">
-    <form [formGroup]="loginForm" (keyup.enter)="login()" class="po-form">
-        <po-email class="po-md-12" p-label="E-mail" formControlName="username"></po-email>
-        <po-password class="po-md-12" p-label="Senha" formControlName="password"></po-password>
-        <po-button class="po-md-12 po-mt-2" p-label="Entrar" (click)="login()"></po-button>
-    </form>
+<img src="../../../assets/img/logo.png" alt="" id="logo-login">
+<div id="formLogin">
+    <po-container p-noBorder="true">
+        <form class="po-form" [formGroup]="loginForm" (keyup.enter)="login()">
+            <po-login class="po-sm-12 po-md-12 po-xl-12" p-required="true" p-placeholder="Insira seu usuário de acesso" formControlName="username" p-label="Usuário"></po-login>
+            <po-password class="po-sm-12 po-md-12 po-xl-12" p-required="true" p-placeholder="Insira sua senha de acesso" formControlName="password" p-label="Senha"></po-password>
+
+            <po-button class="po-xl-12" p-label="Entrar" (p-click)="login()" [p-disabled]="loginForm.invalid"></po-button>
+        </form>
+    </po-container>
 </div>
+
 
 <po-loading-overlay
     *ngIf="constValue.loading"
