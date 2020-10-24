@@ -147,6 +147,8 @@ export class ChamadosEditComponent implements OnInit {
     })
 
     this.selects.tecnico = this.utilService.sortListas(this.selects.tecnico);
+    console.log(this.selects.tecnico);
+    
 
     this.controls.idTipoChamado
       .valueChanges.subscribe((data) => {
@@ -209,7 +211,6 @@ export class ChamadosEditComponent implements OnInit {
     this.chamadosService
       .findById(id)
       .subscribe((item) => {
-        console.log(item);
 
         this.usuario = item.idUsuario;
         this.idTipoChamado = item.idTipoChamado;
@@ -233,8 +234,6 @@ export class ChamadosEditComponent implements OnInit {
               idUsuario: item.idUsuario.nomeCompleto
             }
           });
-
-        console.log(item.statusChamado);
 
         if (item.statusChamado === 0 || item.statusChamado === 1 && this.tipoTela === 'acompanhar-tecnico') {
 
@@ -265,32 +264,28 @@ export class ChamadosEditComponent implements OnInit {
         switch (item.statusChamado) {
           case 0:
             this.tag.color = 'color-08';
-            // this.tag.type = PoTagType.Warning;
             this.tag.value = 'Em Aberto';
             status = 'Em Aberto';
             break;
           case 1:
             this.tag.color = 'color-01';
-            // this.tag.type = PoTagType.Warning;
             this.tag.value = 'Em Análise';
             status = 'Em Análise';
             break;
           case 2:
             this.tag.color = 'color-11';
-            // this.tag.type = PoTagType.Info;
             this.tag.value = 'Fechado';
             status = 'Fechado';
             break;
           case 3:
             this.tag.color = 'color-07';
-            // this.tag.type = PoTagType.Success;
             this.tag.value = 'Indeferido';
             status = 'Indeferido';
             break;
           default:
             break;
         }
-
+        
         const form = {
           criado: new Date(item.criado),
           criadoPor: item.criadoPor,
@@ -299,7 +294,7 @@ export class ChamadosEditComponent implements OnInit {
           descricao: item.descricao,
           id: item.id,
           idSubtipoChamado: item.idSubtipoChamado.id,
-          idTecnico: item.idTecnico === null ? '' : item.idTecnico.idUsuario.id,
+          idTecnico: item.idTecnico === null ? '' : item.idTecnico.id,
           idTipoChamado: item.idTipoChamado.id,
           modificado: new Date(item.modificado),
           modificadoPor: item.modificadoPor,
