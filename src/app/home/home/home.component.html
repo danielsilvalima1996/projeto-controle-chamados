@@ -1,0 +1,17 @@
+<po-page-default>
+
+    <po-divider p-label="Dados Chamados"></po-divider>
+
+    <div class="po-row">
+        <po-container class="po-sm-12 po-md-12 po-lg-12 po-mb-2">
+
+            <po-widget *ngFor="let item of dadosHome" class="po-sm-12 po-md-3 po-lg-3 po-mb-1" [p-title]="item.label">
+                <div class="po-font-subtitle po-text-center">{{item.quantidade}}</div>
+            </po-widget>
+
+        </po-container>
+
+    </div>
+
+    <po-loading-overlay *ngIf="loading" p-screen-lock="true" p-text="Carregando"></po-loading-overlay>
+</po-page-default>

@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Pageable } from 'src/app/interfaces/pageable.model';
 import { Chamados } from 'src/app/interfaces/chamados.model';
+import { Home } from 'src/app/interfaces/home.model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,12 +50,8 @@ export class ChamadosService {
     return this.http.put(`${environment.url.apirest}/${this.relativeLink}/indefere`, comentario) as Observable<any>;
   }
 
-  //implementar depois kk
-  // deleteChamado(chamados: Chamados) {
-  //   return this.http.delete(`${environment.url.apirest}/${this.relativeLink}`,
-  //     {
-  //       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  //     })
-  // }
+  public findHome(): Observable<Array<Home>> {
+    return this.http.get(`${environment.url.apirest}/${this.relativeLink}/home`) as Observable<Array<Home>>;
+  }
 
 }
