@@ -1,5 +1,7 @@
 <po-page-default [p-title]="page.title" [p-breadcrumb]="page.breadcrumb" [p-actions]="page.actions">
 
+    {{this.chamadosForm.value | json}}
+
     <po-accordion>
         <po-accordion-item class="po-sm-12 po-md-12" p-label="Filtros">
             <form [formGroup]="chamadosForm" class="po-row" (keyup.enter)="searchData()">
@@ -20,10 +22,13 @@
                 <po-combo class="po-md-3" p-label="Subtipo Chamado" p-filter-mode="contains"
                     [p-options]="selects.subtipoChamado" [p-disabled]="disabledSubtipoChamado" formControlName="idSubtipoChamado"></po-combo>
 
-                <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Buscar"
+                <po-combo class="po-md-2" p-label="Status Chamados" p-filter-mode="contains"
+                    [p-options]="selects.status" formControlName="statusChamado"></po-combo>
+
+                <po-button class="po-sm-12 po-md-2 po-lg-2 po-mt-4" p-label="Buscar"
                     (click)="searchData()"></po-button>
 
-                <po-button class="po-sm-12 po-md-3 po-lg-2 po-mt-4" p-label="Limpar Filtros"
+                <po-button class="po-sm-12 po-md-2 po-lg-2 po-mt-4" p-label="Limpar Filtros"
                     (click)="limparFiltros()"></po-button>
             </form>
         </po-accordion-item>

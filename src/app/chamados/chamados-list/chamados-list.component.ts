@@ -114,7 +114,7 @@ export class ChamadosListComponent implements OnInit {
   public disabledField = false;
   public esconderCampo = false;
   public disabledSubtipoChamado = true;
-  
+
   constructor(
     private router: Router,
     private chamadosService: ChamadosService,
@@ -156,18 +156,18 @@ export class ChamadosListComponent implements OnInit {
 
 
     this.controls.idTipoChamado
-    .valueChanges.subscribe((data) => {
-      if (data === undefined || data === '' || data === null) {
-        this.selects.subtipoChamado = [];
-        this.controls.idSubtipoChamado.setValue(undefined);
-        this.retornaSubtipoChamado();
-        this.disabledSubtipoChamado = true;
-      } else {
-        const tipoChamado = this.selects.subtipoChamado.filter(item => item.idTipoChamado === data);
-        this.selects.subtipoChamado = tipoChamado;
-        this.disabledSubtipoChamado = false;
-      }
-    });
+      .valueChanges.subscribe((data) => {
+        if (data === undefined || data === '' || data === null) {
+          this.selects.subtipoChamado = [];
+          this.controls.idSubtipoChamado.setValue(undefined);
+          this.retornaSubtipoChamado();
+          this.disabledSubtipoChamado = true;
+        } else {
+          const tipoChamado = this.selects.subtipoChamado.filter(item => item.idTipoChamado === data);
+          this.selects.subtipoChamado = tipoChamado;
+          this.disabledSubtipoChamado = false;
+        }
+      });
 
     this.searchData();
   }
