@@ -130,6 +130,7 @@ export class ChamadosListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.table.height = this.utilService.calcularHeight(innerHeight, 0.50);
     this.retornaUsuarios();
     this.retornaTecnicos();
@@ -230,7 +231,11 @@ export class ChamadosListComponent implements OnInit {
   }
 
   searchData() {
-    this.findChamados(this.utilService.getParameters(this.chamadosForm.value));
+
+    /* Verificar problemas do envio do 0 */
+    const obj = { id: this.controls.id.value, idUsuario: this.controls.idUsuario.value, statusChamado: this.controls.statusChamado.value === undefined || this.controls.statusChamado.value === '' ? 0 : this.controls.statusChamado.value, idTipoChamado: this.controls.idTipoChamado.value, idSubtipoChamado: this.controls.idSubtipoChamado.value, idTecnico: this.controls.idTecnico.value, descricao: this.controls.descricao.value }
+    console.log(obj);
+    this.findChamados(this.utilService.getParameters(obj));
   }
 
   findChamados(parameters?: any) {

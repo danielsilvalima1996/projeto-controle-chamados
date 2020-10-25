@@ -6,7 +6,7 @@
         </po-input>
 
         <po-combo class="po-md-4" p-label="Técnico" p-filter-mode="contains"
-        [p-options]="selects.tecnico" formControlName="idTecnico"></po-combo>
+        [p-options]="selects.tecnico" [p-disabled]="disabledUser" formControlName="idTecnico"></po-combo>
         <po-datepicker class="po-md-2" p-label="Data Abertura" p-readonly="true" formControlName="dataAbertura">
         </po-datepicker>
         <po-datepicker class="po-md-2" p-label="Data Fechamento" p-readonly="true" formControlName="dataFechamento">

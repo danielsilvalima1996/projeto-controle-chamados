@@ -148,7 +148,7 @@ export class ChamadosEditComponent implements OnInit {
 
     this.selects.tecnico = this.utilService.sortListas(this.selects.tecnico);
     console.log(this.selects.tecnico);
-    
+
 
     this.controls.idTipoChamado
       .valueChanges.subscribe((data) => {
@@ -235,7 +235,9 @@ export class ChamadosEditComponent implements OnInit {
             }
           });
 
-        if (item.statusChamado === 0 || item.statusChamado === 1 && this.tipoTela === 'acompanhar-tecnico') {
+        console.log(item.statusChamado);
+
+        if (this.tipoTela === 'acompanhar-tecnico') {
 
           this.page.actions = [
             {
@@ -285,7 +287,7 @@ export class ChamadosEditComponent implements OnInit {
           default:
             break;
         }
-        
+
         const form = {
           criado: new Date(item.criado),
           criadoPor: item.criadoPor,
@@ -313,7 +315,9 @@ export class ChamadosEditComponent implements OnInit {
 
 
   alterarChamado() {
-    if (this.controls.idTecnico.value === '') {
+    if (this.controls.idTecnico.value === '' && this.tipoTela === 'acompanhar-usuario') {
+      this.notificationService.warning('O chamado não possui um técnico para executar essa ação, aguarde o contato do responsável pelo seu atendimento.')
+    } else if (this.controls.idTecnico.value === '' || this.controls.idTecnico.value === undefined && this.tipoTela === 'acompanhar-tecnico') {
       this.notificationService.warning('Por favor selecione um técnico para executar essa ação')
     } else {
       this.loading = true;
