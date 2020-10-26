@@ -72,7 +72,7 @@ export class EmpresaEditComponent implements OnInit {
     localidade: ['', [Validators.required]],
     uf: ['', [Validators.required]],
     numero: ['', [Validators.required]],
-    ativo: ['', []],
+    ativo: [true, []],
     criado: ['', []],
     modificado: ['', []],
     complemento: ['', []],
