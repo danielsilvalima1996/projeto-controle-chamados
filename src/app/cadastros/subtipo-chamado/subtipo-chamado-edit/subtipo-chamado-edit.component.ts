@@ -36,8 +36,8 @@ export class SubtipoChamadoEditComponent implements OnInit {
 
   subTipoChamadoForm: FormGroup = this.fb.group({
     id: ['', []],
-    descricao: ['', [Validators.required, Validators.minLength(5)]],
-    ativo: ['', []],
+    descricao: ['', [Validators.required, Validators.minLength(3)]],
+    ativo: [true, []],
     criado: ['', []],
     modificado: ['', []],
     criadoPor: ['', []],
