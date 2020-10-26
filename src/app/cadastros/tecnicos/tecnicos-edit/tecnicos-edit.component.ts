@@ -22,15 +22,7 @@ export class TecnicosEditComponent implements OnInit {
     actions: []
   }
 
-  tecnicosForm: FormGroup = this.fb.group({
-    id: ['', []],
-    idUsuario: ['', []],
-    ativo: [, []],
-    criado: ['', []],
-    modificado: ['', []],
-    criadoPor: ['', []],
-    modificadoPor: ['', []]
-  });
+  public tecnicosForm: FormGroup;
 
   selects = {
     usuarios: <Array<PoSelectOption>>[]
@@ -56,6 +48,15 @@ export class TecnicosEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.tecnicosForm = this.fb.group({
+      id: ['', []],
+      idUsuario: ['', []],
+      ativo: [true, []],
+      criado: ['', []],
+      modificado: ['', []],
+      criadoPor: ['', []],
+      modificadoPor: ['', []]
+    });
     this.retornaUsuarios();
     if (this.router.url.indexOf('add') != -1) {
       this.tipoTela = 'add';

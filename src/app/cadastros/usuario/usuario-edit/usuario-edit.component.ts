@@ -67,7 +67,7 @@ export class UsuarioEditComponent implements OnInit {
       senha: ['', [Validators.minLength(6), Validators.maxLength(12)]],
       nomeCompleto: ['', [Validators.required]],
       avatar: ['', []],
-      ativo: ['', []],
+      ativo: [true, []],
       idRegra: ['', [Validators.required]],
       idEmpresa: ['', [Validators.required]],
       criado: [''],

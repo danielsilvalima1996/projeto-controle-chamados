@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { PoPageDefault, PoSelectOption, PoNotificationService, PoDialogService, PoBreadcrumbItem, PoBreadcrumb } from '@po-ui/ng-components';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { TipoChamado } from 'src/app/interfaces/tipo-chamado.model';
 import { Location } from '@angular/common';
-import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { PoBreadcrumb, PoBreadcrumbItem, PoDialogService, PoNotificationService, PoPageDefault } from '@po-ui/ng-components';
+import { TipoChamado } from 'src/app/interfaces/tipo-chamado.model';
+import { TipoChamadoService } from 'src/app/services/chamados/tipo-chamado/tipo-chamado.service';
 
 @Component({
   selector: 'app-tipo-chamado-edit',
@@ -23,15 +23,7 @@ export class TipoChamadoEditComponent implements OnInit {
   }
 
 
-  tipoChamadoEditForm: FormGroup = this.fb.group({
-    id: ['', []],
-    descricao: ['', [Validators.required]],
-    ativo: ['', []],
-    criado: ['', []],
-    modificado: ['', []],
-    criadoPor: ['', []],
-    modificadoPor: ['', []]
-  })
+  public tipoChamadoEditForm: FormGroup;
 
   public disabledId: boolean = false;
   public disabledFields: boolean = false;
@@ -49,18 +41,16 @@ export class TipoChamadoEditComponent implements OnInit {
     private dialog: PoDialogService
   ) { }
 
-  // ngOnInit() {
-  //   this.tipoChamadoEditForm.valueChanges.subscribe((_) => {
-  //     this.page.actions[0].disabled = this.tipoChamadoEditForm.invalid;
-  //   })
-
-  //   this.route.paramMap
-  //     .subscribe((params: ParamMap) => {
-  //       this.idTipoChamado = params.get('id');
-  //     })
-  //   this.getDetailById(this.idTipoChamado);
-  // }
   ngOnInit() {
+    this.tipoChamadoEditForm = this.fb.group({
+      id: ['', []],
+      descricao: ['', [Validators.required]],
+      ativo: [true, []],
+      criado: ['', []],
+      modificado: ['', []],
+      criadoPor: ['', []],
+      modificadoPor: ['', []]
+    })
     if (this.router.url.indexOf('add') != -1) {
       this.tipoTela = 'add';
       this.page.title = 'Adicionar Tipo Chamado';

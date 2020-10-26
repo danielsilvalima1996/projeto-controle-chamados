@@ -6,7 +6,7 @@
             <po-input *ngIf="tipoTela != 'add'" class="po-md-2" [p-readonly]="disabledFields || disabledId"
                 p-label="Código" formControlName="id">
             </po-input>
-            <po-select [p-disabled]="disabledFields" class="po-md-3" p-label='Usuário' formControlName="idUsuario"
+            <po-select [p-disabled]="disabledFields" class="po-md-4" p-label='Usuário' formControlName="idUsuario"
                 [p-options]="selects.usuarios"></po-select>
             <po-switch [p-disabled]="disabledEdit" formControlName="ativo" p-label="Ativo" p-label-off="Inativo"
                 p-label-on="Ativo"> </po-switch>

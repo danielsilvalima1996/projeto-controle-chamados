@@ -5,7 +5,7 @@
             <div *ngIf="tipoTela != 'add'" class="po-md-2">
                 <po-avatar [p-src]="controls.avatar.value" p-size="md"></po-avatar>
             </div>
-            <div class="po-mf-10">
+            <div>
                 <po-input *ngIf="tipoTela != 'add'" class="po-md-3" p-label="Código Usuário"
                     [p-readonly]="disabledFields || disabledId" formControlName="id"></po-input>
                 <po-email class="po-md-3" p-maxlength="255" p-label="E-mail Usuário" [p-readonly]="disabledFields"

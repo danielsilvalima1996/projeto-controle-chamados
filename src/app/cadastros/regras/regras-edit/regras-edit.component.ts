@@ -23,15 +23,7 @@ export class RegrasEditComponent implements OnInit {
     actions: []
   }
 
-  regraForm: FormGroup = this.fb.group({
-    id: ['', []],
-    descricao: ['', [Validators.required]],
-    ativo: [, []],
-    criado: ['', []],
-    modificado: ['', []],
-    criadoPor: ['', []],
-    modificadoPor: ['', []]
-  })
+  public regraForm: FormGroup;
 
   public disabledId: boolean = false;
   public disabledFields: boolean = false;
@@ -65,6 +57,15 @@ export class RegrasEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.regraForm = this.fb.group({
+      id: ['', []],
+      descricao: ['', [Validators.required]],
+      ativo: [true, []],
+      criado: ['', []],
+      modificado: ['', []],
+      criadoPor: ['', []],
+      modificadoPor: ['', []]
+    })
     if (this.router.url.indexOf('add') != -1) {
       this.tipoTela = 'add';
       this.page.title = 'Adicionar Regra';
