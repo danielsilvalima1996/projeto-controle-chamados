@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
-import { PoContainerModule, PoDividerModule, PoLoadingModule, PoPageModule, PoWidgetModule } from '@po-ui/ng-components';
+import { PoChartModule, PoContainerModule, PoDividerModule, PoLoadingModule, PoPageModule, PoWidgetModule } from '@po-ui/ng-components';
 
 
 @NgModule({
@@ -15,7 +15,8 @@ import { PoContainerModule, PoDividerModule, PoLoadingModule, PoPageModule, PoWi
     PoContainerModule,
     PoWidgetModule,
     PoLoadingModule,
-    PoDividerModule
+    PoDividerModule,
+    PoChartModule
   ]
 })
 export class HomeModule { }
