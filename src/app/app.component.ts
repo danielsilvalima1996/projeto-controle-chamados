@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
         let profile = {
           title: data.nomeCompleto,
           subtitle: data.email,
-          avatar: data.avatar
+          avatar: ''
         }
         this.idUser = data.id;
         this.profile = profile;
