@@ -83,10 +83,10 @@ export class ChamadosListComponent implements OnInit {
     subtipoChamado: <any[]>[],
     usuarios: <PoSelectOption[]>[],
     status: <PoSelectOption[]>[
-      { label: 'Aberto', value: 0 },
-      { label: 'Em Análise', value: 1 },
-      { label: 'Fechado', value: 2 },
-      { label: 'Indeferido', value: 3 }
+      { label: 'Aberto', value: '0' },
+      { label: 'Em Análise', value: '1' },
+      { label: 'Fechado', value: '2' },
+      { label: 'Indeferido', value: '3' }
     ],
   }
 
@@ -231,11 +231,7 @@ export class ChamadosListComponent implements OnInit {
   }
 
   searchData() {
-
-    /* Verificar problemas do envio do 0 */
-    const obj = { id: this.controls.id.value, idUsuario: this.controls.idUsuario.value, statusChamado: this.controls.statusChamado.value === undefined || this.controls.statusChamado.value === '' ? 0 : this.controls.statusChamado.value, idTipoChamado: this.controls.idTipoChamado.value, idSubtipoChamado: this.controls.idSubtipoChamado.value, idTecnico: this.controls.idTecnico.value, descricao: this.controls.descricao.value }
-    console.log(obj);
-    this.findChamados(this.utilService.getParameters(obj));
+    this.findChamados(this.utilService.getParameters(this.chamadosForm.value));
   }
 
   findChamados(parameters?: any) {
