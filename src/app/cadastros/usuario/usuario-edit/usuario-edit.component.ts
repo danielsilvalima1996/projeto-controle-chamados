@@ -218,7 +218,7 @@ export class UsuarioEditComponent implements OnInit {
           dddTelefone: data.dddTelefone,
           telefone: data.telefone,
           email: data.email,
-          avatar: data.avatar,
+          avatar: '',
         }
         this.userForm.setValue(obj);
       })
