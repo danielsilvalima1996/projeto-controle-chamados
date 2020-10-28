@@ -102,10 +102,10 @@ export class AppComponent implements OnInit {
 
   getProfile() {
     this.loginService.getUserInformation$
-      .subscribe((data: LoginRetorno) => {
+      .subscribe((data) => {
         let profile = {
           title: data.nomeCompleto,
-          subtitle: data.email,
+          subtitle: data.regra.descricao,
           avatar: ''
         }
         this.idUser = data.id;
