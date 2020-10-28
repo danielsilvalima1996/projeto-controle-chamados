@@ -37,7 +37,8 @@ export class HomeComponent implements OnInit {
         this.grafico.series = data.map((item, index) => {
           return <PoPieChartSeries>{ category: item.label, value: item.quantidade, color: item.color, tooltip: `${item.label}: ${item.quantidade}` };
         })
-        console.log(this.grafico)
+        this.grafico.series = this.grafico.series.filter(item => item.value > 0);
+        console.log(this.grafico.series.length > 0);
         this.loading = false;
       },
         (error: HttpErrorResponse) => {
