@@ -6,7 +6,7 @@
             <po-input *ngIf="tipoTela != 'add'" class="po-md-3" p-label="Código"
                 [p-readonly]="disabledFields || disabledId" formControlName="id"></po-input>
             <po-input class="po-0000md-3" formControlName="cnpj" p-label="CNPJ" [p-readonly]="disabledFields || disabledId"
-                p-mask="99.999.999/9999-99" p-maxlength="14" ></po-input>
+                p-mask="99.999.999/9999-99" p-maxlength="18" ></po-input>
             <po-input class="po-md-3" formControlName="razaoSocial" [p-readonly]="disabledFields || disabledId"
                 p-label="Razão Social" p-maxlength="100" ></po-input>
             <po-input class="po-md-3" formControlName="nomeFantasia" [p-readonly]="disabledFields"
@@ -14,7 +14,7 @@
             </po-input>
             <po-divider class="po-md-12" p-label="Dados endereço"></po-divider>
             <po-input class="po-md-3" [p-readonly]="disabledFields" formControlName="cep" p-label="CEP"
-                p-mask="99999-999" p-maxlength="8">
+                p-mask="99999-999" p-maxlength="9">
             </po-input>
             <po-input class="po-md-3" p-maxlength="100" [p-readonly]="disabledFields" formControlName="bairro" p-label="Bairro">
             </po-input>
