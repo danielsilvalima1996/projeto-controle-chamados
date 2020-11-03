@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
-    "build": "ng build",
+    "build": "ng build --prod --buildOptimizer=true --aot=true --outputHashing=all",
+    "ghp-build": "ng build --prod --buildOptimizer=true --aot=true --outputHashing=all --base-href '/projeto-controle-chamados/'",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
