@@ -61,6 +61,7 @@ export class ChamadosAddComponent implements OnInit {
     dataAtual: ''
   }
 
+  public loading: boolean;
   public disabledField = false;
   public disabledSubtipoChamado = false;
   public showUser = false;
@@ -178,6 +179,7 @@ export class ChamadosAddComponent implements OnInit {
 
 
   registrarChamado() {
+    this.loading = true;
     let chamado;
     if (this.tipoTela === 'acompanhar-tecnico') {
       chamado = {
@@ -210,11 +212,12 @@ export class ChamadosAddComponent implements OnInit {
     this.chamadosService
       .createChamado(chamado)
       .subscribe((data) => {
-
+        this.loading = false;
         this.notificationService.success('Chamado aberto com sucesso!');
         this.router.navigate([`chamados/${this.tipoTela}/view`, data.id]);
       },
         (error: any) => {
+          this.loading = false;
           this.notificationService.error(error.error.error);
           return;
         })
