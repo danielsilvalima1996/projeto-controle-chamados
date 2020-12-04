@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   url: {
-     apirest: 'http://localhost:5000/api'
+     apirest: 'https://apirest-mecanica.herokuapp.com/api'
     // apirest: 'http://192.168.43.184:5000/api' // FACULDADE
     // apirest: 'http://172.20.10.6:5000/api'
     // apirest: 'http://localhost:5000/api'
