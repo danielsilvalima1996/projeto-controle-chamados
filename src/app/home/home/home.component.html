@@ -8,9 +8,13 @@
             <div class="po-font-subtitle po-text-center">{{item.quantidade}}</div>
         </po-widget>
 
+        <po-widget class="po-sm-12 po-md-12 po-lg-12 po-mb-1" [p-title]="totalHome.label">
+            <div class="po-font-subtitle po-text-center">{{totalHome.quantidade}}</div>
+        </po-widget>
+
     </div>
     
-    <po-chart
+    <po-chart *ngIf="grafico.series.length"
         [p-height]="grafico.height"
         [p-series]="grafico.series"
         [p-title]="grafico.title"
