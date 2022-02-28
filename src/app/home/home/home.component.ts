@@ -15,6 +15,11 @@ export class HomeComponent implements OnInit {
 
   public dadosHome: Array<Home> = [];
 
+  public totalHome = {
+    label: 'Total de Chamados',
+    quantidade: 0
+  }
+
   public loading: boolean;
 
   public grafico = {
@@ -35,10 +40,10 @@ export class HomeComponent implements OnInit {
       .subscribe((data) => {
         this.dadosHome = data;
         this.grafico.series = data.map((item, index) => {
+          this.totalHome.quantidade += item.quantidade;
           return <PoPieChartSeries>{ category: item.label, value: item.quantidade, color: item.color, tooltip: `${item.label}: ${item.quantidade}` };
         })
         this.grafico.series = this.grafico.series.filter(item => item.value > 0);
-        console.log(this.grafico.series.length > 0);
         this.loading = false;
       },
         (error: HttpErrorResponse) => {

@@ -13,7 +13,8 @@ export class InterceptorService implements HttpInterceptor {
     if (sessionStorage.getItem('token')) {
       request = request.clone({
         setHeaders: {
-          Authorization: sessionStorage.getItem('token')
+          Authorization: sessionStorage.getItem('token'),
+          'X-PO-No-Message': 'true'
         }
       })
     }
